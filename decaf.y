@@ -7,9 +7,11 @@
 
     extern char *yytext;
     extern FILE *yyin;
+    extern int column;
 
     extern int yylex(void);
     extern int yyparse(void);
+
     int yyerror(char const *str);
 %}
 

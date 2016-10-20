@@ -6,7 +6,7 @@
 PROG=decaf
 CC=gcc
 CC_FLAG=-Wall -std=c99
-LEX=lex
+LEX=flex
 LEX_FLAG=
 YACC=bison
 YACC_FLAG=-dv

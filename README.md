@@ -6,6 +6,12 @@ A toy compiler for Decaf language
 [![Stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/sabertazimi/Awesome-Notes)
 [![MIT](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://raw.githubusercontent.com/sabertazimi/Awesome-Notes/master/LICENSE)
 
+## Installation
+
+```sh
+$ sudo apt install flex bison
+```
+
 ## Lex Notes
 
 ### Built-in Variables/Macros/Functions
