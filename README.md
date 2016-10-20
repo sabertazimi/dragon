@@ -6,6 +6,25 @@ A toy compiler for Decaf language
 [![Stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/sabertazimi/Awesome-Notes)
 [![MIT](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://raw.githubusercontent.com/sabertazimi/Awesome-Notes/master/LICENSE)
 
+## Lex Notes
+
+### Built-in Variables/Macros/Functions
+
+```lex
+yytext   char * 当前匹配的字符串
+yyleng   int     当前匹配的字符串长度
+yyin     FILE * lex当前的解析文件，默认为标准输出
+yyout    FILE * lex解析后的输出文件，默认为标准输入
+yylineno int     当前的行数信息
+```
+
+## Yacc Notes
+
+### Flags
+
+*   -d: 产生头文件
+*   -v: 产生分析表(.output)
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)

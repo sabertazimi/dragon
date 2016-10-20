@@ -5,7 +5,11 @@
 
     #define YYDEBUG 1
 
-    int yylex(void);
+    extern char *yytext;
+    extern FILE *yyin;
+
+    extern int yylex(void);
+    extern int yyparse(void);
     int yyerror(char const *str);
 %}
 
@@ -15,7 +19,7 @@
 }
 
 %token <double_value> DOUBLE_LITERAL;
-%token ADD SUB MUL DIV CR
+%token ADD SUB MUL DIV LP RP CR
 
 %type <double_value> exp
 
@@ -45,7 +49,7 @@ exp: DOUBLE_LITERAL { $$ = $1; }
    | exp SUB exp    { $$ = $1 - $3;}
    | exp DIV exp    { $$ = $1 / $3;}
    | exp MUL exp    { $$ = $1 * $3;}
-   | '(' exp ')'    { $$ = $2;}
+   | LP exp RP      { $$ = $2;}
    ;
 
 exit: 'e'     { exit(0); }
@@ -62,15 +66,12 @@ t: 't';
 %%
 
 int yyerror(char const *str) {
-    extern char *yytext;
-    fprintf(stderr, "Parser error near.\n");
+    fprintf(stderr, "parser error near %s\n", yytext);
     memset(yytext, '\0', strlen(yytext));
     return 0;
 }
 
 int main(int argc, char **argv) {
-    extern int yyparse(void);
-    extern FILE *yyin;
     FILE *fp;
 
     if (argc > 1 && (fp = fopen(argv[1], "r")) != NULL) {
