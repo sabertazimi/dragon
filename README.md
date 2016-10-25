@@ -32,6 +32,12 @@ yywrap   When the end of the file is reached the return value of yywrap() is che
 *   -d: 产生头文件
 *   -v: 产生分析表(.output)
 
+## Labs
+
+### AST
+
+*   Print function: Print(recursion, whitespace+4)
+
 ## BUGs
 
 ### yylloc not decalared in .l
