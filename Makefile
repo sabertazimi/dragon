@@ -4,41 +4,51 @@
 #
 
 PROG=decaf
+
 CC=gcc
 CC_FLAG=-Wall -std=c99
 LEX=flex
 LEX_FLAG=
 YACC=bison
 YACC_FLAG=-dv
+
 RM=rm -fr
 MKDIR=mkdir -p
+MV=mv
+
+SRC_PATH=src
+BIN_PATH=bin
+TEST_PATH=test
 
 all:
-	make purge
 	make yacc
 	make lex
-	$(CC) $(CC_FLAG) $(PROG).tab.c lex.yy.c -o $(PROG)
+	make build
 	make clean
+	$(MKDIR) $(BIN_PATH)
+	$(MV) $(SRC_PATH)/$(PROG) $(BIN_PATH)/$(PROG)
 	@echo
 	@echo 'Build Success!'
 
-.PHONY = lex yacc clean purge run
+.PHONY = build lex yacc clean run spec
+
+build:
+	$(CC) $(CC_FLAG) $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/lex.yy.c -o $(SRC_PATH)/$(PROG)
 
 lex:
-	$(LEX) $(LEX_FLAG) $(PROG).l
+	$(LEX) $(LEX_FLAG) -o $(SRC_PATH)/lex.yy.c $(SRC_PATH)/$(PROG).l
 
 yacc:
-	$(YACC) $(YACC_FLAG) $(PROG).y
+	$(YACC) $(YACC_FLAG) -o $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/$(PROG).y
 
 clean:
-	$(RM) $(PROG).tab.[ch] $(PROG).output lex.yy.c 
-
-purge:
-	make clean
-	$(RM) $(PROG)
+	$(RM) $(SRC_PATH)/$(PROG).tab.[ch] $(SRC_PATH)/$(PROG).output $(SRC_PATH)/lex.yy.c 
 
 run:
-	./$(PROG)
+	./$(BIN_PATH)/$(PROG)
+
+spec:
+	./$(BIN_PATH)/$(PROG) $(TEST_PATH)/lex1.decaf
 
 # vim:ft=make
 #
