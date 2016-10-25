@@ -32,6 +32,18 @@ yywrap   When the end of the file is reached the return value of yywrap() is che
 *   -d: 产生头文件
 *   -v: 产生分析表(.output)
 
+## BUGs
+
+### yylloc not decalared in .l
+
+add
+
+```yacc
+%locations
+```
+
+to .y file
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)

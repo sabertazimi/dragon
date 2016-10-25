@@ -4,10 +4,11 @@
     #include <string.h>
 
     #define YYDEBUG 1
+    #define STRING_MAXLEN 80
 
     extern char *yytext;
     extern FILE *yyin;
-    extern int column;
+    extern int yycolumn;
 
     extern int yylex(void);
     extern int yyparse(void);
@@ -15,15 +16,27 @@
     int yyerror(char const *str);
 %}
 
+%locations
+
 %union {
-    int int_value;
-    double double_value;
+    char type_bool;
+    int type_int;
+    char type_string[80];
+    char plain_text[80];
 }
 
-%token <double_value> DOUBLE_LITERAL;
+%token IDENTIFIER
+%token <type_bool> CONSTANT_BOOL
+%token <type_int> CONSTANT_INT
+%token <type_string> CONSTANT_STRING
+%token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE
+%token BOOL INT STRING NIL
+%token STATIC VOID
+%token CLASS EXTENDS NEW THIS
+%token IF ELSE FOR WHILE BREAK RETURN
+%token PRINT READINTEGER READLINE INSTANCEOF
 
-%type <double_value> exp
-
+%right '='
 %left '+' '-'
 %left '*' '/'
 
@@ -33,30 +46,18 @@ lines: line
      | line lines
      ;
 
-line: exp '\n' {
-        printf(">> value=%.10g\n",$1);
-    }
-    | error '\n' {
+line: error '\n' {
         yyclearin;
         yyerrok;
     }
     | '\n'
     ;
 
-
-exp: DOUBLE_LITERAL { $$ = $1; }
-   | exp '+' exp    { $$ = $1 + $3;}
-   | exp '-' exp    { $$ = $1 - $3;}
-   | exp '/' exp    { $$ = $1 / $3;}
-   | exp '*' exp    { $$ = $1 * $3;}
-   | '(' exp ')'     { $$ = $2;}
-   ;
-
 %%
 
 int yyerror(char const *str) {
-    fprintf(stderr, "parser error near %s\n", yytext);
-    memset(yytext, '\0', strlen(yytext));
+    // fprintf(stderr, "parser error near %s\n", yytext);
+    // memset(yytext, '\0', strlen(yytext));
     return 0;
 }
 

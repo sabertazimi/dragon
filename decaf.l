@@ -1,224 +1,364 @@
 %{
-
     #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
     #include "decaf.tab.h"
 
     // #undef YYDEBUG
 
-    int column = 1;
+    int yycolumn = 1;
+
+    #define YY_USER_INIT yylloc.first_line = yylloc.first_column = 1;
+
+    #define YY_USER_ACTION                                  \
+        yylloc.first_line = yylloc.last_line = yylineno;    \
+        yylloc.first_column = yycolumn;                     \
+        yylloc.last_column = yycolumn + yyleng - 1;         \
+        yycolumn += yyleng;                                 \
+        strcpy(yylval.plain_text, yytext);
 
     int yywrap(void);
-    void count(void);
+    void comment(void);
 %}
+
+digit   [0-9]
+letter  [a-zA-Z]
+hexical [a-fA-F0-9]
+
+%option yylineno
 
 %%
 
 "/*"   {
     comment();
 }
-"//"[^\n]* { /* Skip comment line */ }
-
+"//"[^\n]* {
+    /* Skip comment line */
+}
 "bool" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "BOOL ");
 #endif
     return BOOL;
 }
 "break" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "BREAK ");
 #endif
     return BREAK;
 }
 "class" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "CLASS ");
 #endif
     return CLASS;
 }
 "else" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "ELSE ");
 #endif
     return ELSE;
 }
 "extends" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "EXTENDS ");
 #endif
     return EXTENDS;
 }
 "for" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "FOR ");
 #endif
     return FOR;
 }
 "if" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "IF ");
 #endif
     return IF;
 }
 "int" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "INT ");
 #endif
     return INT;
 }
 "new" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "NEW ");
 #endif
     return NEW;
 }
 "null" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "NULL ");
 #endif
-    return NULL;
+    return NIL;
 }
 "return" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "RETURN ");
 #endif
     return RETURN;
 }
 "string" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "STRING ");
 #endif
     return STRING;
 }
 "this" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "THIS ");
 #endif
     return THIS;
 }
 "void" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "VOID ");
 #endif
     return VOID;
 }
 "while" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "WHILE ");
 #endif
     return WHILE;
 }
 "static" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "STATIC ");
 #endif
     return STATIC;
 }
+"true"  {
+#ifdef YYDEBUG
+    fprintf(yyout, "CONSTANT_BOOL ");
+#endif
+    yylval.type_bool = 1;
+    return CONSTANT_BOOL;
+}
+"false" {
+#ifdef YYDEBUG
+    fprintf(yyout, "CONSTANT_BOOL ");
+#endif
+    yylval.type_bool = 0;
+    return CONSTANT_BOOL;
+}
 "Print" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "PRINT ");
 #endif
     return PRINT;
 }
 "ReadInteger" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "READINTEGER ");
 #endif
     return READINTEGER;
 }
 "ReadLine" {
-    count();
 #ifdef YYDEBUG
     fprintf(yyout, "READLINE ");
 #endif
     return READLINE;
 }
 "instanceof" {
-    count();
 #ifdef YYDEBUG
-    fprintf(yyout, "INSTANCEOF");
+    fprintf(yyout, "INSTANCEOF ");
 #endif
     return INSTANCEOF;
 }
-"+"     {
-    count();
+
+{letter}({letter}|{digit})* {
 #ifdef YYDEBUG
-    fprintf(yyout, "ADD ");
+    fprintf(yyout, "IDENTIFIER ");
 #endif
-    return '+';
+    return IDENTIFIER;
 }
-"-"     {
-    count();
+[1-9]{digit}* {
 #ifdef YYDEBUG
-    fprintf(yyout, "SUB ");
+    fprintf(yyout, "CONSTANT_DEC ");
 #endif
-    return '-';
+    yylval.type_int = atoi(yytext);
+    return CONSTANT_INT;
 }
-"*"     {
-    count();
+0[xX]{hexical}+ {
 #ifdef YYDEBUG
-    fprintf(yyout, "MUL ");
+    fprintf(yyout, "CONSTANT_HEX ");
 #endif
-    return '*';
+    yylval.type_int = strtol(yytext, NULL, 16);
+    return CONSTANT_INT;
 }
-"/"     {
-    count();
+\"(\\.|[^\\"\n])*\"	{
 #ifdef YYDEBUG
-    fprintf(yyout, "DIV ");
+    fprintf(yyout, "CONSTANT_STRING ");
 #endif
-    return '/';
+    strcpy(yylval.type_string, yytext + 1);
+    return CONSTANT_STRING;
 }
-"("     {
-    count();
+"&&"	{
 #ifdef YYDEBUG
-    fprintf(yyout, "LP ");
+    fprintf(yyout, "%s", yytext);
 #endif
-    return '(';
+    return(OP_AND);
 }
-")"     {
-    count();
+"||"	{
 #ifdef YYDEBUG
-    fprintf(yyout, "RP ");
+    fprintf(yyout, "%s", yytext);
 #endif
-    return ')';
+    return(OP_OR);
 }
-"\n"    {
-    count();
+"<="	{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(OP_LE);
+}
+">="	{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(OP_GE);
+}
+"=="	{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(OP_EQ);
+}
+"!="	{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(OP_NE);
+}
+";"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(';');
+}
+"{"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('{');
+}
+"}"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('}');
+}
+"["		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('[');
+}
+"]"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(']');
+}
+"("		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('(');
+}
+")"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(')');
+}
+"="		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('=');
+}
+","		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return(',');
+}
+"."		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('.');
+}
+"!"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('!');
+}
+"+"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('+');
+}
+"-"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('-');
+}
+"*"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('*');
+}
+"/"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('/');
+}
+"%"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('%');
+}
+"<"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('<');
+}
+">"		{
+#ifdef YYDEBUG
+    fprintf(yyout, "%s", yytext);
+#endif
+    return('>');
+}
+" "  {
+#ifdef YYDEBUG
+    fprintf(yyout, " ");
+#endif
+}
+"\t" {
+#ifdef YYDEBUG
+    fprintf(yyout, "\t");
+#endif
+}
+\n  {
+    yycolumn = 1;
+#ifdef YYDEBUG
+    fprintf(yyout, "\n");
+#endif
     return '\n';
 }
-([1-9][0-9]*)|0|([0-9]+\.[0-9]+) {
-    count();
-    double temp;
-    sscanf(yytext, "%lf", &temp);
-    yylval.double_value = temp;
 
-#ifdef YYDEBUG
-    fprintf(yyout, " DOUBLE_LITERAL ");
-#endif
-
-    return DOUBLE_LITERAL;
-}
-[ \t] {
-    count();
-}
 . {
     fprintf(stderr, "Lexical error near %s.\n", yytext);
     exit(1);
@@ -231,33 +371,19 @@ int yywrap(void) {
 }
 
 /*
- * @brief: function for recording column number
+ * @brief: skip block comment
  */
-void count(void) {
-    for (int i = 0; yytext[i] != '\0'; i++) {
-        if (yytext[i] == '\n') {
-            column = 0;
+void comment(void) {
+    char ch, prev;
 
-        } else if (yytext[i] == '\t') {
-            column += (8 - (column % 8));
+    while ((ch = input()) != '\0') {
+        if (prev == '*' && ch == '/') {
+            return;
         } else {
-            column++;
+            prev = ch;
         }
     }
 
-#ifdef YYDEBUG
-    for (int i = 0; yytext[i] != '\0'; i++) {
-        if (yytext[i] == '\n') {
-            fprintf(yyout, "\n");
-        } else if (yytext[i] == '\t') {
-            fprintf(yyout, "\t");
-        } else if (yytext[i] == ' '){
-            fprintf(yyout, " ");
-        }
-    }
-#endif
-
-/* #ifdef YYDEBUG */
-/*     ECHO; */
-/* #endif */
+    fprintf(stderr, "Unterminated block comment!");
+    exit(1);
 }
