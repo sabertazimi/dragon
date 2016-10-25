@@ -37,162 +37,162 @@ hexical [a-fA-F0-9]
 }
 "bool" {
 #ifdef YYDEBUG
-    fprintf(yyout, "BOOL ");
+    fprintf(yyout, "BOOL");
 #endif
     return BOOL;
 }
 "break" {
 #ifdef YYDEBUG
-    fprintf(yyout, "BREAK ");
+    fprintf(yyout, "BREAK");
 #endif
     return BREAK;
 }
 "class" {
 #ifdef YYDEBUG
-    fprintf(yyout, "CLASS ");
+    fprintf(yyout, "CLASS");
 #endif
     return CLASS;
 }
 "else" {
 #ifdef YYDEBUG
-    fprintf(yyout, "ELSE ");
+    fprintf(yyout, "ELSE");
 #endif
     return ELSE;
 }
 "extends" {
 #ifdef YYDEBUG
-    fprintf(yyout, "EXTENDS ");
+    fprintf(yyout, "EXTENDS");
 #endif
     return EXTENDS;
 }
 "for" {
 #ifdef YYDEBUG
-    fprintf(yyout, "FOR ");
+    fprintf(yyout, "FOR");
 #endif
     return FOR;
 }
 "if" {
 #ifdef YYDEBUG
-    fprintf(yyout, "IF ");
+    fprintf(yyout, "IF");
 #endif
     return IF;
 }
 "int" {
 #ifdef YYDEBUG
-    fprintf(yyout, "INT ");
+    fprintf(yyout, "INT");
 #endif
     return INT;
 }
 "new" {
 #ifdef YYDEBUG
-    fprintf(yyout, "NEW ");
+    fprintf(yyout, "NEW");
 #endif
     return NEW;
 }
 "null" {
 #ifdef YYDEBUG
-    fprintf(yyout, "NULL ");
+    fprintf(yyout, "NULL");
 #endif
     return NIL;
 }
 "return" {
 #ifdef YYDEBUG
-    fprintf(yyout, "RETURN ");
+    fprintf(yyout, "RETURN");
 #endif
     return RETURN;
 }
 "string" {
 #ifdef YYDEBUG
-    fprintf(yyout, "STRING ");
+    fprintf(yyout, "STRING");
 #endif
     return STRING;
 }
 "this" {
 #ifdef YYDEBUG
-    fprintf(yyout, "THIS ");
+    fprintf(yyout, "THIS");
 #endif
     return THIS;
 }
 "void" {
 #ifdef YYDEBUG
-    fprintf(yyout, "VOID ");
+    fprintf(yyout, "VOID");
 #endif
     return VOID;
 }
 "while" {
 #ifdef YYDEBUG
-    fprintf(yyout, "WHILE ");
+    fprintf(yyout, "WHILE");
 #endif
     return WHILE;
 }
 "static" {
 #ifdef YYDEBUG
-    fprintf(yyout, "STATIC ");
+    fprintf(yyout, "STATIC");
 #endif
     return STATIC;
 }
 "true"  {
 #ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_BOOL ");
+    fprintf(yyout, "CONSTANT_BOOL");
 #endif
     yylval.type_bool = 1;
     return CONSTANT_BOOL;
 }
 "false" {
 #ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_BOOL ");
+    fprintf(yyout, "CONSTANT_BOOL");
 #endif
     yylval.type_bool = 0;
     return CONSTANT_BOOL;
 }
 "Print" {
 #ifdef YYDEBUG
-    fprintf(yyout, "PRINT ");
+    fprintf(yyout, "PRINT");
 #endif
     return PRINT;
 }
 "ReadInteger" {
 #ifdef YYDEBUG
-    fprintf(yyout, "READINTEGER ");
+    fprintf(yyout, "READINTEGER");
 #endif
     return READINTEGER;
 }
 "ReadLine" {
 #ifdef YYDEBUG
-    fprintf(yyout, "READLINE ");
+    fprintf(yyout, "READLINE");
 #endif
     return READLINE;
 }
 "instanceof" {
 #ifdef YYDEBUG
-    fprintf(yyout, "INSTANCEOF ");
+    fprintf(yyout, "INSTANCEOF");
 #endif
     return INSTANCEOF;
 }
 
 {letter}({letter}|{digit})* {
 #ifdef YYDEBUG
-    fprintf(yyout, "IDENTIFIER ");
+    fprintf(yyout, "IDENTIFIER");
 #endif
     return IDENTIFIER;
 }
-[1-9]{digit}* {
+(0|[1-9]{digit}*) {
 #ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_DEC ");
+    fprintf(yyout, "CONSTANT_DEC");
 #endif
     yylval.type_int = atoi(yytext);
     return CONSTANT_INT;
 }
 0[xX]{hexical}+ {
 #ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_HEX ");
+    fprintf(yyout, "CONSTANT_HEX");
 #endif
     yylval.type_int = strtol(yytext, NULL, 16);
     return CONSTANT_INT;
 }
 \"(\\.|[^\\"\n])*\"	{
 #ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_STRING ");
+    fprintf(yyout, "CONSTANT_STRING");
 #endif
     strcpy(yylval.type_string, yytext + 1);
     return CONSTANT_STRING;
@@ -346,7 +346,7 @@ hexical [a-fA-F0-9]
     fprintf(yyout, " ");
 #endif
 }
-"\t" {
+\t {
 #ifdef YYDEBUG
     fprintf(yyout, "\t");
 #endif

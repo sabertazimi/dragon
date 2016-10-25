@@ -1,4 +1,9 @@
+/*
+ * @class: computer
+ * @brief: computer class
+ */
 class Computer {
+    // cpu for pc
     int cpu;
 
     void Crash(int numTimes) {
@@ -9,14 +14,26 @@ class Computer {
     }
 }
 
+/*
+ * @class: mac
+ * @brief: mac os pc
+ */
 class Mac extends Computer {
+    // mouse for mac
     int mouse;
 
+    /*
+     * @override
+     */
     void Crash(int numTimes) {
         Print("ack!");
     }
 }
 
+/*
+ * @class: main
+ * @brief: program entry
+ */
 class Main {
     static void main(void) {
         class Mac powerbook;
