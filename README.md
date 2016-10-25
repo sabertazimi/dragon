@@ -22,6 +22,7 @@ yyleng   int     当前匹配的字符串长度
 yyin     FILE * lex当前的解析文件，默认为标准输出
 yyout    FILE * lex解析后的输出文件，默认为标准输入
 yylineno int     当前的行数信息
+yywrap   When the end of the file is reached the return value of yywrap() is checked.If it is non-zero, scanning terminates and if it is 0 scanning continues with next input file.
 ```
 
 ## Yacc Notes

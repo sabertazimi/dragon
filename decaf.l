@@ -13,51 +13,196 @@
 
 %%
 
+"/*"   {
+    comment();
+}
+"//"[^\n]* { /* Skip comment line */ }
+
+"bool" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "BOOL ");
+#endif
+    return BOOL;
+}
+"break" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "BREAK ");
+#endif
+    return BREAK;
+}
+"class" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "CLASS ");
+#endif
+    return CLASS;
+}
+"else" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "ELSE ");
+#endif
+    return ELSE;
+}
+"extends" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "EXTENDS ");
+#endif
+    return EXTENDS;
+}
+"for" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "FOR ");
+#endif
+    return FOR;
+}
+"if" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "IF ");
+#endif
+    return IF;
+}
+"int" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "INT ");
+#endif
+    return INT;
+}
+"new" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "NEW ");
+#endif
+    return NEW;
+}
+"null" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "NULL ");
+#endif
+    return NULL;
+}
+"return" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "RETURN ");
+#endif
+    return RETURN;
+}
+"string" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "STRING ");
+#endif
+    return STRING;
+}
+"this" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "THIS ");
+#endif
+    return THIS;
+}
+"void" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "VOID ");
+#endif
+    return VOID;
+}
+"while" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "WHILE ");
+#endif
+    return WHILE;
+}
+"static" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "STATIC ");
+#endif
+    return STATIC;
+}
+"Print" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "PRINT ");
+#endif
+    return PRINT;
+}
+"ReadInteger" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "READINTEGER ");
+#endif
+    return READINTEGER;
+}
+"ReadLine" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "READLINE ");
+#endif
+    return READLINE;
+}
+"instanceof" {
+    count();
+#ifdef YYDEBUG
+    fprintf(yyout, "INSTANCEOF");
+#endif
+    return INSTANCEOF;
+}
 "+"     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " ADD ");
+    fprintf(yyout, "ADD ");
 #endif
-    return ADD;
+    return '+';
 }
 "-"     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " SUB ");
+    fprintf(yyout, "SUB ");
 #endif
-    return SUB;
+    return '-';
 }
 "*"     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " MUL ");
+    fprintf(yyout, "MUL ");
 #endif
-    return MUL;
+    return '*';
 }
 "/"     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " DIV ");
+    fprintf(yyout, "DIV ");
 #endif
-    return DIV;
+    return '/';
 }
 "("     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " LP ");
+    fprintf(yyout, "LP ");
 #endif
-    return LP;
+    return '(';
 }
 ")"     {
     count();
 #ifdef YYDEBUG
-    fprintf(yyout, " RP ");
+    fprintf(yyout, "RP ");
 #endif
-    return RP;
+    return ')';
 }
 "\n"    {
     count();
-    return CR;
+    return '\n';
 }
 ([1-9][0-9]*)|0|([0-9]+\.[0-9]+) {
     count();
@@ -85,6 +230,9 @@ int yywrap(void) {
     return 1;
 }
 
+/*
+ * @brief: function for recording column number
+ */
 void count(void) {
     for (int i = 0; yytext[i] != '\0'; i++) {
         if (yytext[i] == '\n') {

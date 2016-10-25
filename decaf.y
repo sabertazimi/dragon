@@ -21,12 +21,11 @@
 }
 
 %token <double_value> DOUBLE_LITERAL;
-%token ADD SUB MUL DIV LP RP CR
 
 %type <double_value> exp
 
-%left ADD SUB
-%left MUL DIV
+%left '+' '-'
+%left '*' '/'
 
 %%
 
@@ -34,36 +33,24 @@ lines: line
      | line lines
      ;
 
-line: exp CR {
+line: exp '\n' {
         printf(">> value=%.10g\n",$1);
     }
-    | exit CR 
-    | error CR {
+    | error '\n' {
         yyclearin;
         yyerrok;
     }
-    | CR
+    | '\n'
     ;
 
 
 exp: DOUBLE_LITERAL { $$ = $1; }
-   | exp ADD exp    { $$ = $1 + $3;}
-   | exp SUB exp    { $$ = $1 - $3;}
-   | exp DIV exp    { $$ = $1 / $3;}
-   | exp MUL exp    { $$ = $1 * $3;}
-   | LP exp RP      { $$ = $2;}
+   | exp '+' exp    { $$ = $1 + $3;}
+   | exp '-' exp    { $$ = $1 - $3;}
+   | exp '/' exp    { $$ = $1 / $3;}
+   | exp '*' exp    { $$ = $1 * $3;}
+   | '(' exp ')'     { $$ = $2;}
    ;
-
-exit: 'e'     { exit(0); }
-    | 'q'     { exit(0); }
-    | 'e' xit { exit(0); }
-    | 'q' uit { exit(0); }
-    ;
-
-xit: 'x' it;
-uit: 'u' it;
-it: 'i' t;
-t: 't';
 
 %%
 
