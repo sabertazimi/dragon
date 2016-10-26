@@ -19,9 +19,9 @@
 %locations
 
 %union {
-    char type_bool;
-    int type_int;
-    char type_string[80];
+    char bool_val;
+    int int_val;
+    char str_val[80];
     char plain_text[80];
 }
 
@@ -62,7 +62,7 @@ int yyerror(char const *str) {
 }
 
 int main(int argc, char **argv) {
-    FILE *fp;
+    FILE *fp = NULL;
 
     if (argc > 1 && (fp = fopen(argv[1], "r")) != NULL) {
         yyin = fp;

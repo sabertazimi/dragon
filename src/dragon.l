@@ -52,6 +52,7 @@ letter  [a-zA-Z]
 hexical [a-fA-F0-9]
 
 %option yylineno
+%option nounput
 
 %%
 
@@ -127,12 +128,12 @@ hexical [a-fA-F0-9]
 }
 "true"  {
     DRAGON_DEBUG(0, "CONSTANT_BOOL");
-    yylval.type_bool = 1;
+    yylval.bool_val = 1;
     return CONSTANT_BOOL;
 }
 "false" {
     DRAGON_DEBUG(0, "CONSTANT_BOOL");
-    yylval.type_bool = 0;
+    yylval.bool_val = 0;
     return CONSTANT_BOOL;
 }
 "Print" {
@@ -153,17 +154,17 @@ hexical [a-fA-F0-9]
 }
 (0|[1-9]{digit}*) {
     DRAGON_DEBUG(0, "CONSTANT_DEC");
-    yylval.type_int = atoi(yytext);
+    yylval.int_val = atoi(yytext);
     return CONSTANT_INT;
 }
 0[xX]{hexical}+ {
     DRAGON_DEBUG(0, "CONSTANT_HEX");
-    yylval.type_int = strtol(yytext, NULL, 16);
+    yylval.int_val = strtol(yytext, NULL, 16);
     return CONSTANT_INT;
 }
 \"(\\.|[^\\"\n])*\"	{
     DRAGON_DEBUG(0, "CONSTANT_STRING");
-    strcpy(yylval.type_string, yytext + 1);
+    strcpy(yylval.str_val, yytext + 1);
     return CONSTANT_STRING;
 }
 "&&"	{
@@ -290,7 +291,8 @@ int yywrap(void) {
 }
 
 void comment(void) {
-    char ch, prev;
+    char ch = '\0',
+         prev = '\0';
 
     while ((ch = input()) != '\0') {
         if (prev == '*' && ch == '/') {
