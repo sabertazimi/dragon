@@ -6,7 +6,7 @@
 PROG=dragon
 
 CC=gcc
-CC_FLAG=-Wall -Wno-format-security -std=gnu99 -O2
+CC_FLAG=-Wall -Werror -Wno-format-security -std=gnu99 -O2
 # CC_FLAG=-Wall -Wextra -std=c99 -O2
 LEX=flex
 LEX_FLAG=

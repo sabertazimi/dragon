@@ -22,6 +22,8 @@
     // disable DRAGON_DEBUG macro when YYDEBUG undefined
     #ifndef YYDEBUG
     #undef DRAGON_DEBUG
+    #define DRAGON_DEBUG(outmode, outsrt)       \
+        do { } while (0)
     #endif
 
     /*
