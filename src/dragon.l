@@ -2,7 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "decaf.tab.h"
+    #include "dragon.tab.h"
 
     // #undef YYDEBUG
 
@@ -163,13 +163,6 @@ hexical [a-fA-F0-9]
 #endif
     return READLINE;
 }
-"instanceof" {
-#ifdef YYDEBUG
-    fprintf(yyout, "INSTANCEOF");
-#endif
-    return INSTANCEOF;
-}
-
 {letter}({letter}|{digit})* {
 #ifdef YYDEBUG
     fprintf(yyout, "IDENTIFIER");

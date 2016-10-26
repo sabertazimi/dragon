@@ -3,7 +3,7 @@
 # sabertazimi, 2016-08-10 23:12
 #
 
-PROG=decaf
+PROG=dragon
 
 CC=gcc
 CC_FLAG=-Wall -std=c99
