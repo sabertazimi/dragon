@@ -10,17 +10,25 @@
      * @macro: DRAGON_DEBUG
      * @brief: print debug info for lexical analysis
      */
+
+    // fprintf(yyout, "line %d, column %d: ", yylloc.first_line, yycolumn);
+
     #ifdef YYDEBUG
-        #define DRAGON_DEBUG(outmode, outstr)       \
-            do {                                    \
-                if (outmode == 0) {                 \
-                    fprintf(yyout, outstr);         \
-                } else {                            \
-                    fprintf(yyout, "%s", outstr);   \
-                }                                   \
+        #define DRAGON_DEBUG(type, value_mode, value)   \
+            do {                                        \
+                fprintf(yyout, "(");                    \
+                fprintf(yyout, type);                   \
+                fprintf(yyout, ", ");                   \
+                                                        \
+                if (value_mode == 0) {                  \
+                    fprintf(yyout, value);              \
+                } else {                                \
+                    fprintf(yyout, "%s", value);        \
+                }                                       \
+                fprintf(yyout, ")");                    \
             } while (0)
     #else
-        #define DRAGON_DEBUG(outmode, outsrt) do { } while (0)
+        #define DRAGON_DEBUG(type, value_mode, value) do { } while (0)
     #endif
 
     /*
@@ -67,225 +75,222 @@ hexical [a-fA-F0-9]
     /* Skip comment line */
 }
 "bool" {
-    DRAGON_DEBUG(0, "BOOL");
+    DRAGON_DEBUG("keyword", 0, "BOOL");
     return BOOL;
 }
-"break" {
-    DRAGON_DEBUG(0, "BREAK");
-    return BREAK;
-}
 "class" {
-    DRAGON_DEBUG(0, "CLASS");
+    DRAGON_DEBUG("keyword", 0, "CLASS");
     return CLASS;
 }
 "else" {
-    DRAGON_DEBUG(0, "ELSE");
+    DRAGON_DEBUG("keyword", 0, "ELSE");
     return ELSE;
 }
 "extends" {
-    DRAGON_DEBUG(0, "EXTENDS");
+    DRAGON_DEBUG("keyword", 0, "EXTENDS");
     return EXTENDS;
 }
 "for" {
-    DRAGON_DEBUG(0, "FOR");
+    DRAGON_DEBUG("keyword", 0, "FOR");
     return FOR;
 }
 "if" {
-    DRAGON_DEBUG(0, "IF");
+    DRAGON_DEBUG("keyword", 0, "IF");
     return IF;
 }
 "int" {
-    DRAGON_DEBUG(0, "INT");
+    DRAGON_DEBUG("keyword", 0, "INT");
     return INT;
 }
 "new" {
-    DRAGON_DEBUG(0, "NEW");
+    DRAGON_DEBUG("keyword", 0, "NEW");
     return NEW;
 }
 "null" {
-    DRAGON_DEBUG(0, "NULL");
+    DRAGON_DEBUG("keyword", 0, "NULL");
     return NIL;
 }
 "return" {
-    DRAGON_DEBUG(0, "RETURN");
+    DRAGON_DEBUG("keyword", 0, "RETURN");
     return RETURN;
 }
 "string" {
-    DRAGON_DEBUG(0, "STRING");
+    DRAGON_DEBUG("keyword", 0, "STRING");
     return STRING;
 }
 "this" {
-    DRAGON_DEBUG(0, "THIS");
+    DRAGON_DEBUG("keyword", 0, "THIS");
     return THIS;
 }
 "void" {
-    DRAGON_DEBUG(0, "VOID");
+    DRAGON_DEBUG("keyword", 0, "VOID");
     return VOID;
 }
 "while" {
-    DRAGON_DEBUG(0, "WHILE");
+    DRAGON_DEBUG("keyword", 0, "WHILE");
     return WHILE;
 }
-"static" {
-    DRAGON_DEBUG(0, "STATIC");
-    return STATIC;
-}
 "true"  {
-    DRAGON_DEBUG(0, "CONSTANT_BOOL");
+    DRAGON_DEBUG("keyword", 0, "CONSTANT_BOOL");
     yylval.bool_val = 1;
     return CONSTANT_BOOL;
 }
 "false" {
-    DRAGON_DEBUG(0, "CONSTANT_BOOL");
+    DRAGON_DEBUG("keyword", 0, "CONSTANT_BOOL");
     yylval.bool_val = 0;
     return CONSTANT_BOOL;
 }
 "Print" {
-    DRAGON_DEBUG(0, "PRINT");
+    DRAGON_DEBUG("keyword", 0, "PRINT");
     return PRINT;
 }
 "ReadInteger" {
-    DRAGON_DEBUG(0, "READINTEGER");
+    DRAGON_DEBUG("keyword", 0, "READINTEGER");
     return READINTEGER;
 }
 "ReadLine" {
-    DRAGON_DEBUG(0, "READLINE");
+    DRAGON_DEBUG("keyword", 0, "READLINE");
     return READLINE;
 }
 {letter}({letter}|{digit})* {
-    DRAGON_DEBUG(0, "IDENTIFIER");
+    DRAGON_DEBUG("identifier", 0, "IDENTIFIER");
     return IDENTIFIER;
 }
 (0|[1-9]{digit}*) {
-    DRAGON_DEBUG(0, "CONSTANT_DEC");
+    DRAGON_DEBUG("constant", 0, "CONSTANT_DEC");
     yylval.int_val = atoi(yytext);
     return CONSTANT_INT;
 }
 0[xX]{hexical}+ {
-    DRAGON_DEBUG(0, "CONSTANT_HEX");
+    DRAGON_DEBUG("constant", 0, "CONSTANT_HEX");
     yylval.int_val = strtol(yytext, NULL, 16);
     return CONSTANT_INT;
 }
 \"(\\.|[^\\"\n])*\"	{
-    DRAGON_DEBUG(0, "CONSTANT_STRING");
+    DRAGON_DEBUG("constant", 0, "CONSTANT_STRING");
     strcpy(yylval.str_val, yytext + 1);
     return CONSTANT_STRING;
 }
 "&&"	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_AND);
 }
 "||"	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_OR);
 }
 "<="	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_LE);
 }
 ">="	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_GE);
 }
 "=>"    {
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_ARROW);
 }
 "=="	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_EQ);
 }
 "!="	{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return(OP_NE);
 }
 ";"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return(';');
 }
 "{"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return('{');
 }
 "}"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return('}');
 }
 "["		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return('[');
 }
 "]"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return(']');
 }
 "("		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return('(');
 }
 ")"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return(')');
 }
 "="		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('=');
 }
 ","		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("separator", 1, yytext);
     return(',');
 }
 "."		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('.');
 }
 "!"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('!');
 }
 "+"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('+');
 }
 "-"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('-');
 }
 "*"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('*');
 }
 "/"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('/');
 }
 "%"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('%');
 }
 "<"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('<');
 }
 ">"		{
-    DRAGON_DEBUG(1, yytext);
+    DRAGON_DEBUG("operator", 1, yytext);
     return('>');
 }
 " "  {
-    DRAGON_DEBUG(0, " ");
+#ifdef YYDEBUG
+    fprintf(yyout, " ");
+#endif
 }
 \t {
-    DRAGON_DEBUG(0, "\t");
+#ifdef YYDEBUG
+    fprintf(yyout, "\t");
+#endif
 }
 \n  {
     yycolumn = 1;
-    DRAGON_DEBUG(0, "\n");
+#ifdef YYDEBUG
+    fprintf(yyout, "\n");
+#endif
     return '\n';
 }
 
 . {
-    fprintf(stderr, "Lexical error near %s.\n", yytext);
-    exit(1);
+    fprintf(stderr, "Lexical error near %s, line %d, column %d\n", yytext, yylloc.first_line, yycolumn);
 }
 
 %%
