@@ -29,7 +29,7 @@
 %token <type_bool> CONSTANT_BOOL
 %token <type_int> CONSTANT_INT
 %token <type_string> CONSTANT_STRING
-%token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE
+%token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
 %token BOOL INT STRING NIL
 %token STATIC VOID
 %token CLASS EXTENDS NEW THIS

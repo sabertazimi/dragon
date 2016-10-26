@@ -8,6 +8,10 @@ class Computer {
 
     void Crash(int numTimes) {
         int i;
+
+        int hexical = 0x15;
+        hexical = 0X05;
+
         for (i = 0; i < numTimes; i = i + 1) {
             Print("sad\n");
         }

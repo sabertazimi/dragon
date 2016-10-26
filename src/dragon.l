@@ -6,10 +6,29 @@
 
     // #undef YYDEBUG
 
+    /*
+     * @macro: DRAGON_DEBUG
+     * @brief: print debug info for lexical analysis
+     */
+    #define DRAGON_DEBUG(outmode, outstr)       \
+        do {                                    \
+            if (outmode == 0) {                 \
+                fprintf(yyout, outstr);         \
+            } else {                            \
+                fprintf(yyout, "%s", outstr);   \
+            }                                   \
+        } while (0)
+
+    // disable DRAGON_DEBUG macro when YYDEBUG undefined
+    #ifndef YYDEBUG
+    #undef DRAGON_DEBUG
+    #endif
+
+    /*
+     * @brief: informations of locations
+     */
     int yycolumn = 1;
-
     #define YY_USER_INIT yylloc.first_line = yylloc.first_column = 1;
-
     #define YY_USER_ACTION                                  \
         yylloc.first_line = yylloc.last_line = yylineno;    \
         yylloc.first_column = yycolumn;                     \
@@ -17,7 +36,14 @@
         yycolumn += yyleng;                                 \
         strcpy(yylval.plain_text, yytext);
 
+    /*
+     * @brief: return 1 making parse only get done 1 time
+     */
     int yywrap(void);
+
+    /*
+     * @brief: skip block comment
+     */
     void comment(void);
 %}
 
@@ -36,319 +62,219 @@ hexical [a-fA-F0-9]
     /* Skip comment line */
 }
 "bool" {
-#ifdef YYDEBUG
-    fprintf(yyout, "BOOL");
-#endif
+    DRAGON_DEBUG(0, "BOOL");
     return BOOL;
 }
 "break" {
-#ifdef YYDEBUG
-    fprintf(yyout, "BREAK");
-#endif
+    DRAGON_DEBUG(0, "BREAK");
     return BREAK;
 }
 "class" {
-#ifdef YYDEBUG
-    fprintf(yyout, "CLASS");
-#endif
+    DRAGON_DEBUG(0, "CLASS");
     return CLASS;
 }
 "else" {
-#ifdef YYDEBUG
-    fprintf(yyout, "ELSE");
-#endif
+    DRAGON_DEBUG(0, "ELSE");
     return ELSE;
 }
 "extends" {
-#ifdef YYDEBUG
-    fprintf(yyout, "EXTENDS");
-#endif
+    DRAGON_DEBUG(0, "EXTENDS");
     return EXTENDS;
 }
 "for" {
-#ifdef YYDEBUG
-    fprintf(yyout, "FOR");
-#endif
+    DRAGON_DEBUG(0, "FOR");
     return FOR;
 }
 "if" {
-#ifdef YYDEBUG
-    fprintf(yyout, "IF");
-#endif
+    DRAGON_DEBUG(0, "IF");
     return IF;
 }
 "int" {
-#ifdef YYDEBUG
-    fprintf(yyout, "INT");
-#endif
+    DRAGON_DEBUG(0, "INT");
     return INT;
 }
 "new" {
-#ifdef YYDEBUG
-    fprintf(yyout, "NEW");
-#endif
+    DRAGON_DEBUG(0, "NEW");
     return NEW;
 }
 "null" {
-#ifdef YYDEBUG
-    fprintf(yyout, "NULL");
-#endif
+    DRAGON_DEBUG(0, "NULL");
     return NIL;
 }
 "return" {
-#ifdef YYDEBUG
-    fprintf(yyout, "RETURN");
-#endif
+    DRAGON_DEBUG(0, "RETURN");
     return RETURN;
 }
 "string" {
-#ifdef YYDEBUG
-    fprintf(yyout, "STRING");
-#endif
+    DRAGON_DEBUG(0, "STRING");
     return STRING;
 }
 "this" {
-#ifdef YYDEBUG
-    fprintf(yyout, "THIS");
-#endif
+    DRAGON_DEBUG(0, "THIS");
     return THIS;
 }
 "void" {
-#ifdef YYDEBUG
-    fprintf(yyout, "VOID");
-#endif
+    DRAGON_DEBUG(0, "VOID");
     return VOID;
 }
 "while" {
-#ifdef YYDEBUG
-    fprintf(yyout, "WHILE");
-#endif
+    DRAGON_DEBUG(0, "WHILE");
     return WHILE;
 }
 "static" {
-#ifdef YYDEBUG
-    fprintf(yyout, "STATIC");
-#endif
+    DRAGON_DEBUG(0, "STATIC");
     return STATIC;
 }
 "true"  {
-#ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_BOOL");
-#endif
+    DRAGON_DEBUG(0, "CONSTANT_BOOL");
     yylval.type_bool = 1;
     return CONSTANT_BOOL;
 }
 "false" {
-#ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_BOOL");
-#endif
+    DRAGON_DEBUG(0, "CONSTANT_BOOL");
     yylval.type_bool = 0;
     return CONSTANT_BOOL;
 }
 "Print" {
-#ifdef YYDEBUG
-    fprintf(yyout, "PRINT");
-#endif
+    DRAGON_DEBUG(0, "PRINT");
     return PRINT;
 }
 "ReadInteger" {
-#ifdef YYDEBUG
-    fprintf(yyout, "READINTEGER");
-#endif
+    DRAGON_DEBUG(0, "READINTEGER");
     return READINTEGER;
 }
 "ReadLine" {
-#ifdef YYDEBUG
-    fprintf(yyout, "READLINE");
-#endif
+    DRAGON_DEBUG(0, "READLINE");
     return READLINE;
 }
 {letter}({letter}|{digit})* {
-#ifdef YYDEBUG
-    fprintf(yyout, "IDENTIFIER");
-#endif
+    DRAGON_DEBUG(0, "IDENTIFIER");
     return IDENTIFIER;
 }
 (0|[1-9]{digit}*) {
-#ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_DEC");
-#endif
+    DRAGON_DEBUG(0, "CONSTANT_DEC");
     yylval.type_int = atoi(yytext);
     return CONSTANT_INT;
 }
 0[xX]{hexical}+ {
-#ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_HEX");
-#endif
+    DRAGON_DEBUG(0, "CONSTANT_HEX");
     yylval.type_int = strtol(yytext, NULL, 16);
     return CONSTANT_INT;
 }
 \"(\\.|[^\\"\n])*\"	{
-#ifdef YYDEBUG
-    fprintf(yyout, "CONSTANT_STRING");
-#endif
+    DRAGON_DEBUG(0, "CONSTANT_STRING");
     strcpy(yylval.type_string, yytext + 1);
     return CONSTANT_STRING;
 }
 "&&"	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_AND);
 }
 "||"	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_OR);
 }
 "<="	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_LE);
 }
 ">="	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_GE);
 }
+"=>"    {
+    DRAGON_DEBUG(1, yytext);
+    return(OP_ARROW);
+}
 "=="	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_EQ);
 }
 "!="	{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(OP_NE);
 }
 ";"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(';');
 }
 "{"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('{');
 }
 "}"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('}');
 }
 "["		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('[');
 }
 "]"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(']');
 }
 "("		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('(');
 }
 ")"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(')');
 }
 "="		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('=');
 }
 ","		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return(',');
 }
 "."		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('.');
 }
 "!"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('!');
 }
 "+"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('+');
 }
 "-"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('-');
 }
 "*"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('*');
 }
 "/"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('/');
 }
 "%"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('%');
 }
 "<"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('<');
 }
 ">"		{
-#ifdef YYDEBUG
-    fprintf(yyout, "%s", yytext);
-#endif
+    DRAGON_DEBUG(1, yytext);
     return('>');
 }
 " "  {
-#ifdef YYDEBUG
-    fprintf(yyout, " ");
-#endif
+    DRAGON_DEBUG(0, " ");
 }
 \t {
-#ifdef YYDEBUG
-    fprintf(yyout, "\t");
-#endif
+    DRAGON_DEBUG(0, "\t");
 }
 \n  {
     yycolumn = 1;
-#ifdef YYDEBUG
-    fprintf(yyout, "\n");
-#endif
+    DRAGON_DEBUG(0, "\n");
     return '\n';
 }
 
@@ -363,9 +289,6 @@ int yywrap(void) {
     return 1;
 }
 
-/*
- * @brief: skip block comment
- */
 void comment(void) {
     char ch, prev;
 
