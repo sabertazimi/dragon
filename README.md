@@ -1,10 +1,10 @@
-# Hust Compiler Lab - Decaf Language Compiler
+# Hust Compiler Lab - Dragon Language Compiler
 
-A toy compiler for Decaf language
+A toy compiler for Dragon language
 
 [![Author](https://img.shields.io/badge/author-sabertazimi-lightgrey.svg)](https://github.com/sabertazimi)
-[![Stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/sabertazimi/Awesome-Notes)
-[![MIT](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://raw.githubusercontent.com/sabertazimi/Awesome-Notes/master/LICENSE)
+[![Stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/sabertazimi/dragon)
+[![MIT](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://raw.githubusercontent.com/sabertazimi/dragon/master/LICENSE)
 
 ## Installation
 

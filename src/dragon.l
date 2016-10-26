@@ -10,21 +10,23 @@
      * @macro: DRAGON_DEBUG
      * @brief: print debug info for lexical analysis
      */
-    #define DRAGON_DEBUG(outmode, outstr)       \
-        do {                                    \
-            if (outmode == 0) {                 \
-                fprintf(yyout, outstr);         \
-            } else {                            \
-                fprintf(yyout, "%s", outstr);   \
-            }                                   \
-        } while (0)
-
-    // disable DRAGON_DEBUG macro when YYDEBUG undefined
-    #ifndef YYDEBUG
-    #undef DRAGON_DEBUG
-    #define DRAGON_DEBUG(outmode, outsrt)       \
-        do { } while (0)
+    #ifdef YYDEBUG
+        #define DRAGON_DEBUG(outmode, outstr)       \
+            do {                                    \
+                if (outmode == 0) {                 \
+                    fprintf(yyout, outstr);         \
+                } else {                            \
+                    fprintf(yyout, "%s", outstr);   \
+                }                                   \
+            } while (0)
+    #else
+        #define DRAGON_DEBUG(outmode, outsrt) do { } while (0)
     #endif
+
+    /*
+     * @brief: debug information buffer cache
+     */
+    char debug_buffer[80];
 
     /*
      * @brief: informations of locations
