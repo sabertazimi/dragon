@@ -11,11 +11,11 @@
      * @brief: print debug info for lexical analysis
      */
 
-    // fprintf(yyout, "line %d, column %d: ", yylloc.first_line, yycolumn);
 
     #ifdef YYDEBUG
         #define DRAGON_DEBUG(type, value_mode, value)   \
             do {                                        \
+                fprintf(yyout, "line %d, column %d: ", yylloc.first_line, yycolumn);\
                 fprintf(yyout, "(");                    \
                 fprintf(yyout, type);                   \
                 fprintf(yyout, ", ");                   \
@@ -25,7 +25,7 @@
                 } else {                                \
                     fprintf(yyout, "%s", value);        \
                 }                                       \
-                fprintf(yyout, ")");                    \
+                fprintf(yyout, ")\n");                  \
             } while (0)
     #else
         #define DRAGON_DEBUG(type, value_mode, value) do { } while (0)
@@ -273,18 +273,18 @@ hexical [a-fA-F0-9]
 }
 " "  {
 #ifdef YYDEBUG
-    fprintf(yyout, " ");
+    // fprintf(yyout, " ");
 #endif
 }
 \t {
 #ifdef YYDEBUG
-    fprintf(yyout, "\t");
+    // fprintf(yyout, "\t");
 #endif
 }
 \n  {
     yycolumn = 1;
 #ifdef YYDEBUG
-    fprintf(yyout, "\n");
+    // fprintf(yyout, "\n");
 #endif
     return '\n';
 }

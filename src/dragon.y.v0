@@ -181,6 +181,17 @@ constant: CONSTANT_INT
         | NIL
         ;
 
+/* lines: line */
+/*     | line lines */
+/*     ; */
+
+/* line: error '\n' { */
+/*         yyclearin; */
+/*         yyerrok; */
+/*     } */
+/*     | '\n' */
+/*     ; */
+
 %%
 
 int yyerror(const char *str) {
