@@ -34,7 +34,7 @@ all:
 .PHONY = build lex yacc clean release run spec count
 
 build:
-	$(CC) $(CC_FLAG) $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/lex.yy.c -o $(SRC_PATH)/$(PROG)
+	$(CC) $(CC_FLAG) $(SRC_PATH)/dragon.c $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/lex.yy.c -o $(SRC_PATH)/$(PROG)
 
 lex:
 	$(LEX) $(LEX_FLAG) -o $(SRC_PATH)/lex.yy.c $(SRC_PATH)/$(PROG).l

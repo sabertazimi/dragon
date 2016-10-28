@@ -4,7 +4,7 @@
     #include <string.h>
     #include "dragon.tab.h"
 
-    // #undef YYDEBUG
+    #undef YYDEBUG
 
     /*
      * @macro: DRAGON_DEBUG
@@ -15,7 +15,7 @@
     #ifdef YYDEBUG
         #define DRAGON_DEBUG(type, value_mode, value)   \
             do {                                        \
-                fprintf(yyout, "line %d, column %d: ", yylloc.first_line, yycolumn);\
+                fprintf(yyout, "line %d, column %d: ", yylloc.first_line, yylloc.first_column);\
                 fprintf(yyout, "(");                    \
                 fprintf(yyout, type);                   \
                 fprintf(yyout, ", ");                   \
@@ -290,7 +290,7 @@ hexical [a-fA-F0-9]
 }
 
 . {
-    fprintf(stderr, "Lexical error near %s, line %d, column %d\n", yytext, yylloc.first_line, yycolumn);
+    fprintf(stderr, "Lexical error near %s, line %d, column %d\n", yytext, yylloc.first_line, yylloc.first_column);
 }
 
 %%

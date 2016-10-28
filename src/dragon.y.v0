@@ -26,9 +26,9 @@
 }
 
 %token IDENTIFIER
-%token <type_bool> CONSTANT_BOOL
-%token <type_int> CONSTANT_INT
-%token <type_string> CONSTANT_STRING
+%token <bool_val> CONSTANT_BOOL
+%token <int_val> CONSTANT_INT
+%token <str_val> CONSTANT_STRING
 %token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
 %token BOOL INT STRING NIL
 %token VOID
