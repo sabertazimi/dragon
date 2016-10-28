@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
         yyin = fp;
     }
 
-    if (yyparse()) {
+    // yyparse return value: 1 represent error occurs
+    while (yyparse()) {
         fprintf(stderr, "Bison panic.\n");
         exit(1);
     }

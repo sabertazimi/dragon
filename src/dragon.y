@@ -8,8 +8,8 @@
 
     extern int yycolumn;
     extern char *yytext;
-    extern int yylex(void);
-    int yyerror(char const *str);
+    int yylex(void);
+    int yyerror(const char *msg);
 %}
 
 %locations
@@ -32,30 +32,41 @@
 %token IF ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
+%left BOOL INT STRING VOID
+
 %nonassoc '='
-%left '+' '-'
-%left '*' '/'
+
+%left OP_OR
+%left OP_AND
+%left OP_EQ OP_NE
+%left OP_GE OP_LE '<' '>'
+%left '+' '-' 
+%left '*' '/' '%'
+%left NEG
+
+%nonassoc '!'
+%nonassoc NoELSE
+%nonassoc ELSE
 
 %%
 
 program: class_defs
        ;
 
-class_defs: class_def class_defs
-          | lines
-          |
+class_defs: class_defs class_def
+          | class_def
           ;
 
-lines: line
-     | line lines
-     ;
+/* lines: line */
+/*      | line lines */
+/*      ; */
 
-line: error '\n' {
-        yyclearin;
-        yyerrok;
-    }
-    | '\n'
-    ;
+/* line: error '\n' { */
+/*         yyclearin; */
+/*         yyerrok; */
+/*     } */
+/*     | '\n' */
+/*     ; */
 
 class_def: CLASS IDENTIFIER '{' fields '}'
          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
@@ -120,7 +131,8 @@ right_val: expr
          |
          ;
 
-if_stmt: IF '(' bool_expr ')' '{' stmt '}'
+if_stmt: IF '(' bool_expr ')' '{' stmt '}' %prec NoELSE
+       | IF '(' bool_expr ')' '{' stmt '}' ELSE '{' stmt '}'
        ;
 
 while_stmt: WHILE '(' bool_expr ')' '{' stmt '}'
@@ -159,7 +171,7 @@ expr: constant
     | expr '*' expr
     | expr '/' expr
     | expr '%' expr
-    | '-' expr
+    | '-' expr %prec NEG
     | expr '<' expr
     | expr OP_LE expr
     | expr '>' expr
@@ -183,7 +195,8 @@ constant: CONSTANT_INT
 
 %%
 
-int yyerror(const char *str) {
+// return value will be ignored
+int yyerror(const char *msg) {
     fprintf(stderr, "Sytax error near %s, line %d, column %d\n", yytext, yylloc.first_line, yylloc.first_column);
     memset(yytext, '\0', strlen(yytext));
     return 0;

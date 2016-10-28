@@ -282,11 +282,10 @@ hexical [a-fA-F0-9]
 #endif
 }
 \n  {
-    yycolumn = 1;
 #ifdef YYDEBUG
     // fprintf(yyout, "\n");
 #endif
-    return '\n';
+    yycolumn = 1;
 }
 
 . {

@@ -32,6 +32,20 @@ yywrap   When the end of the file is reached the return value of yywrap() is che
 *   -d: 产生头文件
 *   -v: 产生分析表(.output)
 
+### Shift/Reduce Conflicts
+
+可以通过指定优先级与结合性在一定程度上消除 S/R 冲突
+
+```yacc
+%left '+' '-'
+%left '*' '/'
+%left NEG
+
+expr: expr '-' expr
+    | '-' expr %prec NEG
+    ;
+```
+
 ## Labs
 
 ### AST
