@@ -100,6 +100,7 @@ func_anonymous_def: '(' formals ')' OP_ARROW '{' stmts '}'
                   ;
 
 formals: formals_body
+       | VOID
        |
        ;
 
@@ -114,7 +115,7 @@ stmts
 
 stmt
     : var_def
-    | expr_stmt ';'
+    | expr_stmt
     | if_stmt
     | while_stmt
     | for_stmt
