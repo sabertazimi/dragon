@@ -1,0 +1,5 @@
+before_install: test -n $CC && unset CC
+install: make get-deps flex bison
+language: c
+compiler: gcc
+script: make && make test
