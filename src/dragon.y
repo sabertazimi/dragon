@@ -27,7 +27,10 @@
 %token <int_val> CONSTANT_INT
 %token <str_val> CONSTANT_STRING
 %token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
-%token BOOL INT STRING NIL
+
+// hidden type: function type
+%token BOOL INT STRING FUNCTION NIL
+
 %token VOID
 %token CLASS EXTENDS NEW THIS
 %token IF ELSE FOR WHILE RETURN
@@ -94,7 +97,7 @@ func_def: func_normal_def
         | func_anonymous_def
         ;
 
-func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}'
+func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
                ;
 
 func_anonymous_def: '(' formals ')' OP_ARROW '{' stmts '}'
@@ -120,8 +123,8 @@ stmt
     | if_stmt
     | while_stmt
     | for_stmt
-    | return_stmt ';'
-    | print_stmt ';'
+    | return_stmt
+    | print_stmt
     ;
 
 expr_stmt: expr ';'
@@ -139,11 +142,12 @@ while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
         ;
 
-return_stmt: RETURN
-           | RETURN expr
+return_stmt: RETURN ';'
+           | RETURN VOID ';'
+           | RETURN expr ';'
            ;
 
-print_stmt: PRINT '(' expr ')'
+print_stmt: PRINT '(' expr ')' ';'
           ;
 
 actuals: actuals_body

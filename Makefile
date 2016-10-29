@@ -6,7 +6,7 @@
 PROG=dragon
 
 CC=gcc
-CC_FLAG=-Wall -Werror -Wno-format-security -std=gnu99 -I$(INCLUDE_PATH) -O2
+CC_FLAG=-Wall -Werror -std=gnu99 -I$(INCLUDE_PATH) -O2
 # CC_FLAG=-Wall -Wextra -std=c99 -O2
 LEX=flex
 LEX_FLAG=
@@ -53,7 +53,9 @@ run:
 	./$(BIN_PATH)/$(PROG)
 
 spec:
-	$(foreach filename, $(shell find $(TEST_PAH) -name "lex*"), ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PAH) -name "*.dg"), echo "\nSpec test for" $(filename) "\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	@echo
+	@echo 'Spec Test Passed!'
 
 count:
 	$(shell find src -name "*.[chly]" | xargs cat | grep -v ^$ | wc -l)
