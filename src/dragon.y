@@ -29,24 +29,14 @@
 %token BOOL INT STRING NIL
 %token VOID
 %token CLASS EXTENDS NEW THIS
-%token IF ELSE FOR WHILE RETURN
+%token IF FI ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
+%nonassoc CLASS_MEMBER
+%left '(' ')'
 
-%nonassoc NoELSE
+%nonassoc NOELSE
 %nonassoc ELSE
-
-/* %nonassoc '=' */
-/* %left OP_OR */
-/* %left OP_AND */
-/* %left OP_EQ OP_NE */
-/* %left OP_GE OP_LE '<' '>' */
-/* %left '+' '-' */ 
-/* %left '*' '/' '%' */
-/* %left NEG */
-/* %nonassoc '!' */
-/* %left CALL_EXPR PAREN_EXPR */
-/* %left BOOL INT STRING VOID */
 
 %%
 
@@ -113,11 +103,13 @@ formals_body: formals_body ',' var
             | var
             ;
 
-stmts: stmts stmt
-     |
-     ;
+stmts
+    : stmts stmt
+    |
+    ;
 
-stmt: var_def
+stmt
+    : var_def
     | expr_stmt ';'
     | if_stmt
     | while_stmt
@@ -130,9 +122,10 @@ expr_stmt: expr ';'
          | ';'
          ;
 
-if_stmt: IF '(' bool_expr ')' '{' stmts '}' %prec NoELSE
-       | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
-       ;
+if_stmt
+    : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
+    | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+    ;
 
 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
           ;
@@ -155,69 +148,13 @@ actuals_body: actuals_body ',' expr
             | expr
             ;
 
-prim_expr
-	: IDENTIFIER
-	| constant
-	| '(' expr ')'
-    | READINTEGER '(' ')'
-    | READLINE '(' ')'
-    | NEW IDENTIFIER '(' actuals ')'
-    | NEW type '[' expr ']'
-	;
-
-left_expr
-	: prim_expr
-	| left_expr '[' expr ']'
-	| left_expr '.' IDENTIFIER
-    | left_expr '.' IDENTIFIER '(' actuals ')'
-	| left_expr '(' actuals ')'
-    | func_anonymous_def '(' actuals ')'
-	;
-
-unary_expr
-    : left_expr
-    | THIS
-    | '+' unary_expr
-    | '-' unary_expr
-    | '!' unary_expr
+bool_expr
+    : expr
     ;
 
-mul_expr
-	: unary_expr
-	| mul_expr '*' unary_expr
-	| mul_expr '/' unary_expr
-	| mul_expr '%' unary_expr
-	;
-
-add_expr
-	: mul_expr
-	| add_expr '+' mul_expr
-	| add_expr '-' mul_expr
-	;
-
-cmp_expr
-	: add_expr
-	| cmp_expr '<' add_expr
-	| cmp_expr '>' add_expr
-	| cmp_expr OP_LE add_expr
-	| cmp_expr OP_GE add_expr
-	;
-
-eq_expr
-	: cmp_expr
-	| eq_expr OP_EQ cmp_expr
-	| eq_expr OP_NE cmp_expr
-	;
-
-and_expr
-	: eq_expr
-	| and_expr OP_AND eq_expr
-	;
-
-or_expr
-	: and_expr
-	| or_expr OP_OR and_expr
-	;
+expr
+    : assign_expr
+    ;
 
 assign_expr
 	: or_expr
@@ -234,13 +171,69 @@ assign_list_body
     | assign_expr
     ;
 
-expr
-    : assign_expr
+or_expr
+	: and_expr
+	| or_expr OP_OR and_expr
+	;
+
+and_expr
+	: eq_expr
+	| and_expr OP_AND eq_expr
+	;
+
+eq_expr
+	: cmp_expr
+	| eq_expr OP_EQ cmp_expr
+	| eq_expr OP_NE cmp_expr
+	;
+
+cmp_expr
+	: add_expr
+	| cmp_expr '<' add_expr
+	| cmp_expr '>' add_expr
+	| cmp_expr OP_LE add_expr
+	| cmp_expr OP_GE add_expr
+	;
+
+add_expr
+	: mul_expr
+	| add_expr '+' mul_expr
+	| add_expr '-' mul_expr
+	;
+
+mul_expr
+	: unary_expr
+	| mul_expr '*' unary_expr
+	| mul_expr '/' unary_expr
+	| mul_expr '%' unary_expr
+	;
+
+unary_expr
+    : left_expr
+    | THIS
+    | '+' unary_expr
+    | '-' unary_expr
+    | '!' unary_expr
     ;
 
-bool_expr
-    : expr
-    ;
+left_expr
+	: prim_expr
+	| left_expr '[' expr ']'
+	| left_expr '.' IDENTIFIER %prec CLASS_MEMBER
+    | left_expr '.' IDENTIFIER '(' actuals ')'
+	| left_expr '(' actuals ')'
+    | func_anonymous_def '(' actuals ')'
+	;
+
+prim_expr
+	: IDENTIFIER
+	| constant
+	| '(' expr ')'
+    | READINTEGER '(' ')'
+    | READLINE '(' ')'
+    | NEW IDENTIFIER '(' actuals ')'
+    | NEW type '[' expr ']'
+	;
 
 constant: CONSTANT_INT
         | CONSTANT_BOOL

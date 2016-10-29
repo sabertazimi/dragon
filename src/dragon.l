@@ -98,6 +98,10 @@ hexical [a-fA-F0-9]
     DRAGON_DEBUG("keyword", 0, "IF");
     return IF;
 }
+"fi" {
+    DRAGON_DEBUG("keyword", 0, "FI");
+    return FI;
+}
 "int" {
     DRAGON_DEBUG("keyword", 0, "INT");
     return INT;
