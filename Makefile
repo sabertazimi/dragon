@@ -3,47 +3,65 @@
 # sabertazimi, 2016-08-10 23:12
 #
 
+# program name
 PROG=dragon
 
+# tools and their flags
 CC=gcc
 CC_FLAG=-Wall -Werror -std=gnu99 -I$(INCLUDE_PATH) -O2
-# CC_FLAG=-Wall -Wextra -std=c99 -O2
 LEX=flex
 LEX_FLAG=
 YACC=bison
 YACC_FLAG=-dv
-
 RM=rm -fr
 MKDIR=mkdir -p
 MV=mv
 
+# paths
 SRC_PATH=src
+OBJ_PATH=obj
 BIN_PATH=bin
 TEST_PATH=test
-INCLUDE_PATH=src/libs
+INCLUDE_PATH=src/libs 	\
+			 src/errors
 
-all:
-	make yacc
-	make lex
-	make build
+# objects
+RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
+RAW_OBJS=$(patsubst %.c, %.o, $(RAW_SRCS))
+OBJS=$(RAW_OBJS) $(SRC_PATH)/scanner.o $(SRC_PATH)/parser.o
+
+# rules
+%.c: %.y
+	$(YACC) $(YACC_FLAG) -o $(@:%.o=%.d) $<
+
+%.c: %.l
+	$(LEX) $(LEX_FLAG) -o $(@:%.o=%.d) $<
+
+all: $(PROG)
+
+# dependencies
+$(PROG): $(OBJS)
+	$(CC) $(CC_FLAG) -o $(SRC_PATH)/$(PROG) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(OBJS)))
 	make clean
 	make release
 	@echo
 	@echo 'Build Success!'
 
-.PHONY = build lex yacc clean release run spec count
 
-build:
-	$(CC) $(CC_FLAG) $(SRC_PATH)/dragon.c $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/lex.yy.c -o $(SRC_PATH)/$(PROG)
+.c.o:
+	@echo Compiling C Source Files $< ...
+	$(MKDIR) $(OBJ_PATH)
+	$(CC) $(CC_FLAGS) -o $@ $<
+	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
 
-lex:
-	$(LEX) $(LEX_FLAG) -o $(SRC_PATH)/lex.yy.c $(SRC_PATH)/$(PROG).l
+parser.c: parser.y
 
-yacc:
-	$(YACC) $(YACC_FLAG) -o $(SRC_PATH)/$(PROG).tab.c $(SRC_PATH)/$(PROG).y
+scanner.c: scanner.l
+
+.PHONY = run spec count
 
 clean:
-	$(RM) $(SRC_PATH)/$(PROG).tab.[ch] $(SRC_PATH)/$(PROG).output $(SRC_PATH)/lex.yy.c 
+	$(RM) $(OBJ_PATH)/*.o $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c $(SRC_PATH)/parser.output $(SRC_PATH)/scanner.c 
 
 release:
 	$(MKDIR) $(BIN_PATH)

@@ -22,7 +22,6 @@
     char bool_val;
     int int_val;
     char str_val[80];
-    char plain_text[80];
 }
 
 %token IDENTIFIER

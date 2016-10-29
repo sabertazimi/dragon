@@ -3,13 +3,9 @@
     #include <stdlib.h>
     #include <string.h>
     #include "dragon.tab.h"
+    #include "errors.h"
 
-    #undef YYDEBUG
-
-    /*
-     * @brief: debug information buffer cache
-     */
-    char debug_buffer[80];
+    // #undef YYDEBUG
 
     /*
      * @macro: DRAGON_DEBUG
@@ -25,13 +21,15 @@
      * @brief: informations of locations
      */
     int yycolumn = 1;
-    #define YY_USER_INIT yylloc.first_line = yylloc.first_column = 1;
+    #define YY_USER_INIT                                    \
+        yylloc.first_line = yylloc.first_column = 1;        \
+        srcbuf_init();
     #define YY_USER_ACTION                                  \
         yylloc.first_line = yylloc.last_line = yylineno;    \
         yylloc.first_column = yycolumn;                     \
         yylloc.last_column = yycolumn + yyleng - 1;         \
         yycolumn += yyleng;                                 \
-        strcpy(yylval.plain_text, yytext);
+        srcbuf_append(yytext);
 
     /*
      * @brief: debug output function
@@ -159,6 +157,8 @@ hexical [a-fA-F0-9]
 \"(\\.|[^\\"\n])*\"	{
     DRAGON_DEBUG("constant", "CONSTANT_STRING");
     strcpy(yylval.str_val, yytext + 1);
+    memset(yylval.str_val + strlen(yytext) - 2, '\0', 1);
+    DRAGON_DEBUG("string", yylval.str_val);
     return CONSTANT_STRING;
 }
 "&&"	{
@@ -275,7 +275,10 @@ hexical [a-fA-F0-9]
 #ifdef YYDEBUG
     // fprintf(yyout, "\n");
 #endif
+    // reset column counter
     yycolumn = 1;
+    // re-init source buffer
+    srcbuf_init();
 }
 
 . {
