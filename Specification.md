@@ -3,7 +3,7 @@
 ## Declaration
 
 ```java
-// defination section(without initialization)
+// defination section(with/without initialization)
 ...
 
 // initialization section

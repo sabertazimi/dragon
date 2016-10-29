@@ -1,0 +1,11 @@
+class Variable {
+    int _saber;
+    bool archer_lancer;
+    string _Assassin;
+
+    int varTest = (void) => {
+        saber = 1;
+        archer_lancer = true;
+        _Assassin = null;
+    };
+}

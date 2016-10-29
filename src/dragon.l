@@ -142,7 +142,7 @@ hexical [a-fA-F0-9]
     DRAGON_DEBUG("keyword", "READLINE");
     return READLINE;
 }
-{letter}({letter}|{digit})* {
+({letter}|_)({letter}|{digit}|_)* {
     DRAGON_DEBUG("identifier", "IDENTIFIER");
     return IDENTIFIER;
 }

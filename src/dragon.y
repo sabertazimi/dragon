@@ -44,48 +44,71 @@
 
 %%
 
-program: class_defs
-       ;
+program
+    : class_defs
+    ;
 
-class_defs: class_defs class_def
-          | class_def
-          ;
+class_defs
+    : class_defs class_def
+    | class_def
+    ;
 
-/* lines: line */
-/*      | line lines */
-/*      ; */
+/* lines */
+/*     : line */
+/*     | line lines */
+/*     ; */
 
-/* line: error '\n' { */
+/* line */
+/*     : error '\n' { */
 /*         yyclearin; */
 /*         yyerrok; */
 /*     } */
 /*     | '\n' */
 /*     ; */
 
-class_def: CLASS IDENTIFIER '{' fields '}'
-         | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
-         ;
+class_def
+    : CLASS IDENTIFIER '{' fields '}'
+    | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    ;
 
-fields: fields_body
-      |
-      ;
+fields
+    : fields_body
+    |
+    ;
 
 fields_body
     : fields_body field
     | field
     ;
 
-field: var_def
-     | func_def
-     ;
+field
+    : var_def
+    | func_def
+    ;
 
-var_def: var ';'
-       ;
+var_def
+    : var_without_initializer_def
+    | var_with_initializer_def
+    ;
 
-var: type IDENTIFIER
-   ;
+var_without_initializer_def
+    : var_without_initializer ';'
+    ;
 
-type: INT
+var_with_initializer_def
+    : var_with_initializer ';'
+    ;
+
+var_without_initializer
+    : type IDENTIFIER
+    ;
+
+var_with_initializer
+    : var_without_initializer '=' assign_expr
+    ;
+
+type
+    : INT
     | BOOL
     | STRING
     | VOID
@@ -93,24 +116,29 @@ type: INT
     | type '[' ']'
     ;
 
-func_def: func_normal_def
-        | func_anonymous_def
-        ;
+func_def
+    : func_normal_def
+    | func_anonymous_def
+    ;
 
-func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
-               ;
+func_normal_def
+    : var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    ;
 
-func_anonymous_def: '(' formals ')' OP_ARROW '{' stmts '}'
-                  ;
+func_anonymous_def
+    : '(' formals ')' OP_ARROW '{' stmts '}'
+    ;
 
-formals: formals_body
-       | VOID
-       |
-       ;
+formals
+    : formals_body
+    | VOID
+    |
+    ;
 
-formals_body: formals_body ',' var
-            | var
-            ;
+formals_body
+    : formals_body ',' var_without_initializer
+    | var_without_initializer
+    ;
 
 stmts
     : stmts stmt
@@ -127,36 +155,43 @@ stmt
     | print_stmt
     ;
 
-expr_stmt: expr ';'
-         | ';'
-         ;
+expr_stmt
+    : expr ';'
+    | ';'
+    ;
 
 if_stmt
     : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
     ;
 
-while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
-          ;
+while_stmt
+    : WHILE '(' bool_expr ')' '{' stmts '}'
+    ;
 
-for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
-        ;
+for_stmt
+    : FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+    ;
 
-return_stmt: RETURN ';'
-           | RETURN VOID ';'
-           | RETURN expr ';'
-           ;
+return_stmt
+    : RETURN ';'
+    | RETURN VOID ';'
+    | RETURN expr ';'
+    ;
 
-print_stmt: PRINT '(' expr ')' ';'
-          ;
+print_stmt
+    : PRINT '(' expr ')' ';'
+    ;
 
-actuals: actuals_body
-       |
-       ;
+actuals
+    : actuals_body
+    |
+    ;
 
-actuals_body: actuals_body ',' expr
-            | expr
-            ;
+actuals_body
+    : actuals_body ',' expr
+    | expr
+    ;
 
 bool_expr
     : expr
@@ -245,11 +280,12 @@ prim_expr
     | NEW type '[' expr ']'
 	;
 
-constant: CONSTANT_INT
-        | CONSTANT_BOOL
-        | CONSTANT_STRING
-        | NIL
-        ;
+constant
+    : CONSTANT_INT
+    | CONSTANT_BOOL
+    | CONSTANT_STRING
+    | NIL
+    ;
 
 %%
 
