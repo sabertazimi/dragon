@@ -137,7 +137,7 @@ if_stmt: IF '(' bool_expr ')' '{' stmts '}' %prec NoELSE
 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
           ;
 
-for_stmt: FOR '(' simple_stmt ';' bool_expr ';' simple_stmt ')' '{' stmts '}'
+for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
         ;
 
 return_stmt: RETURN
@@ -155,29 +155,38 @@ actuals_body: actuals_body ',' expr
             | expr
             ;
 
-bool_expr: expr
-         ;
-
 prim_expr
 	: IDENTIFIER
-	| CONSTANT
+	| constant
 	| '(' expr ')'
+    | READINTEGER '(' ')'
+    | READLINE '(' ')'
+    | NEW IDENTIFIER '(' actuals ')'
+    | NEW type '[' expr ']'
 	;
 
 left_expr
 	: prim_expr
-	| left_expr '[' expression ']'
+	| left_expr '[' expr ']'
 	| left_expr '.' IDENTIFIER
     | left_expr '.' IDENTIFIER '(' actuals ')'
 	| left_expr '(' actuals ')'
     | func_anonymous_def '(' actuals ')'
 	;
 
+unary_expr
+    : left_expr
+    | THIS
+    | '+' unary_expr
+    | '-' unary_expr
+    | '!' unary_expr
+    ;
+
 mul_expr
-	: left_expr
-	| mul_expr '*' left_expr
-	| mul_expr '/' left_expr
-	| mul_expr '%' left_expr
+	: unary_expr
+	| mul_expr '*' unary_expr
+	| mul_expr '/' unary_expr
+	| mul_expr '%' unary_expr
 	;
 
 add_expr
@@ -188,83 +197,49 @@ add_expr
 
 cmp_expr
 	: add_expr
-	| cmp_expr '<' additive_expression
-	| cmp_expr '>' additive_expression
-	| cmp_expr LE_OP additive_expression
-	| cmp_expr GE_OP additive_expression
+	| cmp_expr '<' add_expr
+	| cmp_expr '>' add_expr
+	| cmp_expr OP_LE add_expr
+	| cmp_expr OP_GE add_expr
 	;
 
-equality_expression
-	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
+eq_expr
+	: cmp_expr
+	| eq_expr OP_EQ cmp_expr
+	| eq_expr OP_NE cmp_expr
 	;
 
-logical_and_expression
-	: equality_expression
-	| logical_and_expression AND_OP equality_expression
+and_expr
+	: eq_expr
+	| and_expr OP_AND eq_expr
 	;
 
-logical_or_expression
-	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
+or_expr
+	: and_expr
+	| or_expr OP_OR and_expr
 	;
 
-assignment_expression
-	: logical_or_expression
-	| postfix_expression assignment_operator assignment_expression
+assign_expr
+	: or_expr
+	| left_expr '=' assign_expr
 	;
 
-assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
-	;
+assign_list
+    : assign_list_body
+    |
+    ;
 
-expression
-	: assignment_expression
-	| expression ',' assignment_expression
-	;
+assign_list_body
+    : assign_list_body ',' assign_expr
+    | assign_expr
+    ;
 
-constant_expression
-	: logical_or_expression
-	;
+expr
+    : assign_expr
+    ;
 
-
-cmp_expr
-
-expr: constant
-    | left_val
-    | THIS
-    | call %prec CALL_EXPR
-    | '(' expr ')' %prec PAREN_EXPR
-    | expr OP_AND expr
-    | expr OP_OR expr
-    | expr '<' expr
-    | expr OP_LE expr
-    | expr '>' expr
-    | expr OP_GE expr
-    | expr OP_EQ expr
-    | expr OP_NE expr
-    | expr '+' expr
-    | expr '-' expr
-    | expr '*' expr
-    | expr '/' expr
-    | expr '%' expr
-    | '-' expr %prec NEG
-    | '!' expr
-    | READINTEGER '(' ')'
-    | READLINE '(' ')'
-    | NEW IDENTIFIER '(' actuals ')'
-    | NEW type '[' expr ']'
+bool_expr
+    : expr
     ;
 
 constant: CONSTANT_INT
