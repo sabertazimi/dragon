@@ -1,11 +1,22 @@
 class Variable {
-    int _saber;
-    bool archer_lancer;
-    string _Assassin;
+    int _saber = 1;
+    bool archer_lancer= true;
+    string _Assassin = "yaoli";
+    bool[] cASTer = new bool[10];
 
     int varTest = (void) => {
-        saber = 1;
-        archer_lancer = true;
-        _Assassin = null;
+        bool truth = false;
+        int saber;
+
+        saber = 233;
+        _saber = _saber + 1;
+        archer_lancer = !archer_lancer;
+        _Assassin = "jinke";
+
+        int i;
+        cASTer[0] = cASTer[1] = 1;
+        for (i = 2; i < 10; i = i + 1) {
+            cASTer[i] = cASTer[i-2] + cASTer[i-1];
+        }
     };
 }
