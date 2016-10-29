@@ -1,5 +1,6 @@
+sudo: required
 before_install: test -n $CC && unset CC
-install: make get-deps flex bison
+install: sudo apt-get install flex bison
 language: c
 compiler: gcc
-script: make && make test
+script: make && make spec

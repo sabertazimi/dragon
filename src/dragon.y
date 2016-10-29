@@ -12,6 +12,7 @@
     int yyerror(const char *msg);
 %}
 
+%error-verbose
 %locations
 
 %union {
