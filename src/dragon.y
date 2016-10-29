@@ -4,6 +4,8 @@
     #include <string.h>
 
     #define YYDEBUG 1
+    #define YYERROR_VERBOSE 1
+
     #define STRING_MAXLEN 80
 
     extern int yycolumn;
@@ -12,6 +14,7 @@
     int yyerror(const char *msg);
 %}
 
+%defines
 %error-verbose
 %locations
 
@@ -42,6 +45,8 @@
 %nonassoc NOELSE
 %nonassoc ELSE
 
+%start program
+
 %%
 
 program
@@ -51,6 +56,10 @@ program
 class_defs
     : class_defs class_def
     | class_def
+    | class_defs error class_def {
+        yyclearin;
+        yyerrok;
+    }
     ;
 
 /* lines */
@@ -123,6 +132,10 @@ func_def
 
 func_normal_def
     : var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    | var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' error {
+        yyclearin;
+        yyerrok;
+    }
     ;
 
 func_anonymous_def
@@ -291,7 +304,8 @@ constant
 
 // return value will be ignored
 int yyerror(const char *msg) {
-    fprintf(stderr, "Sytax error near %s, line %d, column %d\n", yytext, yylloc.first_line, yylloc.first_column);
+    fprintf(stderr, "Error: %s, <line %d, column %d>\n", msg, yylloc.first_line, yylloc.first_column);
+    // fprintf(stderr, "Sytax error near %s, line %d, column %d\n", yytext, yylloc.first_line, yylloc.first_column);
     memset(yytext, '\0', strlen(yytext));
     return 0;
 }

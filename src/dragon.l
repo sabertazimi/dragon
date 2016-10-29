@@ -4,7 +4,7 @@
     #include <string.h>
     #include "dragon.tab.h"
 
-    // #undef YYDEBUG
+    #undef YYDEBUG
 
     /*
      * @brief: debug information buffer cache

@@ -29,8 +29,10 @@ yywrap   When the end of the file is reached the return value of yywrap() is che
 
 ### Flags
 
-*   -d: 产生头文件
+*   -d: 产生头文件 
 *   -v: 产生分析表(.output)
+*   %defines: 产生头文件
+*   %error-verbose
 
 ### Shift/Reduce Conflicts
 
