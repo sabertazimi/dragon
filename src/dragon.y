@@ -29,7 +29,7 @@
 %token BOOL INT STRING NIL
 %token VOID
 %token CLASS EXTENDS NEW THIS
-%token IF FI ELSE FOR WHILE RETURN
+%token IF ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
 %nonassoc CLASS_MEMBER
@@ -62,10 +62,14 @@ class_def: CLASS IDENTIFIER '{' fields '}'
          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
          ;
 
-fields: fields field
-      | field
+fields: fields_body
       |
       ;
+
+fields_body
+    : fields_body field
+    | field
+    ;
 
 field: var_def
      | func_def
