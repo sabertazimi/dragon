@@ -32,21 +32,21 @@
 %token IF ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
-%left BOOL INT STRING VOID
 
-%nonassoc '='
-
-%left OP_OR
-%left OP_AND
-%left OP_EQ OP_NE
-%left OP_GE OP_LE '<' '>'
-%left '+' '-' 
-%left '*' '/' '%'
-%left NEG
-
-%nonassoc '!'
 %nonassoc NoELSE
 %nonassoc ELSE
+
+/* %nonassoc '=' */
+/* %left OP_OR */
+/* %left OP_AND */
+/* %left OP_EQ OP_NE */
+/* %left OP_GE OP_LE '<' '>' */
+/* %left '+' '-' */ 
+/* %left '*' '/' '%' */
+/* %left NEG */
+/* %nonassoc '!' */
+/* %left CALL_EXPR PAREN_EXPR */
+/* %left BOOL INT STRING VOID */
 
 %%
 
@@ -72,7 +72,8 @@ class_def: CLASS IDENTIFIER '{' fields '}'
          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
          ;
 
-fields: field fields
+fields: fields field
+      | field
       |
       ;
 
@@ -98,19 +99,26 @@ func_def: func_normal_def
         | func_anonymous_def
         ;
 
-func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmt '}'
+func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}'
                ;
 
-func_anonymous_def: '(' formals ')' OP_ARROW '{' stmt '}'
+func_anonymous_def: '(' formals ')' OP_ARROW '{' stmts '}'
                   ;
 
-formals: var ',' formals
-       | var
+formals: formals_body
        |
        ;
 
+formals_body: formals_body ',' var
+            | var
+            ;
+
+stmts: stmts stmt
+     |
+     ;
+
 stmt: var_def
-    | simple_stmt ';'
+    | expr_stmt ';'
     | if_stmt
     | while_stmt
     | for_stmt
@@ -118,27 +126,18 @@ stmt: var_def
     | print_stmt ';'
     ;
 
-simple_stmt: left_val '=' right_val
-           ;
-
-left_val: expr '.' IDENTIFIER
-        | IDENTIFIER
-        | expr '[' expr ']'
-        ;
-
-right_val: expr
-         | call
-         |
+expr_stmt: expr ';'
+         | ';'
          ;
 
-if_stmt: IF '(' bool_expr ')' '{' stmt '}' %prec NoELSE
-       | IF '(' bool_expr ')' '{' stmt '}' ELSE '{' stmt '}'
+if_stmt: IF '(' bool_expr ')' '{' stmts '}' %prec NoELSE
+       | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
        ;
 
-while_stmt: WHILE '(' bool_expr ')' '{' stmt '}'
+while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
           ;
 
-for_stmt: FOR '(' simple_stmt ';' bool_expr ';' simple_stmt ')' '{' stmt '}'
+for_stmt: FOR '(' simple_stmt ';' bool_expr ';' simple_stmt ')' '{' stmts '}'
         ;
 
 return_stmt: RETURN
@@ -148,38 +147,119 @@ return_stmt: RETURN
 print_stmt: PRINT '(' expr ')'
           ;
 
-call: expr '.' IDENTIFIER '(' actuals ')'
-    | IDENTIFIER '(' actuals ')'
-    | func_anonymous_def '(' actuals ')'
-    ;
-
-actuals: expr ',' actuals
-       | expr
+actuals: actuals_body
        |
        ;
+
+actuals_body: actuals_body ',' expr
+            | expr
+            ;
 
 bool_expr: expr
          ;
 
+prim_expr
+	: IDENTIFIER
+	| CONSTANT
+	| '(' expr ')'
+	;
+
+left_expr
+	: prim_expr
+	| left_expr '[' expression ']'
+	| left_expr '.' IDENTIFIER
+    | left_expr '.' IDENTIFIER '(' actuals ')'
+	| left_expr '(' actuals ')'
+    | func_anonymous_def '(' actuals ')'
+	;
+
+mul_expr
+	: left_expr
+	| mul_expr '*' left_expr
+	| mul_expr '/' left_expr
+	| mul_expr '%' left_expr
+	;
+
+add_expr
+	: mul_expr
+	| add_expr '+' mul_expr
+	| add_expr '-' mul_expr
+	;
+
+cmp_expr
+	: add_expr
+	| cmp_expr '<' additive_expression
+	| cmp_expr '>' additive_expression
+	| cmp_expr LE_OP additive_expression
+	| cmp_expr GE_OP additive_expression
+	;
+
+equality_expression
+	: relational_expression
+	| equality_expression EQ_OP relational_expression
+	| equality_expression NE_OP relational_expression
+	;
+
+logical_and_expression
+	: equality_expression
+	| logical_and_expression AND_OP equality_expression
+	;
+
+logical_or_expression
+	: logical_and_expression
+	| logical_or_expression OR_OP logical_and_expression
+	;
+
+assignment_expression
+	: logical_or_expression
+	| postfix_expression assignment_operator assignment_expression
+	;
+
+assignment_operator
+	: '='
+	| MUL_ASSIGN
+	| DIV_ASSIGN
+	| MOD_ASSIGN
+	| ADD_ASSIGN
+	| SUB_ASSIGN
+	| LEFT_ASSIGN
+	| RIGHT_ASSIGN
+	| AND_ASSIGN
+	| XOR_ASSIGN
+	| OR_ASSIGN
+	;
+
+expression
+	: assignment_expression
+	| expression ',' assignment_expression
+	;
+
+constant_expression
+	: logical_or_expression
+	;
+
+
+cmp_expr
+
 expr: constant
     | left_val
     | THIS
-    | call
-    | '(' expr ')'
-    | expr '+' expr
-    | expr '-' expr
-    | expr '*' expr
-    | expr '/' expr
-    | expr '%' expr
-    | '-' expr %prec NEG
+    | call %prec CALL_EXPR
+    | '(' expr ')' %prec PAREN_EXPR
+    | expr OP_AND expr
+    | expr OP_OR expr
     | expr '<' expr
     | expr OP_LE expr
     | expr '>' expr
     | expr OP_GE expr
     | expr OP_EQ expr
     | expr OP_NE expr
-    | expr OP_AND expr
-    | expr OP_OR expr
+    | expr '+' expr
+    | expr '-' expr
+    | expr '*' expr
+    | expr '/' expr
+    | expr '%' expr
+    | '-' expr %prec NEG
     | '!' expr
     | READINTEGER '(' ')'
     | READLINE '(' ')'
