@@ -62,28 +62,52 @@ class_defs
 class_def
     : CLASS IDENTIFIER '{' fields '}'
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    /* error recovery */
     | error IDENTIFIER '{' fields '}'
     {
-        proposed_solution("use keyword \"class\"");
+        proposed_solution("expected keyword \"class\"");
     }
     | CLASS error '{' fields '}'
     {
-        proposed_solution("class name should be identifier");
+        proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER  error fields '}'
     {
-        proposed_solution("Unmatched {}");
+        proposed_solution("unmatched {}");
     }
     | CLASS IDENTIFIER '{' fields error
     {
-        proposed_solution("Unmatched {}");
+        proposed_solution("unmatched {}");
     }
-    | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' error '}'
+    | error IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    {
+        proposed_solution("expected keyword \"class\"");
+    }
+    | CLASS error EXTENDS IDENTIFIER '{' fields '}'
+    {
+        proposed_solution("expected identifier as class name");
+    }
+    | CLASS IDENTIFIER error IDENTIFIER '{' fields '}'
+    {
+        proposed_solution("expected keyword \"extends\"");
+    }
+    | CLASS IDENTIFIER EXTENDS error '{' fields '}'
+    {
+        proposed_solution("expected identifier as class name");
+    }
+    | CLASS IDENTIFIER EXTENDS IDENTIFIER error fields '}'
+    {
+        proposed_solution("unmatched {}");
+    }
+    | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields error
+    {
+        proposed_solution("unmatched {}");
+    }
     ;
 
 fields
     : fields_body
-    |
+    | /* empty */
     ;
 
 fields_body
@@ -142,7 +166,7 @@ func_anonymous_def
 formals
     : formals_body
     | VOID
-    |
+    | /* empty */
     ;
 
 formals_body
@@ -152,7 +176,7 @@ formals_body
 
 stmts
     : stmts stmt
-    |
+    | /* empty */
     ;
 
 stmt
@@ -195,7 +219,7 @@ print_stmt
 
 actuals
     : actuals_body
-    |
+    | /* empty */
     ;
 
 actuals_body
@@ -218,7 +242,7 @@ assign_expr
 
 assign_list
     : assign_list_body
-    |
+    | /* empty */
     ;
 
 assign_list_body

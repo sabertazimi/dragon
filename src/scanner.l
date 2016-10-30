@@ -304,7 +304,9 @@ hexical [a-fA-F0-9]
 }
 
 . {
-    fprintf(stderr, "<%4d:%4d><Error>: lexical error near %s\n", yylloc.first_line, yylloc.first_column, yytext);
+    fprintf(stderr, "<%d:%d><Error>: lexical error near %s\n", yylloc.first_line, yylloc.first_column, yytext);
+    fprintf(stderr, "Please fix lexical error first!\n");
+    exit(0);
 }
 
 %%
@@ -317,7 +319,7 @@ void dragon_comment(void) {
     char ch = '\0',
          prev = '\0';
 
-    while ((ch = input()) != '\0') {
+    while ((ch = input()) != '\0' && ch != EOF) {
         if (prev == '*' && ch == '/') {
             return;
         } else {
@@ -325,5 +327,7 @@ void dragon_comment(void) {
         }
     }
 
-    fprintf(stderr, "Unterminated block comment!");
+    fprintf(stderr, "<%d:%d><Error>: unterminated block comment near %s\n", yylloc.first_line, yylloc.first_column, yytext);
+    fprintf(stderr, "Please fix lexical error first!\n");
+    exit(0);
 }

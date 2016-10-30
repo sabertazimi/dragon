@@ -1,7 +1,7 @@
-// syntax error: lack of class keyword
+// syntax error: expected keyword class
 int ArchLinux {}
 
-// syntax error: class name isn't identifier
+// syntax error: expected identifier as class name
 class "KaliLinux" {}
 
 // syntax error: unmatched {}
@@ -20,4 +20,5 @@ class LinuxMint {
     int getCPU = (void) => {
         return cpu;
     };
+
 

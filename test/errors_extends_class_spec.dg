@@ -1,0 +1,29 @@
+// syntax error: expected keyword class
+int ArchLinux extends Linux {}
+
+// syntax error: expected identifier as class name
+class "KaliLinux" extends Linux {}
+
+// syntax error: expected keyword extends
+class ArchLinux = Linux {}
+
+// syntax error: expected identifier as class name
+class KaliLinux extends "Linux" {}
+
+// syntax error: unmatched {}
+class GentooLinux extends Linux
+    int cpu;
+
+    int getCPU = (void) => {
+        return cpu;
+    };
+}
+
+// syntax error: unmatched {}
+class LinuxMint extends Linux {
+    int cpu;
+
+    int getCPU = (void) => {
+        return cpu;
+    };
+

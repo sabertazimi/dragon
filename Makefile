@@ -8,7 +8,7 @@ PROG=dragon
 
 # tools and their flags
 CC=gcc
-CFLAGS=-Wall -Werror -std=gnu99 -O2 $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-Wall -Werror -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=
 YACC=bison
@@ -32,22 +32,22 @@ OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 
 # rules
 %.o: %.c
-	@echo Compiling C Source Files $< ...
+	@echo '>>>' Compiling C Source Files $< ... '<<<'
 	$(CC) $(CFLAGS) -o $@ -c $<
 	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
-	@echo Compile $< Success!
+	@echo '>>>' Compile $< Success! '<<<'
 
 %.c: %.l
-	@echo Compiling Lex Source Files $< ...
+	@echo '>>>' Compiling Lex Source Files $< ... '<<<'
 	$(MKDIR) $(OBJ_PATH)
 	$(LEX) $(LFLAGS) -o $(@:%.o=%.d) $<
-	@echo Compile $< Success!
+	@echo '>>>' Compile $< Success! '<<<'
 
 %.c: %.y
-	@echo Compiling Yacc Source Files $< ...
+	@echo '>>>' Compiling Yacc Source Files $< ... '<<<'
 	$(MKDIR) $(OBJ_PATH)
 	$(YACC) $(YFLAGS) -o $(@:%.o=%.d) $<
-	@echo Compile $< Success!
+	@echo '>>>' Compile $< Success! '<<<'
 
 all: $(PROG)
 
@@ -57,13 +57,14 @@ $(PROG): $(OBJS)
 	make clean
 	make release
 	@echo
-	@echo 'Build Success!'
+	@echo '>>>' Build Success! '<<<'
 
 .PHONY = clean release run spec count
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
 	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c $(SRC_PATH)/scanner.c
+	$(RM) .gdb_history
 
 release:
 	$(MKDIR) $(BIN_PATH)
@@ -74,9 +75,14 @@ run:
 	./$(BIN_PATH)/$(PROG)
 
 spec:
-	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\nSpec test for" $(filename) "\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n>>> Lex test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
-	@echo 'Spec Test Passed!'
+	@echo '>>>' Lex Test Passed! '<<<'
+	@echo
+	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\n>>> Syntax error report test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	@echo
+	@echo '>>>' Syntax Error Report Test Passed! '<<<'
+	@echo
 
 count:
 	$(shell find src -name "*.[chly]" | xargs cat | grep -v ^$ | wc -l)
