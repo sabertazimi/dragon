@@ -1,8 +1,16 @@
 // syntax error: expected keyword class
-int ArchLinux {}
+int ArchLinux {
+    int cpu;
+}
+
+class Arch {
+    int cpu;
+}
 
 // syntax error: expected identifier as class name
-class "KaliLinux" {}
+class "KaliLinux" {
+    int cpu;
+}
 
 // syntax error: unmatched {}
 class GentooLinux 

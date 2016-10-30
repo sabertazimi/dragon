@@ -71,13 +71,13 @@ class_def
     {
         proposed_solution("expected identifier as class name");
     }
-    | CLASS IDENTIFIER  error fields '}'
+    | CLASS IDENTIFIER error fields '}'
     {
-        proposed_solution("unmatched {}");
+        proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER '{' fields error
     {
-        proposed_solution("unmatched {}");
+        proposed_solution("unmatched '{' or '}'");
     }
     | error IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
@@ -97,21 +97,16 @@ class_def
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER error fields '}'
     {
-        proposed_solution("unmatched {}");
+        proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields error
     {
-        proposed_solution("unmatched {}");
+        proposed_solution("unmatched '{' or '}'");
     }
     ;
 
 fields
-    : fields_body
-    | /* empty */
-    ;
-
-fields_body
-    : fields_body field
+    : fields field
     | field
     ;
 
@@ -121,24 +116,24 @@ field
     ;
 
 var_def
-    : var_without_initializer_def
-    | var_with_initializer_def
-    ;
-
-var_without_initializer_def
-    : var_without_initializer ';'
-    ;
-
-var_with_initializer_def
-    : var_with_initializer ';'
-    ;
-
-var_without_initializer
-    : type IDENTIFIER
-    ;
-
-var_with_initializer
-    : var_without_initializer '=' assign_expr
+    : type IDENTIFIER ';'
+    | type IDENTIFIER '=' assign_expr ';'
+    | type error ';'
+    {
+        proposed_solution("expected identifier as variable name");
+    }
+    | type IDENTIFIER error
+    {
+        proposed_solution("expected ';' or expected '=' as assign operator");
+    }
+    | type error '=' assign_expr ';'
+    {
+        proposed_solution("expected identifier as variable name");
+    }
+    | type IDENTIFIER '=' assign_expr error
+    {
+        proposed_solution("expected ';'");
+    }
     ;
 
 type
@@ -148,6 +143,14 @@ type
     | VOID
     | CLASS IDENTIFIER
     | type '[' ']'
+    | error IDENTIFIER
+    {
+        proposed_solution("unkown type");
+    }
+    | CLASS error
+    {
+        proposed_solution("expected identifier as class name");
+    }
     ;
 
 func_def
@@ -156,7 +159,39 @@ func_def
     ;
 
 func_normal_def
-    : var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    : type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    | type error '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    {
+        proposed_solution("expected identifier as variable name");
+    }
+    | type IDENTIFIER error '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    {
+        proposed_solution("expected '=' as function defination");
+    }
+    | type IDENTIFIER '=' error formals ')' OP_ARROW '{' stmts '}' ';'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | type IDENTIFIER '=' '(' formals error OP_ARROW '{' stmts '}' ';'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | type IDENTIFIER '=' '(' formals ')' error '{' stmts '}' ';'
+    {
+        proposed_solution("expected '=>' as function defination");
+    }
+    | type IDENTIFIER '=' '(' formals ')' OP_ARROW error stmts '}' ';'
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
+    | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts error ';'
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
+    | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' error
+    {
+        proposed_solution("expected ';'");
+    }
     ;
 
 func_anonymous_def
@@ -170,8 +205,8 @@ formals
     ;
 
 formals_body
-    : formals_body ',' var_without_initializer
-    | var_without_initializer
+    : formals_body ',' type IDENTIFIER
+    | type IDENTIFIER
     ;
 
 stmts

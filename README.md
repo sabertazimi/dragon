@@ -48,6 +48,10 @@ expr: expr '-' expr
     ;
 ```
 
+### Error Recovery
+
+只需将规则中所有终结符依次替换为 error 即可
+
 ## Labs
 
 ### AST

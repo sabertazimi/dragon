@@ -1,14 +1,22 @@
 // syntax error: expected keyword class
-int ArchLinux extends Linux {}
+int ArchLinux extends Linux {
+    int cpu;
+}
 
 // syntax error: expected identifier as class name
-class "KaliLinux" extends Linux {}
+class "KaliLinux" extends Linux {
+    int cpu;
+}
 
 // syntax error: expected keyword extends
-class ArchLinux = Linux {}
+class ArchLinux = Linux {
+    int cpu;
+}
 
 // syntax error: expected identifier as class name
-class KaliLinux extends "Linux" {}
+class KaliLinux extends "Linux" {
+    int cpu;
+}
 
 // syntax error: unmatched {}
 class GentooLinux extends Linux
