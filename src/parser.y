@@ -207,6 +207,9 @@ func_anonymous_def
 formals
     : formals_body
     | VOID
+    | error {
+        proposed_solution("expected keyword 'void' or at least 1 parameter");
+    }
     ;
 
 formals_body
@@ -218,11 +221,15 @@ formals_body
     }
     | formals_body ',' type error
     {
-        proposed_solution("expected identifier as variable name");
+        proposed_solution("expected identifier as parameter name");
+    }
+    | formals_body ',' error
+    {
+        proposed_solution("unexpected ','");
     }
     | type error
     {
-        proposed_solution("expected identifier as variable name");
+        proposed_solution("expected identifier as parameter name");
     }
     ;
 
@@ -352,6 +359,10 @@ actuals_body
     | actuals_body error expr
     {
         proposed_solution("expected ',' as separator");
+    }
+    | actuals_body ',' error
+    {
+        proposed_solution("unexpected ','");
     }
     ;
 
