@@ -6,8 +6,6 @@
     #define YYDEBUG 1
     #define YYERROR_VERBOSE 1
 
-    #define STRING_MAXLEN 80
-
     extern int yycolumn;
     extern char *yytext;
     int yylex(void);
@@ -60,19 +58,6 @@ class_defs
         yyerrok;
     }
     ;
-
-/* lines */
-/*     : line */
-/*     | line lines */
-/*     ; */
-
-/* line */
-/*     : error '\n' { */
-/*         yyclearin; */
-/*         yyerrok; */
-/*     } */
-/*     | '\n' */
-/*     ; */
 
 class_def
     : CLASS IDENTIFIER '{' fields '}'
@@ -138,7 +123,7 @@ func_normal_def
     ;
 
 func_anonymous_def
-    : '(' formals ')' OP_ARROW '{' stmts '}'
+    : type '(' formals ')' OP_ARROW '{' stmts '}'
     ;
 
 formals

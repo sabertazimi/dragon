@@ -63,10 +63,11 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
-	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c $(SRC_PATH)/parser.output $(SRC_PATH)/scanner.c
+	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c $(SRC_PATH)/scanner.c
 
 release:
 	$(MKDIR) $(BIN_PATH)
+	$(MV) $(SRC_PATH)/parser.output  $(BIN_PATH)/parser.output
 	$(MV) $(SRC_PATH)/$(PROG) $(BIN_PATH)/$(PROG)
 
 run:

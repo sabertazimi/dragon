@@ -5,13 +5,25 @@ class Function {
         addr = 1;
 
         // anonymous function
-        addr = (int addr) => {
+        addr = int (int addr) => {
             return addr * 2;
         }(addr);
 
         // closure
-        addr = (void) => {
+        addr = int (void) => {
             return addr + 5;
+        }();
+
+        // function defination
+        int sayHelloFunc = (void) => {
+            Print("Hello World!\n");
+            return 0;
+        };
+
+        // anonymous fucntions invoking, then assign return value to a variable
+        int sayHelloVar = int (void) => {
+            Print("Hello World!\n");
+            return 0;
         }();
 
         return addr;

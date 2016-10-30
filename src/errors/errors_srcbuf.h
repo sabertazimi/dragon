@@ -18,4 +18,19 @@ void srcbuf_init(void);
  */
 void srcbuf_append(const char *src);
 
+/*
+ * @brief: get pointer to source code buffer
+ */
+char *srcbuf_get(void);
+
+/*
+ * @brief: get length of buffer
+ */
+int srcbuf_length(void);
+
+/*
+ * @brief: print source code in buffer
+ */
+void srcbuf_print(void);
+
 #endif /* !ERRORS_SRCBUF_H */
