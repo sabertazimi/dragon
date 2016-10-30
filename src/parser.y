@@ -377,10 +377,6 @@ expr
 assign_expr
 	: or_expr
 	| left_expr '=' assign_expr
-	/* | left_expr error assign_expr */
-    /* { */
-        /* proposed_solution("expected '=' as assign operator"); */
-    /* } */
 	;
 
 assign_list
@@ -394,6 +390,10 @@ assign_list
 assign_list_body
     : assign_list_body ',' assign_expr
     | assign_expr
+    | assign_list_body ',' error
+    {
+        proposed_solution("unexpected ','");
+    }
     ;
 
 or_expr
@@ -458,6 +458,10 @@ prim_expr
     | READLINE '(' ')'
     | NEW IDENTIFIER '(' actuals ')'
     | NEW type '[' expr ']'
+	| '(' error ')'
+    {
+        proposed_solution("unexpected nested parenthesis");
+    }
 	;
 
 constant
