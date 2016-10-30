@@ -2,7 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "dragon.tab.h"
+    #include "parser.h"
     #include "errors.h"
 
     // #undef YYDEBUG
