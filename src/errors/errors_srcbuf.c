@@ -62,4 +62,15 @@ void srcbuf_print(void) {
     if (srcbuf_printable()) {
         fprintf(yyout, "%s\n", srcbuf.buf);
     }
+
+    for (int i = 1; i < yylloc.first_column; i++) {
+        fprintf(stderr, " ");
+    }
+
+    for (int i = yylloc.first_column - 1; i < yylloc.last_column; i++) {
+        fprintf(stderr, "^");
+    }
+    fprintf(stderr, "\n");
+
+
 }

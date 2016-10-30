@@ -23,4 +23,9 @@
  */
 void dragon_debug(const char *type, const char *value);
 
+/*
+ * @brief: print error information
+ */
+void dragon_debug(const char *type, const char *value);
+
 #endif /* !ERRORS_DEBUG_H */

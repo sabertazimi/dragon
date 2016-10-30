@@ -11,202 +11,205 @@ Terminals unused in grammar
 
     2 class_defs: class_defs class_def
     3           | class_def
-    4           | class_defs error class_def
 
-    5 class_def: CLASS IDENTIFIER '{' fields '}'
-    6          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    4 class_def: CLASS IDENTIFIER '{' fields '}'
+    5          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    6          | error IDENTIFIER '{' fields '}'
+    7          | CLASS error '{' fields '}'
+    8          | CLASS IDENTIFIER error fields '}'
+    9          | CLASS IDENTIFIER '{' fields error
+   10          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' error '}'
 
-    7 fields: fields_body
-    8       | %empty
+   11 fields: fields_body
+   12       | %empty
 
-    9 fields_body: fields_body field
-   10            | field
+   13 fields_body: fields_body field
+   14            | field
 
-   11 field: var_def
-   12      | func_def
+   15 field: var_def
+   16      | func_def
 
-   13 var_def: var_without_initializer_def
-   14        | var_with_initializer_def
+   17 var_def: var_without_initializer_def
+   18        | var_with_initializer_def
 
-   15 var_without_initializer_def: var_without_initializer ';'
+   19 var_without_initializer_def: var_without_initializer ';'
 
-   16 var_with_initializer_def: var_with_initializer ';'
+   20 var_with_initializer_def: var_with_initializer ';'
 
-   17 var_without_initializer: type IDENTIFIER
+   21 var_without_initializer: type IDENTIFIER
 
-   18 var_with_initializer: var_without_initializer '=' assign_expr
+   22 var_with_initializer: var_without_initializer '=' assign_expr
 
-   19 type: INT
-   20     | BOOL
-   21     | STRING
-   22     | VOID
-   23     | CLASS IDENTIFIER
-   24     | type '[' ']'
+   23 type: INT
+   24     | BOOL
+   25     | STRING
+   26     | VOID
+   27     | CLASS IDENTIFIER
+   28     | type '[' ']'
 
-   25 func_def: func_normal_def
-   26         | func_anonymous_def
+   29 func_def: func_normal_def
+   30         | func_anonymous_def
 
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' error
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
 
-   29 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}'
+   32 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}'
 
-   30 formals: formals_body
-   31        | VOID
-   32        | %empty
+   33 formals: formals_body
+   34        | VOID
+   35        | %empty
 
-   33 formals_body: formals_body ',' var_without_initializer
-   34             | var_without_initializer
+   36 formals_body: formals_body ',' var_without_initializer
+   37             | var_without_initializer
 
-   35 stmts: stmts stmt
-   36      | %empty
+   38 stmts: stmts stmt
+   39      | %empty
 
-   37 stmt: var_def
-   38     | expr_stmt
-   39     | if_stmt
-   40     | while_stmt
-   41     | for_stmt
-   42     | return_stmt
-   43     | print_stmt
+   40 stmt: var_def
+   41     | expr_stmt
+   42     | if_stmt
+   43     | while_stmt
+   44     | for_stmt
+   45     | return_stmt
+   46     | print_stmt
 
-   44 expr_stmt: expr ';'
-   45          | ';'
+   47 expr_stmt: expr ';'
+   48          | ';'
 
-   46 if_stmt: IF '(' bool_expr ')' '{' stmts '}'
-   47        | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+   49 if_stmt: IF '(' bool_expr ')' '{' stmts '}'
+   50        | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
 
-   48 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
+   51 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}'
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
 
-   50 return_stmt: RETURN ';'
-   51            | RETURN VOID ';'
-   52            | RETURN expr ';'
+   53 return_stmt: RETURN ';'
+   54            | RETURN VOID ';'
+   55            | RETURN expr ';'
 
-   53 print_stmt: PRINT '(' expr ')' ';'
+   56 print_stmt: PRINT '(' expr ')' ';'
 
-   54 actuals: actuals_body
-   55        | %empty
+   57 actuals: actuals_body
+   58        | %empty
 
-   56 actuals_body: actuals_body ',' expr
-   57             | expr
+   59 actuals_body: actuals_body ',' expr
+   60             | expr
 
-   58 bool_expr: expr
+   61 bool_expr: expr
 
-   59 expr: assign_expr
+   62 expr: assign_expr
 
-   60 assign_expr: or_expr
-   61            | left_expr '=' assign_expr
+   63 assign_expr: or_expr
+   64            | left_expr '=' assign_expr
 
-   62 assign_list: assign_list_body
-   63            | %empty
+   65 assign_list: assign_list_body
+   66            | %empty
 
-   64 assign_list_body: assign_list_body ',' assign_expr
-   65                 | assign_expr
+   67 assign_list_body: assign_list_body ',' assign_expr
+   68                 | assign_expr
 
-   66 or_expr: and_expr
-   67        | or_expr OP_OR and_expr
+   69 or_expr: and_expr
+   70        | or_expr OP_OR and_expr
 
-   68 and_expr: eq_expr
-   69         | and_expr OP_AND eq_expr
+   71 and_expr: eq_expr
+   72         | and_expr OP_AND eq_expr
 
-   70 eq_expr: cmp_expr
-   71        | eq_expr OP_EQ cmp_expr
-   72        | eq_expr OP_NE cmp_expr
+   73 eq_expr: cmp_expr
+   74        | eq_expr OP_EQ cmp_expr
+   75        | eq_expr OP_NE cmp_expr
 
-   73 cmp_expr: add_expr
-   74         | cmp_expr '<' add_expr
-   75         | cmp_expr '>' add_expr
-   76         | cmp_expr OP_LE add_expr
-   77         | cmp_expr OP_GE add_expr
+   76 cmp_expr: add_expr
+   77         | cmp_expr '<' add_expr
+   78         | cmp_expr '>' add_expr
+   79         | cmp_expr OP_LE add_expr
+   80         | cmp_expr OP_GE add_expr
 
-   78 add_expr: mul_expr
-   79         | add_expr '+' mul_expr
-   80         | add_expr '-' mul_expr
+   81 add_expr: mul_expr
+   82         | add_expr '+' mul_expr
+   83         | add_expr '-' mul_expr
 
-   81 mul_expr: unary_expr
-   82         | mul_expr '*' unary_expr
-   83         | mul_expr '/' unary_expr
-   84         | mul_expr '%' unary_expr
+   84 mul_expr: unary_expr
+   85         | mul_expr '*' unary_expr
+   86         | mul_expr '/' unary_expr
+   87         | mul_expr '%' unary_expr
 
-   85 unary_expr: left_expr
-   86           | THIS
-   87           | '+' unary_expr
-   88           | '-' unary_expr
-   89           | '!' unary_expr
+   88 unary_expr: left_expr
+   89           | THIS
+   90           | '+' unary_expr
+   91           | '-' unary_expr
+   92           | '!' unary_expr
 
-   90 left_expr: prim_expr
-   91          | left_expr '[' expr ']'
-   92          | left_expr '.' IDENTIFIER
-   93          | left_expr '.' IDENTIFIER '(' actuals ')'
-   94          | left_expr '(' actuals ')'
-   95          | func_anonymous_def '(' actuals ')'
+   93 left_expr: prim_expr
+   94          | left_expr '[' expr ']'
+   95          | left_expr '.' IDENTIFIER
+   96          | left_expr '.' IDENTIFIER '(' actuals ')'
+   97          | left_expr '(' actuals ')'
+   98          | func_anonymous_def '(' actuals ')'
 
-   96 prim_expr: IDENTIFIER
-   97          | constant
-   98          | '(' expr ')'
-   99          | READINTEGER '(' ')'
-  100          | READLINE '(' ')'
-  101          | NEW IDENTIFIER '(' actuals ')'
-  102          | NEW type '[' expr ']'
+   99 prim_expr: IDENTIFIER
+  100          | constant
+  101          | '(' expr ')'
+  102          | READINTEGER '(' ')'
+  103          | READLINE '(' ')'
+  104          | NEW IDENTIFIER '(' actuals ')'
+  105          | NEW type '[' expr ']'
 
-  103 constant: CONSTANT_INT
-  104         | CONSTANT_BOOL
-  105         | CONSTANT_STRING
-  106         | NIL
+  106 constant: CONSTANT_INT
+  107         | CONSTANT_BOOL
+  108         | CONSTANT_STRING
+  109         | NIL
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'!' (33) 89
-'%' (37) 84
-'(' (40) 27 28 29 46 47 48 49 53 93 94 95 98 99 100 101
-')' (41) 27 28 29 46 47 48 49 53 93 94 95 98 99 100 101
-'*' (42) 82
-'+' (43) 79 87
-',' (44) 33 56 64
-'-' (45) 80 88
-'.' (46) 92 93
-'/' (47) 83
-';' (59) 15 16 27 44 45 49 50 51 52 53
-'<' (60) 74
-'=' (61) 18 27 28 61
-'>' (62) 75
-'[' (91) 24 91 102
-']' (93) 24 91 102
-'{' (123) 5 6 27 28 29 46 47 48 49
-'}' (125) 5 6 27 28 29 46 47 48 49
-error (256) 4 28
-IDENTIFIER (258) 5 6 17 23 92 93 96 101
-CONSTANT_BOOL (259) 104
-CONSTANT_INT (260) 103
-CONSTANT_STRING (261) 105
-OP_AND (262) 69
-OP_OR (263) 67
-OP_LE (264) 76
-OP_GE (265) 77
-OP_EQ (266) 71
-OP_NE (267) 72
-OP_ARROW (268) 27 28 29
-BOOL (269) 20
-INT (270) 19
-STRING (271) 21
+'!' (33) 92
+'%' (37) 87
+'(' (40) 31 32 49 50 51 52 56 96 97 98 101 102 103 104
+')' (41) 31 32 49 50 51 52 56 96 97 98 101 102 103 104
+'*' (42) 85
+'+' (43) 82 90
+',' (44) 36 59 67
+'-' (45) 83 91
+'.' (46) 95 96
+'/' (47) 86
+';' (59) 19 20 31 47 48 52 53 54 55 56
+'<' (60) 77
+'=' (61) 22 31 64
+'>' (62) 78
+'[' (91) 28 94 105
+']' (93) 28 94 105
+'{' (123) 4 5 6 7 9 10 31 32 49 50 51 52
+'}' (125) 4 5 6 7 8 10 31 32 49 50 51 52
+error (256) 6 7 8 9 10
+IDENTIFIER (258) 4 5 6 8 9 10 21 27 95 96 99 104
+CONSTANT_BOOL (259) 107
+CONSTANT_INT (260) 106
+CONSTANT_STRING (261) 108
+OP_AND (262) 72
+OP_OR (263) 70
+OP_LE (264) 79
+OP_GE (265) 80
+OP_EQ (266) 74
+OP_NE (267) 75
+OP_ARROW (268) 31 32
+BOOL (269) 24
+INT (270) 23
+STRING (271) 25
 FUNCTION (272)
-NIL (273) 106
-VOID (274) 22 31 51
-CLASS (275) 5 6 23
-EXTENDS (276) 6
-NEW (277) 101 102
-THIS (278) 86
-IF (279) 46 47
-ELSE (280) 47
-FOR (281) 49
-WHILE (282) 48
-RETURN (283) 50 51 52
-PRINT (284) 53
-READINTEGER (285) 99
-READLINE (286) 100
+NIL (273) 109
+VOID (274) 26 34 54
+CLASS (275) 4 5 7 8 9 10 27
+EXTENDS (276) 5 10
+NEW (277) 104 105
+THIS (278) 89
+IF (279) 49 50
+ELSE (280) 50
+FOR (281) 52
+WHILE (282) 51
+RETURN (283) 53 54 55
+PRINT (284) 56
+READINTEGER (285) 102
+READLINE (286) 103
 CLASS_MEMBER (287)
 NOELSE (288)
 
@@ -218,3240 +221,3385 @@ $accept (52)
 program (53)
     左： 1, 右： 0
 class_defs (54)
-    左： 2 3 4, 右： 1 2 4
+    左： 2 3, 右： 1 2
 class_def (55)
-    左： 5 6, 右： 2 3 4
+    左： 4 5 6 7 8 9 10, 右： 2 3
 fields (56)
-    左： 7 8, 右： 5 6
+    左： 11 12, 右： 4 5 6 7 8 9
 fields_body (57)
-    左： 9 10, 右： 7 9
+    左： 13 14, 右： 11 13
 field (58)
-    左： 11 12, 右： 9 10
+    左： 15 16, 右： 13 14
 var_def (59)
-    左： 13 14, 右： 11 37
+    左： 17 18, 右： 15 40
 var_without_initializer_def (60)
-    左： 15, 右： 13
+    左： 19, 右： 17
 var_with_initializer_def (61)
-    左： 16, 右： 14
+    左： 20, 右： 18
 var_without_initializer (62)
-    左： 17, 右： 15 18 27 28 33 34
+    左： 21, 右： 19 22 31 36 37
 var_with_initializer (63)
-    左： 18, 右： 16
+    左： 22, 右： 20
 type (64)
-    左： 19 20 21 22 23 24, 右： 17 24 29 102
+    左： 23 24 25 26 27 28, 右： 21 28 32 105
 func_def (65)
-    左： 25 26, 右： 12
+    左： 29 30, 右： 16
 func_normal_def (66)
-    左： 27 28, 右： 25
+    左： 31, 右： 29
 func_anonymous_def (67)
-    左： 29, 右： 26 95
+    左： 32, 右： 30 98
 formals (68)
-    左： 30 31 32, 右： 27 28 29
+    左： 33 34 35, 右： 31 32
 formals_body (69)
-    左： 33 34, 右： 30 33
+    左： 36 37, 右： 33 36
 stmts (70)
-    左： 35 36, 右： 27 28 29 35 46 47 48 49
+    左： 38 39, 右： 31 32 38 49 50 51 52
 stmt (71)
-    左： 37 38 39 40 41 42 43, 右： 35
+    左： 40 41 42 43 44 45 46, 右： 38
 expr_stmt (72)
-    左： 44 45, 右： 38
+    左： 47 48, 右： 41
 if_stmt (73)
-    左： 46 47, 右： 39
+    左： 49 50, 右： 42
 while_stmt (74)
-    左： 48, 右： 40
+    左： 51, 右： 43
 for_stmt (75)
-    左： 49, 右： 41
+    左： 52, 右： 44
 return_stmt (76)
-    左： 50 51 52, 右： 42
+    左： 53 54 55, 右： 45
 print_stmt (77)
-    左： 53, 右： 43
+    左： 56, 右： 46
 actuals (78)
-    左： 54 55, 右： 93 94 95 101
+    左： 57 58, 右： 96 97 98 104
 actuals_body (79)
-    左： 56 57, 右： 54 56
+    左： 59 60, 右： 57 59
 bool_expr (80)
-    左： 58, 右： 46 47 48 49
+    左： 61, 右： 49 50 51 52
 expr (81)
-    左： 59, 右： 44 52 53 56 57 58 91 98 102
+    左： 62, 右： 47 55 56 59 60 61 94 101 105
 assign_expr (82)
-    左： 60 61, 右： 18 59 61 64 65
+    左： 63 64, 右： 22 62 64 67 68
 assign_list (83)
-    左： 62 63, 右： 49
+    左： 65 66, 右： 52
 assign_list_body (84)
-    左： 64 65, 右： 62 64
+    左： 67 68, 右： 65 67
 or_expr (85)
-    左： 66 67, 右： 60 67
+    左： 69 70, 右： 63 70
 and_expr (86)
-    左： 68 69, 右： 66 67 69
+    左： 71 72, 右： 69 70 72
 eq_expr (87)
-    左： 70 71 72, 右： 68 69 71 72
+    左： 73 74 75, 右： 71 72 74 75
 cmp_expr (88)
-    左： 73 74 75 76 77, 右： 70 71 72 74 75 76 77
+    左： 76 77 78 79 80, 右： 73 74 75 77 78 79 80
 add_expr (89)
-    左： 78 79 80, 右： 73 74 75 76 77 79 80
+    左： 81 82 83, 右： 76 77 78 79 80 82 83
 mul_expr (90)
-    左： 81 82 83 84, 右： 78 79 80 82 83 84
+    左： 84 85 86 87, 右： 81 82 83 85 86 87
 unary_expr (91)
-    左： 85 86 87 88 89, 右： 81 82 83 84 87 88 89
+    左： 88 89 90 91 92, 右： 84 85 86 87 90 91 92
 left_expr (92)
-    左： 90 91 92 93 94 95, 右： 61 85 91 92 93 94
+    左： 93 94 95 96 97 98, 右： 64 88 94 95 96 97
 prim_expr (93)
-    左： 96 97 98 99 100 101 102, 右： 90
+    左： 99 100 101 102 103 104 105, 右： 93
 constant (94)
-    左： 103 104 105 106, 右： 97
+    左： 106 107 108 109, 右： 100
 
 
 State 0
 
     0 $accept: . program $end
 
-    CLASS  shift, and go to state 1
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
 
-    program     转到状态 2
-    class_defs  转到状态 3
-    class_def   转到状态 4
+    program     转到状态 3
+    class_defs  转到状态 4
+    class_def   转到状态 5
 
 
 State 1
 
-    5 class_def: CLASS . IDENTIFIER '{' fields '}'
-    6          | CLASS . IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    6 class_def: error . IDENTIFIER '{' fields '}'
 
-    IDENTIFIER  shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
 
 
 State 2
 
-    0 $accept: program . $end
+    4 class_def: CLASS . IDENTIFIER '{' fields '}'
+    5          | CLASS . IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    7          | CLASS . error '{' fields '}'
+    8          | CLASS . IDENTIFIER error fields '}'
+    9          | CLASS . IDENTIFIER '{' fields error
+   10          | CLASS . IDENTIFIER EXTENDS IDENTIFIER '{' error '}'
 
-    $end  shift, and go to state 6
+    error       shift, and go to state 7
+    IDENTIFIER  shift, and go to state 8
 
 
 State 3
 
-    1 program: class_defs .
-    2 class_defs: class_defs . class_def
-    4           | class_defs . error class_def
+    0 $accept: program . $end
 
-    error  shift, and go to state 7
-    CLASS  shift, and go to state 1
-
-    $end  reduce using rule 1 (program)
-
-    class_def  转到状态 8
+    $end  shift, and go to state 9
 
 
 State 4
+
+    1 program: class_defs .
+    2 class_defs: class_defs . class_def
+
+    error  shift, and go to state 1
+    CLASS  shift, and go to state 2
+
+    $end  reduce using rule 1 (program)
+
+    class_def  转到状态 10
+
+
+State 5
 
     3 class_defs: class_def .
 
     $default  reduce using rule 3 (class_defs)
 
 
-State 5
-
-    5 class_def: CLASS IDENTIFIER . '{' fields '}'
-    6          | CLASS IDENTIFIER . EXTENDS IDENTIFIER '{' fields '}'
-
-    EXTENDS  shift, and go to state 9
-    '{'      shift, and go to state 10
-
-
 State 6
+
+    6 class_def: error IDENTIFIER . '{' fields '}'
+
+    '{'  shift, and go to state 11
+
+
+State 7
+
+    7 class_def: CLASS error . '{' fields '}'
+
+    '{'  shift, and go to state 12
+
+
+State 8
+
+    4 class_def: CLASS IDENTIFIER . '{' fields '}'
+    5          | CLASS IDENTIFIER . EXTENDS IDENTIFIER '{' fields '}'
+    8          | CLASS IDENTIFIER . error fields '}'
+    9          | CLASS IDENTIFIER . '{' fields error
+   10          | CLASS IDENTIFIER . EXTENDS IDENTIFIER '{' error '}'
+
+    error    shift, and go to state 13
+    EXTENDS  shift, and go to state 14
+    '{'      shift, and go to state 15
+
+
+State 9
 
     0 $accept: program $end .
 
     $default  接受
 
 
-State 7
-
-    4 class_defs: class_defs error . class_def
-
-    CLASS  shift, and go to state 1
-
-    class_def  转到状态 11
-
-
-State 8
+State 10
 
     2 class_defs: class_defs class_def .
 
     $default  reduce using rule 2 (class_defs)
 
 
-State 9
-
-    6 class_def: CLASS IDENTIFIER EXTENDS . IDENTIFIER '{' fields '}'
-
-    IDENTIFIER  shift, and go to state 12
-
-
-State 10
-
-    5 class_def: CLASS IDENTIFIER '{' . fields '}'
-
-    BOOL    shift, and go to state 13
-    INT     shift, and go to state 14
-    STRING  shift, and go to state 15
-    VOID    shift, and go to state 16
-    CLASS   shift, and go to state 17
-
-    $default  reduce using rule 8 (fields)
-
-    fields                       转到状态 18
-    fields_body                  转到状态 19
-    field                        转到状态 20
-    var_def                      转到状态 21
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 24
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_def                     转到状态 27
-    func_normal_def              转到状态 28
-    func_anonymous_def           转到状态 29
-
-
 State 11
 
-    4 class_defs: class_defs error class_def .
+    6 class_def: error IDENTIFIER '{' . fields '}'
 
-    $default  reduce using rule 4 (class_defs)
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    $default  reduce using rule 12 (fields)
+
+    fields                       转到状态 21
+    fields_body                  转到状态 22
+    field                        转到状态 23
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
 
 
 State 12
 
-    6 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER . '{' fields '}'
+    7 class_def: CLASS error '{' . fields '}'
 
-    '{'  shift, and go to state 30
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    $default  reduce using rule 12 (fields)
+
+    fields                       转到状态 33
+    fields_body                  转到状态 22
+    field                        转到状态 23
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
 
 
 State 13
 
-   20 type: BOOL .
+    8 class_def: CLASS IDENTIFIER error . fields '}'
 
-    $default  reduce using rule 20 (type)
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    $default  reduce using rule 12 (fields)
+
+    fields                       转到状态 34
+    fields_body                  转到状态 22
+    field                        转到状态 23
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
 
 
 State 14
 
-   19 type: INT .
+    5 class_def: CLASS IDENTIFIER EXTENDS . IDENTIFIER '{' fields '}'
+   10          | CLASS IDENTIFIER EXTENDS . IDENTIFIER '{' error '}'
 
-    $default  reduce using rule 19 (type)
+    IDENTIFIER  shift, and go to state 35
 
 
 State 15
 
-   21 type: STRING .
+    4 class_def: CLASS IDENTIFIER '{' . fields '}'
+    9          | CLASS IDENTIFIER '{' . fields error
 
-    $default  reduce using rule 21 (type)
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    $default  reduce using rule 12 (fields)
+
+    fields                       转到状态 36
+    fields_body                  转到状态 22
+    field                        转到状态 23
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
 
 
 State 16
 
-   22 type: VOID .
-
-    $default  reduce using rule 22 (type)
-
-
-State 17
-
-   23 type: CLASS . IDENTIFIER
-
-    IDENTIFIER  shift, and go to state 31
-
-
-State 18
-
-    5 class_def: CLASS IDENTIFIER '{' fields . '}'
-
-    '}'  shift, and go to state 32
-
-
-State 19
-
-    7 fields: fields_body .
-    9 fields_body: fields_body . field
-
-    BOOL    shift, and go to state 13
-    INT     shift, and go to state 14
-    STRING  shift, and go to state 15
-    VOID    shift, and go to state 16
-    CLASS   shift, and go to state 17
-
-    $default  reduce using rule 7 (fields)
-
-    field                        转到状态 33
-    var_def                      转到状态 21
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 24
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_def                     转到状态 27
-    func_normal_def              转到状态 28
-    func_anonymous_def           转到状态 29
-
-
-State 20
-
-   10 fields_body: field .
-
-    $default  reduce using rule 10 (fields_body)
-
-
-State 21
-
-   11 field: var_def .
-
-    $default  reduce using rule 11 (field)
-
-
-State 22
-
-   13 var_def: var_without_initializer_def .
-
-    $default  reduce using rule 13 (var_def)
-
-
-State 23
-
-   14 var_def: var_with_initializer_def .
-
-    $default  reduce using rule 14 (var_def)
-
-
-State 24
-
-   15 var_without_initializer_def: var_without_initializer . ';'
-   18 var_with_initializer: var_without_initializer . '=' assign_expr
-   27 func_normal_def: var_without_initializer . '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer . '=' '(' formals ')' OP_ARROW '{' stmts '}' error
-
-    ';'  shift, and go to state 34
-    '='  shift, and go to state 35
-
-
-State 25
-
-   16 var_with_initializer_def: var_with_initializer . ';'
-
-    ';'  shift, and go to state 36
-
-
-State 26
-
-   17 var_without_initializer: type . IDENTIFIER
-   24 type: type . '[' ']'
-   29 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-
-    IDENTIFIER  shift, and go to state 37
-    '('         shift, and go to state 38
-    '['         shift, and go to state 39
-
-
-State 27
-
-   12 field: func_def .
-
-    $default  reduce using rule 12 (field)
-
-
-State 28
-
-   25 func_def: func_normal_def .
-
-    $default  reduce using rule 25 (func_def)
-
-
-State 29
-
-   26 func_def: func_anonymous_def .
-
-    $default  reduce using rule 26 (func_def)
-
-
-State 30
-
-    6 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' . fields '}'
-
-    BOOL    shift, and go to state 13
-    INT     shift, and go to state 14
-    STRING  shift, and go to state 15
-    VOID    shift, and go to state 16
-    CLASS   shift, and go to state 17
-
-    $default  reduce using rule 8 (fields)
-
-    fields                       转到状态 40
-    fields_body                  转到状态 19
-    field                        转到状态 20
-    var_def                      转到状态 21
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 24
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_def                     转到状态 27
-    func_normal_def              转到状态 28
-    func_anonymous_def           转到状态 29
-
-
-State 31
-
-   23 type: CLASS IDENTIFIER .
-
-    $default  reduce using rule 23 (type)
-
-
-State 32
-
-    5 class_def: CLASS IDENTIFIER '{' fields '}' .
-
-    $default  reduce using rule 5 (class_def)
-
-
-State 33
-
-    9 fields_body: fields_body field .
-
-    $default  reduce using rule 9 (fields_body)
-
-
-State 34
-
-   15 var_without_initializer_def: var_without_initializer ';' .
-
-    $default  reduce using rule 15 (var_without_initializer_def)
-
-
-State 35
-
-   18 var_with_initializer: var_without_initializer '=' . assign_expr
-   27 func_normal_def: var_without_initializer '=' . '(' formals ')' OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer '=' . '(' formals ')' OP_ARROW '{' stmts '}' error
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 50
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 56
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 36
-
-   16 var_with_initializer_def: var_with_initializer ';' .
-
-    $default  reduce using rule 16 (var_with_initializer_def)
-
-
-State 37
-
-   17 var_without_initializer: type IDENTIFIER .
-
-    $default  reduce using rule 17 (var_without_initializer)
-
-
-State 38
-
-   29 func_anonymous_def: type '(' . formals ')' OP_ARROW '{' stmts '}'
-
-    BOOL    shift, and go to state 13
-    INT     shift, and go to state 14
-    STRING  shift, and go to state 15
-    VOID    shift, and go to state 67
-    CLASS   shift, and go to state 17
-
-    $default  reduce using rule 32 (formals)
-
-    var_without_initializer  转到状态 68
-    type                     转到状态 69
-    formals                  转到状态 70
-    formals_body             转到状态 71
-
-
-State 39
-
-   24 type: type '[' . ']'
-
-    ']'  shift, and go to state 72
-
-
-State 40
-
-    6 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields . '}'
-
-    '}'  shift, and go to state 73
-
-
-State 41
-
-   96 prim_expr: IDENTIFIER .
-
-    $default  reduce using rule 96 (prim_expr)
-
-
-State 42
-
-  104 constant: CONSTANT_BOOL .
-
-    $default  reduce using rule 104 (constant)
-
-
-State 43
-
-  103 constant: CONSTANT_INT .
-
-    $default  reduce using rule 103 (constant)
-
-
-State 44
-
-  105 constant: CONSTANT_STRING .
-
-    $default  reduce using rule 105 (constant)
-
-
-State 45
-
-  106 constant: NIL .
-
-    $default  reduce using rule 106 (constant)
-
-
-State 46
-
-  101 prim_expr: NEW . IDENTIFIER '(' actuals ')'
-  102          | NEW . type '[' expr ']'
-
-    IDENTIFIER  shift, and go to state 74
-    BOOL        shift, and go to state 13
-    INT         shift, and go to state 14
-    STRING      shift, and go to state 15
-    VOID        shift, and go to state 16
-    CLASS       shift, and go to state 17
-
-    type  转到状态 75
-
-
-State 47
-
-   86 unary_expr: THIS .
-
-    $default  reduce using rule 86 (unary_expr)
-
-
-State 48
-
-   99 prim_expr: READINTEGER . '(' ')'
-
-    '('  shift, and go to state 76
-
-
-State 49
-
-  100 prim_expr: READLINE . '(' ')'
-
-    '('  shift, and go to state 77
-
-
-State 50
-
-   27 func_normal_def: var_without_initializer '=' '(' . formals ')' OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer '=' '(' . formals ')' OP_ARROW '{' stmts '}' error
-   98 prim_expr: '(' . expr ')'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 67
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 32 (formals)
-
-    var_without_initializer  转到状态 68
-    type                     转到状态 26
-    func_anonymous_def       转到状态 55
-    formals                  转到状态 79
-    formals_body             转到状态 71
-    expr                     转到状态 80
-    assign_expr              转到状态 81
-    or_expr                  转到状态 57
-    and_expr                 转到状态 58
-    eq_expr                  转到状态 59
-    cmp_expr                 转到状态 60
-    add_expr                 转到状态 61
-    mul_expr                 转到状态 62
-    unary_expr               转到状态 63
-    left_expr                转到状态 64
-    prim_expr                转到状态 65
-    constant                 转到状态 66
-
-
-State 51
-
-   87 unary_expr: '+' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 82
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 52
-
-   88 unary_expr: '-' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 84
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 53
-
-   89 unary_expr: '!' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 85
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 54
-
-   24 type: type . '[' ']'
-   29 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-
-    '('  shift, and go to state 38
-    '['  shift, and go to state 39
-
-
-State 55
-
-   95 left_expr: func_anonymous_def . '(' actuals ')'
-
-    '('  shift, and go to state 86
-
-
-State 56
-
-   18 var_with_initializer: var_without_initializer '=' assign_expr .
-
-    $default  reduce using rule 18 (var_with_initializer)
-
-
-State 57
-
-   60 assign_expr: or_expr .
-   67 or_expr: or_expr . OP_OR and_expr
-
-    OP_OR  shift, and go to state 87
-
-    $default  reduce using rule 60 (assign_expr)
-
-
-State 58
-
-   66 or_expr: and_expr .
-   69 and_expr: and_expr . OP_AND eq_expr
-
-    OP_AND  shift, and go to state 88
-
-    $default  reduce using rule 66 (or_expr)
-
-
-State 59
-
-   68 and_expr: eq_expr .
-   71 eq_expr: eq_expr . OP_EQ cmp_expr
-   72        | eq_expr . OP_NE cmp_expr
-
-    OP_EQ  shift, and go to state 89
-    OP_NE  shift, and go to state 90
-
-    $default  reduce using rule 68 (and_expr)
-
-
-State 60
-
-   70 eq_expr: cmp_expr .
-   74 cmp_expr: cmp_expr . '<' add_expr
-   75         | cmp_expr . '>' add_expr
-   76         | cmp_expr . OP_LE add_expr
-   77         | cmp_expr . OP_GE add_expr
-
-    OP_LE  shift, and go to state 91
-    OP_GE  shift, and go to state 92
-    '<'    shift, and go to state 93
-    '>'    shift, and go to state 94
-
-    $default  reduce using rule 70 (eq_expr)
-
-
-State 61
-
-   73 cmp_expr: add_expr .
-   79 add_expr: add_expr . '+' mul_expr
-   80         | add_expr . '-' mul_expr
-
-    '+'  shift, and go to state 95
-    '-'  shift, and go to state 96
-
-    $default  reduce using rule 73 (cmp_expr)
-
-
-State 62
-
-   78 add_expr: mul_expr .
-   82 mul_expr: mul_expr . '*' unary_expr
-   83         | mul_expr . '/' unary_expr
-   84         | mul_expr . '%' unary_expr
-
-    '*'  shift, and go to state 97
-    '/'  shift, and go to state 98
-    '%'  shift, and go to state 99
-
-    $default  reduce using rule 78 (add_expr)
-
-
-State 63
-
-   81 mul_expr: unary_expr .
-
-    $default  reduce using rule 81 (mul_expr)
-
-
-State 64
-
-   61 assign_expr: left_expr . '=' assign_expr
-   85 unary_expr: left_expr .
-   91 left_expr: left_expr . '[' expr ']'
-   92          | left_expr . '.' IDENTIFIER
-   93          | left_expr . '.' IDENTIFIER '(' actuals ')'
-   94          | left_expr . '(' actuals ')'
-
-    '('  shift, and go to state 100
-    '='  shift, and go to state 101
-    '['  shift, and go to state 102
-    '.'  shift, and go to state 103
-
-    $default  reduce using rule 85 (unary_expr)
-
-
-State 65
-
-   90 left_expr: prim_expr .
-
-    $default  reduce using rule 90 (left_expr)
-
-
-State 66
-
-   97 prim_expr: constant .
-
-    $default  reduce using rule 97 (prim_expr)
-
-
-State 67
-
-   22 type: VOID .
-   31 formals: VOID .
-
-    ')'       reduce using rule 31 (formals)
-    $default  reduce using rule 22 (type)
-
-
-State 68
-
-   34 formals_body: var_without_initializer .
-
-    $default  reduce using rule 34 (formals_body)
-
-
-State 69
-
-   17 var_without_initializer: type . IDENTIFIER
-   24 type: type . '[' ']'
-
-    IDENTIFIER  shift, and go to state 37
-    '['         shift, and go to state 39
-
-
-State 70
-
-   29 func_anonymous_def: type '(' formals . ')' OP_ARROW '{' stmts '}'
-
-    ')'  shift, and go to state 104
-
-
-State 71
-
-   30 formals: formals_body .
-   33 formals_body: formals_body . ',' var_without_initializer
-
-    ','  shift, and go to state 105
-
-    $default  reduce using rule 30 (formals)
-
-
-State 72
-
-   24 type: type '[' ']' .
+   24 type: BOOL .
 
     $default  reduce using rule 24 (type)
 
 
-State 73
+State 17
 
-    6 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}' .
+   23 type: INT .
+
+    $default  reduce using rule 23 (type)
+
+
+State 18
+
+   25 type: STRING .
+
+    $default  reduce using rule 25 (type)
+
+
+State 19
+
+   26 type: VOID .
+
+    $default  reduce using rule 26 (type)
+
+
+State 20
+
+   27 type: CLASS . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 37
+
+
+State 21
+
+    6 class_def: error IDENTIFIER '{' fields . '}'
+
+    '}'  shift, and go to state 38
+
+
+State 22
+
+   11 fields: fields_body .
+   13 fields_body: fields_body . field
+
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    $default  reduce using rule 11 (fields)
+
+    field                        转到状态 39
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
+
+
+State 23
+
+   14 fields_body: field .
+
+    $default  reduce using rule 14 (fields_body)
+
+
+State 24
+
+   15 field: var_def .
+
+    $default  reduce using rule 15 (field)
+
+
+State 25
+
+   17 var_def: var_without_initializer_def .
+
+    $default  reduce using rule 17 (var_def)
+
+
+State 26
+
+   18 var_def: var_with_initializer_def .
+
+    $default  reduce using rule 18 (var_def)
+
+
+State 27
+
+   19 var_without_initializer_def: var_without_initializer . ';'
+   22 var_with_initializer: var_without_initializer . '=' assign_expr
+   31 func_normal_def: var_without_initializer . '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+
+    ';'  shift, and go to state 40
+    '='  shift, and go to state 41
+
+
+State 28
+
+   20 var_with_initializer_def: var_with_initializer . ';'
+
+    ';'  shift, and go to state 42
+
+
+State 29
+
+   21 var_without_initializer: type . IDENTIFIER
+   28 type: type . '[' ']'
+   32 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 44
+    '['         shift, and go to state 45
+
+
+State 30
+
+   16 field: func_def .
+
+    $default  reduce using rule 16 (field)
+
+
+State 31
+
+   29 func_def: func_normal_def .
+
+    $default  reduce using rule 29 (func_def)
+
+
+State 32
+
+   30 func_def: func_anonymous_def .
+
+    $default  reduce using rule 30 (func_def)
+
+
+State 33
+
+    7 class_def: CLASS error '{' fields . '}'
+
+    '}'  shift, and go to state 46
+
+
+State 34
+
+    8 class_def: CLASS IDENTIFIER error fields . '}'
+
+    '}'  shift, and go to state 47
+
+
+State 35
+
+    5 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER . '{' fields '}'
+   10          | CLASS IDENTIFIER EXTENDS IDENTIFIER . '{' error '}'
+
+    '{'  shift, and go to state 48
+
+
+State 36
+
+    4 class_def: CLASS IDENTIFIER '{' fields . '}'
+    9          | CLASS IDENTIFIER '{' fields . error
+
+    error  shift, and go to state 49
+    '}'    shift, and go to state 50
+
+
+State 37
+
+   27 type: CLASS IDENTIFIER .
+
+    $default  reduce using rule 27 (type)
+
+
+State 38
+
+    6 class_def: error IDENTIFIER '{' fields '}' .
 
     $default  reduce using rule 6 (class_def)
 
 
-State 74
+State 39
 
-  101 prim_expr: NEW IDENTIFIER . '(' actuals ')'
+   13 fields_body: fields_body field .
 
-    '('  shift, and go to state 106
+    $default  reduce using rule 13 (fields_body)
 
 
-State 75
+State 40
 
-   24 type: type . '[' ']'
-  102 prim_expr: NEW type . '[' expr ']'
+   19 var_without_initializer_def: var_without_initializer ';' .
 
-    '['  shift, and go to state 107
+    $default  reduce using rule 19 (var_without_initializer_def)
 
 
-State 76
+State 41
 
-   99 prim_expr: READINTEGER '(' . ')'
+   22 var_with_initializer: var_without_initializer '=' . assign_expr
+   31 func_normal_def: var_without_initializer '=' . '(' formals ')' OP_ARROW '{' stmts '}' ';'
 
-    ')'  shift, and go to state 108
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 60
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
 
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 66
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
-State 77
 
-  100 prim_expr: READLINE '(' . ')'
+State 42
 
-    ')'  shift, and go to state 109
+   20 var_with_initializer_def: var_with_initializer ';' .
 
+    $default  reduce using rule 20 (var_with_initializer_def)
 
-State 78
 
-   98 prim_expr: '(' . expr ')'
+State 43
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
+   21 var_without_initializer: type IDENTIFIER .
 
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 80
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 21 (var_without_initializer)
 
 
-State 79
+State 44
 
-   27 func_normal_def: var_without_initializer '=' '(' formals . ')' OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer '=' '(' formals . ')' OP_ARROW '{' stmts '}' error
+   32 func_anonymous_def: type '(' . formals ')' OP_ARROW '{' stmts '}'
 
-    ')'  shift, and go to state 110
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 77
+    CLASS   shift, and go to state 20
 
+    $default  reduce using rule 35 (formals)
 
-State 80
+    var_without_initializer  转到状态 78
+    type                     转到状态 79
+    formals                  转到状态 80
+    formals_body             转到状态 81
 
-   98 prim_expr: '(' expr . ')'
 
-    ')'  shift, and go to state 111
+State 45
 
+   28 type: type '[' . ']'
 
-State 81
+    ']'  shift, and go to state 82
 
-   59 expr: assign_expr .
 
-    $default  reduce using rule 59 (expr)
+State 46
 
+    7 class_def: CLASS error '{' fields '}' .
 
-State 82
+    $default  reduce using rule 7 (class_def)
 
-   87 unary_expr: '+' unary_expr .
 
-    $default  reduce using rule 87 (unary_expr)
+State 47
 
+    8 class_def: CLASS IDENTIFIER error fields '}' .
 
-State 83
+    $default  reduce using rule 8 (class_def)
 
-   85 unary_expr: left_expr .
-   91 left_expr: left_expr . '[' expr ']'
-   92          | left_expr . '.' IDENTIFIER
-   93          | left_expr . '.' IDENTIFIER '(' actuals ')'
-   94          | left_expr . '(' actuals ')'
-
-    '('  shift, and go to state 100
-    '['  shift, and go to state 102
-    '.'  shift, and go to state 103
-
-    $default  reduce using rule 85 (unary_expr)
-
-
-State 84
-
-   88 unary_expr: '-' unary_expr .
-
-    $default  reduce using rule 88 (unary_expr)
-
-
-State 85
-
-   89 unary_expr: '!' unary_expr .
-
-    $default  reduce using rule 89 (unary_expr)
-
-
-State 86
-
-   95 left_expr: func_anonymous_def '(' . actuals ')'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 55 (actuals)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    actuals             转到状态 112
-    actuals_body        转到状态 113
-    expr                转到状态 114
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 87
-
-   67 or_expr: or_expr OP_OR . and_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    and_expr            转到状态 115
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 88
-
-   69 and_expr: and_expr OP_AND . eq_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    eq_expr             转到状态 116
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 89
-
-   71 eq_expr: eq_expr OP_EQ . cmp_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    cmp_expr            转到状态 117
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 90
-
-   72 eq_expr: eq_expr OP_NE . cmp_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    cmp_expr            转到状态 118
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 91
-
-   76 cmp_expr: cmp_expr OP_LE . add_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    add_expr            转到状态 119
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 92
-
-   77 cmp_expr: cmp_expr OP_GE . add_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    add_expr            转到状态 120
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 93
-
-   74 cmp_expr: cmp_expr '<' . add_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    add_expr            转到状态 121
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 94
-
-   75 cmp_expr: cmp_expr '>' . add_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    add_expr            转到状态 122
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 95
-
-   79 add_expr: add_expr '+' . mul_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    mul_expr            转到状态 123
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 96
-
-   80 add_expr: add_expr '-' . mul_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    mul_expr            转到状态 124
-    unary_expr          转到状态 63
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 97
-
-   82 mul_expr: mul_expr '*' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 125
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 98
-
-   83 mul_expr: mul_expr '/' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 126
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 99
-
-   84 mul_expr: mul_expr '%' . unary_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    unary_expr          转到状态 127
-    left_expr           转到状态 83
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 100
-
-   94 left_expr: left_expr '(' . actuals ')'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 55 (actuals)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    actuals             转到状态 128
-    actuals_body        转到状态 113
-    expr                转到状态 114
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 101
-
-   61 assign_expr: left_expr '=' . assign_expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 129
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 102
-
-   91 left_expr: left_expr '[' . expr ']'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 130
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 103
-
-   92 left_expr: left_expr '.' . IDENTIFIER
-   93          | left_expr '.' . IDENTIFIER '(' actuals ')'
-
-    IDENTIFIER  shift, and go to state 131
-
-
-State 104
-
-   29 func_anonymous_def: type '(' formals ')' . OP_ARROW '{' stmts '}'
-
-    OP_ARROW  shift, and go to state 132
-
-
-State 105
-
-   33 formals_body: formals_body ',' . var_without_initializer
-
-    BOOL    shift, and go to state 13
-    INT     shift, and go to state 14
-    STRING  shift, and go to state 15
-    VOID    shift, and go to state 16
-    CLASS   shift, and go to state 17
-
-    var_without_initializer  转到状态 133
-    type                     转到状态 69
-
-
-State 106
-
-  101 prim_expr: NEW IDENTIFIER '(' . actuals ')'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 55 (actuals)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    actuals             转到状态 134
-    actuals_body        转到状态 113
-    expr                转到状态 114
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 107
-
-   24 type: type '[' . ']'
-  102 prim_expr: NEW type '[' . expr ']'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    ']'              shift, and go to state 72
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 135
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 108
-
-   99 prim_expr: READINTEGER '(' ')' .
+
+State 48
+
+    5 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' . fields '}'
+   10          | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' . error '}'
+
+    error   shift, and go to state 83
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    '}'  reduce using rule 12 (fields)
+
+    fields                       转到状态 84
+    fields_body                  转到状态 22
+    field                        转到状态 23
+    var_def                      转到状态 24
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 27
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_def                     转到状态 30
+    func_normal_def              转到状态 31
+    func_anonymous_def           转到状态 32
+
+
+State 49
+
+    9 class_def: CLASS IDENTIFIER '{' fields error .
+
+    $default  reduce using rule 9 (class_def)
+
+
+State 50
+
+    4 class_def: CLASS IDENTIFIER '{' fields '}' .
+
+    $default  reduce using rule 4 (class_def)
+
+
+State 51
+
+   99 prim_expr: IDENTIFIER .
 
     $default  reduce using rule 99 (prim_expr)
 
 
-State 109
+State 52
 
-  100 prim_expr: READLINE '(' ')' .
+  107 constant: CONSTANT_BOOL .
 
-    $default  reduce using rule 100 (prim_expr)
-
-
-State 110
-
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' . OP_ARROW '{' stmts '}' ';'
-   28                | var_without_initializer '=' '(' formals ')' . OP_ARROW '{' stmts '}' error
-
-    OP_ARROW  shift, and go to state 136
+    $default  reduce using rule 107 (constant)
 
 
-State 111
+State 53
 
-   98 prim_expr: '(' expr ')' .
+  106 constant: CONSTANT_INT .
 
-    $default  reduce using rule 98 (prim_expr)
-
-
-State 112
-
-   95 left_expr: func_anonymous_def '(' actuals . ')'
-
-    ')'  shift, and go to state 137
+    $default  reduce using rule 106 (constant)
 
 
-State 113
+State 54
 
-   54 actuals: actuals_body .
-   56 actuals_body: actuals_body . ',' expr
+  108 constant: CONSTANT_STRING .
 
-    ','  shift, and go to state 138
-
-    $default  reduce using rule 54 (actuals)
+    $default  reduce using rule 108 (constant)
 
 
-State 114
+State 55
 
-   57 actuals_body: expr .
+  109 constant: NIL .
 
-    $default  reduce using rule 57 (actuals_body)
-
-
-State 115
-
-   67 or_expr: or_expr OP_OR and_expr .
-   69 and_expr: and_expr . OP_AND eq_expr
-
-    OP_AND  shift, and go to state 88
-
-    $default  reduce using rule 67 (or_expr)
+    $default  reduce using rule 109 (constant)
 
 
-State 116
+State 56
 
-   69 and_expr: and_expr OP_AND eq_expr .
-   71 eq_expr: eq_expr . OP_EQ cmp_expr
-   72        | eq_expr . OP_NE cmp_expr
+  104 prim_expr: NEW . IDENTIFIER '(' actuals ')'
+  105          | NEW . type '[' expr ']'
 
-    OP_EQ  shift, and go to state 89
-    OP_NE  shift, and go to state 90
+    IDENTIFIER  shift, and go to state 85
+    BOOL        shift, and go to state 16
+    INT         shift, and go to state 17
+    STRING      shift, and go to state 18
+    VOID        shift, and go to state 19
+    CLASS       shift, and go to state 20
 
-    $default  reduce using rule 69 (and_expr)
-
-
-State 117
-
-   71 eq_expr: eq_expr OP_EQ cmp_expr .
-   74 cmp_expr: cmp_expr . '<' add_expr
-   75         | cmp_expr . '>' add_expr
-   76         | cmp_expr . OP_LE add_expr
-   77         | cmp_expr . OP_GE add_expr
-
-    OP_LE  shift, and go to state 91
-    OP_GE  shift, and go to state 92
-    '<'    shift, and go to state 93
-    '>'    shift, and go to state 94
-
-    $default  reduce using rule 71 (eq_expr)
+    type  转到状态 86
 
 
-State 118
+State 57
 
-   72 eq_expr: eq_expr OP_NE cmp_expr .
-   74 cmp_expr: cmp_expr . '<' add_expr
-   75         | cmp_expr . '>' add_expr
-   76         | cmp_expr . OP_LE add_expr
-   77         | cmp_expr . OP_GE add_expr
+   89 unary_expr: THIS .
 
-    OP_LE  shift, and go to state 91
-    OP_GE  shift, and go to state 92
-    '<'    shift, and go to state 93
-    '>'    shift, and go to state 94
-
-    $default  reduce using rule 72 (eq_expr)
+    $default  reduce using rule 89 (unary_expr)
 
 
-State 119
+State 58
 
-   76 cmp_expr: cmp_expr OP_LE add_expr .
-   79 add_expr: add_expr . '+' mul_expr
-   80         | add_expr . '-' mul_expr
+  102 prim_expr: READINTEGER . '(' ')'
 
-    '+'  shift, and go to state 95
-    '-'  shift, and go to state 96
+    '('  shift, and go to state 87
+
+
+State 59
+
+  103 prim_expr: READLINE . '(' ')'
+
+    '('  shift, and go to state 88
+
+
+State 60
+
+   31 func_normal_def: var_without_initializer '=' '(' . formals ')' OP_ARROW '{' stmts '}' ';'
+  101 prim_expr: '(' . expr ')'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 77
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 35 (formals)
+
+    var_without_initializer  转到状态 78
+    type                     转到状态 29
+    func_anonymous_def       转到状态 65
+    formals                  转到状态 90
+    formals_body             转到状态 81
+    expr                     转到状态 91
+    assign_expr              转到状态 92
+    or_expr                  转到状态 67
+    and_expr                 转到状态 68
+    eq_expr                  转到状态 69
+    cmp_expr                 转到状态 70
+    add_expr                 转到状态 71
+    mul_expr                 转到状态 72
+    unary_expr               转到状态 73
+    left_expr                转到状态 74
+    prim_expr                转到状态 75
+    constant                 转到状态 76
+
+
+State 61
+
+   90 unary_expr: '+' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 93
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 62
+
+   91 unary_expr: '-' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 95
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 63
+
+   92 unary_expr: '!' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 96
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 64
+
+   28 type: type . '[' ']'
+   32 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+
+    '('  shift, and go to state 44
+    '['  shift, and go to state 45
+
+
+State 65
+
+   98 left_expr: func_anonymous_def . '(' actuals ')'
+
+    '('  shift, and go to state 97
+
+
+State 66
+
+   22 var_with_initializer: var_without_initializer '=' assign_expr .
+
+    $default  reduce using rule 22 (var_with_initializer)
+
+
+State 67
+
+   63 assign_expr: or_expr .
+   70 or_expr: or_expr . OP_OR and_expr
+
+    OP_OR  shift, and go to state 98
+
+    $default  reduce using rule 63 (assign_expr)
+
+
+State 68
+
+   69 or_expr: and_expr .
+   72 and_expr: and_expr . OP_AND eq_expr
+
+    OP_AND  shift, and go to state 99
+
+    $default  reduce using rule 69 (or_expr)
+
+
+State 69
+
+   71 and_expr: eq_expr .
+   74 eq_expr: eq_expr . OP_EQ cmp_expr
+   75        | eq_expr . OP_NE cmp_expr
+
+    OP_EQ  shift, and go to state 100
+    OP_NE  shift, and go to state 101
+
+    $default  reduce using rule 71 (and_expr)
+
+
+State 70
+
+   73 eq_expr: cmp_expr .
+   77 cmp_expr: cmp_expr . '<' add_expr
+   78         | cmp_expr . '>' add_expr
+   79         | cmp_expr . OP_LE add_expr
+   80         | cmp_expr . OP_GE add_expr
+
+    OP_LE  shift, and go to state 102
+    OP_GE  shift, and go to state 103
+    '<'    shift, and go to state 104
+    '>'    shift, and go to state 105
+
+    $default  reduce using rule 73 (eq_expr)
+
+
+State 71
+
+   76 cmp_expr: add_expr .
+   82 add_expr: add_expr . '+' mul_expr
+   83         | add_expr . '-' mul_expr
+
+    '+'  shift, and go to state 106
+    '-'  shift, and go to state 107
 
     $default  reduce using rule 76 (cmp_expr)
 
 
-State 120
+State 72
 
-   77 cmp_expr: cmp_expr OP_GE add_expr .
-   79 add_expr: add_expr . '+' mul_expr
-   80         | add_expr . '-' mul_expr
+   81 add_expr: mul_expr .
+   85 mul_expr: mul_expr . '*' unary_expr
+   86         | mul_expr . '/' unary_expr
+   87         | mul_expr . '%' unary_expr
 
-    '+'  shift, and go to state 95
-    '-'  shift, and go to state 96
+    '*'  shift, and go to state 108
+    '/'  shift, and go to state 109
+    '%'  shift, and go to state 110
 
-    $default  reduce using rule 77 (cmp_expr)
-
-
-State 121
-
-   74 cmp_expr: cmp_expr '<' add_expr .
-   79 add_expr: add_expr . '+' mul_expr
-   80         | add_expr . '-' mul_expr
-
-    '+'  shift, and go to state 95
-    '-'  shift, and go to state 96
-
-    $default  reduce using rule 74 (cmp_expr)
+    $default  reduce using rule 81 (add_expr)
 
 
-State 122
+State 73
 
-   75 cmp_expr: cmp_expr '>' add_expr .
-   79 add_expr: add_expr . '+' mul_expr
-   80         | add_expr . '-' mul_expr
-
-    '+'  shift, and go to state 95
-    '-'  shift, and go to state 96
-
-    $default  reduce using rule 75 (cmp_expr)
-
-
-State 123
-
-   79 add_expr: add_expr '+' mul_expr .
-   82 mul_expr: mul_expr . '*' unary_expr
-   83         | mul_expr . '/' unary_expr
-   84         | mul_expr . '%' unary_expr
-
-    '*'  shift, and go to state 97
-    '/'  shift, and go to state 98
-    '%'  shift, and go to state 99
-
-    $default  reduce using rule 79 (add_expr)
-
-
-State 124
-
-   80 add_expr: add_expr '-' mul_expr .
-   82 mul_expr: mul_expr . '*' unary_expr
-   83         | mul_expr . '/' unary_expr
-   84         | mul_expr . '%' unary_expr
-
-    '*'  shift, and go to state 97
-    '/'  shift, and go to state 98
-    '%'  shift, and go to state 99
-
-    $default  reduce using rule 80 (add_expr)
-
-
-State 125
-
-   82 mul_expr: mul_expr '*' unary_expr .
-
-    $default  reduce using rule 82 (mul_expr)
-
-
-State 126
-
-   83 mul_expr: mul_expr '/' unary_expr .
-
-    $default  reduce using rule 83 (mul_expr)
-
-
-State 127
-
-   84 mul_expr: mul_expr '%' unary_expr .
+   84 mul_expr: unary_expr .
 
     $default  reduce using rule 84 (mul_expr)
 
 
-State 128
+State 74
 
-   94 left_expr: left_expr '(' actuals . ')'
+   64 assign_expr: left_expr . '=' assign_expr
+   88 unary_expr: left_expr .
+   94 left_expr: left_expr . '[' expr ']'
+   95          | left_expr . '.' IDENTIFIER
+   96          | left_expr . '.' IDENTIFIER '(' actuals ')'
+   97          | left_expr . '(' actuals ')'
 
-    ')'  shift, and go to state 139
+    '('  shift, and go to state 111
+    '='  shift, and go to state 112
+    '['  shift, and go to state 113
+    '.'  shift, and go to state 114
 
+    $default  reduce using rule 88 (unary_expr)
 
-State 129
 
-   61 assign_expr: left_expr '=' assign_expr .
+State 75
 
-    $default  reduce using rule 61 (assign_expr)
-
-
-State 130
-
-   91 left_expr: left_expr '[' expr . ']'
-
-    ']'  shift, and go to state 140
-
-
-State 131
-
-   92 left_expr: left_expr '.' IDENTIFIER .
-   93          | left_expr '.' IDENTIFIER . '(' actuals ')'
-
-    '('  shift, and go to state 141
-
-    $default  reduce using rule 92 (left_expr)
-
-
-State 132
-
-   29 func_anonymous_def: type '(' formals ')' OP_ARROW . '{' stmts '}'
-
-    '{'  shift, and go to state 142
-
-
-State 133
-
-   33 formals_body: formals_body ',' var_without_initializer .
-
-    $default  reduce using rule 33 (formals_body)
-
-
-State 134
-
-  101 prim_expr: NEW IDENTIFIER '(' actuals . ')'
-
-    ')'  shift, and go to state 143
-
-
-State 135
-
-  102 prim_expr: NEW type '[' expr . ']'
-
-    ']'  shift, and go to state 144
-
-
-State 136
-
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW . '{' stmts '}' ';'
-   28                | var_without_initializer '=' '(' formals ')' OP_ARROW . '{' stmts '}' error
-
-    '{'  shift, and go to state 145
-
-
-State 137
-
-   95 left_expr: func_anonymous_def '(' actuals ')' .
-
-    $default  reduce using rule 95 (left_expr)
-
-
-State 138
-
-   56 actuals_body: actuals_body ',' . expr
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 146
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 139
-
-   94 left_expr: left_expr '(' actuals ')' .
-
-    $default  reduce using rule 94 (left_expr)
-
-
-State 140
-
-   91 left_expr: left_expr '[' expr ']' .
-
-    $default  reduce using rule 91 (left_expr)
-
-
-State 141
-
-   93 left_expr: left_expr '.' IDENTIFIER '(' . actuals ')'
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 55 (actuals)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    actuals             转到状态 147
-    actuals_body        转到状态 113
-    expr                转到状态 114
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
-
-
-State 142
-
-   29 func_anonymous_def: type '(' formals ')' OP_ARROW '{' . stmts '}'
-
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 148
-
-
-State 143
-
-  101 prim_expr: NEW IDENTIFIER '(' actuals ')' .
-
-    $default  reduce using rule 101 (prim_expr)
-
-
-State 144
-
-  102 prim_expr: NEW type '[' expr ']' .
-
-    $default  reduce using rule 102 (prim_expr)
-
-
-State 145
-
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' . stmts '}' ';'
-   28                | var_without_initializer '=' '(' formals ')' OP_ARROW '{' . stmts '}' error
-
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 149
-
-
-State 146
-
-   56 actuals_body: actuals_body ',' expr .
-
-    $default  reduce using rule 56 (actuals_body)
-
-
-State 147
-
-   93 left_expr: left_expr '.' IDENTIFIER '(' actuals . ')'
-
-    ')'  shift, and go to state 150
-
-
-State 148
-
-   29 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts . '}'
-   35 stmts: stmts . stmt
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 156
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
-
-
-State 149
-
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts . '}' ';'
-   28                | var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts . '}' error
-   35 stmts: stmts . stmt
-
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 168
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
-
-
-State 150
-
-   93 left_expr: left_expr '.' IDENTIFIER '(' actuals ')' .
+   93 left_expr: prim_expr .
 
     $default  reduce using rule 93 (left_expr)
 
 
+State 76
+
+  100 prim_expr: constant .
+
+    $default  reduce using rule 100 (prim_expr)
+
+
+State 77
+
+   26 type: VOID .
+   34 formals: VOID .
+
+    ')'       reduce using rule 34 (formals)
+    $default  reduce using rule 26 (type)
+
+
+State 78
+
+   37 formals_body: var_without_initializer .
+
+    $default  reduce using rule 37 (formals_body)
+
+
+State 79
+
+   21 var_without_initializer: type . IDENTIFIER
+   28 type: type . '[' ']'
+
+    IDENTIFIER  shift, and go to state 43
+    '['         shift, and go to state 45
+
+
+State 80
+
+   32 func_anonymous_def: type '(' formals . ')' OP_ARROW '{' stmts '}'
+
+    ')'  shift, and go to state 115
+
+
+State 81
+
+   33 formals: formals_body .
+   36 formals_body: formals_body . ',' var_without_initializer
+
+    ','  shift, and go to state 116
+
+    $default  reduce using rule 33 (formals)
+
+
+State 82
+
+   28 type: type '[' ']' .
+
+    $default  reduce using rule 28 (type)
+
+
+State 83
+
+   10 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' error . '}'
+
+    '}'  shift, and go to state 117
+
+
+State 84
+
+    5 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields . '}'
+
+    '}'  shift, and go to state 118
+
+
+State 85
+
+  104 prim_expr: NEW IDENTIFIER . '(' actuals ')'
+
+    '('  shift, and go to state 119
+
+
+State 86
+
+   28 type: type . '[' ']'
+  105 prim_expr: NEW type . '[' expr ']'
+
+    '['  shift, and go to state 120
+
+
+State 87
+
+  102 prim_expr: READINTEGER '(' . ')'
+
+    ')'  shift, and go to state 121
+
+
+State 88
+
+  103 prim_expr: READLINE '(' . ')'
+
+    ')'  shift, and go to state 122
+
+
+State 89
+
+  101 prim_expr: '(' . expr ')'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 91
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 90
+
+   31 func_normal_def: var_without_initializer '=' '(' formals . ')' OP_ARROW '{' stmts '}' ';'
+
+    ')'  shift, and go to state 123
+
+
+State 91
+
+  101 prim_expr: '(' expr . ')'
+
+    ')'  shift, and go to state 124
+
+
+State 92
+
+   62 expr: assign_expr .
+
+    $default  reduce using rule 62 (expr)
+
+
+State 93
+
+   90 unary_expr: '+' unary_expr .
+
+    $default  reduce using rule 90 (unary_expr)
+
+
+State 94
+
+   88 unary_expr: left_expr .
+   94 left_expr: left_expr . '[' expr ']'
+   95          | left_expr . '.' IDENTIFIER
+   96          | left_expr . '.' IDENTIFIER '(' actuals ')'
+   97          | left_expr . '(' actuals ')'
+
+    '('  shift, and go to state 111
+    '['  shift, and go to state 113
+    '.'  shift, and go to state 114
+
+    $default  reduce using rule 88 (unary_expr)
+
+
+State 95
+
+   91 unary_expr: '-' unary_expr .
+
+    $default  reduce using rule 91 (unary_expr)
+
+
+State 96
+
+   92 unary_expr: '!' unary_expr .
+
+    $default  reduce using rule 92 (unary_expr)
+
+
+State 97
+
+   98 left_expr: func_anonymous_def '(' . actuals ')'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 58 (actuals)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    actuals             转到状态 125
+    actuals_body        转到状态 126
+    expr                转到状态 127
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 98
+
+   70 or_expr: or_expr OP_OR . and_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    and_expr            转到状态 128
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 99
+
+   72 and_expr: and_expr OP_AND . eq_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    eq_expr             转到状态 129
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 100
+
+   74 eq_expr: eq_expr OP_EQ . cmp_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    cmp_expr            转到状态 130
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 101
+
+   75 eq_expr: eq_expr OP_NE . cmp_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    cmp_expr            转到状态 131
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 102
+
+   79 cmp_expr: cmp_expr OP_LE . add_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    add_expr            转到状态 132
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 103
+
+   80 cmp_expr: cmp_expr OP_GE . add_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    add_expr            转到状态 133
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 104
+
+   77 cmp_expr: cmp_expr '<' . add_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    add_expr            转到状态 134
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 105
+
+   78 cmp_expr: cmp_expr '>' . add_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    add_expr            转到状态 135
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 106
+
+   82 add_expr: add_expr '+' . mul_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    mul_expr            转到状态 136
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 107
+
+   83 add_expr: add_expr '-' . mul_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    mul_expr            转到状态 137
+    unary_expr          转到状态 73
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 108
+
+   85 mul_expr: mul_expr '*' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 138
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 109
+
+   86 mul_expr: mul_expr '/' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 139
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 110
+
+   87 mul_expr: mul_expr '%' . unary_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    unary_expr          转到状态 140
+    left_expr           转到状态 94
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 111
+
+   97 left_expr: left_expr '(' . actuals ')'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 58 (actuals)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    actuals             转到状态 141
+    actuals_body        转到状态 126
+    expr                转到状态 127
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 112
+
+   64 assign_expr: left_expr '=' . assign_expr
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 142
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 113
+
+   94 left_expr: left_expr '[' . expr ']'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 143
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 114
+
+   95 left_expr: left_expr '.' . IDENTIFIER
+   96          | left_expr '.' . IDENTIFIER '(' actuals ')'
+
+    IDENTIFIER  shift, and go to state 144
+
+
+State 115
+
+   32 func_anonymous_def: type '(' formals ')' . OP_ARROW '{' stmts '}'
+
+    OP_ARROW  shift, and go to state 145
+
+
+State 116
+
+   36 formals_body: formals_body ',' . var_without_initializer
+
+    BOOL    shift, and go to state 16
+    INT     shift, and go to state 17
+    STRING  shift, and go to state 18
+    VOID    shift, and go to state 19
+    CLASS   shift, and go to state 20
+
+    var_without_initializer  转到状态 146
+    type                     转到状态 79
+
+
+State 117
+
+   10 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' error '}' .
+
+    $default  reduce using rule 10 (class_def)
+
+
+State 118
+
+    5 class_def: CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}' .
+
+    $default  reduce using rule 5 (class_def)
+
+
+State 119
+
+  104 prim_expr: NEW IDENTIFIER '(' . actuals ')'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 58 (actuals)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    actuals             转到状态 147
+    actuals_body        转到状态 126
+    expr                转到状态 127
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 120
+
+   28 type: type '[' . ']'
+  105 prim_expr: NEW type '[' . expr ']'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    ']'              shift, and go to state 82
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 148
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 121
+
+  102 prim_expr: READINTEGER '(' ')' .
+
+    $default  reduce using rule 102 (prim_expr)
+
+
+State 122
+
+  103 prim_expr: READLINE '(' ')' .
+
+    $default  reduce using rule 103 (prim_expr)
+
+
+State 123
+
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' . OP_ARROW '{' stmts '}' ';'
+
+    OP_ARROW  shift, and go to state 149
+
+
+State 124
+
+  101 prim_expr: '(' expr ')' .
+
+    $default  reduce using rule 101 (prim_expr)
+
+
+State 125
+
+   98 left_expr: func_anonymous_def '(' actuals . ')'
+
+    ')'  shift, and go to state 150
+
+
+State 126
+
+   57 actuals: actuals_body .
+   59 actuals_body: actuals_body . ',' expr
+
+    ','  shift, and go to state 151
+
+    $default  reduce using rule 57 (actuals)
+
+
+State 127
+
+   60 actuals_body: expr .
+
+    $default  reduce using rule 60 (actuals_body)
+
+
+State 128
+
+   70 or_expr: or_expr OP_OR and_expr .
+   72 and_expr: and_expr . OP_AND eq_expr
+
+    OP_AND  shift, and go to state 99
+
+    $default  reduce using rule 70 (or_expr)
+
+
+State 129
+
+   72 and_expr: and_expr OP_AND eq_expr .
+   74 eq_expr: eq_expr . OP_EQ cmp_expr
+   75        | eq_expr . OP_NE cmp_expr
+
+    OP_EQ  shift, and go to state 100
+    OP_NE  shift, and go to state 101
+
+    $default  reduce using rule 72 (and_expr)
+
+
+State 130
+
+   74 eq_expr: eq_expr OP_EQ cmp_expr .
+   77 cmp_expr: cmp_expr . '<' add_expr
+   78         | cmp_expr . '>' add_expr
+   79         | cmp_expr . OP_LE add_expr
+   80         | cmp_expr . OP_GE add_expr
+
+    OP_LE  shift, and go to state 102
+    OP_GE  shift, and go to state 103
+    '<'    shift, and go to state 104
+    '>'    shift, and go to state 105
+
+    $default  reduce using rule 74 (eq_expr)
+
+
+State 131
+
+   75 eq_expr: eq_expr OP_NE cmp_expr .
+   77 cmp_expr: cmp_expr . '<' add_expr
+   78         | cmp_expr . '>' add_expr
+   79         | cmp_expr . OP_LE add_expr
+   80         | cmp_expr . OP_GE add_expr
+
+    OP_LE  shift, and go to state 102
+    OP_GE  shift, and go to state 103
+    '<'    shift, and go to state 104
+    '>'    shift, and go to state 105
+
+    $default  reduce using rule 75 (eq_expr)
+
+
+State 132
+
+   79 cmp_expr: cmp_expr OP_LE add_expr .
+   82 add_expr: add_expr . '+' mul_expr
+   83         | add_expr . '-' mul_expr
+
+    '+'  shift, and go to state 106
+    '-'  shift, and go to state 107
+
+    $default  reduce using rule 79 (cmp_expr)
+
+
+State 133
+
+   80 cmp_expr: cmp_expr OP_GE add_expr .
+   82 add_expr: add_expr . '+' mul_expr
+   83         | add_expr . '-' mul_expr
+
+    '+'  shift, and go to state 106
+    '-'  shift, and go to state 107
+
+    $default  reduce using rule 80 (cmp_expr)
+
+
+State 134
+
+   77 cmp_expr: cmp_expr '<' add_expr .
+   82 add_expr: add_expr . '+' mul_expr
+   83         | add_expr . '-' mul_expr
+
+    '+'  shift, and go to state 106
+    '-'  shift, and go to state 107
+
+    $default  reduce using rule 77 (cmp_expr)
+
+
+State 135
+
+   78 cmp_expr: cmp_expr '>' add_expr .
+   82 add_expr: add_expr . '+' mul_expr
+   83         | add_expr . '-' mul_expr
+
+    '+'  shift, and go to state 106
+    '-'  shift, and go to state 107
+
+    $default  reduce using rule 78 (cmp_expr)
+
+
+State 136
+
+   82 add_expr: add_expr '+' mul_expr .
+   85 mul_expr: mul_expr . '*' unary_expr
+   86         | mul_expr . '/' unary_expr
+   87         | mul_expr . '%' unary_expr
+
+    '*'  shift, and go to state 108
+    '/'  shift, and go to state 109
+    '%'  shift, and go to state 110
+
+    $default  reduce using rule 82 (add_expr)
+
+
+State 137
+
+   83 add_expr: add_expr '-' mul_expr .
+   85 mul_expr: mul_expr . '*' unary_expr
+   86         | mul_expr . '/' unary_expr
+   87         | mul_expr . '%' unary_expr
+
+    '*'  shift, and go to state 108
+    '/'  shift, and go to state 109
+    '%'  shift, and go to state 110
+
+    $default  reduce using rule 83 (add_expr)
+
+
+State 138
+
+   85 mul_expr: mul_expr '*' unary_expr .
+
+    $default  reduce using rule 85 (mul_expr)
+
+
+State 139
+
+   86 mul_expr: mul_expr '/' unary_expr .
+
+    $default  reduce using rule 86 (mul_expr)
+
+
+State 140
+
+   87 mul_expr: mul_expr '%' unary_expr .
+
+    $default  reduce using rule 87 (mul_expr)
+
+
+State 141
+
+   97 left_expr: left_expr '(' actuals . ')'
+
+    ')'  shift, and go to state 152
+
+
+State 142
+
+   64 assign_expr: left_expr '=' assign_expr .
+
+    $default  reduce using rule 64 (assign_expr)
+
+
+State 143
+
+   94 left_expr: left_expr '[' expr . ']'
+
+    ']'  shift, and go to state 153
+
+
+State 144
+
+   95 left_expr: left_expr '.' IDENTIFIER .
+   96          | left_expr '.' IDENTIFIER . '(' actuals ')'
+
+    '('  shift, and go to state 154
+
+    $default  reduce using rule 95 (left_expr)
+
+
+State 145
+
+   32 func_anonymous_def: type '(' formals ')' OP_ARROW . '{' stmts '}'
+
+    '{'  shift, and go to state 155
+
+
+State 146
+
+   36 formals_body: formals_body ',' var_without_initializer .
+
+    $default  reduce using rule 36 (formals_body)
+
+
+State 147
+
+  104 prim_expr: NEW IDENTIFIER '(' actuals . ')'
+
+    ')'  shift, and go to state 156
+
+
+State 148
+
+  105 prim_expr: NEW type '[' expr . ']'
+
+    ']'  shift, and go to state 157
+
+
+State 149
+
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW . '{' stmts '}' ';'
+
+    '{'  shift, and go to state 158
+
+
+State 150
+
+   98 left_expr: func_anonymous_def '(' actuals ')' .
+
+    $default  reduce using rule 98 (left_expr)
+
+
 State 151
 
-   46 if_stmt: IF . '(' bool_expr ')' '{' stmts '}'
-   47        | IF . '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+   59 actuals_body: actuals_body ',' . expr
 
-    '('  shift, and go to state 169
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 159
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 152
 
-   49 for_stmt: FOR . '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+   97 left_expr: left_expr '(' actuals ')' .
 
-    '('  shift, and go to state 170
+    $default  reduce using rule 97 (left_expr)
 
 
 State 153
 
-   48 while_stmt: WHILE . '(' bool_expr ')' '{' stmts '}'
+   94 left_expr: left_expr '[' expr ']' .
 
-    '('  shift, and go to state 171
+    $default  reduce using rule 94 (left_expr)
 
 
 State 154
 
-   50 return_stmt: RETURN . ';'
-   51            | RETURN . VOID ';'
-   52            | RETURN . expr ';'
+   96 left_expr: left_expr '.' IDENTIFIER '(' . actuals ')'
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 172
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    ';'              shift, and go to state 173
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
 
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 174
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 58 (actuals)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    actuals             转到状态 160
+    actuals_body        转到状态 126
+    expr                转到状态 127
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 155
 
-   53 print_stmt: PRINT . '(' expr ')' ';'
+   32 func_anonymous_def: type '(' formals ')' OP_ARROW '{' . stmts '}'
 
-    '('  shift, and go to state 175
+    $default  reduce using rule 39 (stmts)
+
+    stmts  转到状态 161
 
 
 State 156
 
-   29 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}' .
+  104 prim_expr: NEW IDENTIFIER '(' actuals ')' .
 
-    $default  reduce using rule 29 (func_anonymous_def)
+    $default  reduce using rule 104 (prim_expr)
 
 
 State 157
 
-   45 expr_stmt: ';' .
+  105 prim_expr: NEW type '[' expr ']' .
 
-    $default  reduce using rule 45 (expr_stmt)
+    $default  reduce using rule 105 (prim_expr)
 
 
 State 158
 
-   37 stmt: var_def .
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' . stmts '}' ';'
 
-    $default  reduce using rule 37 (stmt)
+    $default  reduce using rule 39 (stmts)
+
+    stmts  转到状态 162
 
 
 State 159
 
-   15 var_without_initializer_def: var_without_initializer . ';'
-   18 var_with_initializer: var_without_initializer . '=' assign_expr
+   59 actuals_body: actuals_body ',' expr .
 
-    ';'  shift, and go to state 34
-    '='  shift, and go to state 176
+    $default  reduce using rule 59 (actuals_body)
 
 
 State 160
 
-   35 stmts: stmts stmt .
+   96 left_expr: left_expr '.' IDENTIFIER '(' actuals . ')'
 
-    $default  reduce using rule 35 (stmts)
+    ')'  shift, and go to state 163
 
 
 State 161
 
-   38 stmt: expr_stmt .
+   32 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts . '}'
+   38 stmts: stmts . stmt
 
-    $default  reduce using rule 38 (stmt)
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 169
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
 
 
 State 162
 
-   39 stmt: if_stmt .
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts . '}' ';'
+   38 stmts: stmts . stmt
 
-    $default  reduce using rule 39 (stmt)
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 181
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
 
 
 State 163
 
-   40 stmt: while_stmt .
+   96 left_expr: left_expr '.' IDENTIFIER '(' actuals ')' .
 
-    $default  reduce using rule 40 (stmt)
+    $default  reduce using rule 96 (left_expr)
 
 
 State 164
 
-   41 stmt: for_stmt .
+   49 if_stmt: IF . '(' bool_expr ')' '{' stmts '}'
+   50        | IF . '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
 
-    $default  reduce using rule 41 (stmt)
+    '('  shift, and go to state 182
 
 
 State 165
 
-   42 stmt: return_stmt .
+   52 for_stmt: FOR . '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
 
-    $default  reduce using rule 42 (stmt)
+    '('  shift, and go to state 183
 
 
 State 166
 
-   43 stmt: print_stmt .
+   51 while_stmt: WHILE . '(' bool_expr ')' '{' stmts '}'
 
-    $default  reduce using rule 43 (stmt)
+    '('  shift, and go to state 184
 
 
 State 167
 
-   44 expr_stmt: expr . ';'
+   53 return_stmt: RETURN . ';'
+   54            | RETURN . VOID ';'
+   55            | RETURN . expr ';'
 
-    ';'  shift, and go to state 177
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 185
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    ';'              shift, and go to state 186
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 187
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 168
 
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' . ';'
-   28                | var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' . error
+   56 print_stmt: PRINT . '(' expr ')' ';'
 
-    error  shift, and go to state 178
-    ';'    shift, and go to state 179
+    '('  shift, and go to state 188
 
 
 State 169
 
-   46 if_stmt: IF '(' . bool_expr ')' '{' stmts '}'
-   47        | IF '(' . bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+   32 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    bool_expr           转到状态 180
-    expr                转到状态 181
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 32 (func_anonymous_def)
 
 
 State 170
 
-   49 for_stmt: FOR '(' . assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+   48 expr_stmt: ';' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 63 (assign_list)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 182
-    assign_list         转到状态 183
-    assign_list_body    转到状态 184
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 48 (expr_stmt)
 
 
 State 171
 
-   48 while_stmt: WHILE '(' . bool_expr ')' '{' stmts '}'
+   40 stmt: var_def .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    bool_expr           转到状态 185
-    expr                转到状态 181
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 40 (stmt)
 
 
 State 172
 
-   22 type: VOID .
-   51 return_stmt: RETURN VOID . ';'
+   19 var_without_initializer_def: var_without_initializer . ';'
+   22 var_with_initializer: var_without_initializer . '=' assign_expr
 
-    ';'  shift, and go to state 186
-
-    $default  reduce using rule 22 (type)
+    ';'  shift, and go to state 40
+    '='  shift, and go to state 189
 
 
 State 173
 
-   50 return_stmt: RETURN ';' .
+   38 stmts: stmts stmt .
 
-    $default  reduce using rule 50 (return_stmt)
+    $default  reduce using rule 38 (stmts)
 
 
 State 174
 
-   52 return_stmt: RETURN expr . ';'
+   41 stmt: expr_stmt .
 
-    ';'  shift, and go to state 187
+    $default  reduce using rule 41 (stmt)
 
 
 State 175
 
-   53 print_stmt: PRINT '(' . expr ')' ';'
+   42 stmt: if_stmt .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    expr                转到状态 188
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 42 (stmt)
 
 
 State 176
 
-   18 var_with_initializer: var_without_initializer '=' . assign_expr
+   43 stmt: while_stmt .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 56
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 43 (stmt)
 
 
 State 177
 
-   44 expr_stmt: expr ';' .
+   44 stmt: for_stmt .
 
-    $default  reduce using rule 44 (expr_stmt)
+    $default  reduce using rule 44 (stmt)
 
 
 State 178
 
-   28 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' error .
+   45 stmt: return_stmt .
 
-    $default  reduce using rule 28 (func_normal_def)
+    $default  reduce using rule 45 (stmt)
 
 
 State 179
 
-   27 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';' .
+   46 stmt: print_stmt .
 
-    $default  reduce using rule 27 (func_normal_def)
+    $default  reduce using rule 46 (stmt)
 
 
 State 180
 
-   46 if_stmt: IF '(' bool_expr . ')' '{' stmts '}'
-   47        | IF '(' bool_expr . ')' '{' stmts '}' ELSE '{' stmts '}'
-
-    ')'  shift, and go to state 189
-
-
-State 181
-
-   58 bool_expr: expr .
-
-    $default  reduce using rule 58 (bool_expr)
-
-
-State 182
-
-   65 assign_list_body: assign_expr .
-
-    $default  reduce using rule 65 (assign_list_body)
-
-
-State 183
-
-   49 for_stmt: FOR '(' assign_list . ';' bool_expr ';' assign_list ')' '{' stmts '}'
+   47 expr_stmt: expr . ';'
 
     ';'  shift, and go to state 190
 
 
+State 181
+
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' . ';'
+
+    ';'  shift, and go to state 191
+
+
+State 182
+
+   49 if_stmt: IF '(' . bool_expr ')' '{' stmts '}'
+   50        | IF '(' . bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    bool_expr           转到状态 192
+    expr                转到状态 193
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 183
+
+   52 for_stmt: FOR '(' . assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 66 (assign_list)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 194
+    assign_list         转到状态 195
+    assign_list_body    转到状态 196
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
 State 184
 
-   62 assign_list: assign_list_body .
-   64 assign_list_body: assign_list_body . ',' assign_expr
+   51 while_stmt: WHILE '(' . bool_expr ')' '{' stmts '}'
 
-    ','  shift, and go to state 191
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
 
-    $default  reduce using rule 62 (assign_list)
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    bool_expr           转到状态 197
+    expr                转到状态 193
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 185
 
-   48 while_stmt: WHILE '(' bool_expr . ')' '{' stmts '}'
+   26 type: VOID .
+   54 return_stmt: RETURN VOID . ';'
 
-    ')'  shift, and go to state 192
+    ';'  shift, and go to state 198
+
+    $default  reduce using rule 26 (type)
 
 
 State 186
 
-   51 return_stmt: RETURN VOID ';' .
+   53 return_stmt: RETURN ';' .
 
-    $default  reduce using rule 51 (return_stmt)
+    $default  reduce using rule 53 (return_stmt)
 
 
 State 187
 
-   52 return_stmt: RETURN expr ';' .
+   55 return_stmt: RETURN expr . ';'
 
-    $default  reduce using rule 52 (return_stmt)
+    ';'  shift, and go to state 199
 
 
 State 188
 
-   53 print_stmt: PRINT '(' expr . ')' ';'
+   56 print_stmt: PRINT '(' . expr ')' ';'
 
-    ')'  shift, and go to state 193
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    expr                转到状态 200
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 189
 
-   46 if_stmt: IF '(' bool_expr ')' . '{' stmts '}'
-   47        | IF '(' bool_expr ')' . '{' stmts '}' ELSE '{' stmts '}'
+   22 var_with_initializer: var_without_initializer '=' . assign_expr
 
-    '{'  shift, and go to state 194
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 66
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 190
 
-   49 for_stmt: FOR '(' assign_list ';' . bool_expr ';' assign_list ')' '{' stmts '}'
+   47 expr_stmt: expr ';' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    bool_expr           转到状态 195
-    expr                转到状态 181
-    assign_expr         转到状态 81
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 47 (expr_stmt)
 
 
 State 191
 
-   64 assign_list_body: assign_list_body ',' . assign_expr
+   31 func_normal_def: var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 196
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    $default  reduce using rule 31 (func_normal_def)
 
 
 State 192
 
-   48 while_stmt: WHILE '(' bool_expr ')' . '{' stmts '}'
+   49 if_stmt: IF '(' bool_expr . ')' '{' stmts '}'
+   50        | IF '(' bool_expr . ')' '{' stmts '}' ELSE '{' stmts '}'
 
-    '{'  shift, and go to state 197
+    ')'  shift, and go to state 201
 
 
 State 193
 
-   53 print_stmt: PRINT '(' expr ')' . ';'
+   61 bool_expr: expr .
 
-    ';'  shift, and go to state 198
+    $default  reduce using rule 61 (bool_expr)
 
 
 State 194
 
-   46 if_stmt: IF '(' bool_expr ')' '{' . stmts '}'
-   47        | IF '(' bool_expr ')' '{' . stmts '}' ELSE '{' stmts '}'
+   68 assign_list_body: assign_expr .
 
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 199
+    $default  reduce using rule 68 (assign_list_body)
 
 
 State 195
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr . ';' assign_list ')' '{' stmts '}'
+   52 for_stmt: FOR '(' assign_list . ';' bool_expr ';' assign_list ')' '{' stmts '}'
 
-    ';'  shift, and go to state 200
+    ';'  shift, and go to state 202
 
 
 State 196
 
-   64 assign_list_body: assign_list_body ',' assign_expr .
+   65 assign_list: assign_list_body .
+   67 assign_list_body: assign_list_body . ',' assign_expr
 
-    $default  reduce using rule 64 (assign_list_body)
+    ','  shift, and go to state 203
+
+    $default  reduce using rule 65 (assign_list)
 
 
 State 197
 
-   48 while_stmt: WHILE '(' bool_expr ')' '{' . stmts '}'
+   51 while_stmt: WHILE '(' bool_expr . ')' '{' stmts '}'
 
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 201
+    ')'  shift, and go to state 204
 
 
 State 198
 
-   53 print_stmt: PRINT '(' expr ')' ';' .
+   54 return_stmt: RETURN VOID ';' .
 
-    $default  reduce using rule 53 (print_stmt)
+    $default  reduce using rule 54 (return_stmt)
 
 
 State 199
 
-   35 stmts: stmts . stmt
-   46 if_stmt: IF '(' bool_expr ')' '{' stmts . '}'
-   47        | IF '(' bool_expr ')' '{' stmts . '}' ELSE '{' stmts '}'
+   55 return_stmt: RETURN expr ';' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 202
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
+    $default  reduce using rule 55 (return_stmt)
 
 
 State 200
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' . assign_list ')' '{' stmts '}'
+   56 print_stmt: PRINT '(' expr . ')' ';'
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    $default  reduce using rule 63 (assign_list)
-
-    type                转到状态 54
-    func_anonymous_def  转到状态 55
-    assign_expr         转到状态 182
-    assign_list         转到状态 203
-    assign_list_body    转到状态 184
-    or_expr             转到状态 57
-    and_expr            转到状态 58
-    eq_expr             转到状态 59
-    cmp_expr            转到状态 60
-    add_expr            转到状态 61
-    mul_expr            转到状态 62
-    unary_expr          转到状态 63
-    left_expr           转到状态 64
-    prim_expr           转到状态 65
-    constant            转到状态 66
+    ')'  shift, and go to state 205
 
 
 State 201
 
-   35 stmts: stmts . stmt
-   48 while_stmt: WHILE '(' bool_expr ')' '{' stmts . '}'
+   49 if_stmt: IF '(' bool_expr ')' . '{' stmts '}'
+   50        | IF '(' bool_expr ')' . '{' stmts '}' ELSE '{' stmts '}'
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 204
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
+    '{'  shift, and go to state 206
 
 
 State 202
 
-   46 if_stmt: IF '(' bool_expr ')' '{' stmts '}' .
-   47        | IF '(' bool_expr ')' '{' stmts '}' . ELSE '{' stmts '}'
+   52 for_stmt: FOR '(' assign_list ';' . bool_expr ';' assign_list ')' '{' stmts '}'
 
-    ELSE  shift, and go to state 205
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
 
-    $default  reduce using rule 46 (if_stmt)
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    bool_expr           转到状态 207
+    expr                转到状态 193
+    assign_expr         转到状态 92
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 203
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list . ')' '{' stmts '}'
+   67 assign_list_body: assign_list_body ',' . assign_expr
 
-    ')'  shift, and go to state 206
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 208
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
 
 
 State 204
 
-   48 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}' .
+   51 while_stmt: WHILE '(' bool_expr ')' . '{' stmts '}'
 
-    $default  reduce using rule 48 (while_stmt)
+    '{'  shift, and go to state 209
 
 
 State 205
 
-   47 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE . '{' stmts '}'
+   56 print_stmt: PRINT '(' expr ')' . ';'
 
-    '{'  shift, and go to state 207
+    ';'  shift, and go to state 210
 
 
 State 206
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' . '{' stmts '}'
+   49 if_stmt: IF '(' bool_expr ')' '{' . stmts '}'
+   50        | IF '(' bool_expr ')' '{' . stmts '}' ELSE '{' stmts '}'
 
-    '{'  shift, and go to state 208
+    $default  reduce using rule 39 (stmts)
+
+    stmts  转到状态 211
 
 
 State 207
 
-   47 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' . stmts '}'
+   52 for_stmt: FOR '(' assign_list ';' bool_expr . ';' assign_list ')' '{' stmts '}'
 
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 209
+    ';'  shift, and go to state 212
 
 
 State 208
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' . stmts '}'
+   67 assign_list_body: assign_list_body ',' assign_expr .
 
-    $default  reduce using rule 36 (stmts)
-
-    stmts  转到状态 210
+    $default  reduce using rule 67 (assign_list_body)
 
 
 State 209
 
-   35 stmts: stmts . stmt
-   47 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts . '}'
+   51 while_stmt: WHILE '(' bool_expr ')' '{' . stmts '}'
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 211
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
+    $default  reduce using rule 39 (stmts)
 
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
+    stmts  转到状态 213
 
 
 State 210
 
-   35 stmts: stmts . stmt
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts . '}'
+   56 print_stmt: PRINT '(' expr ')' ';' .
 
-    IDENTIFIER       shift, and go to state 41
-    CONSTANT_BOOL    shift, and go to state 42
-    CONSTANT_INT     shift, and go to state 43
-    CONSTANT_STRING  shift, and go to state 44
-    BOOL             shift, and go to state 13
-    INT              shift, and go to state 14
-    STRING           shift, and go to state 15
-    NIL              shift, and go to state 45
-    VOID             shift, and go to state 16
-    CLASS            shift, and go to state 17
-    NEW              shift, and go to state 46
-    THIS             shift, and go to state 47
-    IF               shift, and go to state 151
-    FOR              shift, and go to state 152
-    WHILE            shift, and go to state 153
-    RETURN           shift, and go to state 154
-    PRINT            shift, and go to state 155
-    READINTEGER      shift, and go to state 48
-    READLINE         shift, and go to state 49
-    '('              shift, and go to state 78
-    '}'              shift, and go to state 212
-    ';'              shift, and go to state 157
-    '+'              shift, and go to state 51
-    '-'              shift, and go to state 52
-    '!'              shift, and go to state 53
-
-    var_def                      转到状态 158
-    var_without_initializer_def  转到状态 22
-    var_with_initializer_def     转到状态 23
-    var_without_initializer      转到状态 159
-    var_with_initializer         转到状态 25
-    type                         转到状态 26
-    func_anonymous_def           转到状态 55
-    stmt                         转到状态 160
-    expr_stmt                    转到状态 161
-    if_stmt                      转到状态 162
-    while_stmt                   转到状态 163
-    for_stmt                     转到状态 164
-    return_stmt                  转到状态 165
-    print_stmt                   转到状态 166
-    expr                         转到状态 167
-    assign_expr                  转到状态 81
-    or_expr                      转到状态 57
-    and_expr                     转到状态 58
-    eq_expr                      转到状态 59
-    cmp_expr                     转到状态 60
-    add_expr                     转到状态 61
-    mul_expr                     转到状态 62
-    unary_expr                   转到状态 63
-    left_expr                    转到状态 64
-    prim_expr                    转到状态 65
-    constant                     转到状态 66
+    $default  reduce using rule 56 (print_stmt)
 
 
 State 211
 
-   47 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}' .
+   38 stmts: stmts . stmt
+   49 if_stmt: IF '(' bool_expr ')' '{' stmts . '}'
+   50        | IF '(' bool_expr ')' '{' stmts . '}' ELSE '{' stmts '}'
 
-    $default  reduce using rule 47 (if_stmt)
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 214
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
 
 
 State 212
 
-   49 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}' .
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' . assign_list ')' '{' stmts '}'
 
-    $default  reduce using rule 49 (for_stmt)
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    $default  reduce using rule 66 (assign_list)
+
+    type                转到状态 64
+    func_anonymous_def  转到状态 65
+    assign_expr         转到状态 194
+    assign_list         转到状态 215
+    assign_list_body    转到状态 196
+    or_expr             转到状态 67
+    and_expr            转到状态 68
+    eq_expr             转到状态 69
+    cmp_expr            转到状态 70
+    add_expr            转到状态 71
+    mul_expr            转到状态 72
+    unary_expr          转到状态 73
+    left_expr           转到状态 74
+    prim_expr           转到状态 75
+    constant            转到状态 76
+
+
+State 213
+
+   38 stmts: stmts . stmt
+   51 while_stmt: WHILE '(' bool_expr ')' '{' stmts . '}'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 216
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
+
+
+State 214
+
+   49 if_stmt: IF '(' bool_expr ')' '{' stmts '}' .
+   50        | IF '(' bool_expr ')' '{' stmts '}' . ELSE '{' stmts '}'
+
+    ELSE  shift, and go to state 217
+
+    $default  reduce using rule 49 (if_stmt)
+
+
+State 215
+
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list . ')' '{' stmts '}'
+
+    ')'  shift, and go to state 218
+
+
+State 216
+
+   51 while_stmt: WHILE '(' bool_expr ')' '{' stmts '}' .
+
+    $default  reduce using rule 51 (while_stmt)
+
+
+State 217
+
+   50 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE . '{' stmts '}'
+
+    '{'  shift, and go to state 219
+
+
+State 218
+
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' . '{' stmts '}'
+
+    '{'  shift, and go to state 220
+
+
+State 219
+
+   50 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' . stmts '}'
+
+    $default  reduce using rule 39 (stmts)
+
+    stmts  转到状态 221
+
+
+State 220
+
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' . stmts '}'
+
+    $default  reduce using rule 39 (stmts)
+
+    stmts  转到状态 222
+
+
+State 221
+
+   38 stmts: stmts . stmt
+   50 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts . '}'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 223
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
+
+
+State 222
+
+   38 stmts: stmts . stmt
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts . '}'
+
+    IDENTIFIER       shift, and go to state 51
+    CONSTANT_BOOL    shift, and go to state 52
+    CONSTANT_INT     shift, and go to state 53
+    CONSTANT_STRING  shift, and go to state 54
+    BOOL             shift, and go to state 16
+    INT              shift, and go to state 17
+    STRING           shift, and go to state 18
+    NIL              shift, and go to state 55
+    VOID             shift, and go to state 19
+    CLASS            shift, and go to state 20
+    NEW              shift, and go to state 56
+    THIS             shift, and go to state 57
+    IF               shift, and go to state 164
+    FOR              shift, and go to state 165
+    WHILE            shift, and go to state 166
+    RETURN           shift, and go to state 167
+    PRINT            shift, and go to state 168
+    READINTEGER      shift, and go to state 58
+    READLINE         shift, and go to state 59
+    '('              shift, and go to state 89
+    '}'              shift, and go to state 224
+    ';'              shift, and go to state 170
+    '+'              shift, and go to state 61
+    '-'              shift, and go to state 62
+    '!'              shift, and go to state 63
+
+    var_def                      转到状态 171
+    var_without_initializer_def  转到状态 25
+    var_with_initializer_def     转到状态 26
+    var_without_initializer      转到状态 172
+    var_with_initializer         转到状态 28
+    type                         转到状态 29
+    func_anonymous_def           转到状态 65
+    stmt                         转到状态 173
+    expr_stmt                    转到状态 174
+    if_stmt                      转到状态 175
+    while_stmt                   转到状态 176
+    for_stmt                     转到状态 177
+    return_stmt                  转到状态 178
+    print_stmt                   转到状态 179
+    expr                         转到状态 180
+    assign_expr                  转到状态 92
+    or_expr                      转到状态 67
+    and_expr                     转到状态 68
+    eq_expr                      转到状态 69
+    cmp_expr                     转到状态 70
+    add_expr                     转到状态 71
+    mul_expr                     转到状态 72
+    unary_expr                   转到状态 73
+    left_expr                    转到状态 74
+    prim_expr                    转到状态 75
+    constant                     转到状态 76
+
+
+State 223
+
+   50 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}' .
+
+    $default  reduce using rule 50 (if_stmt)
+
+
+State 224
+
+   52 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}' .
+
+    $default  reduce using rule 52 (for_stmt)

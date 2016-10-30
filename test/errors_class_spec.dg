@@ -1,0 +1,23 @@
+// syntax error: lack of class keyword
+int ArchLinux {}
+
+// syntax error: class name isn't identifier
+class "KaliLinux" {}
+
+// syntax error: unmatched {}
+class GentooLinux 
+    int cpu;
+
+    int getCPU = (void) => {
+        return cpu;
+    };
+}
+
+// syntax error: unmatched {}
+class LinuxMint {
+    int cpu;
+
+    int getCPU = (void) => {
+        return cpu;
+    };
+

@@ -8,11 +8,11 @@ PROG=dragon
 
 # tools and their flags
 CC=gcc
-CC_FLAG=-Wall -Werror -std=gnu99 -O2 $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-Wall -Werror -std=gnu99 -O2 $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
-LEX_FLAG=
+LFLAGS=
 YACC=bison
-YACC_FLAG=-dv
+YFLAGS=-dv
 RM=rm -fr
 MKDIR=mkdir -p
 MV=mv
@@ -33,27 +33,27 @@ OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 # rules
 %.o: %.c
 	@echo Compiling C Source Files $< ...
-	$(CC) $(CC_FLAG) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
 	@echo Compile $< Success!
 
 %.c: %.l
 	@echo Compiling Lex Source Files $< ...
 	$(MKDIR) $(OBJ_PATH)
-	$(LEX) $(LEX_FLAG) -o $(@:%.o=%.d) $<
+	$(LEX) $(LFLAGS) -o $(@:%.o=%.d) $<
 	@echo Compile $< Success!
 
 %.c: %.y
 	@echo Compiling Yacc Source Files $< ...
 	$(MKDIR) $(OBJ_PATH)
-	$(YACC) $(YACC_FLAG) -o $(@:%.o=%.d) $<
+	$(YACC) $(YFLAGS) -o $(@:%.o=%.d) $<
 	@echo Compile $< Success!
 
 all: $(PROG)
 
 # dependencies
 $(PROG): $(OBJS)
-	$(CC) $(CC_FLAG) -o $(SRC_PATH)/$(PROG) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(RAW_OBJS)))
+	$(CC) $(CFLAGS) -o $(SRC_PATH)/$(PROG) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(RAW_OBJS)))
 	make clean
 	make release
 	@echo
@@ -74,7 +74,7 @@ run:
 	./$(BIN_PATH)/$(PROG)
 
 spec:
-	$(foreach filename, $(shell find $(TEST_PAH) -name "*.dg"), echo "\nSpec test for" $(filename) "\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\nSpec test for" $(filename) "\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
 	@echo 'Spec Test Passed!'
 

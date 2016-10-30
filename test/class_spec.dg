@@ -19,6 +19,7 @@ class Mac extends Computer {
         Print("ack!");
         return numTimes + 1;
     };
+
 }
 
 class Main {

@@ -304,7 +304,7 @@ hexical [a-fA-F0-9]
 }
 
 . {
-    fprintf(stderr, "Error: lexical error near %s, line %4d, column %4d\n", yytext, yylloc.first_line, yylloc.first_column);
+    fprintf(stderr, "<%4d:%4d><Error>: lexical error near %s\n", yylloc.first_line, yylloc.first_column, yytext);
 }
 
 %%

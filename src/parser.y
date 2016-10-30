@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "errors.h"
 
     #define YYDEBUG 1
     #define YYERROR_VERBOSE 1
@@ -10,6 +11,9 @@
     extern char *yytext;
     int yylex(void);
     int yyerror(const char *msg);
+
+    int parse_failed;
+    int proposed_solution(const char *sol);
 %}
 
 %defines
@@ -53,15 +57,28 @@ program
 class_defs
     : class_defs class_def
     | class_def
-    | class_defs error class_def {
-        yyclearin;
-        yyerrok;
-    }
     ;
 
 class_def
     : CLASS IDENTIFIER '{' fields '}'
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
+    | error IDENTIFIER '{' fields '}'
+    {
+        proposed_solution("use keyword \"class\"");
+    }
+    | CLASS error '{' fields '}'
+    {
+        proposed_solution("class name should be identifier");
+    }
+    | CLASS IDENTIFIER  error fields '}'
+    {
+        proposed_solution("Unmatched {}");
+    }
+    | CLASS IDENTIFIER '{' fields error
+    {
+        proposed_solution("Unmatched {}");
+    }
+    | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' error '}'
     ;
 
 fields
@@ -116,10 +133,6 @@ func_def
 
 func_normal_def
     : var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
-    | var_without_initializer '=' '(' formals ')' OP_ARROW '{' stmts '}' error {
-        yyclearin;
-        yyerrok;
-    }
     ;
 
 func_anonymous_def
@@ -288,9 +301,17 @@ constant
 
 // return value will be ignored
 int yyerror(const char *msg) {
-    fprintf(stderr, "Error: %s, <line %d, column %d>\n", msg, yylloc.first_line, yylloc.first_column);
-    // fprintf(stderr, "Sytax error near %s, line %d, column %d\n", yytext, yylloc.first_line, yylloc.first_column);
+    fprintf(stderr, "<<<=================\n");
+    fprintf(stderr, "<%d:%d><Error>: %s\n", yylloc.first_line, yylloc.first_column, msg);
+    srcbuf_print();
     memset(yytext, '\0', strlen(yytext));
+    parse_failed = 1;
     return 0;
 }
 
+
+int proposed_solution(const char *sol) {
+    fprintf(stderr, "<Proposed Solution>: %s\n", sol);
+    fprintf(stderr, "=================>>>\n\n");
+    return 0;
+}
