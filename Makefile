@@ -25,6 +25,10 @@ TEST_PATH=test
 INCLUDE_PATH=src/libs 	\
 			 src/errors
 
+# test enable flags
+LEX_TEST=0
+SYNTAX_TEST=1
+
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
 RAW_OBJS=$(patsubst %.c, %.o, $(RAW_SRCS))
@@ -75,14 +79,18 @@ run:
 	./$(BIN_PATH)/$(PROG)
 
 spec:
+ifeq ($(LEX_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n>>> Lex test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
 	@echo '>>>' Lex Test Passed! '<<<'
 	@echo
+endif
+ifeq ($(SYNTAX_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\n>>> Syntax error report test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
 	@echo '>>>' Syntax Error Report Test Passed! '<<<'
 	@echo
+endif
 
 count:
 	$(shell find src -name "*.[chly]" | xargs cat | grep -v ^$ | wc -l)

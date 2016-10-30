@@ -46,6 +46,8 @@
 %nonassoc NOELSE
 %nonassoc ELSE
 
+%left error
+
 %start program
 
 %%
@@ -188,6 +190,18 @@ func_normal_def
 
 func_anonymous_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
+    | type '(' formals ')' error '{' stmts '}'
+    {
+        proposed_solution("expected '=>' as function defination");
+    }
+    | type '(' formals ')' OP_ARROW error stmts '}'
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
+    | type '(' formals ')' OP_ARROW '{' stmts error
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
     ;
 
 formals
@@ -198,6 +212,18 @@ formals
 formals_body
     : formals_body ',' type IDENTIFIER
     | type IDENTIFIER
+    | formals_body error type IDENTIFIER
+    {
+        proposed_solution("expected ',' as separator");
+    }
+    | formals_body ',' type error
+    {
+        proposed_solution("expected identifier as variable name");
+    }
+    | type error
+    {
+        proposed_solution("expected identifier as variable name");
+    }
     ;
 
 stmts
@@ -218,29 +244,101 @@ stmt
 expr_stmt
     : expr ';'
     | ';'
+    | expr error
+    {
+        proposed_solution("expected ';'");
+    }
     ;
 
 if_stmt
     : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+    | IF error bool_expr ')' '{' stmts '}' %prec NOELSE
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | IF '(' bool_expr error '{' stmts '}' %prec NOELSE
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | IF '(' bool_expr ')' error stmts '}' %prec NOELSE
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
     ;
 
 while_stmt
     : WHILE '(' bool_expr ')' '{' stmts '}'
+    | WHILE error bool_expr ')' '{' stmts '}'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | WHILE '(' bool_expr error '{' stmts '}'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | WHILE '(' bool_expr ')' error stmts '}'
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
     ;
 
 for_stmt
     : FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+    | FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | FOR '(' assign_list error bool_expr ';' assign_list ')' '{' stmts '}'
+    {
+        proposed_solution("expected ';' as separator between initializer and boolean expression");
+    }
+    | FOR '(' assign_list ';' bool_expr error assign_list ')' '{' stmts '}'
+    {
+        proposed_solution("expected ';' as separator between boolean expression and assignment");
+    }
+    | FOR '(' assign_list ';' bool_expr ';' assign_list error '{' stmts '}'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | FOR '(' assign_list ';' bool_expr ';' assign_list ')' error stmts '}'
+    {
+        proposed_solution("unmatched '{' or '}'");
+    }
     ;
 
 return_stmt
     : RETURN ';'
     | RETURN VOID ';'
     | RETURN expr ';'
+    | RETURN error ';'
+    {
+        proposed_solution("unkown return value");
+    }
+    | RETURN VOID error
+    {
+        proposed_solution("expected ';'");
+    }
+    | RETURN expr error
+    {
+        proposed_solution("expected ';'");
+    }
     ;
 
 print_stmt
     : PRINT '(' expr ')' ';'
+    | PRINT error expr ')' ';'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | PRINT '(' expr error ';'
+    {
+        proposed_solution("unmatched '(' or ')'");
+    }
+    | PRINT '(' expr ')' error
+    {
+        proposed_solution("expected ';'");
+    }
     ;
 
 actuals
@@ -251,6 +349,10 @@ actuals
 actuals_body
     : actuals_body ',' expr
     | expr
+    | actuals_body error expr
+    {
+        proposed_solution("expected ',' as separator");
+    }
     ;
 
 bool_expr
@@ -264,11 +366,18 @@ expr
 assign_expr
 	: or_expr
 	| left_expr '=' assign_expr
+	/* | left_expr error assign_expr */
+    /* { */
+        /* proposed_solution("expected '=' as assign operator"); */
+    /* } */
 	;
 
 assign_list
     : assign_list_body
-    | /* empty */
+    | VOID
+    | error {
+        proposed_solution("expected keyword 'void' or assign expression");
+    }
     ;
 
 assign_list_body
