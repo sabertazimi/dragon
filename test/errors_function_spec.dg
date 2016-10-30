@@ -1,0 +1,36 @@
+class Function {
+    int addr = 1;
+
+    int anony_func1 = (int addr) => {
+        // anonymous function
+        addr = int (int addr) => {
+            return addr * 2;
+        }(addr);
+    };
+
+    int anony_func2 = (int addr) => {
+        // closure
+        addr = int (void) => {
+            return addr + 5;
+        }();
+    };
+
+    int anony_func3 = (void) => {
+        // anonymous fucntions invoking, then assign return value to a variable
+        int sayHelloVar = int (void) => {
+            Print("Hello World!\n");
+            return 0;
+        }();
+    };
+
+    boole func1 = (void) => { return; };
+    void "func2" = (void) => { return; };
+    void func3(void) => { return; };
+    void func4 = (void) =< { return; };
+    void func5 = (void) =>  return; };
+}
+
+class Func6 {
+    void func6 = (void) => { return; }
+}
+

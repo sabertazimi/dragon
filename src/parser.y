@@ -168,14 +168,6 @@ func_normal_def
     {
         proposed_solution("expected '=' as function defination");
     }
-    | type IDENTIFIER '=' error formals ')' OP_ARROW '{' stmts '}' ';'
-    {
-        proposed_solution("unmatched '(' or ')'");
-    }
-    | type IDENTIFIER '=' '(' formals error OP_ARROW '{' stmts '}' ';'
-    {
-        proposed_solution("unmatched '(' or ')'");
-    }
     | type IDENTIFIER '=' '(' formals ')' error '{' stmts '}' ';'
     {
         proposed_solution("expected '=>' as function defination");
@@ -201,7 +193,6 @@ func_anonymous_def
 formals
     : formals_body
     | VOID
-    | /* empty */
     ;
 
 formals_body
