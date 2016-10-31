@@ -17,9 +17,6 @@ class Main {
         func1(addr addr2);
 
         // syntax error: unexpected　','
-        func1(addr,);
-
-        // syntax error: unexpected　','
         func1(addr, addr2,);
     };
 }

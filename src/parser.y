@@ -159,7 +159,7 @@ type
 
 func_def
     : func_normal_def
-    | func_anonymous_def
+    | func_anony_def
     ;
 
 func_normal_def
@@ -191,7 +191,7 @@ func_normal_def
     }
     ;
 
-func_anonymous_def
+func_anony_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
     /* error recovery */
     | type '(' formals ')' error '{' stmts '}'
@@ -218,21 +218,21 @@ formals
     ;
 
 formals_body
-    : formals_body ',' type IDENTIFIER
-    | type IDENTIFIER
-    /* error recovery */
-    | formals_body error type IDENTIFIER
+    : formals_body ',' formal
+    | formal
+    | formals_body error formal
     {
         proposed_solution("expected ',' as separator");
-    }
-    | formals_body ',' type error
-    {
-        proposed_solution("expected identifier as parameter name");
     }
     | formals_body ',' error
     {
         proposed_solution("unexpected ','");
     }
+    ;
+
+formal
+    : type IDENTIFIER
+    /* error recovery */
     | type error
     {
         proposed_solution("expected identifier as parameter name");
@@ -366,10 +366,10 @@ actuals
     ;
 
 actuals_body
-    : actuals_body ',' expr
-    | expr
+    : actuals_body ',' actual
+    | actual
     /* error recovery */
-    | actuals_body error expr
+    | actuals_body error actual
     {
         proposed_solution("expected ',' as separator");
     }
@@ -377,6 +377,10 @@ actuals_body
     {
         proposed_solution("unexpected ','");
     }
+    ;
+
+actual
+    : expr
     ;
 
 bool_expr
@@ -462,7 +466,7 @@ left_expr
 	| left_expr '.' IDENTIFIER %prec CLASS_MEMBER
     | left_expr '.' IDENTIFIER '(' actuals ')'
 	| left_expr '(' actuals ')'
-    | func_anonymous_def '(' actuals ')'
+    | func_anony_def '(' actuals ')'
 	;
 
 prim_expr

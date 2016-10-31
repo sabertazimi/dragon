@@ -10,87 +10,7 @@
 
 #include "list.h"
 
-/* bool_expr */
-/*     : expr */
-/*     ; */
-
-/* expr */
-/*     : assign_expr */
-/*     ; */
-
-/* assign_expr */
-/* 	: or_expr */
-/* 	| left_expr '=' assign_expr */
-/* 	; */
-
-/* assign_list_body */
-/*     : assign_list_body ',' assign_expr */
-/*     | assign_expr */
-/*     ; */
-
-/* or_expr */
-/* 	: and_expr */
-/* 	| or_expr OP_OR and_expr */
-/* 	; */
-
-/* and_expr */
-/* 	: eq_expr */
-/* 	| and_expr OP_AND eq_expr */
-/* 	; */
-
-/* eq_expr */
-/* 	: cmp_expr */
-/* 	| eq_expr OP_EQ cmp_expr */
-/* 	| eq_expr OP_NE cmp_expr */
-/* 	; */
-
-/* cmp_expr */
-/* 	: add_expr */
-/* 	| cmp_expr '<' add_expr */
-/* 	| cmp_expr '>' add_expr */
-/* 	| cmp_expr OP_LE add_expr */
-/* 	| cmp_expr OP_GE add_expr */
-/* 	; */
-
-/* add_expr */
-/* 	: mul_expr */
-/* 	| add_expr '+' mul_expr */
-/* 	| add_expr '-' mul_expr */
-/* 	; */
-
-/* mul_expr */
-/* 	: unary_expr */
-/* 	| mul_expr '*' unary_expr */
-/* 	| mul_expr '/' unary_expr */
-/* 	| mul_expr '%' unary_expr */
-/* 	; */
-
-/* unary_expr */
-/*     : left_expr */
-/*     | THIS */
-/*     | '+' unary_expr */
-/*     | '-' unary_expr */
-/*     | '!' unary_expr */
-/*     ; */
-
-/* left_expr */
-/* 	: prim_expr */
-/* 	| left_expr '[' expr ']' */
-/* 	| left_expr '.' IDENTIFIER %prec CLASS_MEMBER */
-/*     | left_expr '.' IDENTIFIER '(' actuals ')' */
-/* 	| left_expr '(' actuals ')' */
-/*     | func_anonymous_def '(' actuals ')' */
-/* 	; */
-
-/* prim_expr */
-/* 	: IDENTIFIER */
-/* 	| constant */
-/* 	| '(' expr ')' */
-/*     | READINTEGER '(' ')' */
-/*     | READLINE '(' ')' */
-/*     | NEW IDENTIFIER '(' actuals ')' */
-/*     | NEW type '[' expr ']' */
-/* 	; */
+typedef char *string;
 
 /* constant */
 /*     : CONSTANT_INT */
@@ -113,8 +33,8 @@ typedef struct prog {
  * @implements: class_def_t
  */
 typedef struct class_def {
-    char *id;
-    char *super;
+    string id;
+    string super;
     list_t fields;          ///< list_t <field_t>
 } *class_def_t;
 /********** end of class_def_t **********/
@@ -158,7 +78,7 @@ typedef struct field_func {
  */
 typedef struct var_def {
     type_t type;
-    char *id;
+    string id;
     expr_assign_t initializer;
 } *var_def_t;
 /********** end of var_def_t **********/
@@ -169,7 +89,7 @@ typedef struct var_def {
  */
 typedef enum func_kind {
     FUNC_NORMAL_DEF,
-    FUNC_ANONYMOUS_DEF
+    FUNC_ANONY_DEF
 } func_kind_t;
 
 
@@ -188,18 +108,18 @@ typedef struct func_normal_def {
     type_t type;
     list_t formals;         ///< list_t <formal_t>
     list_t stmts;           ///< list_t <stmt_t>
-    char *id;
+    string id;
 } *func_normal_def_t;
 
 /*
- * @implements: func_anonymous_def_t
+ * @implements: func_anony_def_t
  */
-typedef struct func_anonymous_def {
+typedef struct func_anony_def {
     func_kind_t kind;
     type_t type;
     list_t formals;         ///< list_t <formal_t>
     list_t stmts;           ///< list_t <stmt_t>
-} *func_anonymous_def_t;
+} *func_anony_def_t;
 /********** end of func_def_t **********/
 
 /********** start of type_t **********/
@@ -313,32 +233,473 @@ typedef struct stmt_print {
 /********** start of actual_t **********/
 typedef struct actual {
     expr_t expr;
-} actual_t;
+} *actual_t;
 /********** end of actual_t **********/
 
 /********** start of expr_t **********/
+/*
+ * @brief: kind of expr_t
+ */
+typedef enum expr_kind {
+    EXPR_BOOL,
+    EXPR_BASIC,
+    EXPR_ASSIGN,
+    EXPR_OR,
+    EXPR_AND,
+    EXPR_EQ,
+    EXPR_CMP,
+    EXPR_ADD,
+    EXPR_MUL,
+    EXPR_UNARY,
+    EXPR_LEFT,
+    EXPR_PRIM,
+} expr_kind_t;
+
+/* /1* */
+/*  * @brief: kind of operator */
+/*  *1/ */
+/* typedef enum op_kind { */
+/*     EXPR_OP_ASSIGN, */
+/*     EXPR_OP_OR, */
+/*     EXPR_OP_AND, */
+/*     EXPR_OP_EQ, */
+/*     EXPR_OP_NE, */
+/*     EXPR_OP_L, */
+/*     EXPR_OP_G, */
+/*     EXPR_OP_LE, */
+/*     EXPR_OP_GE, */
+/*     EXPR_OP_ADD, */
+/*     EXPR_OP_SUB, */
+/*     EXPR_OP_MUL, */
+/*     EXPR_OP_DIV, */
+/*     EXPR_OP_MOD, */
+/*     EXPR_OP_THIS, */
+/*     EXPR_OP_PLUS, */
+/*     EXPR_OP_MINUS, */
+/*     EXPR_OP_NOT */
+/* } op_kind_t; */
+
+/*
+ * @interface: expr_bool_t
+ */
+typedef struct expr_bool {
+    expr_kind_t kind;
+    expr_kind_t sub_kind;       ///< 0
+    expr_t body;
+} *expr_bool_t;
+
+/*
+ * @interface: expr_t
+ */
+typedef struct expr {
+    expr_kind_t kind;
+    expr_kind_t sub_kind;       ///< 0
+    expr_assign_t body;
+} *expr_t;
+
+/*
+ * @brief: kind of expr_assign_t
+ */
+typedef enum expr_assign_kind {
+    EXPR_ASSIGN_OR,
+    EXPR_ASSIGN_NORMAL
+} expr_assign_kind_t;
+
+/*
+ * @interface: expr_assign_t
+ */
+typedef struct expr_assign {
+    expr_kind_t kind;
+    expr_assign_kind_t sub_kind;
+} *expr_assign_t;
+
+/*
+ * @implements: expr_assign_or_t
+ */
+typedef struct expr_assign_or {
+    expr_kind_t kind;
+    expr_assign_kind_t sub_kind;
+    expr_or_t body;
+} *expr_assign_or_t;
+
+/*
+ * @implements: expr_assign_normal_t
+ */
+typedef struct expr_assign_normal {
+    expr_kind_t kind;
+    expr_assign_kind_t sub_kind;
+    expr_left_t left;
+    expr_assign_t right;
+} *expr_assign_normal_t;
+
+/*
+ * @brief: kind of expr_or_t
+ */
+typedef enum expr_or_kind {
+    EXPR_OR_AND,
+    EXPR_OR_NORMAL
+} expr_or_kind_t;
+
+/*
+ * @interface: expr_or_t
+ */
+typedef struct expr_or {
+    expr_kind_t kind;
+    expr_or_kind_t sub_kind;
+} *expr_or_t;
+
+/*
+ * @implements: expr_or_and_t
+ */
+typedef struct expr_or_and {
+    expr_kind_t kind;
+    expr_or_kind_t sub_kind;
+    expr_and_t body;
+} *expr_or_and_t;
+
+/*
+ * @implements: expr_or_normal_t
+ */
+typedef struct expr_or_normal {
+    expr_kind_t kind;
+    expr_or_kind_t sub_kind;
+    expr_or_t left;
+    expr_and_t right;
+} *expr_or_normal_t;
+
+/*
+ * @brief: kind of expr_and_t
+ */
+typedef enum expr_and_kind {
+    EXPR_AND_EQ,
+    EXPR_AND_NORMAL
+} expr_and_kind_t;
+
+/*
+ * @interface: expr_and_t
+ */
+typedef struct expr_and {
+    expr_kind_t kind;
+    expr_and_kind_t sub_kind;
+} *expr_and_t;
+
+/*
+ * @implements: expr_and_eq_t
+ */
+typedef struct expr_and_eq {
+    expr_kind_t kind;
+    expr_and_kind_t sub_kind;
+    expr_eq_t body;
+} *expr_and_eq_t;
+
+/*
+ * @implements: expr_and_normal_t
+ */
+typedef struct expr_and_normal {
+    expr_kind_t kind;
+    expr_and_kind_t sub_kind;
+    expr_and_t left;
+    expr_eq_t right;
+} *expr_and_normal_t;
+
+/*
+ * @brief: kind of expr_eq_t
+ */
+typedef enum expr_eq_kind {
+    EXPR_EQ_CMP,
+    EXPR_EQ_EQ,
+    EXPR_EQ_NE
+} expr_eq_kind_t;
+
+/*
+ * @interface: expr_eq_t
+ */
+typedef struct expr_eq {
+    expr_kind_t kind;
+    expr_eq_kind_t sub_kind;
+} *expr_eq_t;
+
+/*
+ * @implements: expr_eq_cmp_t
+ */
+typedef struct expr_eq_cmp {
+    expr_kind_t kind;
+    expr_eq_kind_t sub_kind;
+    expr_cmp_t body;
+} *expr_eq_cmp_t;
+
+/*
+ * @implements: expr_eq_eq_t/expr_eq_ne_t
+ */
+typedef struct expr_eq_normal {
+    expr_kind_t kind;
+    expr_eq_kind_t sub_kind;
+    expr_eq_t left;
+    expr_cmp_t right;
+} *expr_eq_normal_t;
+
+/*
+ * @brief: kind of expr_cmp_t
+ */
+typedef enum expr_cmp_kind {
+    EXPR_CMP_AND,
+    EXPR_CMP_L,
+    EXPR_CMP_G,
+    EXPR_CMP_LE,
+    EXPR_CMP_GE
+} expr_cmp_kind_t;
+
+/*
+ * @interface: expr_cmp_t
+ */
+typedef struct expr_cmp {
+    expr_kind_t kind;
+    expr_cmp_kind_t sub_kind;
+} *expr_cmp_t;
+
+/*
+ * @implements: expr_cmp_and_t
+ */
+typedef struct expr_cmp_and {
+    expr_kind_t kind;
+    expr_cmp_kind_t sub_kind;
+    expr_and_t body;
+} *expr_cmp_and_t;
+
+/*
+ * @implements: expr_cmp_l_t/expr_cmp_g_t/expr_cmp_le_t/expr_cmp_ge_t
+ */
+typedef struct expr_cmp_normal {
+    expr_kind_t kind;
+    expr_cmp_kind_t sub_kind;
+    expr_cmp_t left;
+    expr_and_t right;
+} *expr_cmp_normal_t;
+
+/*
+ * @brief: kind of expr_add_t
+ */
+typedef enum expr_add_kind {
+    EXPR_ADD_MUL,
+    EXPR_ADD_ADD,
+    EXPR_ADD_SUB
+} expr_add_kind_t;
+
+/*
+ * @interface: expr_add_t
+ */
+typedef struct expr_add {
+    expr_kind_t kind;
+    expr_add_kind_t sub_kind;
+} *expr_add_t;
+
+/*
+ * @implements: expr_add_mul_t
+ */
+typedef struct expr_add_mul {
+    expr_kind_t kind;
+    expr_add_kind_t sub_kind;
+    expr_mul_t body;
+} *expr_add_mul_t;
+
+/*
+ * @implements: expr_add_add_t/expr_add_sub_t
+ */
+typedef struct expr_add_normal {
+    expr_kind_t kind;
+    expr_add_kind_t sub_kind;
+    expr_add_t left;
+    expr_mul_t right;
+} *expr_add_normal_t;
+
+/*
+ * @brief: kind of expr_mul_t
+ */
+typedef enum expr_mul_kind {
+    EXPR_MUL_UNARY,
+    EXPR_MUL_MUL,
+    EXPR_MUL_DIV,
+    EXPR_MUL_MOD
+} expr_mul_kind_t;
+
+/*
+ * @interface: expr_mul_t
+ */
+typedef struct expr_mul {
+    expr_kind_t kind;
+    expr_mul_kind_t sub_kind;
+} *expr_mul_t;
+
+/*
+ * @implements: expr_mul_unary_t
+ */
+typedef struct expr_mul_unary {
+    expr_kind_t kind;
+    expr_mul_kind_t sub_kind;
+    expr_unary_t body;
+} *expr_mul_unary_t;
+
+/*
+ * @implements: expr_mul_mul_t/expr_mul_sub_t/expr_mul_mod_t
+ */
+typedef struct expr_mul_normal {
+    expr_kind_t kind;
+    expr_mul_kind_t sub_kind;
+    expr_mul_t left;
+    expr_unary_t right;
+} *expr_mul_normal_t;
+
+/*
+ * @brief: kind of expr_unary_t
+ */
+typedef enum expr_unary_kind {
+    EXPR_UNARY_LEFT,
+    EXPR_UNARY_THIS,
+    EXPR_UNARY_PLUS,
+    EXPR_UNARY_MINUS,
+    EXPR_UNARY_NOT
+} expr_unary_kind_t;
+
+/*
+ * @interface: expr_unary_t
+ */
+typedef struct expr_unary {
+    expr_kind_t kind;
+    expr_unary_kind_t sub_kind;
+} *expr_unary_t;
+
+/*
+ * @implements: expr_unary_left_t
+ */
+typedef struct expr_unary_left {
+    expr_kind_t kind;
+    expr_unary_kind_t sub_kind;
+    expr_left_t body;
+} *expr_unary_left_t;
+
+/*
+ * @implements: expr_unary_this_t/expr_unary_plus_t/expr_unary_minus_t/expr_unary_not_t
+ */
+typedef struct expr_unary_normal {
+    expr_kind_t kind;
+    expr_unary_kind_t sub_kind;
+    expr_unary_t body;
+} *expr_unary_normal_t;
+
+/*
+ * @brief: kind of expr_left_t
+ */
+typedef enum expr_left_kind {
+    EXPR_LEFT_PRIM,
+    EXPR_LEFT_INDEX,
+    EXPR_LEFT_CLASS_FIELD,
+    EXPR_LEFT_CLASS_CALL,
+    EXPR_LEFT_FUNC_CALL,
+    EXPR_LEFT_ANONY_CALL
+} expr_left_kind_t;
+
+/*
+ * @interface: expr_left_t
+ */
+typedef struct expr_left {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+} *expr_left_t;
+
+/*
+ * @implements: expr_left_prim_t
+ */
+typedef struct expr_left_prim {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    expr_prim_t body;
+} *expr_left_prim_t;
+
+/*
+ * @implements: expr_left_index_t
+ */
+typedef struct expr_left_index {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    expr_left_t array;
+    expr_left_t index;
+} *expr_left_index_t;
+
+/*
+ * @implements: expr_left_class_field_t
+ */
+typedef struct expr_left_class_field {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    expr_left_t left;
+    string field_id;
+} *expr_left_class_field_t;
+
+/*
+ * @implements: expr_left_class_call_t
+ */
+typedef struct expr_left_class_call {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    expr_left_t left;
+    string field_id;
+    list_t actuals;         ///< list_t <actual_t>
+} *expr_left_class_call_t;
+
+/*
+ * @implements: expr_left_func_call_t
+ */
+typedef struct expr_left_func_call {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    expr_left_t left;
+    list_t actuals;         ///< list_t <actual_t>
+} *expr_left_func_call_t;
+
+/*
+ * @implements: expr_left_anony_call_t
+ */
+typedef struct expr_left_anony_call {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+    func_anony_def_t func_body;
+    list_t actuals;         ///< list_t <actual_t>
+} *expr_left_anony_call_t;
+
+
+/* prim_expr */
+/* 	: IDENTIFIER */
+/* 	| constant */
+/* 	| '(' expr ')' */
+/*     | READINTEGER '(' ')' */
+/*     | READLINE '(' ')' */
+/*     | NEW IDENTIFIER '(' actuals ')' */
+/*     | NEW type '[' expr ']' */
+/* 	; */
 /********** end of expr_t **********/
 
 /********** start of type_t **********/
 /********** end of type_t **********/
 
-/********** start of type_t **********/
-/********** end of type_t **********/
-
-/********** start of type_t **********/
-/********** end of type_t **********/
-
-/********** start of type_t **********/
-/********** end of type_t **********/
-
-/********** start of type_t **********/
-/********** end of type_t **********/
-
-/********** start of type_t **********/
-/********** end of type_t **********/
-
-/* char *id */
 /* p->id = (char *)malloc(sizeof(char) * (strlen(str) + 1)); */
 /* strcpy(p->id, str); */
+
+/* expr_t *div_into(expr_t *expr) { */
+/*     while (expr->sub_kind == 0) { */
+/*         expr = expr->body; */
+/*     } */
+/*     return expr; */
+/* } */
+
+/*     switch (expr->kind) { */
+/*         case EXPR_AND; */
+/*             expr = (expr_and_t)expr; */
+/*             ... */
+/*             break; */
+/*         default: */
+/*             break; */
+/*     } */
+
+/* expr_ast_prune */
 
 #endif /* !AST_H */
