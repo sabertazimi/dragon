@@ -48,7 +48,7 @@ Terminals unused in grammar
    33     | CLASS error
 
    34 func_def: func_normal_def
-   35         | func_anonymous_def
+   35         | func_anony_def
 
    36 func_normal_def: type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
    37                | type error '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
@@ -58,10 +58,10 @@ Terminals unused in grammar
    41                | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts error ';'
    42                | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' error
 
-   43 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}'
-   44                   | type '(' formals ')' error '{' stmts '}'
-   45                   | type '(' formals ')' OP_ARROW error stmts '}'
-   46                   | type '(' formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type '(' formals ')' OP_ARROW '{' stmts '}'
+   44               | type '(' formals ')' error '{' stmts '}'
+   45               | type '(' formals ')' OP_ARROW error stmts '}'
+   46               | type '(' formals ')' OP_ARROW '{' stmts error
 
    47 formals: formals_body
    48        | VOID
@@ -181,7 +181,7 @@ Terminals unused in grammar
   136          | left_expr '.' IDENTIFIER
   137          | left_expr '.' IDENTIFIER '(' actuals ')'
   138          | left_expr '(' actuals ')'
-  139          | func_anonymous_def '(' actuals ')'
+  139          | func_anony_def '(' actuals ')'
 
   140 prim_expr: IDENTIFIER
   141          | constant
@@ -284,7 +284,7 @@ func_def (60)
     左： 34 35, 右： 19
 func_normal_def (61)
     左： 36 37 38 39 40 41 42, 右： 34
-func_anonymous_def (62)
+func_anony_def (62)
     左： 43 44 45 46, 右： 35 139
 formals (63)
     左： 47 48 49, 右： 36 37 38 39 40 41 42 43 44 45 46
@@ -477,13 +477,13 @@ State 12
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 25
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 25
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 13
@@ -504,13 +504,13 @@ State 14
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 33
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 33
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 15
@@ -526,13 +526,13 @@ State 15
     VOID        shift, and go to state 23
     CLASS       shift, and go to state 24
 
-    fields              转到状态 35
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 35
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 16
@@ -558,13 +558,13 @@ State 17
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 38
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 38
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 18
@@ -631,12 +631,12 @@ State 25
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 43
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 26
@@ -669,10 +669,10 @@ State 28
    40                | type . IDENTIFIER '=' '(' formals ')' OP_ARROW error stmts '}' ';'
    41                | type . IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts error ';'
    42                | type . IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' error
-   43 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-   44                   | type . '(' formals ')' error '{' stmts '}'
-   45                   | type . '(' formals ')' OP_ARROW error stmts '}'
-   46                   | type . '(' formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+   44               | type . '(' formals ')' error '{' stmts '}'
+   45               | type . '(' formals ')' OP_ARROW error stmts '}'
+   46               | type . '(' formals ')' OP_ARROW '{' stmts error
 
     error       shift, and go to state 45
     IDENTIFIER  shift, and go to state 46
@@ -696,7 +696,7 @@ State 30
 
 State 31
 
-   35 func_def: func_anonymous_def .
+   35 func_def: func_anony_def .
 
     $default  reduce using rule 35 (func_def)
 
@@ -721,12 +721,12 @@ State 33
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 50
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 34
@@ -749,12 +749,12 @@ State 35
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 52
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 36
@@ -788,12 +788,12 @@ State 38
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 57
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 39
@@ -807,13 +807,13 @@ State 39
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 58
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 58
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 40
@@ -881,10 +881,10 @@ State 46
 
 State 47
 
-   43 func_anonymous_def: type '(' . formals ')' OP_ARROW '{' stmts '}'
-   44                   | type '(' . formals ')' error '{' stmts '}'
-   45                   | type '(' . formals ')' OP_ARROW error stmts '}'
-   46                   | type '(' . formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type '(' . formals ')' OP_ARROW '{' stmts '}'
+   44               | type '(' . formals ')' error '{' stmts '}'
+   45               | type '(' . formals ')' OP_ARROW error stmts '}'
+   46               | type '(' . formals ')' OP_ARROW '{' stmts error
 
     error   shift, and go to state 64
     BOOL    shift, and go to state 20
@@ -917,13 +917,13 @@ State 49
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 71
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 71
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 50
@@ -944,13 +944,13 @@ State 51
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 72
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 72
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 52
@@ -971,13 +971,13 @@ State 53
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 73
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 73
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 54
@@ -991,13 +991,13 @@ State 54
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 74
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 74
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 55
@@ -1012,13 +1012,13 @@ State 55
     VOID    shift, and go to state 23
     CLASS   shift, and go to state 24
 
-    fields              转到状态 75
-    field               转到状态 26
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    fields           转到状态 75
+    field            转到状态 26
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 56
@@ -1051,12 +1051,12 @@ State 58
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 76
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 59
@@ -1091,19 +1091,19 @@ State 60
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 92
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 92
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 61
@@ -1153,19 +1153,19 @@ State 63
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 105
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 105
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 64
@@ -1200,10 +1200,10 @@ State 66
 
 State 67
 
-   43 func_anonymous_def: type '(' formals . ')' OP_ARROW '{' stmts '}'
-   44                   | type '(' formals . ')' error '{' stmts '}'
-   45                   | type '(' formals . ')' OP_ARROW error stmts '}'
-   46                   | type '(' formals . ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type '(' formals . ')' OP_ARROW '{' stmts '}'
+   44               | type '(' formals . ')' error '{' stmts '}'
+   45               | type '(' formals . ')' OP_ARROW error stmts '}'
+   46               | type '(' formals . ')' OP_ARROW '{' stmts error
 
     ')'  shift, and go to state 108
 
@@ -1248,12 +1248,12 @@ State 71
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 111
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 72
@@ -1269,12 +1269,12 @@ State 72
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 112
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 73
@@ -1290,12 +1290,12 @@ State 73
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 113
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 74
@@ -1311,12 +1311,12 @@ State 74
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 114
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 75
@@ -1333,12 +1333,12 @@ State 75
     CLASS   shift, and go to state 24
     '}'     shift, and go to state 116
 
-    field               转到状态 44
-    var_def             转到状态 27
-    type                转到状态 28
-    func_def            转到状态 29
-    func_normal_def     转到状态 30
-    func_anonymous_def  转到状态 31
+    field            转到状态 44
+    var_def          转到状态 27
+    type             转到状态 28
+    func_def         转到状态 29
+    func_normal_def  转到状态 30
+    func_anony_def   转到状态 31
 
 
 State 76
@@ -1446,23 +1446,23 @@ State 86
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 123
-    func_anonymous_def  转到状态 91
-    formals             转到状态 124
-    formals_body        转到状态 68
-    formal              转到状态 69
-    expr                转到状态 125
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 123
+    func_anony_def  转到状态 91
+    formals         转到状态 124
+    formals_body    转到状态 68
+    formal          转到状态 69
+    expr            转到状态 125
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 87
@@ -1489,12 +1489,12 @@ State 87
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 127
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 127
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 88
@@ -1521,12 +1521,12 @@ State 88
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 129
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 129
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 89
@@ -1553,21 +1553,21 @@ State 89
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 130
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 130
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 90
 
    31 type: type . '[' ']'
-   43 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-   44                   | type . '(' formals ')' error '{' stmts '}'
-   45                   | type . '(' formals ')' OP_ARROW error stmts '}'
-   46                   | type . '(' formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+   44               | type . '(' formals ')' error '{' stmts '}'
+   45               | type . '(' formals ')' OP_ARROW error stmts '}'
+   46               | type . '(' formals ')' OP_ARROW '{' stmts error
 
     '('  shift, and go to state 47
     '['  shift, and go to state 48
@@ -1575,7 +1575,7 @@ State 90
 
 State 91
 
-  139 left_expr: func_anonymous_def . '(' actuals ')'
+  139 left_expr: func_anony_def . '(' actuals ')'
 
     '('  shift, and go to state 131
 
@@ -1746,23 +1746,23 @@ State 104
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 123
-    func_anonymous_def  转到状态 91
-    formals             转到状态 151
-    formals_body        转到状态 68
-    formal              转到状态 69
-    expr                转到状态 125
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 123
+    func_anony_def  转到状态 91
+    formals         转到状态 151
+    formals_body    转到状态 68
+    formal          转到状态 69
+    expr            转到状态 125
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 105
@@ -1790,10 +1790,10 @@ State 107
 
 State 108
 
-   43 func_anonymous_def: type '(' formals ')' . OP_ARROW '{' stmts '}'
-   44                   | type '(' formals ')' . error '{' stmts '}'
-   45                   | type '(' formals ')' . OP_ARROW error stmts '}'
-   46                   | type '(' formals ')' . OP_ARROW '{' stmts error
+   43 func_anony_def: type '(' formals ')' . OP_ARROW '{' stmts '}'
+   44               | type '(' formals ')' . error '{' stmts '}'
+   45               | type '(' formals ')' . OP_ARROW error stmts '}'
+   46               | type '(' formals ')' . OP_ARROW '{' stmts error
 
     error     shift, and go to state 154
     OP_ARROW  shift, and go to state 155
@@ -1940,29 +1940,29 @@ State 122
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 125
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 125
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 123
 
    31 type: type . '[' ']'
-   43 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-   44                   | type . '(' formals ')' error '{' stmts '}'
-   45                   | type . '(' formals ')' OP_ARROW error stmts '}'
-   46                   | type . '(' formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+   44               | type . '(' formals ')' error '{' stmts '}'
+   45               | type . '(' formals ')' OP_ARROW error stmts '}'
+   46               | type . '(' formals ')' OP_ARROW '{' stmts error
    54 formal: type . IDENTIFIER
    55       | type . error
 
@@ -2031,7 +2031,7 @@ State 130
 
 State 131
 
-  139 left_expr: func_anonymous_def '(' . actuals ')'
+  139 left_expr: func_anony_def '(' . actuals ')'
 
     error            shift, and go to state 19
     IDENTIFIER       shift, and go to state 77
@@ -2055,23 +2055,23 @@ State 131
 
     ')'  reduce using rule 94 (actuals)
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actuals             转到状态 167
-    actuals_body        转到状态 168
-    actual              转到状态 169
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actuals         转到状态 167
+    actuals_body    转到状态 168
+    actual          转到状态 169
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 132
@@ -2105,17 +2105,17 @@ State 133
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    and_expr            转到状态 171
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    and_expr        转到状态 171
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 134
@@ -2142,16 +2142,16 @@ State 134
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    eq_expr             转到状态 172
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    eq_expr         转到状态 172
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 135
@@ -2178,15 +2178,15 @@ State 135
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    cmp_expr            转到状态 173
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    cmp_expr        转到状态 173
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 136
@@ -2213,15 +2213,15 @@ State 136
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    cmp_expr            转到状态 174
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    cmp_expr        转到状态 174
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 137
@@ -2248,14 +2248,14 @@ State 137
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    add_expr            转到状态 175
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    add_expr        转到状态 175
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 138
@@ -2282,14 +2282,14 @@ State 138
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    add_expr            转到状态 176
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    add_expr        转到状态 176
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 139
@@ -2316,14 +2316,14 @@ State 139
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    add_expr            转到状态 177
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    add_expr        转到状态 177
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 140
@@ -2350,14 +2350,14 @@ State 140
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    add_expr            转到状态 178
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    add_expr        转到状态 178
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 141
@@ -2384,13 +2384,13 @@ State 141
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    mul_expr            转到状态 179
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    mul_expr        转到状态 179
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 142
@@ -2417,13 +2417,13 @@ State 142
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    mul_expr            转到状态 180
-    unary_expr          转到状态 99
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    mul_expr        转到状态 180
+    unary_expr      转到状态 99
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 143
@@ -2450,12 +2450,12 @@ State 143
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 181
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 181
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 144
@@ -2482,12 +2482,12 @@ State 144
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 182
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 182
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 145
@@ -2514,12 +2514,12 @@ State 145
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    unary_expr          转到状态 183
-    left_expr           转到状态 128
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    unary_expr      转到状态 183
+    left_expr       转到状态 128
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 146
@@ -2548,23 +2548,23 @@ State 146
 
     ')'  reduce using rule 94 (actuals)
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actuals             转到状态 184
-    actuals_body        转到状态 168
-    actual              转到状态 169
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actuals         转到状态 184
+    actuals_body    转到状态 168
+    actual          转到状态 169
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 147
@@ -2591,19 +2591,19 @@ State 147
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 185
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 185
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 148
@@ -2630,20 +2630,20 @@ State 148
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 186
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 186
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 149
@@ -2688,16 +2688,16 @@ State 153
 
 State 154
 
-   44 func_anonymous_def: type '(' formals ')' error . '{' stmts '}'
+   44 func_anony_def: type '(' formals ')' error . '{' stmts '}'
 
     '{'  shift, and go to state 190
 
 
 State 155
 
-   43 func_anonymous_def: type '(' formals ')' OP_ARROW . '{' stmts '}'
-   45                   | type '(' formals ')' OP_ARROW . error stmts '}'
-   46                   | type '(' formals ')' OP_ARROW . '{' stmts error
+   43 func_anony_def: type '(' formals ')' OP_ARROW . '{' stmts '}'
+   45               | type '(' formals ')' OP_ARROW . error stmts '}'
+   46               | type '(' formals ')' OP_ARROW . '{' stmts error
 
     error  shift, and go to state 191
     '{'    shift, and go to state 192
@@ -2753,23 +2753,23 @@ State 159
 
     ')'  reduce using rule 94 (actuals)
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actuals             转到状态 193
-    actuals_body        转到状态 168
-    actual              转到状态 169
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actuals         转到状态 193
+    actuals_body    转到状态 168
+    actual          转到状态 169
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 160
@@ -2798,20 +2798,20 @@ State 160
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 194
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 194
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 161
@@ -2860,7 +2860,7 @@ State 166
 
 State 167
 
-  139 left_expr: func_anonymous_def '(' actuals . ')'
+  139 left_expr: func_anony_def '(' actuals . ')'
 
     ')'  shift, and go to state 196
 
@@ -3095,7 +3095,7 @@ State 189
 
 State 190
 
-   44 func_anonymous_def: type '(' formals ')' error '{' . stmts '}'
+   44 func_anony_def: type '(' formals ')' error '{' . stmts '}'
 
     $default  reduce using rule 57 (stmts)
 
@@ -3104,7 +3104,7 @@ State 190
 
 State 191
 
-   45 func_anonymous_def: type '(' formals ')' OP_ARROW error . stmts '}'
+   45 func_anony_def: type '(' formals ')' OP_ARROW error . stmts '}'
 
     $default  reduce using rule 57 (stmts)
 
@@ -3113,8 +3113,8 @@ State 191
 
 State 192
 
-   43 func_anonymous_def: type '(' formals ')' OP_ARROW '{' . stmts '}'
-   46                   | type '(' formals ')' OP_ARROW '{' . stmts error
+   43 func_anony_def: type '(' formals ')' OP_ARROW '{' . stmts '}'
+   46               | type '(' formals ')' OP_ARROW '{' . stmts error
 
     $default  reduce using rule 57 (stmts)
 
@@ -3144,7 +3144,7 @@ State 195
 
 State 196
 
-  139 left_expr: func_anonymous_def '(' actuals ')' .
+  139 left_expr: func_anony_def '(' actuals ')' .
 
     $default  reduce using rule 139 (left_expr)
 
@@ -3173,21 +3173,21 @@ State 197
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actual              转到状态 211
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actual          转到状态 211
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 198
@@ -3215,21 +3215,21 @@ State 198
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actual              转到状态 213
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actual          转到状态 213
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 199
@@ -3272,23 +3272,23 @@ State 201
 
     ')'  reduce using rule 94 (actuals)
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    actuals             转到状态 214
-    actuals_body        转到状态 168
-    actual              转到状态 169
-    expr                转到状态 170
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    actuals         转到状态 214
+    actuals_body    转到状态 168
+    actual          转到状态 169
+    expr            转到状态 170
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 202
@@ -3318,7 +3318,7 @@ State 204
 
 State 205
 
-   44 func_anonymous_def: type '(' formals ')' error '{' stmts . '}'
+   44 func_anony_def: type '(' formals ')' error '{' stmts . '}'
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
@@ -3348,33 +3348,33 @@ State 205
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 206
 
-   45 func_anonymous_def: type '(' formals ')' OP_ARROW error stmts . '}'
+   45 func_anony_def: type '(' formals ')' OP_ARROW error stmts . '}'
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
@@ -3404,34 +3404,34 @@ State 206
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 207
 
-   43 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts . '}'
-   46                   | type '(' formals ')' OP_ARROW '{' stmts . error
+   43 func_anony_def: type '(' formals ')' OP_ARROW '{' stmts . '}'
+   46               | type '(' formals ')' OP_ARROW '{' stmts . error
    56 stmts: stmts . stmt
 
     error            shift, and go to state 237
@@ -3461,28 +3461,28 @@ State 207
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 208
@@ -3643,20 +3643,20 @@ State 222
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 254
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 254
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 223
@@ -3672,9 +3672,9 @@ State 223
 
 State 224
 
-   44 func_anonymous_def: type '(' formals ')' error '{' stmts '}' .
+   44 func_anony_def: type '(' formals ')' error '{' stmts '}' .
 
-    $default  reduce using rule 44 (func_anonymous_def)
+    $default  reduce using rule 44 (func_anony_def)
 
 
 State 225
@@ -3700,10 +3700,10 @@ State 227
    24        | type . error '=' assign_expr ';'
    25        | type . IDENTIFIER '=' assign_expr error
    31 type: type . '[' ']'
-   43 func_anonymous_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
-   44                   | type . '(' formals ')' error '{' stmts '}'
-   45                   | type . '(' formals ')' OP_ARROW error stmts '}'
-   46                   | type . '(' formals ')' OP_ARROW '{' stmts error
+   43 func_anony_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
+   44               | type . '(' formals ')' error '{' stmts '}'
+   45               | type . '(' formals ')' OP_ARROW error stmts '}'
+   46               | type . '(' formals ')' OP_ARROW '{' stmts error
 
     error       shift, and go to state 257
     IDENTIFIER  shift, and go to state 258
@@ -3771,26 +3771,26 @@ State 235
 
 State 236
 
-   45 func_anonymous_def: type '(' formals ')' OP_ARROW error stmts '}' .
+   45 func_anony_def: type '(' formals ')' OP_ARROW error stmts '}' .
 
-    $default  reduce using rule 45 (func_anonymous_def)
+    $default  reduce using rule 45 (func_anony_def)
 
 
 State 237
 
    32 type: error . IDENTIFIER
-   46 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts error .
+   46 func_anony_def: type '(' formals ')' OP_ARROW '{' stmts error .
 
     IDENTIFIER  shift, and go to state 40
 
-    $default  reduce using rule 46 (func_anonymous_def)
+    $default  reduce using rule 46 (func_anony_def)
 
 
 State 238
 
-   43 func_anonymous_def: type '(' formals ')' OP_ARROW '{' stmts '}' .
+   43 func_anony_def: type '(' formals ')' OP_ARROW '{' stmts '}' .
 
-    $default  reduce using rule 43 (func_anonymous_def)
+    $default  reduce using rule 43 (func_anony_def)
 
 
 State 239
@@ -3825,28 +3825,28 @@ State 239
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 240
@@ -3888,28 +3888,28 @@ State 241
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 242
@@ -3944,28 +3944,28 @@ State 242
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 243
@@ -4000,28 +4000,28 @@ State 243
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 244
@@ -4058,28 +4058,28 @@ State 244
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 245
@@ -4106,21 +4106,21 @@ State 245
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 267
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 267
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 246
@@ -4150,21 +4150,21 @@ State 246
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 269
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 269
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 247
@@ -4191,21 +4191,21 @@ State 247
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 273
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 273
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 248
@@ -4236,21 +4236,21 @@ State 248
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 275
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 275
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 249
@@ -4277,21 +4277,21 @@ State 249
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 276
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 276
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 250
@@ -4320,21 +4320,21 @@ State 250
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 277
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 277
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 251
@@ -4399,20 +4399,20 @@ State 255
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 283
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 283
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 256
@@ -4441,20 +4441,20 @@ State 256
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    expr                转到状态 284
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    expr            转到状态 284
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 257
@@ -4713,19 +4713,19 @@ State 285
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 92
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 92
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 286
@@ -4760,19 +4760,19 @@ State 287
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 105
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 105
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 288
@@ -4872,21 +4872,21 @@ State 298
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 312
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 312
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 299
@@ -4914,19 +4914,19 @@ State 299
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 314
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    assign_expr     转到状态 314
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 300
@@ -4953,21 +4953,21 @@ State 300
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 315
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 315
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 301
@@ -4997,21 +4997,21 @@ State 301
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    bool_expr           转到状态 316
-    expr                转到状态 268
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type            转到状态 90
+    func_anony_def  转到状态 91
+    bool_expr       转到状态 316
+    expr            转到状态 268
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 302
@@ -5235,28 +5235,28 @@ State 325
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 326
@@ -5291,28 +5291,28 @@ State 326
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 327
@@ -5347,28 +5347,28 @@ State 327
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 328
@@ -5404,28 +5404,28 @@ State 328
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 329
@@ -5452,21 +5452,21 @@ State 329
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 341
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 341
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 330
@@ -5493,21 +5493,21 @@ State 330
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 342
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 342
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 331
@@ -5534,21 +5534,21 @@ State 331
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 343
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 343
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 332
@@ -5577,21 +5577,21 @@ State 332
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    type                转到状态 90
-    func_anonymous_def  转到状态 91
-    assign_expr         转到状态 272
-    assign_list         转到状态 344
-    assign_list_body    转到状态 274
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    type              转到状态 90
+    func_anony_def    转到状态 91
+    assign_expr       转到状态 272
+    assign_list       转到状态 344
+    assign_list_body  转到状态 274
+    or_expr           转到状态 93
+    and_expr          转到状态 94
+    eq_expr           转到状态 95
+    cmp_expr          转到状态 96
+    add_expr          转到状态 97
+    mul_expr          转到状态 98
+    unary_expr        转到状态 99
+    left_expr         转到状态 100
+    prim_expr         转到状态 101
+    constant          转到状态 102
 
 
 State 333
@@ -5626,28 +5626,28 @@ State 333
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 334
@@ -5682,28 +5682,28 @@ State 334
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 335
@@ -5738,28 +5738,28 @@ State 335
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 336
@@ -5794,28 +5794,28 @@ State 336
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 337
@@ -6047,28 +6047,28 @@ State 362
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 363
@@ -6103,28 +6103,28 @@ State 363
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 364
@@ -6159,28 +6159,28 @@ State 364
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 365
@@ -6215,28 +6215,28 @@ State 365
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 366
@@ -6271,28 +6271,28 @@ State 366
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 367
@@ -6327,28 +6327,28 @@ State 367
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 368
@@ -6383,28 +6383,28 @@ State 368
     '-'              shift, and go to state 88
     '!'              shift, and go to state 89
 
-    var_def             转到状态 226
-    type                转到状态 227
-    func_anonymous_def  转到状态 91
-    stmt                转到状态 228
-    expr_stmt           转到状态 229
-    if_stmt             转到状态 230
-    while_stmt          转到状态 231
-    for_stmt            转到状态 232
-    return_stmt         转到状态 233
-    print_stmt          转到状态 234
-    expr                转到状态 235
-    assign_expr         转到状态 126
-    or_expr             转到状态 93
-    and_expr            转到状态 94
-    eq_expr             转到状态 95
-    cmp_expr            转到状态 96
-    add_expr            转到状态 97
-    mul_expr            转到状态 98
-    unary_expr          转到状态 99
-    left_expr           转到状态 100
-    prim_expr           转到状态 101
-    constant            转到状态 102
+    var_def         转到状态 226
+    type            转到状态 227
+    func_anony_def  转到状态 91
+    stmt            转到状态 228
+    expr_stmt       转到状态 229
+    if_stmt         转到状态 230
+    while_stmt      转到状态 231
+    for_stmt        转到状态 232
+    return_stmt     转到状态 233
+    print_stmt      转到状态 234
+    expr            转到状态 235
+    assign_expr     转到状态 126
+    or_expr         转到状态 93
+    and_expr        转到状态 94
+    eq_expr         转到状态 95
+    cmp_expr        转到状态 96
+    add_expr        转到状态 97
+    mul_expr        转到状态 98
+    unary_expr      转到状态 99
+    left_expr       转到状态 100
+    prim_expr       转到状态 101
+    constant        转到状态 102
 
 
 State 369

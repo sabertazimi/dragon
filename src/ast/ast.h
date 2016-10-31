@@ -86,8 +86,6 @@ typedef struct func_anony_def {
 } *func_anony_def_t;
 /********** end of func_def_t **********/
 
-
-
 /********** start of expr_t **********/
 /*
  * @brief: kind of expr_t
@@ -106,6 +104,9 @@ typedef enum expr_kind {
     EXPR_LEFT,
     EXPR_PRIM,
 } expr_kind_t;
+
+// pre-defination to solve defination dependencies error
+typedef struct expr_assign_t *expr_assign_t;
 
 /*
  * @interface: expr_t
@@ -236,7 +237,7 @@ typedef struct expr_left_index {
     expr_kind_t kind;
     expr_left_kind_t sub_kind;
     expr_left_t array;
-    expr_left_t index;
+    expr_t index;
 } *expr_left_index_t;
 
 /*
@@ -535,15 +536,6 @@ typedef struct expr_or_normal {
 } *expr_or_normal_t;
 
 /*
- * @interface: expr_bool_t
- */
-typedef struct expr_bool {
-    expr_kind_t kind;           ///< EXPR_BOOL
-    expr_kind_t sub_kind;       ///< 0
-    expr_t body;
-} *expr_bool_t;
-
-/*
  * @brief: kind of expr_assign_t
  */
 typedef enum expr_assign_kind {
@@ -554,10 +546,10 @@ typedef enum expr_assign_kind {
 /*
  * @interface: expr_assign_t
  */
-typedef struct expr_assign {
+struct expr_assign_t {
     expr_kind_t kind;
     expr_assign_kind_t sub_kind;
-} *expr_assign_t;
+};
 
 /*
  * @implements: expr_assign_or_t
@@ -578,6 +570,14 @@ typedef struct expr_assign_normal {
     expr_assign_t right;
 } *expr_assign_normal_t;
 
+/*
+ * @interface: expr_bool_t
+ */
+typedef struct expr_bool {
+    expr_kind_t kind;           ///< EXPR_BOOL
+    expr_kind_t sub_kind;       ///< 0
+    expr_t body;
+} *expr_bool_t;
 /********** end of expr_t **********/
 
 /********** start of formal_t **********/

@@ -8,7 +8,7 @@ PROG=dragon
 
 # tools and their flags
 CC=gcc
-CFLAGS=-Wall -Werror -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-Wall -Wextra -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=
 YACC=bison
