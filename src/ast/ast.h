@@ -591,6 +591,9 @@ typedef struct formal {
 /********** end of formal_t **********/
 
 /********** start of actual_t **********/
+/*
+ * @implements: actual_t
+ */
 typedef struct actual {
     expr_t expr;
 } *actual_t;

@@ -304,6 +304,20 @@ expr_bool_t expr_bool_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_t body
     return p;
 }
 
+formal_t formal_new(type_t type, string id) {
+    formal_t p = (formal_t)malloc(sizeof(*p));
+    p->type = type;
+    p->id = cpystr(id);
+    return p;
+}
+
+actual_t actual_new(expr_t expr) {
+    actual_t p = (actual_t)malloc(sizeof(*p));
+    p->expr = expr;
+    return p;
+}
+
+
 /* 583 */
 
 /* p->id = (char *)malloc(sizeof(char) * (strlen(str) + 1)); */
