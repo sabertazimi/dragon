@@ -120,6 +120,7 @@ field
 var_def
     : type IDENTIFIER ';'
     | type IDENTIFIER '=' assign_expr ';'
+    /* error recovery */
     | type error ';'
     {
         proposed_solution("expected identifier as variable name");
@@ -145,6 +146,7 @@ type
     | VOID
     | CLASS IDENTIFIER
     | type '[' ']'
+    /* error recovery */
     | error IDENTIFIER
     {
         proposed_solution("unkown type");
@@ -162,6 +164,7 @@ func_def
 
 func_normal_def
     : type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
+    /* error recovery */
     | type error '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
         proposed_solution("expected identifier as variable name");
@@ -190,6 +193,7 @@ func_normal_def
 
 func_anonymous_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
+    /* error recovery */
     | type '(' formals ')' error '{' stmts '}'
     {
         proposed_solution("expected '=>' as function defination");
@@ -207,6 +211,7 @@ func_anonymous_def
 formals
     : formals_body
     | VOID
+    /* error recovery */
     | error {
         proposed_solution("expected keyword 'void' or at least 1 parameter");
     }
@@ -215,6 +220,7 @@ formals
 formals_body
     : formals_body ',' type IDENTIFIER
     | type IDENTIFIER
+    /* error recovery */
     | formals_body error type IDENTIFIER
     {
         proposed_solution("expected ',' as separator");
@@ -251,6 +257,7 @@ stmt
 expr_stmt
     : expr ';'
     | ';'
+    /* error recovery */
     | expr error
     {
         proposed_solution("expected ';'");
@@ -260,6 +267,7 @@ expr_stmt
 if_stmt
     : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
+    /* error recovery */
     | IF error bool_expr ')' '{' stmts '}' %prec NOELSE
     {
         proposed_solution("unmatched '(' or ')'");
@@ -276,6 +284,7 @@ if_stmt
 
 while_stmt
     : WHILE '(' bool_expr ')' '{' stmts '}'
+    /* error recovery */
     | WHILE error bool_expr ')' '{' stmts '}'
     {
         proposed_solution("unmatched '(' or ')'");
@@ -292,6 +301,7 @@ while_stmt
 
 for_stmt
     : FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
+    /* error recovery */
     | FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
     {
         proposed_solution("unmatched '(' or ')'");
@@ -318,6 +328,7 @@ return_stmt
     : RETURN ';'
     | RETURN VOID ';'
     | RETURN expr ';'
+    /* error recovery */
     | RETURN error ';'
     {
         proposed_solution("unkown return value");
@@ -334,6 +345,7 @@ return_stmt
 
 print_stmt
     : PRINT '(' expr ')' ';'
+    /* error recovery */
     | PRINT error expr ')' ';'
     {
         proposed_solution("unmatched '(' or ')'");
@@ -356,6 +368,7 @@ actuals
 actuals_body
     : actuals_body ',' expr
     | expr
+    /* error recovery */
     | actuals_body error expr
     {
         proposed_solution("expected ',' as separator");
@@ -382,14 +395,16 @@ assign_expr
 assign_list
     : assign_list_body
     | VOID
+    /* error recovery */
     | error {
-        proposed_solution("expected keyword 'void' or assign expression");
+        proposed_solution("expected keyword 'void' or at least 1 assign expression");
     }
     ;
 
 assign_list_body
     : assign_list_body ',' assign_expr
     | assign_expr
+    /* error recovery */
     | assign_list_body ',' error
     {
         proposed_solution("unexpected ','");
@@ -458,6 +473,7 @@ prim_expr
     | READLINE '(' ')'
     | NEW IDENTIFIER '(' actuals ')'
     | NEW type '[' expr ']'
+    /* error recovery */
 	| '(' error ')'
     {
         proposed_solution("unexpected nested parenthesis");

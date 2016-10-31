@@ -22,8 +22,9 @@ SRC_PATH=src
 OBJ_PATH=obj
 BIN_PATH=bin
 TEST_PATH=test
-INCLUDE_PATH=src/libs 	\
-			 src/errors
+INCLUDE_PATH=src/libs 		\
+			 src/errors 	\
+			 src/ast
 
 # test enable flags
 LEX_TEST=0
