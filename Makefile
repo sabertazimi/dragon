@@ -22,6 +22,7 @@ SRC_PATH=src
 OBJ_PATH=obj
 BIN_PATH=bin
 TEST_PATH=test
+TOOLS_PATH=tools
 INCLUDE_PATH=src/libs 		\
 			 src/errors 	\
 			 src/ast
@@ -64,7 +65,7 @@ $(PROG): $(OBJS)
 	@echo
 	@echo '>>>' Build Success! '<<<'
 
-.PHONY = clean release run spec count
+.PHONY = clean release run count spec
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
@@ -79,6 +80,9 @@ release:
 run:
 	./$(BIN_PATH)/$(PROG)
 
+count:
+	./$(TOOLS_PATH)/line_counter
+
 spec:
 ifeq ($(LEX_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n>>> Lex test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
@@ -92,9 +96,6 @@ ifeq ($(SYNTAX_TEST), 1)
 	@echo '>>>' Syntax Error Report Test Passed! '<<<'
 	@echo
 endif
-
-count:
-	$(shell find src -name "*.[chly]" | xargs cat | grep -v ^$ | wc -l)
 
 # vim:ft=make
 #
