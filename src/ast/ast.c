@@ -175,12 +175,17 @@ void expr_print(expr_t node, int num_space) {
         case EXPR_EQ:
         {
             expr_eq_t p = (expr_eq_t)node;
-            fprintf(stdout, "expr_eq->\n");
 
             switch (p->sub_kind) {
                 case EXPR_EQ_EQ:
+                    fprintf(stdout, "expr_eq->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 case EXPR_EQ_NE:
+                    fprintf(stdout, "expr_ne->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 default:
                     fprintf(stdout, "unkown expr");
@@ -188,50 +193,223 @@ void expr_print(expr_t node, int num_space) {
                     break;
             }
 
-            expr_print((expr_t)p->left, num_space + SPACE_STEP);
-            expr_print((expr_t)p->right, num_space + SPACE_STEP);
             break;
         }
-       case EXPR_CMP:
+        case EXPR_CMP:
         {
             expr_cmp_t p = (expr_cmp_t)node;
-            fprintf(stdout, "expr_cmp->\n");
-            expr_print((expr_t)p->left, num_space + SPACE_STEP);
-            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+
+            switch (p->sub_kind) {
+                case EXPR_CMP_LT:
+                    fprintf(stdout, "expr_cmp_lt->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_CMP_GT:
+                    fprintf(stdout, "expr_cmp_gt->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_CMP_LE:
+                    fprintf(stdout, "expr_cmp_le->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_CMP_GE:
+                    fprintf(stdout, "expr_cmp_ge->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         case EXPR_ADD:
         {
             expr_add_t p = (expr_add_t)node;
-            fprintf(stdout, "expr_add->\n");
-            expr_print((expr_t)p->left, num_space + SPACE_STEP);
-            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+
+            switch (p->sub_kind) {
+                case EXPR_ADD_ADD:
+                    fprintf(stdout, "expr_add->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_ADD_SUB:
+                    fprintf(stdout, "expr_sub->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         case EXPR_MUL:
         {
             expr_mul_t p = (expr_mul_t)node;
-            fprintf(stdout, "expr_mul->\n");
-            expr_print((expr_t)p->left, num_space + SPACE_STEP);
-            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+
+            switch (p->sub_kind) {
+                case EXPR_MUL_MUL:
+                    fprintf(stdout, "expr_mul->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_MUL_DIV:
+                    fprintf(stdout, "expr_div->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                case EXPR_MUL_MOD:
+                    fprintf(stdout, "expr_mod->\n");
+                    expr_print((expr_t)p->left, num_space + SPACE_STEP);
+                    expr_print((expr_t)p->right, num_space + SPACE_STEP);
+                    break;
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         case EXPR_UNARY:
         {
             expr_unary_t p = (expr_unary_t)node;
-            fprintf(stdout, "expr_unary->\n");
+
+            switch (p->sub_kind) {
+                case EXPR_UNARY_THIS:
+                    fprintf(stdout, "this");
+                    break;
+                case EXPR_UNARY_PLUS:
+                    fprintf(stdout, "expr_unary_plus->\n");
+                    expr_print((expr_t)p->body, num_space + SPACE_STEP);
+                    break;
+                case EXPR_UNARY_MINUS:
+                    fprintf(stdout, "expr_unary_minus->\n");
+                    expr_print((expr_t)p->body, num_space + SPACE_STEP);
+                    break;
+                case EXPR_UNARY_NOT:
+                    fprintf(stdout, "expr_unary_not->\n");
+                    expr_print((expr_t)p->body, num_space + SPACE_STEP);
+                    break;
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         case EXPR_LEFT:
         {
             expr_left_t p = (expr_left_t)node;
-            fprintf(stdout, "expr_left->\n");
+
+            switch (p->sub_kind) {
+                case EXPR_LEFT_INDEX:
+                {
+                    expr_left_index_t pp = (expr_left_index_t)p;
+                    fprintf(stdout, "expr_left_array_index->\n");
+                    expr_print((expr_t)pp->array, num_space + SPACE_STEP);
+                    expr_print((expr_t)pp->index, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_LEFT_CLASS_FIELD:
+                {
+                    expr_left_class_field_t pp = (expr_left_class_field_t)p;
+                    fprintf(stdout, "expr_left_class_field->%s\n", pp->field_id);
+                    expr_print((expr_t)pp->left, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_LEFT_CLASS_CALL:
+                {
+                    expr_left_class_call_t pp = (expr_left_class_call_t)p;
+                    fprintf(stdout, "expr_left_class_call->%s\n", pp->field_id);
+                    expr_print((expr_t)pp->left, num_space + SPACE_STEP);
+                    actuals_print(pp->actuals, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_LEFT_FUNC_CALL:
+                {
+                    expr_left_func_call_t pp = (expr_left_func_call_t)p;
+                    fprintf(stdout, "expr_left_func_call->\n");
+                    expr_print((expr_t)pp->left, num_space + SPACE_STEP);
+                    actuals_print(pp->actuals, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_LEFT_ANONY_CALL:
+                {
+                    expr_left_anony_call_t pp = (expr_left_anony_call_t)p;
+                    fprintf(stdout, "expr_left_anony_call->\n");
+                    func_def_print((func_def_t)pp->func_body, num_space + SPACE_STEP);
+                    actuals_print(pp->actuals, num_space + SPACE_STEP);
+                    break;
+                }
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         case EXPR_PRIM:
         {
             expr_prim_t p = (expr_prim_t)node;
-            fprintf(stdout, "expr_prim->\n");
+
+            switch (p->sub_kind) {
+                case EXPR_PRIM_INDET:
+                {
+                    expr_prim_indet_t pp = (expr_prim_indet_t)p;
+                    fprintf(stdout, "expr_prim_ident->%s", pp->id);
+                    break;
+                }
+                case EXPR_PRIM_CONST:
+                {
+                    expr_prim_const_t pp = (expr_prim_const_t)p;
+                    fprintf(stdout, "expr_prim_const_t->\n",);
+                    const_print((expr_t)pp->const_val, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_PRIM_READINT:
+                {
+                    expr_prim_read_t pp = (expr_prim_read_t)p;
+                    fprintf(stdout, "expr_prim_readint");
+                    break;
+                }
+                case EXPR_PRIM_READLINE:
+                {
+                    expr_prim_read_t pp = (expr_prim_read_t)p;
+                    fprintf(stdout, "expr_prim_readline");
+                    break;
+                }
+                case EXPR_PRIM_NEWCLASS:
+                {
+                    expr_prim_newclass_t pp = (expr_prim_newclass_t)p;
+                    fprintf(stdout, "expr_prim_newclass->%s\n", pp->id);
+                    actuals_print(pp->actuals, num_space + SPACE_STEP);
+                    break;
+                }
+                case EXPR_PRIM_NEWARRAY:
+                {
+                    expr_prim_newarray_t pp = (expr_prim_newarray_t)p;
+                    fprintf(stdout, "expr_prim_newarray->\n");
+                    type_print(pp->type, num_space + SPACE_STEP);
+                    expr_print(pp->length, num_space + SPACE_STEP);
+                    break;
+                }
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
             break;
         }
         default:

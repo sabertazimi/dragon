@@ -70,6 +70,14 @@ add
 
 to .y file
 
+### circle defination dependencies
+
+solution: pre-defination(without implement)
+
+### re-defination variable in switch/case statement
+
+solution: block scope
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)
