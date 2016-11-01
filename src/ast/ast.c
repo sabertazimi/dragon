@@ -16,11 +16,23 @@ static string cpystr(string text) {
     return str;
 }
 
-const_t const_new(const_kind_t kind, int value, string text) {
-    const_t p = (const_t)malloc(sizeof(*p));
+const_num_t const_num_new(const_kind_t kind, int value) {
+    const_num_t p = (const_num_t)malloc(sizeof(*p));
     p->kind = kind;
     p->value = value;
+    return p;
+}
+
+const_string_t const_string_new(const_kind_t kind, string text) {
+    const_string_t p = (const_string_t)malloc(sizeof(*p));
+    p->kind = kind;
     p->text = cpystr(text);
+    return p;
+}
+
+const_nil_t const_nil_new(const_kind_t kind) {
+    const_nil_t p = (const_nil_t)malloc(sizeof(*p));
+    p->kind = kind;
     return p;
 }
 
@@ -75,15 +87,8 @@ expr_prim_nested_t expr_prim_nested_new(expr_kind_t kind, expr_prim_kind_t sub_k
     return p;
 }
 
-expr_prim_readint_t expr_prim_readint_new(expr_kind_t kind, expr_prim_kind_t sub_kind) {
-    expr_prim_readint_t p = (expr_prim_readint_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    return p;
-}
-
-expr_prim_readline_t expr_prim_readline_new(expr_kind_t kind, expr_prim_kind_t sub_kind) {
-    expr_prim_readline_t p = (expr_prim_readline_t)malloc(sizeof(*p));
+expr_prim_read_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind) {
+    expr_prim_read_t p = (expr_prim_read_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     return p;
@@ -104,14 +109,6 @@ expr_prim_newarray_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t s
     p->sub_kind = sub_kind;
     p->type = type;
     p->length = length;
-    return p;
-}
-
-expr_left_prim_t expr_left_prim_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_prim_t body) {
-    expr_left_prim_t p = (expr_left_prim_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
     return p;
 }
 
@@ -161,32 +158,16 @@ expr_left_anony_call_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind
     return p;
 }
 
-expr_unary_left_t expr_unary_left_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_left_t body) {
-    expr_unary_left_t p = (expr_unary_left_t)malloc(sizeof(*p));
+expr_unary_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_unary_t body) {
+    expr_unary_t p = (expr_unary_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->body = body;
     return p;
 }
 
-expr_unary_normal_t expr_unary_normal_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_unary_t body) {
-    expr_unary_normal_t p = (expr_unary_normal_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_mul_unary_t expr_mul_unary_new(expr_kind_t kind, expr_mul_kind_t sub_kind, expr_unary_t body) {
-    expr_mul_unary_t p = (expr_mul_unary_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_mul_normal_t expr_mul_normal_new(expr_kind_t kind, expr_mul_kind_t sub_kind, expr_mul_t left, expr_unary_t right) {
-    expr_mul_normal_t p = (expr_mul_normal_t)malloc(sizeof(*p));
+expr_mul_t expr_mul_new(expr_kind_t kind, expr_mul_kind_t sub_kind, expr_mul_t left, expr_unary_t right) {
+    expr_mul_t p = (expr_mul_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -194,16 +175,8 @@ expr_mul_normal_t expr_mul_normal_new(expr_kind_t kind, expr_mul_kind_t sub_kind
     return p;
 }
 
-expr_add_mul_t expr_add_mul_new(expr_kind_t kind, expr_add_kind_t sub_kind, expr_mul_t body) {
-    expr_add_mul_t p = (expr_add_mul_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_add_normal_t expr_add_normal_new(expr_kind_t kind, expr_add_kind_t sub_kind, expr_add_t left, expr_mul_t right) {
-    expr_add_normal_t p = (expr_add_normal_t)malloc(sizeof(*p));
+expr_add_t expr_add_new(expr_kind_t kind, expr_add_kind_t sub_kind, expr_add_t left, expr_mul_t right) {
+    expr_add_t p = (expr_add_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -211,16 +184,8 @@ expr_add_normal_t expr_add_normal_new(expr_kind_t kind, expr_add_kind_t sub_kind
     return p;
 }
 
-expr_cmp_add_t expr_cmp_add_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_add_t body) {
-    expr_cmp_add_t p = (expr_cmp_add_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_cmp_normal_t expr_cmp_normal_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_cmp_t left, expr_add_t right) {
-    expr_cmp_normal_t p = (expr_cmp_normal_t)malloc(sizeof(*p));
+expr_cmp_t expr_cmp_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_cmp_t left, expr_add_t right) {
+    expr_cmp_t p = (expr_cmp_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -228,16 +193,8 @@ expr_cmp_normal_t expr_cmp_normal_new(expr_kind_t kind, expr_cmp_kind_t sub_kind
     return p;
 }
 
-expr_eq_cmp_t expr_eq_cmp_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_cmp_t body) {
-    expr_eq_cmp_t p = (expr_eq_cmp_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_eq_normal_t expr_eq_normal_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, expr_cmp_t right) {
-    expr_eq_normal_t p = (expr_eq_normal_t)malloc(sizeof(*p));
+expr_eq_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, expr_cmp_t right) {
+    expr_eq_t p = (expr_eq_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -245,16 +202,8 @@ expr_eq_normal_t expr_eq_normal_new(expr_kind_t kind, expr_eq_kind_t sub_kind, e
     return p;
 }
 
-expr_and_eq_t expr_and_eq_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_eq_t body) {
-    expr_and_eq_t p = (expr_and_eq_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_and_normal_t expr_and_normal_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_and_t left, expr_eq_t right) {
-    expr_and_normal_t p = (expr_and_normal_t)malloc(sizeof(*p));
+expr_and_t expr_and_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_and_t left, expr_eq_t right) {
+    expr_and_t p = (expr_and_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -262,16 +211,8 @@ expr_and_normal_t expr_and_normal_new(expr_kind_t kind, expr_and_kind_t sub_kind
     return p;
 }
 
-expr_or_and_t expr_or_and_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_and_t body) {
-    expr_or_and_t p = (expr_or_and_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_or_normal_t expr_or_normal_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_or_t left, expr_and_t right) {
-    expr_or_normal_t p = (expr_or_normal_t)malloc(sizeof(*p));
+expr_or_t expr_or_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_or_t left, expr_and_t right) {
+    expr_or_t p = (expr_or_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -279,16 +220,8 @@ expr_or_normal_t expr_or_normal_new(expr_kind_t kind, expr_or_kind_t sub_kind, e
     return p;
 }
 
-expr_assign_or_t expr_assign_or_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_or_t body) {
-    expr_assign_or_t p = (expr_assign_or_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->body = body;
-    return p;
-}
-
-expr_assign_normal_t expr_assign_normal_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_t left, expr_assign_t right) {
-    expr_assign_normal_t p = (expr_assign_normal_t)malloc(sizeof(*p));
+expr_assign_t expr_assign_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_t left, expr_assign_t right) {
+    expr_assign_t p = (expr_assign_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
@@ -317,26 +250,93 @@ actual_t actual_new(expr_t expr) {
     return p;
 }
 
+var_def_t var_def_new(type_t type, string id, expr_assign_t initializer) {
+    var_def_t p = (var_def_t)malloc(sizeof(*p));
+    p->type = type;
+    p->id = cpystr(id);
+    p->initializer = initializer;
+    return p;
+}
 
-/* 583 */
+field_var_t field_var_new(field_kind_t kind, var_def_t var_def) {
+    field_var_t p = (field_var_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->var_def = var_def;
+    return p;
+}
 
-/* p->id = (char *)malloc(sizeof(char) * (strlen(str) + 1)); */
-/* strcpy(p->id, str); */
+field_func_t field_func_new(field_kind_t kind, func_def_t func_def) {
+    field_func_t p = (field_func_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->func_def = func_def;
+    return p;
+}
 
-/* expr_t *div_into(expr_t *expr) { */
-/*     while (expr->sub_kind == 0) { */
-/*         expr = expr->body; */
-/*     } */
-/*     return expr; */
-/* } */
+stmt_var_def_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def) {
+    stmt_var_def_t p = (stmt_var_def_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->var_def = var_def;
+    return p;
+}
 
-/*     switch (expr->kind) { */
-/*         case EXPR_AND; */
-/*             expr = (expr_and_t)expr; */
-/*             ... */
-/*             break; */
-/*         default: */
-/*             break; */
-/*     } */
+stmt_expr_t stmt_expr_new(stmt_kind_t kind, expr_t expr) {
+    stmt_expr_t p = (stmt_expr_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->expr = expr;
+    return p;
+}
 
-/* expr_ast_prune */
+stmt_if_t stmt_if_new(stmt_kind_t kind, expr_bool_t cond, list_t body_then, list_t body_else) {
+    stmt_if_t p = (stmt_if_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->cond = cond;
+    p->body_then = body_then;
+    p->body_else = body_else;
+    return p;
+}
+
+stmt_while_t stmt_while_new(stmt_kind_t kind, expr_bool_t cond, list_t body) {
+    stmt_while_t p = (stmt_while_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->cond = cond;
+    p->body = body;
+    return p;
+}
+
+stmt_for_t stmt_for_new(stmt_kind_t kind, list_t initializer, expr_bool_t cond, list_t assigner, list_t body) {
+    stmt_for_t p = (stmt_for_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->initializer = initializer;
+    p->cond = cond;
+    p->assigner = assigner;
+    p->body = body;
+    return p;
+}
+
+stmt_return_t stmt_return_new(stmt_kind_t kind, expr_t ret_val) {
+    stmt_return_t p = (stmt_return_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->ret_val = ret_val;
+    return p;
+}
+
+stmt_print_t stmt_print_new(stmt_kind_t kind, expr_t out) {
+    stmt_print_t p = (stmt_print_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->out = out;
+    return p;
+}
+
+class_def_t class_def_new(string id, string super, list_t fields) {
+    class_def_t p = (class_def_t)malloc(sizeof(*p));
+    p->id = cpystr(id);
+    p->super = cpystr(super);
+    p->fields = fields;
+    return p;
+}
+
+prog_t prog_new(list_t class_defs) {
+    prog_t p = (prog_t)malloc(sizeof(*p));
+    p->class_defs = class_defs;
+    return p;
+}

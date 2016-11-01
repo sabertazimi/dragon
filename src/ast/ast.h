@@ -65,7 +65,6 @@ typedef struct const_string_t {
  */
 typedef struct const_nil_t {
     const_kind_t kind;
-    string text;
 } *const_nil_t;
 /********** end of const_t **********/
 
@@ -132,6 +131,7 @@ typedef struct expr_assign_t *expr_assign_t;
 
 /*
  * @interface: expr_t
+ * @implements: expr_t
  */
 typedef struct expr {
     expr_kind_t kind;           ///< EXPR_BASIC
