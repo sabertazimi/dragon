@@ -14,6 +14,7 @@
 extern FILE *yyin;
 extern int yyparse(void);
 extern int parse_failed;
+extern prog_t prog_tree;
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;
@@ -32,6 +33,8 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Please fix syntax error first!\n");
         exit(0);
     }
+
+    prog_print(prog_tree);
 
     fclose(fp);
     return 0;

@@ -17,7 +17,7 @@
     int parse_failed;
     int proposed_solution(const char *sol);
 
-    prog_t ast_tree;
+    prog_t prog_tree;
 %}
 
 %defines
@@ -96,7 +96,7 @@
 program
     : class_defs
     {
-        ast_tree = prog_new($1);
+        prog_tree = prog_new($1);
     }
     ;
 
@@ -408,7 +408,7 @@ expr_stmt
     }
     | ';'
     {
-        $$ = NULL;
+        $$ = stmt_expr_new(STMT_EXPR, NULL);
     }
     /* error recovery */
     | expr error

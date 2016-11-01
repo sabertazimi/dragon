@@ -78,6 +78,10 @@ solution: pre-defination(without implement)
 
 solution: block scope
 
+### core dump/segment fault
+
+对于文法中存在的所有 NULL 结点, 在对其进行操作(除创建外)时必须进行空检查
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)

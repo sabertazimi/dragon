@@ -364,28 +364,26 @@ void expr_print(expr_t node, int num_space) {
             expr_prim_t p = (expr_prim_t)node;
 
             switch (p->sub_kind) {
-                case EXPR_PRIM_INDET:
+                case EXPR_PRIM_IDENT:
                 {
-                    expr_prim_indet_t pp = (expr_prim_indet_t)p;
+                    expr_prim_ident_t pp = (expr_prim_ident_t)p;
                     fprintf(stdout, "expr_prim_ident->%s", pp->id);
                     break;
                 }
                 case EXPR_PRIM_CONST:
                 {
                     expr_prim_const_t pp = (expr_prim_const_t)p;
-                    fprintf(stdout, "expr_prim_const_t->\n",);
-                    const_print((expr_t)pp->const_val, num_space + SPACE_STEP);
+                    fprintf(stdout, "expr_prim_const_t->\n");
+                    const_print(pp->const_val, num_space + SPACE_STEP);
                     break;
                 }
                 case EXPR_PRIM_READINT:
                 {
-                    expr_prim_read_t pp = (expr_prim_read_t)p;
                     fprintf(stdout, "expr_prim_readint");
                     break;
                 }
                 case EXPR_PRIM_READLINE:
                 {
-                    expr_prim_read_t pp = (expr_prim_read_t)p;
                     fprintf(stdout, "expr_prim_readline");
                     break;
                 }
@@ -416,6 +414,26 @@ void expr_print(expr_t node, int num_space) {
             fprintf(stdout, "unkown expr");
             exit(1);
             break;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void assigns_print(list_t assigns, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "assigns->\n");
+
+    list_t pf = assigns;
+
+    while (pf) {
+        expr_assign_t node = (expr_assign_t)pf->data;
+
+        if (node) {
+            expr_print((expr_t)node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
     }
 
     fprintf(stdout, "\n");
@@ -583,11 +601,69 @@ expr_bool_t expr_bool_new(expr_kind_t kind, expr_t body) {
     return p;
 }
 
+void formals_print(list_t formals, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "formals->\n");
+
+    list_t pf = formals;
+
+    while (pf) {
+        formal_t node = (formal_t)pf->data;
+
+        if (node) {
+            formal_print(node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void formal_print(formal_t node, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "formal->%s\n", node->id);
+    type_print(node->type, num_space + SPACE_STEP);
+
+    fprintf(stdout, "\n");
+}
+
 formal_t formal_new(type_t type, string id) {
     formal_t p = (formal_t)malloc(sizeof(*p));
     p->type = type;
     p->id = cpystr(id);
     return p;
+}
+
+void actuals_print(list_t actuals, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "actuals->\n");
+
+    list_t pf = actuals;
+
+    while (pf) {
+        actual_t node = (actual_t)pf->data;
+
+        if (node) {
+            actual_print(node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void actual_print(actual_t node, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "actual->\n");
+    expr_print(node->expr, num_space + SPACE_STEP);
+
+    fprintf(stdout, "\n");
 }
 
 actual_t actual_new(expr_t expr) {
@@ -600,8 +676,11 @@ void var_def_print(var_def_t node, int num_space) {
     space_print(num_space);
 
     fprintf(stdout, "var_def->%s\n", node->id);
+
     type_print(node->type, num_space + SPACE_STEP);
-    expr_print((expr_t)node->initializer, num_space + SPACE_STEP);
+    if (node->initializer) {
+        expr_print((expr_t)node->initializer, num_space + SPACE_STEP);
+    }
 
     fprintf(stdout, "\n");
 }
@@ -664,6 +743,54 @@ func_def_t func_anony_def_new(func_kind_t kind, type_t type, list_t formals, lis
     return (func_def_t)p;
 }
 
+void fields_print(list_t fields, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "fields->\n");
+
+    list_t pf = fields;
+
+    while (pf) {
+        field_t node = (field_t)pf->data;
+
+        if (node) {
+            field_print(node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void field_print(field_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case FIELD_VAR:
+        {
+            field_var_t p = (field_var_t)node;
+            fprintf(stdout, "field_var->\n");
+            var_def_print(p->var_def, num_space + SPACE_STEP);
+            break;
+        }
+        case FIELD_FUNC:
+        {
+            field_func_t p = (field_func_t)node;
+            fprintf(stdout, "field_func->\n");
+            func_def_print(p->func_def, num_space + SPACE_STEP);
+            break;
+        }
+        default:
+            fprintf(stdout, "unkown field");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+
 field_t field_var_new(field_kind_t kind, var_def_t var_def) {
     field_var_t p = (field_var_t)malloc(sizeof(*p));
     p->kind = kind;
@@ -676,6 +803,98 @@ field_t field_func_new(field_kind_t kind, func_def_t func_def) {
     p->kind = kind;
     p->func_def = func_def;
     return (field_t)p;
+}
+
+void stmts_print(list_t stmts, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "stmts->\n");
+
+    list_t pf = stmts;
+
+    while (pf) {
+        stmt_t node = (stmt_t)pf->data;
+
+        if (node) {
+            stmt_print(node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void stmt_print(stmt_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case STMT_VAR_DEF:
+        {
+            stmt_var_def_t p = (stmt_var_def_t)node;
+            fprintf(stdout, "stmt_var_def->\n");
+            var_def_print(p->var_def, num_space + SPACE_STEP);
+            break;
+        }
+        case STMT_EXPR:
+        {
+            stmt_expr_t p = (stmt_expr_t)node;
+            fprintf(stdout, "stmt_expr->\n");
+            if (p->expr) {
+                expr_print(p->expr, num_space + SPACE_STEP);
+            }
+            break;
+        }
+        case STMT_IF:
+        {
+            stmt_if_t p = (stmt_if_t)node;
+            fprintf(stdout, "stmt_if->\n");
+            expr_print((expr_t)p->cond, num_space + SPACE_STEP);
+            stmts_print(p->body_then, num_space + SPACE_STEP);
+            stmts_print(p->body_else, num_space + SPACE_STEP);
+            break;
+        }
+        case STMT_WHILE:
+        {
+            stmt_while_t p = (stmt_while_t)node;
+            fprintf(stdout, "stmt_while->\n");
+            expr_print((expr_t)p->cond, num_space + SPACE_STEP);
+            stmts_print(p->body, num_space + SPACE_STEP);
+            break;
+        }
+        case STMT_FOR:
+        {
+            stmt_for_t p = (stmt_for_t)node;
+            fprintf(stdout, "stmt_for->\n");
+            assigns_print(p->initializer, num_space + SPACE_STEP);
+            expr_print((expr_t)p->cond, num_space + SPACE_STEP);
+            assigns_print(p->assigner, num_space + SPACE_STEP);
+            stmts_print(p->body, num_space + SPACE_STEP);
+            break;
+        }
+        case STMT_RETURN:
+        {
+            stmt_return_t p = (stmt_return_t)node;
+            fprintf(stdout, "stmt_return->\n");
+            if (p->ret_val) {
+                expr_print(p->ret_val, num_space + SPACE_STEP);
+            }
+            break;
+        }
+        case STMT_PRINT:
+        {
+            stmt_print_t p = (stmt_print_t)node;
+            fprintf(stdout, "stmt_print->\n");
+            expr_print(p->out, num_space + SPACE_STEP);
+            break;
+        }
+        default:
+            fprintf(stdout, "unkown stmt");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
 }
 
 stmt_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def) {
@@ -733,12 +952,49 @@ stmt_t stmt_print_new(stmt_kind_t kind, expr_t out) {
     return (stmt_t)p;
 }
 
+void class_defs_print(list_t class_defs, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "class_defs->\n");
+
+    list_t pf = class_defs;
+
+    while (pf) {
+        class_def_t node = (class_def_t)pf->data;
+
+        if (node) {
+            class_def_print(node, num_space + SPACE_STEP);
+        }
+
+        pf = pf->next;
+    }
+
+    fprintf(stdout, "\n");
+}
+
+void class_def_print(class_def_t node, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "class_def-><%s, %s>\n", node->id, node->super);
+    fields_print(node->fields, num_space + SPACE_STEP);
+
+    fprintf(stdout, "\n");
+}
+
 class_def_t class_def_new(string id, string super, list_t fields) {
     class_def_t p = (class_def_t)malloc(sizeof(*p));
     p->id = cpystr(id);
     p->super = cpystr(super);
     p->fields = fields;
     return p;
+}
+
+void prog_print(prog_t prog) {
+    fprintf(stdout, "prog_tree->\n");
+
+    class_defs_print(prog->class_defs, SPACE_STEP);
+
+    fprintf(stdout, "\n");
 }
 
 prog_t prog_new(list_t class_defs) {

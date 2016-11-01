@@ -29,7 +29,8 @@ INCLUDE_PATH=src/libs 		\
 
 # test enable flags
 LEX_TEST=0
-SYNTAX_TEST=1
+SYNTAX_TEST=0
+AST_TEST=1
 
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
@@ -96,6 +97,14 @@ ifeq ($(SYNTAX_TEST), 1)
 	@echo '>>>' Syntax Error Report Test Passed! '<<<'
 	@echo
 endif
+ifeq ($(AST_TEST), 1)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "ast_*"), echo "\n>>> Ast test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	@echo
+	@echo '>>>' Ast Test Passed! '<<<'
+	@echo
+endif
+
+
 
 # vim:ft=make
 #
