@@ -10,10 +10,57 @@
 #include <string.h>
 #include "ast.h"
 
+///< space step when print ast tree
+#define SPACE_STEP 4
+
 static string cpystr(string text) {
     string str = (string)malloc(sizeof(char) * (strlen(text) + 1));
     strcpy(str, text);
     return str;
+}
+
+static void space_print(int num_space) {
+    for (int i = 0;i < num_space; i++) {
+        fprintf(stdout, " ");
+    }
+}
+
+void type_print(type_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case TYPE_INT:
+            fprintf(stdout, "type_int");
+            break;
+        case TYPE_BOOL:
+            fprintf(stdout, "type_bool");
+            break;
+        case TYPE_STRING:
+            fprintf(stdout, "type_string");
+            break;
+        case TYPE_VOID:
+            fprintf(stdout, "type_void");
+            break;
+        case TYPE_CLASS:
+        {
+            type_class_t p = (type_class_t)node;
+            fprintf(stdout, "type_class->%s", p->class_id);
+            break;
+        }
+        case TYPE_ARRAY:
+        {
+            type_array_t p = (type_array_t)node;
+            fprintf(stdout, "type_array->\n");
+            type_print(p->type, num_space + SPACE_STEP);
+            break;
+        }
+        default:
+            fprintf(stdout, "unkown type");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
 }
 
 type_t type_basic_new(type_kind_t kind) {
@@ -36,6 +83,40 @@ type_t type_array_new(type_kind_t kind, type_t type) {
     return (type_t)p;
 }
 
+void const_print(const_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case CONST_INT:
+        {
+            const_num_t p = (const_num_t)node;
+            fprintf(stdout, "const_int->%d", p->value);
+            break;
+        }
+        case CONST_BOOL:
+        {
+            const_num_t p = (const_num_t)node;
+            fprintf(stdout, "const_bool->%d", !!p->value);
+            break;
+        }
+        case CONST_STRING:
+        {
+            const_string_t p = (const_string_t)node;
+            fprintf(stdout, "const_string->%s", p->text);
+            break;
+        }
+        case CONST_NIL:
+            fprintf(stdout, "const_void");
+            break;
+        default:
+            fprintf(stdout, "unkown constant");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
+}
+
 const_t const_num_new(const_kind_t kind, int value) {
     const_num_t p = (const_num_t)malloc(sizeof(*p));
     p->kind = kind;
@@ -54,6 +135,112 @@ const_t const_nil_new(const_kind_t kind) {
     const_nil_t p = (const_nil_t)malloc(sizeof(*p));
     p->kind = kind;
     return (const_t)p;
+}
+
+void expr_print(expr_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case EXPR_BOOL:
+        {
+            expr_bool_t p = (expr_bool_t)node;
+            fprintf(stdout, "expr_bool->\n");
+            expr_print(p->body,num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_ASSIGN:
+        {
+            expr_assign_t p = (expr_assign_t)node;
+            fprintf(stdout, "expr_assign->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_OR:
+        {
+            expr_or_t p = (expr_or_t)node;
+            fprintf(stdout, "expr_or->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_AND:
+        {
+            expr_and_t p = (expr_and_t)node;
+            fprintf(stdout, "expr_and->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_EQ:
+        {
+            expr_eq_t p = (expr_eq_t)node;
+            fprintf(stdout, "expr_eq->\n");
+
+            switch (p->sub_kind) {
+                case EXPR_EQ_EQ:
+                    break;
+                case EXPR_EQ_NE:
+                    break;
+                default:
+                    fprintf(stdout, "unkown expr");
+                    exit(1);
+                    break;
+            }
+
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+       case EXPR_CMP:
+        {
+            expr_cmp_t p = (expr_cmp_t)node;
+            fprintf(stdout, "expr_cmp->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_ADD:
+        {
+            expr_add_t p = (expr_add_t)node;
+            fprintf(stdout, "expr_add->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_MUL:
+        {
+            expr_mul_t p = (expr_mul_t)node;
+            fprintf(stdout, "expr_mul->\n");
+            expr_print((expr_t)p->left, num_space + SPACE_STEP);
+            expr_print((expr_t)p->right, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_UNARY:
+        {
+            expr_unary_t p = (expr_unary_t)node;
+            fprintf(stdout, "expr_unary->\n");
+            break;
+        }
+        case EXPR_LEFT:
+        {
+            expr_left_t p = (expr_left_t)node;
+            fprintf(stdout, "expr_left->\n");
+            break;
+        }
+        case EXPR_PRIM:
+        {
+            expr_prim_t p = (expr_prim_t)node;
+            fprintf(stdout, "expr_prim->\n");
+            break;
+        }
+        default:
+            fprintf(stdout, "unkown expr");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
 }
 
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id) {
@@ -231,12 +418,53 @@ actual_t actual_new(expr_t expr) {
     return p;
 }
 
+void var_def_print(var_def_t node, int num_space) {
+    space_print(num_space);
+
+    fprintf(stdout, "var_def->%s\n", node->id);
+    type_print(node->type, num_space + SPACE_STEP);
+    expr_print((expr_t)node->initializer, num_space + SPACE_STEP);
+
+    fprintf(stdout, "\n");
+}
+
 var_def_t var_def_new(type_t type, string id, expr_assign_t initializer) {
     var_def_t p = (var_def_t)malloc(sizeof(*p));
     p->type = type;
     p->id = cpystr(id);
     p->initializer = initializer;
     return p;
+}
+
+void func_def_print(func_def_t node, int num_space) {
+    space_print(num_space);
+
+    switch (node->kind) {
+        case FUNC_NORMAL_DEF:
+        {
+            func_normal_def_t p = (func_normal_def_t)node;
+            fprintf(stdout, "func_normal_def->%s\n", p->id);
+            type_print(p->type, num_space + SPACE_STEP);
+            formals_print(p->formals, num_space + SPACE_STEP);
+            stmts_print(p->stmts, num_space + SPACE_STEP);
+            break;
+        }
+        case FUNC_ANONY_DEF:
+        {
+            func_anony_def_t p = (func_anony_def_t)node;
+            fprintf(stdout, "func_anony_def\n");
+            type_print(p->type, num_space + SPACE_STEP);
+            formals_print(p->formals, num_space + SPACE_STEP);
+            stmts_print(p->stmts, num_space + SPACE_STEP);
+            break;
+        }
+        default:
+            fprintf(stdout, "unkown func_def");
+            exit(1);
+            break;
+    }
+
+    fprintf(stdout, "\n");
 }
 
 func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id) {

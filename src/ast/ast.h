@@ -101,15 +101,6 @@ typedef struct const_nil_t {
 // pre-defination to eliminate defination circle dependencies
 typedef struct expr_assign *expr_assign_t;
 
-/********** start of func_def_t **********/
-/*
- * @brief: kind of func_def_t
- */
-typedef enum func_kind {
-    FUNC_NORMAL_DEF = 11,
-    FUNC_ANONY_DEF
-} func_kind_t;
-
 /********** start of var_def_t **********/
 /*
  * @implements: var_def_t
@@ -120,6 +111,15 @@ typedef struct var_def {
     expr_assign_t initializer;
 } *var_def_t;
 /********** end of var_def_t **********/
+
+/********** start of func_def_t **********/
+/*
+ * @brief: kind of func_def_t
+ */
+typedef enum func_kind {
+    FUNC_NORMAL_DEF = 11,
+    FUNC_ANONY_DEF
+} func_kind_t;
 
 /*
  * @interface: func_def_t
@@ -433,7 +433,7 @@ struct expr_assign {
 };
 
 /*
- * @interface: expr_bool_t
+ * @implements: expr_bool_t
  */
 typedef struct expr_bool {
     expr_kind_t kind;           ///< EXPR_BOOL

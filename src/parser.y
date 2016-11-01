@@ -16,6 +16,8 @@
 
     int parse_failed;
     int proposed_solution(const char *sol);
+
+    prog_t ast_tree;
 %}
 
 %defines
@@ -94,7 +96,7 @@
 program
     : class_defs
     {
-        $$ = prog_new($1);
+        ast_tree = prog_new($1);
     }
     ;
 
