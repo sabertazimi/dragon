@@ -113,7 +113,6 @@ typedef struct func_anony_def {
  */
 typedef enum expr_kind {
     EXPR_BOOL = 41,
-    EXPR_BASIC,
     EXPR_ASSIGN,
     EXPR_OR,
     EXPR_AND,
@@ -126,17 +125,11 @@ typedef enum expr_kind {
     EXPR_PRIM,
 } expr_kind_t;
 
-// pre-defination to solve defination dependencies error
-typedef struct expr_assign_t *expr_assign_t;
-
 /*
  * @interface: expr_t
- * @implements: expr_t
  */
 typedef struct expr {
     expr_kind_t kind;           ///< EXPR_BASIC
-    expr_kind_t sub_kind;       ///< 0
-    expr_assign_t body;
 } *expr_t;
 
 /*
@@ -301,7 +294,7 @@ typedef enum expr_unary_kind {
 typedef struct expr_unary {
     expr_kind_t kind;
     expr_unary_kind_t sub_kind;
-    expr_unary_t body;
+    struct expr_unary *body;
 } *expr_unary_t;
 
 /*
@@ -319,7 +312,7 @@ typedef enum expr_mul_kind {
 typedef struct expr_mul {
     expr_kind_t kind;
     expr_mul_kind_t sub_kind;
-    expr_mul_t left;
+    struct expr_mul *left;
     expr_unary_t right;
 } *expr_mul_t;
 
@@ -337,7 +330,7 @@ typedef enum expr_add_kind {
 typedef struct expr_add {
     expr_kind_t kind;
     expr_add_kind_t sub_kind;
-    expr_add_t left;
+    struct expr_add *left;
     expr_mul_t right;
 } *expr_add_t;
 
@@ -357,7 +350,7 @@ typedef enum expr_cmp_kind {
 typedef struct expr_cmp {
     expr_kind_t kind;
     expr_cmp_kind_t sub_kind;
-    expr_cmp_t left;
+    struct expr_cmp *left;
     expr_add_t right;
 } *expr_cmp_t;
 
@@ -375,7 +368,7 @@ typedef enum expr_eq_kind {
 typedef struct expr_eq {
     expr_kind_t kind;
     expr_eq_kind_t sub_kind;
-    expr_eq_t left;
+    struct expr_eq *left;
     expr_cmp_t right;
 } *expr_eq_t;
 
@@ -392,7 +385,7 @@ typedef enum expr_and_kind {
 typedef struct expr_and {
     expr_kind_t kind;
     expr_and_kind_t sub_kind;
-    expr_and_t left;
+    struct expr_and *left;
     expr_eq_t right;
 } *expr_and_t;
 
@@ -409,7 +402,7 @@ typedef enum expr_or_kind {
 typedef struct expr_or {
     expr_kind_t kind;
     expr_or_kind_t sub_kind;
-    expr_or_t left;
+    struct expr_or *left;
     expr_and_t right;
 } *expr_or_t;
 
@@ -427,7 +420,7 @@ typedef struct expr_assign {
     expr_kind_t kind;
     expr_assign_kind_t sub_kind;
     expr_left_t left;
-    expr_assign_t right;
+    struct expr_assign *right;
 } *expr_assign_t;
 
 /*

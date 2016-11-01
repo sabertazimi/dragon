@@ -7,12 +7,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "../parser.h"
-#include "errors_srcbuf.h"
+#include "errors.h"
 
 #define SRCBUF_MAXLEN 100
-
-extern FILE* yyout;
 
 typedef struct srcbuf {
     char buf[SRCBUF_MAXLEN];    ///< buffer cache memory for source code

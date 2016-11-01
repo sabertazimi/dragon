@@ -6,10 +6,7 @@
  */
 
 #include <stdio.h>
-#include "../parser.h"
-#include "errors_debug.h"
-
-extern FILE* yyout;
+#include "errors.h"
 
 void dragon_debug(const char *type, const char *value) {
     fprintf(yyout, "line %4d, column %-4d-%4d: ", yylloc.first_line, yylloc.first_column, yylloc.last_column);

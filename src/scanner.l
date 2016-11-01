@@ -2,8 +2,9 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "parser.h"
     #include "errors.h"
+    #include "ast.h"
+    #include "parser.h"
 
     /*
      * @brief: informations of locations
@@ -85,6 +86,7 @@ hexical [a-fA-F0-9]
 }
 "null" {
     DRAGON_DEBUG("keyword", "NULL");
+    yylval.nil_val = NULL;
     srcbuf_append(yytext);
     return NIL;
 }
@@ -142,6 +144,8 @@ hexical [a-fA-F0-9]
 }
 ({letter}|_)({letter}|{digit}|_)* {
     DRAGON_DEBUG("identifier", "IDENTIFIER");
+    strcpy(yylval.str_val, yytext);
+    DRAGON_DEBUG("identifier", yylval.str_val);
     srcbuf_append(yytext);
     return IDENTIFIER;
 }
