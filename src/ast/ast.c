@@ -72,14 +72,6 @@ expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, const_t 
     return (expr_t)p;
 }
 
-expr_t expr_prim_nested_new(expr_kind_t kind, expr_prim_kind_t sub_kind, expr_t expr) {
-    expr_prim_nested_t p = (expr_prim_nested_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->sub_kind = sub_kind;
-    p->expr = expr;
-    return (expr_t)p;
-}
-
 expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind) {
     expr_prim_read_t p = (expr_prim_read_t)malloc(sizeof(*p));
     p->kind = kind;
@@ -195,28 +187,25 @@ expr_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, ex
     return (expr_t)p;
 }
 
-expr_t expr_and_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_and_t left, expr_eq_t right) {
+expr_t expr_and_new(expr_kind_t kind, expr_and_t left, expr_eq_t right) {
     expr_and_t p = (expr_and_t)malloc(sizeof(*p));
     p->kind = kind;
-    p->sub_kind = sub_kind;
     p->left = left;
     p->right = right;
     return (expr_t)p;
 }
 
-expr_t expr_or_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_or_t left, expr_and_t right) {
+expr_t expr_or_new(expr_kind_t kind, expr_or_t left, expr_and_t right) {
     expr_or_t p = (expr_or_t)malloc(sizeof(*p));
     p->kind = kind;
-    p->sub_kind = sub_kind;
     p->left = left;
     p->right = right;
     return (expr_t)p;
 }
 
-expr_t expr_assign_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_t left, expr_assign_t right) {
+expr_t expr_assign_new(expr_kind_t kind, expr_left_t left, expr_assign_t right) {
     expr_assign_t p = (expr_assign_t)malloc(sizeof(*p));
     p->kind = kind;
-    p->sub_kind = sub_kind;
     p->left = left;
     p->right = right;
     return (expr_t)p;

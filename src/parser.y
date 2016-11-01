@@ -23,7 +23,6 @@
 %locations
 
 %union {
-    void *nil_val;
     char bool_val;
     int int_val;
     char str_val[80];
@@ -47,13 +46,13 @@
     prog_t prog_val;
 }
 
-%token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
+%token NIL
 %token BOOL INT STRING FUNCTION VOID    ///< hidden type: function type
+%token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
 %token CLASS EXTENDS NEW THIS
 %token IF ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
-%token <nil_val> NIL
 %token <bool_val> CONSTANT_BOOL
 %token <int_val> CONSTANT_INT
 %token <str_val> CONSTANT_STRING
@@ -191,7 +190,7 @@ var_def
     }
     | type IDENTIFIER '=' assign_expr ';'
     {
-        $$ = var_def_new($1, $2, $4);
+        $$ = var_def_new($1, $2, (expr_assign_t)$4);
     }
     /* error recovery */
     | type error ';'
@@ -294,7 +293,7 @@ func_normal_def
 func_anony_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
     {
-        $$ = func_anony_def_new(FUNC_NORMAL_DEF, $1, $3, $7);
+        $$ = func_anony_def_new(FUNC_ANONY_DEF, $1, $3, $7);
     }
     /* error recovery */
     | type '(' formals ')' error '{' stmts '}'
@@ -594,6 +593,9 @@ assign_expr
         $$ = $1;
     }
 	| left_expr '=' assign_expr
+    {
+        $$ = expr_assign_new(EXPR_ASSIGN, (expr_left_t)$1, (expr_assign_t)$3);
+    }
 	;
 
 assign_list
@@ -633,6 +635,9 @@ or_expr
         $$ = $1;
     }
 	| or_expr OP_OR and_expr
+    {
+        $$ = expr_or_new(EXPR_OR, (expr_or_t)$1, (expr_and_t)$3);
+    }
 	;
 
 and_expr
@@ -641,6 +646,9 @@ and_expr
         $$ = $1;
     }
 	| and_expr OP_AND eq_expr
+    {
+        $$ = expr_and_new(EXPR_AND, (expr_and_t)$1, (expr_eq_t)$3);
+    }
 	;
 
 eq_expr
@@ -649,7 +657,13 @@ eq_expr
         $$ = $1;
     }
 	| eq_expr OP_EQ cmp_expr
+    {
+        $$ = expr_eq_new(EXPR_EQ, EXPR_EQ_EQ, (expr_eq_t)$1, (expr_cmp_t)$3);
+    }
 	| eq_expr OP_NE cmp_expr
+    {
+        $$ = expr_eq_new(EXPR_EQ, EXPR_EQ_NE, (expr_eq_t)$1, (expr_cmp_t)$3);
+    }
 	;
 
 cmp_expr
@@ -658,9 +672,21 @@ cmp_expr
         $$ = $1;
     }
 	| cmp_expr '<' add_expr
+    {
+        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_LT, (expr_cmp_t)$1, (expr_add_t)$3);
+    }
 	| cmp_expr '>' add_expr
+    {
+        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_GT, (expr_cmp_t)$1, (expr_add_t)$3);
+    }
 	| cmp_expr OP_LE add_expr
+    {
+        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_LE, (expr_cmp_t)$1, (expr_add_t)$3);
+    }
 	| cmp_expr OP_GE add_expr
+    {
+        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_GE, (expr_cmp_t)$1, (expr_add_t)$3);
+    }
 	;
 
 add_expr
@@ -669,7 +695,13 @@ add_expr
         $$ = $1;
     }
 	| add_expr '+' mul_expr
+    {
+        $$ = expr_add_new(EXPR_ADD, EXPR_ADD_ADD, (expr_add_t)$1, (expr_mul_t)$3);
+    }
 	| add_expr '-' mul_expr
+    {
+        $$ = expr_add_new(EXPR_ADD, EXPR_ADD_SUB, (expr_add_t)$1, (expr_mul_t)$3);
+    }
 	;
 
 mul_expr
@@ -678,8 +710,17 @@ mul_expr
         $$ = $1;
     }
 	| mul_expr '*' unary_expr
+    {
+        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_MUL, (expr_mul_t)$1, (expr_unary_t)$3);
+    }
 	| mul_expr '/' unary_expr
+    {
+        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_DIV, (expr_mul_t)$1, (expr_unary_t)$3);
+    }
 	| mul_expr '%' unary_expr
+    {
+        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_MOD, (expr_mul_t)$1, (expr_unary_t)$3);
+    }
 	;
 
 unary_expr
@@ -688,9 +729,21 @@ unary_expr
         $$ = $1;
     }
     | THIS
+    {
+        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_THIS, NULL);
+    }
     | '+' unary_expr
+    {
+        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_PLUS, (expr_unary_t)$2);
+    }
     | '-' unary_expr
+    {
+        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_MINUS, (expr_unary_t)$2);
+    }
     | '!' unary_expr
+    {
+        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_NOT, (expr_unary_t)$2);
+    }
     ;
 
 left_expr
@@ -699,20 +752,56 @@ left_expr
         $$ = $1;
     }
 	| left_expr '[' expr ']'
+    {
+        $$ = expr_left_index_new(EXPR_LEFT, EXPR_LEFT_INDEX, (expr_left_t)$1, $3);
+    }
 	| left_expr '.' IDENTIFIER %prec CLASS_FIELD
+    {
+        $$ = expr_left_class_field_new(EXPR_LEFT, EXPR_LEFT_CLASS_FIELD, (expr_left_t)$1, $3);
+    }
     | left_expr '.' IDENTIFIER '(' actuals ')'
+    {
+        $$ = expr_left_class_call_new(EXPR_LEFT, EXPR_LEFT_CLASS_CALL, (expr_left_t)$1, $3, $5);
+    }
 	| left_expr '(' actuals ')'
+    {
+        $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, (expr_left_t)$1, $3);
+    }
     | func_anony_def '(' actuals ')'
+    {
+        $$ = expr_left_anony_call_new(EXPR_LEFT, EXPR_LEFT_ANONY_CALL, (func_anony_def_t)$1, $3);
+    }
 	;
 
 prim_expr
 	: IDENTIFIER
+    {
+        $$ = expr_prim_ident_new(EXPR_PRIM, EXPR_PRIM_IDENT, $1);
+    }
 	| constant
+    {
+        $$ = expr_prim_const_new(EXPR_PRIM, EXPR_PRIM_CONST, $1);
+    }
 	| '(' expr ')'
+    {
+        $$ = $2;
+    }
     | READINTEGER '(' ')'
+    {
+        $$ = expr_prim_read_new(EXPR_PRIM, EXPR_PRIM_READINT);
+    }
     | READLINE '(' ')'
+    {
+        $$ = expr_prim_read_new(EXPR_PRIM, EXPR_PRIM_READLINE);
+    }
     | NEW IDENTIFIER '(' actuals ')'
+    {
+        $$ = expr_prim_newclass_new(EXPR_PRIM, EXPR_PRIM_NEWCLASS, $2, $4);
+    }
     | NEW type '[' expr ']'
+    {
+        $$ = expr_prim_newarray_new(EXPR_PRIM, EXPR_PRIM_NEWARRAY, $2, $4);
+    }
     /* error recovery */
 	| '(' error ')'
     {
@@ -722,9 +811,21 @@ prim_expr
 
 constant
     : CONSTANT_INT
+    {
+        $$ = const_num_new(CONST_INT, $1);
+    }
     | CONSTANT_BOOL
+    {
+        $$ = const_num_new(CONST_BOOL, $1);
+    }
     | CONSTANT_STRING
+    {
+        $$ = const_string_new(CONST_STRING, $1);
+    }
     | NIL
+    {
+        $$ = const_nil_new(CONST_NIL);
+    }
     ;
 
 %%

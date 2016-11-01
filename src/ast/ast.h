@@ -181,7 +181,6 @@ typedef struct expr {
 typedef enum expr_prim_kind {
     EXPR_PRIM_IDENT = 141,
     EXPR_PRIM_CONST,
-    EXPR_PRIM_NESTED,
     EXPR_PRIM_READINT,
     EXPR_PRIM_READLINE,
     EXPR_PRIM_NEWCLASS,
@@ -213,15 +212,6 @@ typedef struct expr_prim_const {
     expr_prim_kind_t sub_kind;
     const_t const_val;
 } *expr_prim_const_t;
-
-/*
- * @implements: expr_prim_nested_t
- */
-typedef struct expr_prim_nested_t {
-    expr_kind_t kind;
-    expr_prim_kind_t sub_kind;
-    expr_t expr;
-} *expr_prim_nested_t;
 
 /*
  * @implements: expr_prim_readint_t/expr_prim_readline_t
@@ -381,8 +371,8 @@ typedef struct expr_add {
  * @brief: kind of expr_cmp_t
  */
 typedef enum expr_cmp_kind {
-    EXPR_CMP_L = 91,
-    EXPR_CMP_G,
+    EXPR_CMP_LT = 91,
+    EXPR_CMP_GT,
     EXPR_CMP_LE,
     EXPR_CMP_GE
 } expr_cmp_kind_t;
@@ -416,52 +406,28 @@ typedef struct expr_eq {
 } *expr_eq_t;
 
 /*
- * @brief: kind of expr_and_t
- */
-typedef enum expr_and_kind {
-    EXPR_AND_NORMAL = 71
-} expr_and_kind_t;
-
-/*
  * @implements: expr_and_t
  */
 typedef struct expr_and {
     expr_kind_t kind;
-    expr_and_kind_t sub_kind;
     struct expr_and *left;
     expr_eq_t right;
 } *expr_and_t;
-
-/*
- * @brief: kind of expr_or_t
- */
-typedef enum expr_or_kind {
-    EXPR_OR_NORMAL = 61
-} expr_or_kind_t;
 
 /*
  * @implements: expr_or_t
  */
 typedef struct expr_or {
     expr_kind_t kind;
-    expr_or_kind_t sub_kind;
     struct expr_or *left;
     expr_and_t right;
 } *expr_or_t;
-
-/*
- * @brief: kind of expr_assign_t
- */
-typedef enum expr_assign_kind {
-    EXPR_ASSIGN_NORMAL = 51
-} expr_assign_kind_t;
 
 /*
  * @implements: expr_assign_t
  */
 struct expr_assign {
     expr_kind_t kind;
-    expr_assign_kind_t sub_kind;
     expr_left_t left;
     expr_assign_t right;
 };
@@ -647,8 +613,6 @@ expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string i
 
 expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, const_t const_val);
 
-expr_t expr_prim_nested_new(expr_kind_t kind, expr_prim_kind_t sub_kind, expr_t expr);
-
 expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind);
 
 expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id, list_t actuals);
@@ -675,11 +639,11 @@ expr_t expr_cmp_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_cmp_t left,
 
 expr_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, expr_cmp_t right);
 
-expr_t expr_and_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_and_t left, expr_eq_t right);
+expr_t expr_and_new(expr_kind_t kind, expr_and_t left, expr_eq_t right);
 
-expr_t expr_or_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_or_t left, expr_and_t right);
+expr_t expr_or_new(expr_kind_t kind, expr_or_t left, expr_and_t right);
 
-expr_t expr_assign_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_t left, expr_assign_t right);
+expr_t expr_assign_new(expr_kind_t kind, expr_left_t left, expr_assign_t right);
 
 expr_bool_t expr_bool_new(expr_kind_t kind, expr_t body);
 

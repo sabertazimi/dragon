@@ -227,31 +227,31 @@ $end (0) 0
 error (256) 6 7 8 9 10 11 12 13 14 15 22 23 24 25 32 33 37 38 39 40
     41 42 44 45 46 49 52 53 55 67 70 71 72 74 75 76 78 79 80 81 82
     86 87 88 90 91 92 97 98 106 109 147
-OP_AND (258) 113
-OP_OR (259) 111
-OP_LE (260) 120
-OP_GE (261) 121
-OP_EQ (262) 115
-OP_NE (263) 116
-OP_ARROW (264) 36 37 38 40 41 42 43 45 46
-BOOL (265) 27
-INT (266) 26
-STRING (267) 28
-FUNCTION (268)
-VOID (269) 29 48 84 87 105
-CLASS (270) 4 5 7 8 9 11 12 13 14 15 30 33
-EXTENDS (271) 5 10 11 13 14 15
-NEW (272) 145 146
-THIS (273) 130
-IF (274) 68 69 70 71 72
-ELSE (275) 69
-FOR (276) 77 78 79 80 81 82
-WHILE (277) 73 74 75 76
-RETURN (278) 83 84 85 86 87 88
-PRINT (279) 89 90 91 92
-READINTEGER (280) 143
-READLINE (281) 144
-NIL (282) 151
+NIL (258) 151
+BOOL (259) 27
+INT (260) 26
+STRING (261) 28
+FUNCTION (262)
+VOID (263) 29 48 84 87 105
+OP_AND (264) 113
+OP_OR (265) 111
+OP_LE (266) 120
+OP_GE (267) 121
+OP_EQ (268) 115
+OP_NE (269) 116
+OP_ARROW (270) 36 37 38 40 41 42 43 45 46
+CLASS (271) 4 5 7 8 9 11 12 13 14 15 30 33
+EXTENDS (272) 5 10 11 13 14 15
+NEW (273) 145 146
+THIS (274) 130
+IF (275) 68 69 70 71 72
+ELSE (276) 69
+FOR (277) 77 78 79 80 81 82
+WHILE (278) 73 74 75 76
+RETURN (279) 83 84 85 86 87 88
+PRINT (280) 89 90 91 92
+READINTEGER (281) 143
+READLINE (282) 144
 CONSTANT_BOOL (283) 149
 CONSTANT_INT (284) 148
 CONSTANT_STRING (285) 150
@@ -1072,16 +1072,16 @@ State 60
    37 func_normal_def: type error '=' . '(' formals ')' OP_ARROW '{' stmts '}' ';'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1134,16 +1134,16 @@ State 63
    42                | type IDENTIFIER '=' . '(' formals ')' OP_ARROW '{' stmts '}' error
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1350,6 +1350,13 @@ State 76
 
 State 77
 
+  151 constant: NIL .
+
+    $default  reduce using rule 151 (constant)
+
+
+State 78
+
   145 prim_expr: NEW . IDENTIFIER '(' actuals ')'
   146          | NEW . type '[' expr ']'
 
@@ -1364,32 +1371,25 @@ State 77
     type  转到状态 118
 
 
-State 78
+State 79
 
   130 unary_expr: THIS .
 
     $default  reduce using rule 130 (unary_expr)
 
 
-State 79
+State 80
 
   143 prim_expr: READINTEGER . '(' ')'
 
     '('  shift, and go to state 119
 
 
-State 80
+State 81
 
   144 prim_expr: READLINE . '(' ')'
 
     '('  shift, and go to state 120
-
-
-State 81
-
-  151 constant: NIL .
-
-    $default  reduce using rule 151 (constant)
 
 
 State 82
@@ -1427,16 +1427,16 @@ State 86
   147          | '(' . error ')'
 
     error            shift, and go to state 121
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 65
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1470,16 +1470,16 @@ State 87
   131 unary_expr: '+' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1502,16 +1502,16 @@ State 88
   132 unary_expr: '-' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1534,16 +1534,16 @@ State 89
   133 unary_expr: '!' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1727,16 +1727,16 @@ State 104
   147          | '(' . error ')'
 
     error            shift, and go to state 121
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 65
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -1921,16 +1921,16 @@ State 122
   147          | '(' . error ')'
 
     error            shift, and go to state 164
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2034,16 +2034,16 @@ State 131
   139 left_expr: func_anony_def '(' . actuals ')'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2086,16 +2086,16 @@ State 133
   111 or_expr: or_expr OP_OR . and_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2123,16 +2123,16 @@ State 134
   113 and_expr: and_expr OP_AND . eq_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2159,16 +2159,16 @@ State 135
   115 eq_expr: eq_expr OP_EQ . cmp_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2194,16 +2194,16 @@ State 136
   116 eq_expr: eq_expr OP_NE . cmp_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2229,16 +2229,16 @@ State 137
   120 cmp_expr: cmp_expr OP_LE . add_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2263,16 +2263,16 @@ State 138
   121 cmp_expr: cmp_expr OP_GE . add_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2297,16 +2297,16 @@ State 139
   118 cmp_expr: cmp_expr '<' . add_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2331,16 +2331,16 @@ State 140
   119 cmp_expr: cmp_expr '>' . add_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2365,16 +2365,16 @@ State 141
   123 add_expr: add_expr '+' . mul_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2398,16 +2398,16 @@ State 142
   124 add_expr: add_expr '-' . mul_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2431,16 +2431,16 @@ State 143
   126 mul_expr: mul_expr '*' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2463,16 +2463,16 @@ State 144
   127 mul_expr: mul_expr '/' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2495,16 +2495,16 @@ State 145
   128 mul_expr: mul_expr '%' . unary_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2527,16 +2527,16 @@ State 146
   138 left_expr: left_expr '(' . actuals ')'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2572,16 +2572,16 @@ State 147
   103 assign_expr: left_expr '=' . assign_expr
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2611,16 +2611,16 @@ State 148
   135 left_expr: left_expr '[' . expr ']'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2732,16 +2732,16 @@ State 159
   145 prim_expr: NEW IDENTIFIER '(' . actuals ')'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -2778,16 +2778,16 @@ State 160
   146 prim_expr: NEW type '[' . expr ']'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3154,16 +3154,16 @@ State 197
    97 actuals_body: actuals_body error . actual
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3196,16 +3196,16 @@ State 198
    98             | actuals_body ',' . error
 
     error            shift, and go to state 212
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3251,16 +3251,16 @@ State 201
   137 left_expr: left_expr '.' IDENTIFIER '(' . actuals ')'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3322,21 +3322,21 @@ State 205
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3378,21 +3378,21 @@ State 206
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3435,21 +3435,21 @@ State 207
    56 stmts: stmts . stmt
 
     error            shift, and go to state 237
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3623,16 +3623,16 @@ State 222
    88            | RETURN . expr error
 
     error            shift, and go to state 251
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 252
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3799,21 +3799,21 @@ State 239
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3862,21 +3862,21 @@ State 241
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3918,21 +3918,21 @@ State 242
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -3974,21 +3974,21 @@ State 243
    56 stmts: stmts . stmt
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4032,21 +4032,21 @@ State 244
    56 stmts: stmts . stmt
 
     error            shift, and go to state 265
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4087,16 +4087,16 @@ State 245
    70 if_stmt: IF error . bool_expr ')' '{' stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4131,16 +4131,16 @@ State 246
    72        | IF '(' . bool_expr ')' error stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4172,16 +4172,16 @@ State 247
    78 for_stmt: FOR error . assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4217,16 +4217,16 @@ State 248
    82         | FOR '(' . assign_list ';' bool_expr ';' assign_list ')' error stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4258,16 +4258,16 @@ State 249
    74 while_stmt: WHILE error . bool_expr ')' '{' stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4301,16 +4301,16 @@ State 250
    76           | WHILE '(' . bool_expr ')' error stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4380,16 +4380,16 @@ State 255
    90 print_stmt: PRINT error . expr ')' ';'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4422,16 +4422,16 @@ State 256
    92           | PRINT '(' . expr ')' error
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4694,16 +4694,16 @@ State 285
    24 var_def: type error '=' . assign_expr ';'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4741,16 +4741,16 @@ State 287
    25        | type IDENTIFIER '=' . assign_expr error
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4853,16 +4853,16 @@ State 298
    78 for_stmt: FOR error assign_list ';' . bool_expr ';' assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4895,16 +4895,16 @@ State 299
   109                 | assign_list_body ',' . error
 
     error            shift, and go to state 313
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4934,16 +4934,16 @@ State 300
    79 for_stmt: FOR '(' assign_list error . bool_expr ';' assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -4978,16 +4978,16 @@ State 301
    82         | FOR '(' assign_list ';' . bool_expr ';' assign_list ')' error stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5209,21 +5209,21 @@ State 325
    70 if_stmt: IF error bool_expr ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5265,21 +5265,21 @@ State 326
    71 if_stmt: IF '(' bool_expr error '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5321,21 +5321,21 @@ State 327
    72 if_stmt: IF '(' bool_expr ')' error stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5378,21 +5378,21 @@ State 328
    69        | IF '(' bool_expr ')' '{' stmts . '}' ELSE '{' stmts '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5433,16 +5433,16 @@ State 329
    78 for_stmt: FOR error assign_list ';' bool_expr ';' . assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5474,16 +5474,16 @@ State 330
    79 for_stmt: FOR '(' assign_list error bool_expr ';' . assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5515,16 +5515,16 @@ State 331
    80 for_stmt: FOR '(' assign_list ';' bool_expr error . assign_list ')' '{' stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5558,16 +5558,16 @@ State 332
    82         | FOR '(' assign_list ';' bool_expr ';' . assign_list ')' error stmts '}'
 
     error            shift, and go to state 270
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 271
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5600,21 +5600,21 @@ State 333
    74 while_stmt: WHILE error bool_expr ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5656,21 +5656,21 @@ State 334
    75 while_stmt: WHILE '(' bool_expr error '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5712,21 +5712,21 @@ State 335
    76 while_stmt: WHILE '(' bool_expr ')' error stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -5768,21 +5768,21 @@ State 336
    73 while_stmt: WHILE '(' bool_expr ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6021,21 +6021,21 @@ State 362
    69 if_stmt: IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6077,21 +6077,21 @@ State 363
    78 for_stmt: FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6133,21 +6133,21 @@ State 364
    79 for_stmt: FOR '(' assign_list error bool_expr ';' assign_list ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6189,21 +6189,21 @@ State 365
    80 for_stmt: FOR '(' assign_list ';' bool_expr error assign_list ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6245,21 +6245,21 @@ State 366
    81 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list error '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6301,21 +6301,21 @@ State 367
    82 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' error stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84
@@ -6357,21 +6357,21 @@ State 368
    77 for_stmt: FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts . '}'
 
     error            shift, and go to state 19
+    NIL              shift, and go to state 77
     BOOL             shift, and go to state 20
     INT              shift, and go to state 21
     STRING           shift, and go to state 22
     VOID             shift, and go to state 23
     CLASS            shift, and go to state 24
-    NEW              shift, and go to state 77
-    THIS             shift, and go to state 78
+    NEW              shift, and go to state 78
+    THIS             shift, and go to state 79
     IF               shift, and go to state 219
     FOR              shift, and go to state 220
     WHILE            shift, and go to state 221
     RETURN           shift, and go to state 222
     PRINT            shift, and go to state 223
-    READINTEGER      shift, and go to state 79
-    READLINE         shift, and go to state 80
-    NIL              shift, and go to state 81
+    READINTEGER      shift, and go to state 80
+    READLINE         shift, and go to state 81
     CONSTANT_BOOL    shift, and go to state 82
     CONSTANT_INT     shift, and go to state 83
     CONSTANT_STRING  shift, and go to state 84

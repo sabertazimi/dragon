@@ -86,7 +86,6 @@ hexical [a-fA-F0-9]
 }
 "null" {
     DRAGON_DEBUG("keyword", "NULL");
-    yylval.nil_val = NULL;
     srcbuf_append(yytext);
     return NIL;
 }
