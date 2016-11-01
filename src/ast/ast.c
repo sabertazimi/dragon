@@ -16,6 +16,26 @@ static string cpystr(string text) {
     return str;
 }
 
+type_t type_basic_new(type_kind_t kind) {
+    type_basic_t p = (type_basic_t)malloc(sizeof(*p));
+    p->kind = kind;
+    return (type_t)p;
+}
+
+type_t type_class_new(type_kind_t kind, string class_id) {
+    type_class_t p = (type_class_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->class_id = cpystr(class_id);
+    return (type_t)p;
+}
+
+type_t type_array_new(type_kind_t kind, type_t type) {
+    type_array_t p = (type_array_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->type = type;
+    return (type_t)p;
+}
+
 const_t const_num_new(const_kind_t kind, int value) {
     const_num_t p = (const_num_t)malloc(sizeof(*p));
     p->kind = kind;
@@ -34,25 +54,6 @@ const_t const_nil_new(const_kind_t kind) {
     const_nil_t p = (const_nil_t)malloc(sizeof(*p));
     p->kind = kind;
     return (const_t)p;
-}
-
-func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id) {
-    func_normal_def_t p = (func_normal_def_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->type = type;
-    p->formals = formals;
-    p->stmts = stmts;
-    p->id = cpystr(id);
-    return (func_def_t)p;
-}
-
-func_def_t func_anony_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts) {
-    func_anony_def_t p = (func_anony_def_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->type = type;
-    p->formals = formals;
-    p->stmts = stmts;
-    return (func_def_t)p;
 }
 
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id) {
@@ -221,10 +222,9 @@ expr_t expr_assign_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_
     return (expr_t)p;
 }
 
-expr_bool_t expr_bool_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_t body) {
+expr_bool_t expr_bool_new(expr_kind_t kind, expr_t body) {
     expr_bool_t p = (expr_bool_t)malloc(sizeof(*p));
     p->kind = kind;
-    p->sub_kind = sub_kind;
     p->body = body;
     return p;
 }
@@ -248,6 +248,25 @@ var_def_t var_def_new(type_t type, string id, expr_assign_t initializer) {
     p->id = cpystr(id);
     p->initializer = initializer;
     return p;
+}
+
+func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id) {
+    func_normal_def_t p = (func_normal_def_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->type = type;
+    p->formals = formals;
+    p->stmts = stmts;
+    p->id = cpystr(id);
+    return (func_def_t)p;
+}
+
+func_def_t func_anony_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts) {
+    func_anony_def_t p = (func_anony_def_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->type = type;
+    p->formals = formals;
+    p->stmts = stmts;
+    return (func_def_t)p;
 }
 
 field_t field_var_new(field_kind_t kind, var_def_t var_def) {

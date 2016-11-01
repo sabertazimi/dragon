@@ -23,7 +23,37 @@ typedef enum type_kind {
     TYPE_VOID,
     TYPE_CLASS,
     TYPE_ARRAY
-} type_t;
+} type_kind_t;
+
+/*
+ * @interface: type_t
+ */
+typedef struct type {
+    type_kind_t kind;
+} *type_t;
+
+/*
+ * @implements: type_int_t/type_bool_t/type_string_t/type_void_t
+ */
+typedef struct type_basic {
+    type_kind_t kind;
+} *type_basic_t;
+
+/*
+ * @implements: type_class_t
+ */
+typedef struct type_class {
+    type_kind_t kind;
+    string class_id;
+} *type_class_t;
+
+/*
+ * @implements: type_array_t
+ */
+typedef struct type_array {
+    type_kind_t kind;
+    type_t type;
+} *type_array_t;
 /********** end of type_t **********/
 
 /********** start of const_t **********/
@@ -68,6 +98,9 @@ typedef struct const_nil_t {
 } *const_nil_t;
 /********** end of const_t **********/
 
+// pre-defination to eliminate defination circle dependencies
+typedef struct expr_assign *expr_assign_t;
+
 /********** start of func_def_t **********/
 /*
  * @brief: kind of func_def_t
@@ -77,6 +110,16 @@ typedef enum func_kind {
     FUNC_ANONY_DEF
 } func_kind_t;
 
+/********** start of var_def_t **********/
+/*
+ * @implements: var_def_t
+ */
+typedef struct var_def {
+    type_t type;
+    string id;
+    expr_assign_t initializer;
+} *var_def_t;
+/********** end of var_def_t **********/
 
 /*
  * @interface: func_def_t
@@ -416,19 +459,18 @@ typedef enum expr_assign_kind {
 /*
  * @implements: expr_assign_t
  */
-typedef struct expr_assign {
+struct expr_assign {
     expr_kind_t kind;
     expr_assign_kind_t sub_kind;
     expr_left_t left;
-    struct expr_assign *right;
-} *expr_assign_t;
+    expr_assign_t right;
+};
 
 /*
  * @interface: expr_bool_t
  */
 typedef struct expr_bool {
     expr_kind_t kind;           ///< EXPR_BOOL
-    expr_kind_t sub_kind;       ///< 0
     expr_t body;
 } *expr_bool_t;
 /********** end of expr_t **********/
@@ -451,17 +493,6 @@ typedef struct actual {
     expr_t expr;
 } *actual_t;
 /********** end of actual_t **********/
-
-/********** start of var_def_t **********/
-/*
- * @implements: var_def_t
- */
-typedef struct var_def {
-    type_t type;
-    string id;
-    expr_assign_t initializer;
-} *var_def_t;
-/********** end of var_def_t **********/
 
 /********** start of field_t **********/
 /*
@@ -599,5 +630,89 @@ typedef struct prog {
     list_t class_defs;      ///< list_t <class_def_t>
 } *prog_t;
 /********** end of prog_t **********/
+
+type_t type_basic_new(type_kind_t kind);
+
+type_t type_class_new(type_kind_t kind, string class_id);
+
+type_t type_array_new(type_kind_t kind, type_t type);
+
+const_t const_num_new(const_kind_t kind, int value);
+
+const_t const_string_new(const_kind_t kind, string text);
+
+const_t const_nil_new(const_kind_t kind);
+
+expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id);
+
+expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, const_t const_val);
+
+expr_t expr_prim_nested_new(expr_kind_t kind, expr_prim_kind_t sub_kind, expr_t expr);
+
+expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind);
+
+expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id, list_t actuals);
+
+expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, type_t type, expr_t length);
+
+expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t array, expr_t index);
+
+expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id);
+
+expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id, list_t actuals);
+
+expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, list_t actuals);
+
+expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, func_anony_def_t func_body, list_t actuals);
+
+expr_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_unary_t body);
+
+expr_t expr_mul_new(expr_kind_t kind, expr_mul_kind_t sub_kind, expr_mul_t left, expr_unary_t right);
+
+expr_t expr_add_new(expr_kind_t kind, expr_add_kind_t sub_kind, expr_add_t left, expr_mul_t right);
+
+expr_t expr_cmp_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_cmp_t left, expr_add_t right);
+
+expr_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, expr_cmp_t right);
+
+expr_t expr_and_new(expr_kind_t kind, expr_and_kind_t sub_kind, expr_and_t left, expr_eq_t right);
+
+expr_t expr_or_new(expr_kind_t kind, expr_or_kind_t sub_kind, expr_or_t left, expr_and_t right);
+
+expr_t expr_assign_new(expr_kind_t kind, expr_assign_kind_t sub_kind, expr_left_t left, expr_assign_t right);
+
+expr_bool_t expr_bool_new(expr_kind_t kind, expr_t body);
+
+formal_t formal_new(type_t type, string id);
+
+actual_t actual_new(expr_t expr);
+
+var_def_t var_def_new(type_t type, string id, expr_assign_t initializer);
+
+func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id);
+
+func_def_t func_anony_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts);
+
+field_t field_var_new(field_kind_t kind, var_def_t var_def);
+
+field_t field_func_new(field_kind_t kind, func_def_t func_def);
+
+stmt_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def);
+
+stmt_t stmt_expr_new(stmt_kind_t kind, expr_t expr);
+
+stmt_t stmt_if_new(stmt_kind_t kind, expr_bool_t cond, list_t body_then, list_t body_else);
+
+stmt_t stmt_while_new(stmt_kind_t kind, expr_bool_t cond, list_t body);
+
+stmt_t stmt_for_new(stmt_kind_t kind, list_t initializer, expr_bool_t cond, list_t assigner, list_t body);
+
+stmt_t stmt_return_new(stmt_kind_t kind, expr_t ret_val);
+
+stmt_t stmt_print_new(stmt_kind_t kind, expr_t out);
+
+class_def_t class_def_new(string id, string super, list_t fields);
+
+prog_t prog_new(list_t class_defs);
 
 #endif /* !AST_H */
