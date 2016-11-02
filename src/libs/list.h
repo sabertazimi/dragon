@@ -8,6 +8,8 @@
 #ifndef LIBS_LIST_H
 #define LIBS_LIST_H
 
+typedef char *string;
+
 typedef struct list_t {
     void *data;
     struct list_t *next;

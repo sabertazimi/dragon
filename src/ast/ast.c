@@ -10,8 +10,6 @@
 #include <string.h>
 #include "ast.h"
 
-///< space step when print ast tree
-#define SPACE_STEP 4
 
 static string cpystr(string text) {
     string str = (string)malloc(sizeof(char) * (strlen(text) + 1));
