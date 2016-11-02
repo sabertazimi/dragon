@@ -18,7 +18,7 @@
 #include "ast_print.h"
 
 ///< space step when print ast tree
-#define SPACE_STEP 4
+#define SPACE_STEP 2
 
 /*
  * @brief: clone string text from stack to heap

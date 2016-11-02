@@ -103,11 +103,13 @@ program
 class_defs
     : class_defs class_def
     {
-        $$ = list_new($2, $1);
+        list_t class_defs = list_new($2, $1);
+        $$ = list_rev(class_defs);
     }
     | class_def
     {
-        $$ = list_new($1, NULL);
+        list_t class_defs = list_new($1, NULL);
+        $$ = list_rev(class_defs);
     }
     ;
 
@@ -166,11 +168,13 @@ class_def
 fields
     : fields field
     {
-        $$ = list_new($2, $1);
+        list_t fields = list_new($2, $1);
+        $$ = list_rev(fields);
     }
     | field
     {
-        $$ = list_new($1, NULL);
+        list_t fields = list_new($1, NULL);
+        $$ = list_rev(fields);
     }
     ;
 
@@ -330,11 +334,13 @@ formals
 formals_body
     : formals_body ',' formal
     {
-        $$ = list_new($3, $1);
+        list_t formals = list_new($3, $1);
+        $$ = list_rev(formals);
     }
     | formal
     {
-        $$ = list_new($1, NULL);
+        list_t formals = list_new($1, NULL);
+        $$ = list_rev(formals);
     }
     /* error recovery */
     | formals_body error formal
@@ -362,7 +368,8 @@ formal
 stmts
     : stmts stmt
     {
-        $$ = list_new($2, $1);
+        list_t stmts = list_new($2, $1);
+        $$ = list_rev(stmts);
     }
     | /* empty */
     {
@@ -551,11 +558,13 @@ actuals
 actuals_body
     : actuals_body ',' actual
     {
-        $$ = list_new($3, $1);
+        list_t actuals = list_new($3, $1);
+        $$ = list_rev(actuals);
     }
     | actual
     {
-        $$ = list_new($1, NULL);
+        list_t actuals = list_new($1, NULL);
+        $$ = list_rev(actuals);
     }
     /* error recovery */
     | actuals_body error actual
@@ -618,11 +627,13 @@ assign_list
 assign_list_body
     : assign_list_body ',' assign_expr
     {
-        $$ = list_new($3, $1);
+        list_t assigns = list_new($3, $1);
+        $$ = list_rev(assigns);
     }
     | assign_expr
     {
-        $$ = list_new($1, NULL);
+        list_t assigns = list_new($1, NULL);
+        $$ = list_rev(assigns);
     }
     /* error recovery */
     | assign_list_body ',' error

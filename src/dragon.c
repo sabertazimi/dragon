@@ -12,7 +12,7 @@
 #include "parser.h"
 
 #define AST_DEBUG
-#undef AST_DEBUG
+// #undef AST_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);
