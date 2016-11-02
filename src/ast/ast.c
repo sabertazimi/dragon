@@ -20,7 +20,8 @@ static string cpystr(string text) {
 }
 
 static void space_print(int num_space) {
-    for (int i = 0;i < num_space; i++) {
+    fprintf(stdout, "%4d:", num_space / SPACE_STEP);
+    for (int i = 0;i < num_space - 4; i++) {
         fprintf(stdout, " ");
     }
 }
@@ -30,21 +31,21 @@ void type_print(type_t node, int num_space) {
 
     switch (node->kind) {
         case TYPE_INT:
-            fprintf(stdout, "type_int");
+            fprintf(stdout, "type_int\n");
             break;
         case TYPE_BOOL:
-            fprintf(stdout, "type_bool");
+            fprintf(stdout, "type_bool\n");
             break;
         case TYPE_STRING:
-            fprintf(stdout, "type_string");
+            fprintf(stdout, "type_string\n");
             break;
         case TYPE_VOID:
-            fprintf(stdout, "type_void");
+            fprintf(stdout, "type_void\n");
             break;
         case TYPE_CLASS:
         {
             type_class_t p = (type_class_t)node;
-            fprintf(stdout, "type_class->%s", p->class_id);
+            fprintf(stdout, "type_class->%s\n", p->class_id);
             break;
         }
         case TYPE_ARRAY:
@@ -55,12 +56,10 @@ void type_print(type_t node, int num_space) {
             break;
         }
         default:
-            fprintf(stdout, "unkown type");
+            fprintf(stdout, "unkown type\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 type_t type_basic_new(type_kind_t kind) {
@@ -90,31 +89,29 @@ void const_print(const_t node, int num_space) {
         case CONST_INT:
         {
             const_num_t p = (const_num_t)node;
-            fprintf(stdout, "const_int->%d", p->value);
+            fprintf(stdout, "const_int->%d\n", p->value);
             break;
         }
         case CONST_BOOL:
         {
             const_num_t p = (const_num_t)node;
-            fprintf(stdout, "const_bool->%d", !!p->value);
+            fprintf(stdout, "const_bool->%d\n", !!p->value);
             break;
         }
         case CONST_STRING:
         {
             const_string_t p = (const_string_t)node;
-            fprintf(stdout, "const_string->%s", p->text);
+            fprintf(stdout, "const_string->%s\n", p->text);
             break;
         }
         case CONST_NIL:
-            fprintf(stdout, "const_void");
+            fprintf(stdout, "const_void\n");
             break;
         default:
-            fprintf(stdout, "unkown constant");
+            fprintf(stdout, "unkown constant\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 const_t const_num_new(const_kind_t kind, int value) {
@@ -188,7 +185,7 @@ void expr_print(expr_t node, int num_space) {
                     expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -221,7 +218,7 @@ void expr_print(expr_t node, int num_space) {
                     expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -244,7 +241,7 @@ void expr_print(expr_t node, int num_space) {
                     expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -272,7 +269,7 @@ void expr_print(expr_t node, int num_space) {
                     expr_print((expr_t)p->right, num_space + SPACE_STEP);
                     break;
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -285,7 +282,7 @@ void expr_print(expr_t node, int num_space) {
 
             switch (p->sub_kind) {
                 case EXPR_UNARY_THIS:
-                    fprintf(stdout, "this");
+                    fprintf(stdout, "this\n");
                     break;
                 case EXPR_UNARY_PLUS:
                     fprintf(stdout, "expr_unary_plus->\n");
@@ -300,7 +297,7 @@ void expr_print(expr_t node, int num_space) {
                     expr_print((expr_t)p->body, num_space + SPACE_STEP);
                     break;
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -352,7 +349,7 @@ void expr_print(expr_t node, int num_space) {
                     break;
                 }
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -367,7 +364,7 @@ void expr_print(expr_t node, int num_space) {
                 case EXPR_PRIM_IDENT:
                 {
                     expr_prim_ident_t pp = (expr_prim_ident_t)p;
-                    fprintf(stdout, "expr_prim_ident->%s", pp->id);
+                    fprintf(stdout, "expr_prim_ident->%s\n", pp->id);
                     break;
                 }
                 case EXPR_PRIM_CONST:
@@ -379,12 +376,12 @@ void expr_print(expr_t node, int num_space) {
                 }
                 case EXPR_PRIM_READINT:
                 {
-                    fprintf(stdout, "expr_prim_readint");
+                    fprintf(stdout, "expr_prim_readint\n");
                     break;
                 }
                 case EXPR_PRIM_READLINE:
                 {
-                    fprintf(stdout, "expr_prim_readline");
+                    fprintf(stdout, "expr_prim_readline\n");
                     break;
                 }
                 case EXPR_PRIM_NEWCLASS:
@@ -403,7 +400,7 @@ void expr_print(expr_t node, int num_space) {
                     break;
                 }
                 default:
-                    fprintf(stdout, "unkown expr");
+                    fprintf(stdout, "unkown expr\n");
                     exit(1);
                     break;
             }
@@ -411,12 +408,10 @@ void expr_print(expr_t node, int num_space) {
             break;
         }
         default:
-            fprintf(stdout, "unkown expr");
+            fprintf(stdout, "unkown expr\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void assigns_print(list_t assigns, int num_space) {
@@ -435,8 +430,6 @@ void assigns_print(list_t assigns, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id) {
@@ -617,8 +610,6 @@ void formals_print(list_t formals, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void formal_print(formal_t node, int num_space) {
@@ -626,8 +617,6 @@ void formal_print(formal_t node, int num_space) {
 
     fprintf(stdout, "formal->%s\n", node->id);
     type_print(node->type, num_space + SPACE_STEP);
-
-    fprintf(stdout, "\n");
 }
 
 formal_t formal_new(type_t type, string id) {
@@ -653,8 +642,6 @@ void actuals_print(list_t actuals, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void actual_print(actual_t node, int num_space) {
@@ -662,8 +649,6 @@ void actual_print(actual_t node, int num_space) {
 
     fprintf(stdout, "actual->\n");
     expr_print(node->expr, num_space + SPACE_STEP);
-
-    fprintf(stdout, "\n");
 }
 
 actual_t actual_new(expr_t expr) {
@@ -681,8 +666,6 @@ void var_def_print(var_def_t node, int num_space) {
     if (node->initializer) {
         expr_print((expr_t)node->initializer, num_space + SPACE_STEP);
     }
-
-    fprintf(stdout, "\n");
 }
 
 var_def_t var_def_new(type_t type, string id, expr_assign_t initializer) {
@@ -716,12 +699,10 @@ void func_def_print(func_def_t node, int num_space) {
             break;
         }
         default:
-            fprintf(stdout, "unkown func_def");
+            fprintf(stdout, "unkown func_def\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id) {
@@ -759,8 +740,6 @@ void fields_print(list_t fields, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void field_print(field_t node, int num_space) {
@@ -782,12 +761,10 @@ void field_print(field_t node, int num_space) {
             break;
         }
         default:
-            fprintf(stdout, "unkown field");
+            fprintf(stdout, "unkown field\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 
@@ -821,8 +798,6 @@ void stmts_print(list_t stmts, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void stmt_print(stmt_t node, int num_space) {
@@ -889,12 +864,10 @@ void stmt_print(stmt_t node, int num_space) {
             break;
         }
         default:
-            fprintf(stdout, "unkown stmt");
+            fprintf(stdout, "unkown stmt\n");
             exit(1);
             break;
     }
-
-    fprintf(stdout, "\n");
 }
 
 stmt_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def) {
@@ -968,8 +941,6 @@ void class_defs_print(list_t class_defs, int num_space) {
 
         pf = pf->next;
     }
-
-    fprintf(stdout, "\n");
 }
 
 void class_def_print(class_def_t node, int num_space) {
@@ -977,8 +948,6 @@ void class_def_print(class_def_t node, int num_space) {
 
     fprintf(stdout, "class_def-><%s, %s>\n", node->id, node->super);
     fields_print(node->fields, num_space + SPACE_STEP);
-
-    fprintf(stdout, "\n");
 }
 
 class_def_t class_def_new(string id, string super, list_t fields) {
@@ -993,8 +962,6 @@ void prog_print(prog_t prog) {
     fprintf(stdout, "prog_tree->\n");
 
     class_defs_print(prog->class_defs, SPACE_STEP);
-
-    fprintf(stdout, "\n");
 }
 
 prog_t prog_new(list_t class_defs) {
