@@ -23,6 +23,7 @@ void func_def_print(func_def_t node, int num_space);
 void class_def_print(class_def_t node, int num_space);
 void class_defs_print(list_t class_defs, int num_space);
 void expr_print(expr_t node, int num_space);
+void assigns_print(list_t assigns, int num_space);
 void stmt_print(stmt_t node, int num_space);
 void stmts_print(list_t stmts, int num_space);
 void formal_print(formal_t node, int num_space);
