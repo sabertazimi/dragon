@@ -25,7 +25,8 @@ TEST_PATH=test
 TOOLS_PATH=tools
 INCLUDE_PATH=src/libs 		\
 			 src/errors 	\
-			 src/ast
+			 src/ast 		\
+			 src/semantic
 
 # test enable flags
 LEX_TEST=0
