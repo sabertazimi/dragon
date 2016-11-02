@@ -11,6 +11,9 @@
 #include "ast.h"
 #include "parser.h"
 
+#define AST_DEBUG
+#undef AST_DEBUG
+
 extern FILE *yyin;
 extern int yyparse(void);
 extern int parse_failed;
@@ -34,7 +37,9 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
+#ifdef AST_DEBUG
     prog_print(prog_tree);
+#endif
 
     fclose(fp);
     return 0;

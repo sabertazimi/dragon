@@ -9,7 +9,7 @@
 #define ERRORS_H
 
 #define LEX_DEBUG
-#undef LEX_DEBUG
+// #undef LEX_DEBUG
 
 #include "ast.h"
 #include "../parser.h"

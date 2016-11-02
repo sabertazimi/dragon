@@ -20,4 +20,14 @@
 ///< space step when print ast tree
 #define SPACE_STEP 4
 
+/*
+ * @brief: clone string text from stack to heap
+ */
+string cpystr(string text);
+
+/*
+ * @brief: print space(and level number)
+ */
+void space_print(int num_space);
+
 #endif /* !AST_H */

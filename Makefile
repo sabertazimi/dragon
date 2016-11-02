@@ -28,9 +28,9 @@ INCLUDE_PATH=src/libs 		\
 			 src/ast
 
 # test enable flags
-LEX_TEST=0
+LEX_TEST=1
 SYNTAX_TEST=0
-AST_TEST=1
+AST_TEST=0
 
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
