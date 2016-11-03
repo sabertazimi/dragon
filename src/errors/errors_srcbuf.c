@@ -25,13 +25,13 @@ void srcbuf_init(void) {
 
     // set line 0 to empty line
     // true source start from line 1
-    srcbuf.buf = list_new(cpystr("\0"), NULL);
+    srcbuf.buf = list_new(strdup("\0"), NULL);
 }
 
 void srcbuf_append(const char *src) {
     srcbuf.cnt_line++;
     srcbuf.cnt_chars += strlen(src);
-    srcbuf.buf = list_new(cpystr(src), srcbuf.buf);
+    srcbuf.buf = list_new(strdup(src), srcbuf.buf);
 }
 
 const char *srcbuf_get(int num_line) {

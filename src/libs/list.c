@@ -25,11 +25,3 @@ list_t list_rev(list_t l) {
 
     return p;
 }
-
-string cpystr(string text) {
-    string str = (string)malloc(sizeof(char) * (strlen(text) + 1));
-    strcpy(str, text);
-    return str;
-}
-
-

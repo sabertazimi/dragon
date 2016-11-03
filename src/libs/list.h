@@ -30,9 +30,4 @@ list_t list_rev(list_t l);
 
 typedef char *string;
 
-/*
- * @brief: clone string text from stack to heap
- */
-string cpystr(string text);
-
 #endif /* !LIBS_LIST_H */

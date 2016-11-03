@@ -6,13 +6,14 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ast.h"
 
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id) {
     expr_prim_ident_t p = (expr_prim_ident_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
-    p->id = cpystr(id);
+    p->id = strdup(id);
     return (expr_t)p;
 }
 
@@ -35,7 +36,7 @@ expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, strin
     expr_prim_newclass_t p = (expr_prim_newclass_t)malloc(sizeof(*p));
     p->kind = kind;
     p->sub_kind = sub_kind;
-    p->id = cpystr(id);
+    p->id = strdup(id);
     p->actuals = actuals;
     return (expr_t)p;
 }
@@ -63,7 +64,7 @@ expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, ex
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
-    p->field_id = cpystr(field_id);
+    p->field_id = strdup(field_id);
     return (expr_t)p;
 }
 
@@ -72,7 +73,7 @@ expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, exp
     p->kind = kind;
     p->sub_kind = sub_kind;
     p->left = left;
-    p->field_id = cpystr(field_id);
+    p->field_id = strdup(field_id);
     p->actuals = actuals;
     return (expr_t)p;
 }

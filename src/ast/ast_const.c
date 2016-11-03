@@ -6,6 +6,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ast.h"
 
 const_t const_num_new(const_kind_t kind, int value) {
@@ -18,7 +19,7 @@ const_t const_num_new(const_kind_t kind, int value) {
 const_t const_string_new(const_kind_t kind, string text) {
     const_string_t p = (const_string_t)malloc(sizeof(*p));
     p->kind = kind;
-    p->text = cpystr(text);
+    p->text = strdup(text);
     return (const_t)p;
 }
 
