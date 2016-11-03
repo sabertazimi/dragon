@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "scanner.h"
     #include "errors.h"
     #include "ast.h"
     #include "parser.h"
@@ -302,8 +303,6 @@ hexical [a-fA-F0-9]
 \n  {
     // reset column counter
     yycolumn = 1;
-    // re-init source buffer
-    srcbuf_init();
 }
 
 . {

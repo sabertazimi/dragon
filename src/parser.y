@@ -845,17 +845,26 @@ constant
 
 // return value will be ignored
 int yyerror(const char *msg) {
-    fprintf(stderr, "<<<=================\n");
     fprintf(stderr, "<%d:%d><Error>: %s\n", yylloc.first_line, yylloc.first_column, msg);
-    srcbuf_print();
+
+    // print source code
+    srcbuf_print(yylloc.first_line);
+
+    // print ^, to highlight error position
+    for (int i = 1; i < yylloc.first_column; i++) {
+        fprintf(stderr, " ");
+    }
+    for (int i = yylloc.first_column - 1; i < yylloc.last_column; i++) {
+        fprintf(stderr, "^");
+    }
+    fprintf(stderr, "\n");
+
     memset(yytext, '\0', strlen(yytext));
     parse_failed = 1;
     return 0;
 }
 
-
 int proposed_solution(const char *sol) {
     fprintf(stderr, "<Proposed Solution>: %s\n", sol);
-    fprintf(stderr, "=================>>>\n\n");
     return 0;
 }

@@ -19,9 +19,11 @@ void srcbuf_init(void);
 void srcbuf_append(const char *src);
 
 /*
- * @brief: get pointer to source code buffer
+ * @brief: get source code, with specific line number
  */
-char *srcbuf_get(void);
+const char *srbuf_get(int num_line);
+
+
 
 /*
  * @brief: get length of buffer
@@ -29,8 +31,8 @@ char *srcbuf_get(void);
 int srcbuf_length(void);
 
 /*
- * @brief: print source code in buffer
+ * @brief: print source code in buffer, with specific line number
  */
-void srcbuf_print(void);
+void srcbuf_print(int num_line);
 
 #endif /* !ERRORS_SRCBUF_H */

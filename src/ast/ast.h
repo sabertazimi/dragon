@@ -20,10 +20,6 @@
 ///< space step when print ast tree
 #define SPACE_STEP 2
 
-/*
- * @brief: clone string text from stack to heap
- */
-string cpystr(string text);
 
 /*
  * @brief: print space(and level number)
