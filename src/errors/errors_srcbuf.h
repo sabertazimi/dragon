@@ -8,6 +8,8 @@
 #ifndef ERRORS_SRCBUF_H
 #define ERRORS_SRCBUF_H
 
+#include "list.h"
+
 /*
  * @brief: set all memory of buffer to '\0'
  */
@@ -16,12 +18,12 @@ void srcbuf_init(void);
 /*
  * @brief: send new rar source code to buffer
  */
-void srcbuf_append(const char *src);
+void srcbuf_append(const char * src);
 
 /*
  * @brief: get source code, with specific line number
  */
-const char *srbuf_get(int num_line);
+const char * srbuf_get(int num_line);
 
 
 
