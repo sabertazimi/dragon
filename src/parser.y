@@ -96,6 +96,7 @@
 program
     : class_defs
     {
+        $1 = list_rev($1);
         prog_tree = prog_new($1);
     }
     ;
@@ -103,23 +104,23 @@ program
 class_defs
     : class_defs class_def
     {
-        list_t class_defs = list_new($2, $1);
-        $$ = list_rev(class_defs);
+        $$ = list_new($2, $1);
     }
     | class_def
     {
-        list_t class_defs = list_new($1, NULL);
-        $$ = list_rev(class_defs);
+        $$ = list_new($1, NULL);
     }
     ;
 
 class_def
     : CLASS IDENTIFIER '{' fields '}'
     {
+        $4 = list_rev($4);
         $$ = class_def_new($2, "\0", $4);
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
+        $6 = list_rev($6);
         $$ = class_def_new($2, $4, $6);
     }
     /* error recovery */
@@ -168,13 +169,11 @@ class_def
 fields
     : fields field
     {
-        list_t fields = list_new($2, $1);
-        $$ = list_rev(fields);
+        $$ = list_new($2, $1);
     }
     | field
     {
-        list_t fields = list_new($1, NULL);
-        $$ = list_rev(fields);
+        $$ = list_new($1, NULL);
     }
     ;
 
@@ -267,6 +266,8 @@ func_def
 func_normal_def
     : type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
+        $5 = list_rev($5);
+        $9 = list_rev($9);
         $$ = func_normal_def_new(FUNC_NORMAL_DEF, $1, $5, $9, $2);
     }
     /* error recovery */
@@ -299,6 +300,8 @@ func_normal_def
 func_anony_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
     {
+        $3 = list_rev($3);
+        $7 = list_rev($7);
         $$ = func_anony_def_new(FUNC_ANONY_DEF, $1, $3, $7);
     }
     /* error recovery */
@@ -334,13 +337,11 @@ formals
 formals_body
     : formals_body ',' formal
     {
-        list_t formals = list_new($3, $1);
-        $$ = list_rev(formals);
+        $$ = list_new($3, $1);
     }
     | formal
     {
-        list_t formals = list_new($1, NULL);
-        $$ = list_rev(formals);
+        $$ = list_new($1, NULL);
     }
     /* error recovery */
     | formals_body error formal
@@ -368,8 +369,7 @@ formal
 stmts
     : stmts stmt
     {
-        list_t stmts = list_new($2, $1);
-        $$ = list_rev(stmts);
+        $$ = list_new($2, $1);
     }
     | /* empty */
     {
@@ -427,11 +427,14 @@ expr_stmt
 if_stmt
     : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
     {
+        $6 = list_rev($6);
         $$ = stmt_if_new(STMT_IF, $3, $6, NULL);
     }
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
     {
-        $$ = stmt_if_new(STMT_IF, $3, $6, $10);
+        $6  = list_rev($6);
+        $10 = list_rev($10);
+        $$  = stmt_if_new(STMT_IF, $3, $6, $10);
     }
     /* error recovery */
     | IF error bool_expr ')' '{' stmts '}' %prec NOELSE
@@ -451,6 +454,7 @@ if_stmt
 while_stmt
     : WHILE '(' bool_expr ')' '{' stmts '}'
     {
+        $6 = list_rev($6);
         $$ = stmt_while_new(STMT_WHILE, $3, $6);
     }
     /* error recovery */
@@ -471,7 +475,10 @@ while_stmt
 for_stmt
     : FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
     {
-        $$ = stmt_for_new(STMT_FOR, $3, $5, $7, $10);
+        $3  = list_rev($3);
+        $7  = list_rev($7);
+        $10 = list_rev($10);
+        $$  = stmt_for_new(STMT_FOR, $3, $5, $7, $10);
     }
     /* error recovery */
     | FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
@@ -558,13 +565,11 @@ actuals
 actuals_body
     : actuals_body ',' actual
     {
-        list_t actuals = list_new($3, $1);
-        $$ = list_rev(actuals);
+        $$ = list_new($3, $1);
     }
     | actual
     {
-        list_t actuals = list_new($1, NULL);
-        $$ = list_rev(actuals);
+        $$ = list_new($1, NULL);
     }
     /* error recovery */
     | actuals_body error actual
@@ -627,13 +632,11 @@ assign_list
 assign_list_body
     : assign_list_body ',' assign_expr
     {
-        list_t assigns = list_new($3, $1);
-        $$ = list_rev(assigns);
+        $$ = list_new($3, $1);
     }
     | assign_expr
     {
-        list_t assigns = list_new($1, NULL);
-        $$ = list_rev(assigns);
+        $$ = list_new($1, NULL);
     }
     /* error recovery */
     | assign_list_body ',' error
@@ -774,14 +777,17 @@ left_expr
     }
     | left_expr '.' IDENTIFIER '(' actuals ')'
     {
+        $5 = list_rev($5);
         $$ = expr_left_class_call_new(EXPR_LEFT, EXPR_LEFT_CLASS_CALL, (expr_left_t)$1, $3, $5);
     }
 	| left_expr '(' actuals ')'
     {
+        $3 = list_rev($3);
         $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, (expr_left_t)$1, $3);
     }
     | func_anony_def '(' actuals ')'
     {
+        $3 = list_rev($3);
         $$ = expr_left_anony_call_new(EXPR_LEFT, EXPR_LEFT_ANONY_CALL, (func_anony_def_t)$1, $3);
     }
 	;
@@ -809,6 +815,7 @@ prim_expr
     }
     | NEW IDENTIFIER '(' actuals ')'
     {
+        $4 = list_rev($4);
         $$ = expr_prim_newclass_new(EXPR_PRIM, EXPR_PRIM_NEWCLASS, $2, $4);
     }
     | NEW type '[' expr ']'
