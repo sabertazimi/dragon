@@ -15,8 +15,10 @@
 
 extern FILE *yyin;
 extern int yyparse(void);
-extern int parse_failed;
 extern prog_t prog_tree;
+
+extern int lex_failed;
+extern int parse_failed;
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;
@@ -27,12 +29,12 @@ int main(int argc, char **argv) {
 
     // yyparse return value: 1 represent error occurs
     while (yyparse()) {
-        fprintf(stderr, "Bison panic.\n");
+        fprintf(stderr, "*** bison panic.\n");
         exit(1);
     }
 
     if (parse_failed == 1) {
-        fprintf(stderr, "Please fix syntax error first!\n");
+        fprintf(stderr, "*** please fix syntax error first!\n");
         exit(0);
     }
 

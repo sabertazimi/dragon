@@ -8,7 +8,9 @@
 #ifndef ERRORS_DEBUG_H
 #define ERRORS_DEBUG_H
 
+#include <stdarg.h>
 #include "errors_common.h"
+#include "errors_srcbuf.h"
 #include "../scanner.h"
 
 /*
@@ -29,6 +31,6 @@ void dragon_debug(const char *type, const char *value);
 /*
  * @brief: print error information
  */
-void dragon_debug(const char *type, const char *value);
+void dragon_report(yyltype loc, const char *fmt, ...);
 
 #endif /* !ERRORS_DEBUG_H */

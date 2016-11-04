@@ -9,11 +9,11 @@
     #define YYDEBUG 1
     #define YYERROR_VERBOSE 1
 
-    extern int yycolumn;
     extern char *yytext;
     int yylex(void);
     int yyerror(const char *msg);
 
+    // enable/disable state machine working result output
     // yydebug = 1;
 
     int parse_failed;
@@ -50,6 +50,7 @@
     prog_t prog_val;
 }
 
+%token END
 %token NIL
 %token BOOL INT STRING FUNCTION VOID    ///< hidden type: function type
 %token OP_AND OP_OR OP_LE OP_GE OP_EQ OP_NE OP_ARROW
@@ -96,7 +97,7 @@
 %%
 
 program
-    : class_defs
+    : class_defs END
     {
         @$ = @1;
         $1 = list_rev($1);
@@ -133,42 +134,62 @@ class_def
     /* error recovery */
     | error IDENTIFIER '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected keyword \"class\"");
     }
     | CLASS error '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER error fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER '{' fields error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | error IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected keyword \"class\"");
     }
     | CLASS error EXTENDS IDENTIFIER '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER error IDENTIFIER '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected keyword \"extends\"");
     }
     | CLASS IDENTIFIER EXTENDS error '{' fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER error fields '}'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -213,18 +234,26 @@ var_def
     /* error recovery */
     | type error ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected ';' or expected '=' as assign operator");
     }
     | type error '=' assign_expr ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER '=' assign_expr error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     ;
@@ -263,10 +292,14 @@ type
     /* error recovery */
     | error IDENTIFIER
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unkown type");
     }
     | CLASS error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as class name");
     }
     ;
@@ -295,26 +328,38 @@ func_normal_def
     /* error recovery */
     | type error '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER error '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected '=' as function defination");
     }
     | type IDENTIFIER '=' '(' formals ')' error '{' stmts '}' ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected '=>' as function defination");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW error stmts '}' ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts error ';'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     ;
@@ -330,14 +375,20 @@ func_anony_def
     /* error recovery */
     | type '(' formals ')' error '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected '=>' as function defination");
     }
     | type '(' formals ')' OP_ARROW error stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     | type '(' formals ')' OP_ARROW '{' stmts error
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -355,6 +406,8 @@ formals
     }
     /* error recovery */
     | error {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected keyword 'void' or at least 1 parameter");
     }
     ;
@@ -373,10 +426,14 @@ formals_body
     /* error recovery */
     | formals_body error formal
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("expected ',' as separator");
     }
     | formals_body ',' error
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("unexpected ','");
     }
     ;
@@ -390,6 +447,8 @@ formal
     /* error recovery */
     | type error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected identifier as parameter name");
     }
     ;
@@ -458,6 +517,8 @@ expr_stmt
     /* error recovery */
     | expr error
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     ;
@@ -479,14 +540,20 @@ if_stmt
     /* error recovery */
     | IF error bool_expr ')' '{' stmts '}' %prec NOELSE
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | IF '(' bool_expr error '{' stmts '}' %prec NOELSE
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | IF '(' bool_expr ')' error stmts '}' %prec NOELSE
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -501,14 +568,20 @@ while_stmt
     /* error recovery */
     | WHILE error bool_expr ')' '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | WHILE '(' bool_expr error '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | WHILE '(' bool_expr ')' error stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -525,22 +598,32 @@ for_stmt
     /* error recovery */
     | FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | FOR '(' assign_list error bool_expr ';' assign_list ')' '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected ';' as separator between initializer and boolean expression");
     }
     | FOR '(' assign_list ';' bool_expr error assign_list ')' '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected ';' as separator between boolean expression and assignment");
     }
     | FOR '(' assign_list ';' bool_expr ';' assign_list error '{' stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | FOR '(' assign_list ';' bool_expr ';' assign_list ')' error stmts '}'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -564,14 +647,20 @@ return_stmt
     /* error recovery */
     | RETURN error ';'
     {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("unkown return value");
     }
     | RETURN VOID error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     | RETURN expr error
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     ;
@@ -585,14 +674,20 @@ print_stmt
     /* error recovery */
     | PRINT error expr ')' ';'
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | PRINT '(' expr error ';'
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("unmatched '(' or ')'");
     }
     | PRINT '(' expr ')' error
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("expected ';'");
     }
     ;
@@ -623,10 +718,14 @@ actuals_body
     /* error recovery */
     | actuals_body error actual
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("expected ',' as separator");
     }
     | actuals_body ',' error
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("unexpected ','");
     }
     ;
@@ -681,6 +780,8 @@ assign_list
     }
     /* error recovery */
     | error {
+        @$ = @1;
+        $$ = NULL;
         proposed_solution("expected keyword 'void' or at least 1 assign expression");
     }
     ;
@@ -699,6 +800,8 @@ assign_list_body
     /* error recovery */
     | assign_list_body ',' error
     {
+        @$ = @3;
+        $$ = NULL;
         proposed_solution("unexpected ','");
     }
     ;
@@ -920,6 +1023,8 @@ prim_expr
     /* error recovery */
 	| '(' error ')'
     {
+        @$ = @2;
+        $$ = NULL;
         proposed_solution("unexpected nested parenthesis");
     }
 	;
@@ -951,26 +1056,13 @@ constant
 
 // return value will be ignored
 int yyerror(const char *msg) {
-    fprintf(stderr, "<%d:%d><Error>: %s\n", yylloc.first_line, yylloc.first_column, msg);
-
-    // print source code
-    srcbuf_print(yylloc.first_line);
-
-    // print ^, to highlight error position
-    for (int i = 1; i < yylloc.first_column; i++) {
-        fprintf(stderr, " ");
-    }
-    for (int i = yylloc.first_column - 1; i < yylloc.last_column; i++) {
-        fprintf(stderr, "^");
-    }
-    fprintf(stderr, "\n");
-
+    dragon_report(yylloc, "%s", msg);
     memset(yytext, '\0', strlen(yytext));
     parse_failed = 1;
     return 0;
 }
 
 int proposed_solution(const char *sol) {
-    fprintf(stderr, "<Proposed Solution>: %s\n", sol);
+    fprintf(stderr, "    proposed solution: %s\n", sol);
     return 0;
 }

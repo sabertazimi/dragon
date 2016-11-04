@@ -49,16 +49,19 @@ hexical [a-fA-F0-9]
 %%
 
 <SRCBUF>.* {
-  srcbuf_append(yytext);
-  current_column = 1;
-  yy_pop_state();
-  yyless(0);
+    srcbuf_append(yytext);
+    current_column = 1;
+    yy_pop_state();
+    yyless(0);
 }
 
 <SRCBUF><<EOF>> {
-  yy_pop_state();
-}
+    // exit SRCBUF lex state
+    yy_pop_state();
 
+    // transfer to END token
+    return END;
+}
 
 <*>\n  {
     // increase current line
@@ -286,8 +289,8 @@ hexical [a-fA-F0-9]
 }
 
 . {
-    fprintf(stderr, "<%d:%d><Error>: lexical error near %s\n", yylloc.first_line, yylloc.first_column, yytext);
-    fprintf(stderr, "Please fix lexical error first!\n");
+    dragon_report(yylloc, "lexical error near %s", yytext);
+    fprintf(stderr, "*** please fix lexical error first!\n");
     exit(0);
 }
 
@@ -309,7 +312,7 @@ void dragon_comment(void) {
         }
     }
 
-    fprintf(stderr, "<%d:%d><Error>: unterminated block comment near %s\n", yylloc.first_line, yylloc.first_column, yytext);
-    fprintf(stderr, "Please fix lexical error first!\n");
+    dragon_report(yylloc, "unterminated block comment near %s", yytext);
+    fprintf(stderr, "*** please fix lexical error first!\n");
     exit(0);
 }

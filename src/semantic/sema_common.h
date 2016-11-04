@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include "ast.h"
+#include "../scanner.h"
 
 int typechk_failed;
 
