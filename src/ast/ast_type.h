@@ -27,6 +27,7 @@ typedef enum type_kind {
  */
 typedef struct type {
     type_kind_t kind;
+    yyltype loc;
 } *type_t;
 
 /*
@@ -34,6 +35,7 @@ typedef struct type {
  */
 typedef struct type_basic {
     type_kind_t kind;
+    yyltype loc;
 } *type_basic_t;
 
 /*
@@ -41,6 +43,7 @@ typedef struct type_basic {
  */
 typedef struct type_class {
     type_kind_t kind;
+    yyltype loc;
     string class_id;
 } *type_class_t;
 
@@ -49,22 +52,23 @@ typedef struct type_class {
  */
 typedef struct type_array {
     type_kind_t kind;
+    yyltype loc;
     type_t type;
 } *type_array_t;
 
 /*
  * @brief: create basic type node(int/bool/string/void)
  */
-type_t type_basic_new(type_kind_t kind);
+type_t type_basic_new(type_kind_t kind, yyltype loc);
 
 /*
  * @brief: create class type node
  */
-type_t type_class_new(type_kind_t kind, string class_id);
+type_t type_class_new(type_kind_t kind, yyltype loc, string class_id);
 
 /*
  * @brief: create array type node
  */
-type_t type_array_new(type_kind_t kind, type_t type);
+type_t type_array_new(type_kind_t kind, yyltype loc, type_t type);
 
 #endif /* !AST_TYPE_H */

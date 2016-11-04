@@ -17,6 +17,7 @@
  * @implements: formal_t
  */
 typedef struct formal {
+    yyltype loc;
     type_t type;
     string id;
 } *formal_t;
@@ -25,6 +26,7 @@ typedef struct formal {
  * @implements: actual_t
  */
 typedef struct actual {
+    yyltype loc;
     expr_t expr;
 } *actual_t;
 
@@ -41,6 +43,7 @@ typedef enum field_kind {
  */
 typedef struct field {
     field_kind_t kind;
+    yyltype loc;
 } *field_t;
 
 /*
@@ -48,6 +51,7 @@ typedef struct field {
  */
 typedef struct field_var {
     field_kind_t kind;
+    yyltype loc;
     var_def_t var_def;
 } *field_var_t;
 
@@ -56,6 +60,7 @@ typedef struct field_var {
  */
 typedef struct field_func {
     field_kind_t kind;
+    yyltype loc;
     func_def_t func_def;
 } *field_func_t;
 
@@ -63,32 +68,33 @@ typedef struct field_func {
  * @implements: prog_t
  */
 typedef struct prog {
+    yyltype loc;
     list_t class_defs;      ///< list_t <class_def_t>
 } *prog_t;
 
 /*
  * @brief: create formal argument node
  */
-formal_t formal_new(type_t type, string id);
+formal_t formal_new(yyltype loc, type_t type, string id);
 
 /*
  * @brief: create actual argument node
  */
-actual_t actual_new(expr_t expr);
+actual_t actual_new(yyltype loc, expr_t expr);
 
 /*
  * @brief: create variable field node
  */
-field_t field_var_new(field_kind_t kind, var_def_t var_def);
+field_t field_var_new(field_kind_t kind, yyltype loc, var_def_t var_def);
 
 /*
  * @brief: create function field node
  */
-field_t field_func_new(field_kind_t kind, func_def_t func_def);
+field_t field_func_new(field_kind_t kind, yyltype loc, func_def_t func_def);
 
 /*
  * @brief: create program node(root node)
  */
-prog_t prog_new(list_t class_defs);
+prog_t prog_new(yyltype loc, list_t class_defs);
 
 #endif /* !AST_OTHERS_H */

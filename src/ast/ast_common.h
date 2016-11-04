@@ -12,5 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "libs.h"
+#include "../scanner.h"
 
 #endif /* !AST_COMMON_H */

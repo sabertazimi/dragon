@@ -25,6 +25,7 @@ typedef enum const_kind {
  */
 typedef struct const_t {
     const_kind_t kind;
+    yyltype loc;
 } *const_t;
 
 /*
@@ -32,6 +33,7 @@ typedef struct const_t {
  */
 typedef struct const_num_t {
     const_kind_t kind;
+    yyltype loc;
     int value;
 } *const_num_t;
 
@@ -40,6 +42,7 @@ typedef struct const_num_t {
  */
 typedef struct const_string_t {
     const_kind_t kind;
+    yyltype loc;
     string text;
 } *const_string_t;
 
@@ -48,21 +51,22 @@ typedef struct const_string_t {
  */
 typedef struct const_nil_t {
     const_kind_t kind;
+    yyltype loc;
 } *const_nil_t;
 
 /*
  * @brief: create number const node(int/bool)
  */
-const_t const_num_new(const_kind_t kind, int value);
+const_t const_num_new(const_kind_t kind, yyltype loc, int value);
 
 /*
  * @brief: create string const node
  */
-const_t const_string_new(const_kind_t kind, string text);
+const_t const_string_new(const_kind_t kind, yyltype loc, string text);
 
 /*
  * @brief: create nil const node
  */
-const_t const_nil_new(const_kind_t kind);
+const_t const_nil_new(const_kind_t kind, yyltype loc);
 
 #endif /* !AST_CONST_H */

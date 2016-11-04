@@ -35,6 +35,7 @@ typedef enum expr_kind {
  */
 typedef struct expr {
     expr_kind_t kind;           ///< EXPR_BASIC
+    yyltype loc;
 } *expr_t;
 
 /*
@@ -54,6 +55,7 @@ typedef enum expr_prim_kind {
  */
 typedef struct expr_prim {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
 } *expr_prim_t;
 
@@ -62,6 +64,7 @@ typedef struct expr_prim {
  */
 typedef struct expr_prim_ident {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
     string id;
 } *expr_prim_ident_t;
@@ -71,6 +74,7 @@ typedef struct expr_prim_ident {
  */
 typedef struct expr_prim_const {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
     const_t const_val;
 } *expr_prim_const_t;
@@ -80,6 +84,7 @@ typedef struct expr_prim_const {
  */
 typedef struct expr_prim_read_t {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
 } *expr_prim_read_t;
 
@@ -88,6 +93,7 @@ typedef struct expr_prim_read_t {
  */
 typedef struct expr_prim_newclass_t {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
     string id;
     list_t actuals;             ///< list_t <actual_t>
@@ -98,6 +104,7 @@ typedef struct expr_prim_newclass_t {
  */
 typedef struct expr_prim_newarray_t {
     expr_kind_t kind;
+    yyltype loc;
     expr_prim_kind_t sub_kind;
     type_t type;
     expr_t length;
@@ -120,6 +127,7 @@ typedef enum expr_left_kind {
  */
 typedef struct expr_left {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
 } *expr_left_t;
 
@@ -128,6 +136,7 @@ typedef struct expr_left {
  */
 typedef struct expr_left_this {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
 } *expr_left_this_t;
 
@@ -136,6 +145,7 @@ typedef struct expr_left_this {
  */
 typedef struct expr_left_index {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
     expr_left_t array;
     expr_t index;
@@ -146,6 +156,7 @@ typedef struct expr_left_index {
  */
 typedef struct expr_left_class_field {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
     expr_left_t left;
     string field_id;
@@ -156,6 +167,7 @@ typedef struct expr_left_class_field {
  */
 typedef struct expr_left_class_call {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
     expr_left_t left;
     string field_id;
@@ -167,6 +179,7 @@ typedef struct expr_left_class_call {
  */
 typedef struct expr_left_func_call {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
     expr_left_t left;
     list_t actuals;         ///< list_t <actual_t>
@@ -177,6 +190,7 @@ typedef struct expr_left_func_call {
  */
 typedef struct expr_left_anony_call {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_kind_t sub_kind;
     func_anony_def_t func_body;
     list_t actuals;         ///< list_t <actual_t>
@@ -196,6 +210,7 @@ typedef enum expr_unary_kind {
  */
 typedef struct expr_unary {
     expr_kind_t kind;
+    yyltype loc;
     expr_unary_kind_t sub_kind;
     struct expr_unary *body;
 } *expr_unary_t;
@@ -214,6 +229,7 @@ typedef enum expr_mul_kind {
  */
 typedef struct expr_mul {
     expr_kind_t kind;
+    yyltype loc;
     expr_mul_kind_t sub_kind;
     struct expr_mul *left;
     expr_unary_t right;
@@ -232,6 +248,7 @@ typedef enum expr_add_kind {
  */
 typedef struct expr_add {
     expr_kind_t kind;
+    yyltype loc;
     expr_add_kind_t sub_kind;
     struct expr_add *left;
     expr_mul_t right;
@@ -252,6 +269,7 @@ typedef enum expr_cmp_kind {
  */
 typedef struct expr_cmp {
     expr_kind_t kind;
+    yyltype loc;
     expr_cmp_kind_t sub_kind;
     struct expr_cmp *left;
     expr_add_t right;
@@ -270,6 +288,7 @@ typedef enum expr_eq_kind {
  */
 typedef struct expr_eq {
     expr_kind_t kind;
+    yyltype loc;
     expr_eq_kind_t sub_kind;
     struct expr_eq *left;
     expr_cmp_t right;
@@ -280,6 +299,7 @@ typedef struct expr_eq {
  */
 typedef struct expr_and {
     expr_kind_t kind;
+    yyltype loc;
     struct expr_and *left;
     expr_eq_t right;
 } *expr_and_t;
@@ -289,6 +309,7 @@ typedef struct expr_and {
  */
 typedef struct expr_or {
     expr_kind_t kind;
+    yyltype loc;
     struct expr_or *left;
     expr_and_t right;
 } *expr_or_t;
@@ -298,6 +319,7 @@ typedef struct expr_or {
  */
 struct expr_assign {
     expr_kind_t kind;
+    yyltype loc;
     expr_left_t left;
     expr_assign_t right;
 };
@@ -307,71 +329,72 @@ struct expr_assign {
  */
 typedef struct expr_bool {
     expr_kind_t kind;           ///< EXPR_BOOL
+    yyltype loc;
     expr_t body;
 } *expr_bool_t;
 
 /*
  * @brief: create prim_expr node
  */
-expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id);
-expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, const_t const_val);
-expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind);
-expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id, list_t actuals);
-expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, type_t type, expr_t length);
+expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id);
+expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, const_t const_val);
+expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc);
+expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id, list_t actuals);
+expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, type_t type, expr_t length);
 
 /*
  * @brief: create left_expr node
  */
-expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind);
-expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t array, expr_t index);
-expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id);
-expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id, list_t actuals);
-expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, list_t actuals);
-expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, func_anony_def_t func_body, list_t actuals);
+expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc);
+expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t array, expr_t index);
+expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id);
+expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id, list_t actuals);
+expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, list_t actuals);
+expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, func_anony_def_t func_body, list_t actuals);
 
 /*
  * @brief: create unary_expr node
  */
-expr_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_unary_t body);
+expr_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, yyltype loc, expr_unary_t body);
 
 /*
  * @brief: create mul_expr node
  */
-expr_t expr_mul_new(expr_kind_t kind, expr_mul_kind_t sub_kind, expr_mul_t left, expr_unary_t right);
+expr_t expr_mul_new(expr_kind_t kind, expr_mul_kind_t sub_kind, yyltype loc, expr_mul_t left, expr_unary_t right);
 
 /*
  * @brief: create add_expr node
  */
-expr_t expr_add_new(expr_kind_t kind, expr_add_kind_t sub_kind, expr_add_t left, expr_mul_t right);
+expr_t expr_add_new(expr_kind_t kind, expr_add_kind_t sub_kind, yyltype loc, expr_add_t left, expr_mul_t right);
 
 /*
  * @brief: create cmp_expr node
  */
-expr_t expr_cmp_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, expr_cmp_t left, expr_add_t right);
+expr_t expr_cmp_new(expr_kind_t kind, expr_cmp_kind_t sub_kind, yyltype loc, expr_cmp_t left, expr_add_t right);
 
 /*
  * @brief: create eq_expr node
  */
-expr_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, expr_eq_t left, expr_cmp_t right);
+expr_t expr_eq_new(expr_kind_t kind, expr_eq_kind_t sub_kind, yyltype loc, expr_eq_t left, expr_cmp_t right);
 
 /*
  * @brief: create and_expr node
  */
-expr_t expr_and_new(expr_kind_t kind, expr_and_t left, expr_eq_t right);
+expr_t expr_and_new(expr_kind_t kind, yyltype loc, expr_and_t left, expr_eq_t right);
 
 /*
  * @brief: create or_expr node
  */
-expr_t expr_or_new(expr_kind_t kind, expr_or_t left, expr_and_t right);
+expr_t expr_or_new(expr_kind_t kind, yyltype loc, expr_or_t left, expr_and_t right);
 
 /*
  * @brief: create assign_expr node
  */
-expr_t expr_assign_new(expr_kind_t kind, expr_left_t left, expr_assign_t right);
+expr_t expr_assign_new(expr_kind_t kind, yyltype loc, expr_left_t left, expr_assign_t right);
 
 /*
  * @brief: create bool_expr node
  */
-expr_bool_t expr_bool_new(expr_kind_t kind, expr_t body);
+expr_bool_t expr_bool_new(expr_kind_t kind, yyltype loc, expr_t body);
 
 #endif /* !AST_EXPR_H */

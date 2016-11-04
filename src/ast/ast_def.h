@@ -18,6 +18,7 @@ typedef struct expr_assign *expr_assign_t;
  * @implements: var_def_t
  */
 typedef struct var_def {
+    yyltype loc;
     type_t type;
     string id;
     expr_assign_t initializer;
@@ -36,6 +37,7 @@ typedef enum func_kind {
  */
 typedef struct func_def {
     func_kind_t kind;
+    yyltype loc;
 } *func_def_t;
 
 /*
@@ -43,6 +45,7 @@ typedef struct func_def {
  */
 typedef struct func_normal_def {
     func_kind_t kind;
+    yyltype loc;
     type_t type;
     list_t formals;         ///< list_t <formal_t>
     list_t stmts;           ///< list_t <stmt_t>
@@ -54,6 +57,7 @@ typedef struct func_normal_def {
  */
 typedef struct func_anony_def {
     func_kind_t kind;
+    yyltype loc;
     type_t type;
     list_t formals;         ///< list_t <formal_t>
     list_t stmts;           ///< list_t <stmt_t>
@@ -63,6 +67,7 @@ typedef struct func_anony_def {
  * @implements: class_def_t
  */
 typedef struct class_def {
+    yyltype loc;
     string id;
     string super;
     list_t fields;          ///< list_t <field_t>

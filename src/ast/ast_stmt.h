@@ -30,6 +30,7 @@ typedef enum stmt_kind {
  */
 typedef struct stmt {
     stmt_kind_t kind;
+    yyltype loc;
 } *stmt_t;
 
 /*
@@ -37,6 +38,7 @@ typedef struct stmt {
  */
 typedef struct stmt_var_def {
     stmt_kind_t kind;
+    yyltype loc;
     var_def_t var_def;
 } *stmt_var_def_t;
 
@@ -45,6 +47,7 @@ typedef struct stmt_var_def {
  */
 typedef struct stmt_expr {
     stmt_kind_t kind;
+    yyltype loc;
     expr_t expr;
 } *stmt_expr_t;
 
@@ -53,6 +56,7 @@ typedef struct stmt_expr {
  */
 typedef struct stmt_if {
     stmt_kind_t kind;
+    yyltype loc;
     expr_bool_t cond;
     list_t body_then;         ///< list_t <stmt_t>
     list_t body_else;         ///< list_t <stmt_t>
@@ -63,6 +67,7 @@ typedef struct stmt_if {
  */
 typedef struct stmt_while {
     stmt_kind_t kind;
+    yyltype loc;
     expr_bool_t cond;
     list_t body;            ///< list_t <stmt_t>
 } *stmt_while_t;
@@ -72,6 +77,7 @@ typedef struct stmt_while {
  */
 typedef struct stmt_for {
     stmt_kind_t kind;
+    yyltype loc;
     list_t initializer;     ///< list_t <expr_assign_t>
     expr_bool_t cond;
     list_t assigner;        ///< list_t <expr_assign_t>
@@ -83,6 +89,7 @@ typedef struct stmt_for {
  */
 typedef struct stmt_return {
     stmt_kind_t kind;
+    yyltype loc;
     expr_t  ret_val;
 } *stmt_return_t;
 
@@ -91,18 +98,19 @@ typedef struct stmt_return {
  */
 typedef struct stmt_print {
     stmt_kind_t kind;
+    yyltype loc;
     expr_t  out;
 } *stmt_print_t;
 
 /*
  * @brief: create statement node
  */
-stmt_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def);
-stmt_t stmt_expr_new(stmt_kind_t kind, expr_t expr);
-stmt_t stmt_if_new(stmt_kind_t kind, expr_bool_t cond, list_t body_then, list_t body_else);
-stmt_t stmt_while_new(stmt_kind_t kind, expr_bool_t cond, list_t body);
-stmt_t stmt_for_new(stmt_kind_t kind, list_t initializer, expr_bool_t cond, list_t assigner, list_t body);
-stmt_t stmt_return_new(stmt_kind_t kind, expr_t ret_val);
-stmt_t stmt_print_new(stmt_kind_t kind, expr_t out);
+stmt_t stmt_var_def_new(stmt_kind_t kind, yyltype loc, var_def_t var_def);
+stmt_t stmt_expr_new(stmt_kind_t kind, yyltype loc, expr_t expr);
+stmt_t stmt_if_new(stmt_kind_t kind, yyltype loc, expr_bool_t cond, list_t body_then, list_t body_else);
+stmt_t stmt_while_new(stmt_kind_t kind, yyltype loc, expr_bool_t cond, list_t body);
+stmt_t stmt_for_new(stmt_kind_t kind, yyltype loc, list_t initializer, expr_bool_t cond, list_t assigner, list_t body);
+stmt_t stmt_return_new(stmt_kind_t kind, yyltype loc, expr_t ret_val);
+stmt_t stmt_print_new(stmt_kind_t kind, yyltype loc, expr_t out);
 
 #endif /* !AST_STMT_H */
