@@ -8,7 +8,6 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
-#include "ast.h"
 #include "semantic_typechk.h"
 
 endif /* !SEMANTIC_H */

@@ -1,12 +1,11 @@
 /*
- * semantic_typechk.c
+ * sema_typechk.c
  * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
  *
  * Distributed underf terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include "semantic.h"
+#include "sema_typechk.h"
 
 // type_kind_t(enum) start from 21
 #define TYPE_NAME(node) (type_name[((node)->kind)-21])

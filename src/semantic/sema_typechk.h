@@ -1,14 +1,14 @@
 /*
- * semantic_typechk.h
+ * sema_typechk.h
  * Copyright (C) 2016 sabertazimi <sabertazimi@avalon>
  *
  * Distributed under terms of the MIT license.
  */
 
-#ifndef SEMANTIC_TYPECHK_H
-#define SEMANTIC_TYPECHK_H
+#ifndef SEMA_TYPECHK_H
+#define SEMA_TYPECHK_H
 
-int typechk_failed;
+#include <sema_common.h>
 
 type_t type_typechk(type_t node);
 type_t const_typechk(const_t node);
@@ -28,4 +28,4 @@ type_t field_typechk(field_t node);
 type_t fields_typechk(list_t fields);
 type_t prog_typechk(prog_t prog);
 
-#endif /* !SEMANTIC_TYPECHK_H */
+#endif /* !SEMA_TYPECHK_H */
