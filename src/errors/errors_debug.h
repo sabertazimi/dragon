@@ -8,6 +8,11 @@
 #ifndef ERRORS_DEBUG_H
 #define ERRORS_DEBUG_H
 
+#include "errors_common.h"
+
+#define LEX_DEBUG
+#undef LEX_DEBUG
+
 /*
  * @macro: DRAGON_DEBUG
  * @brief: print debug info for lexical analysis

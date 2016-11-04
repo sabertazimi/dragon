@@ -8,7 +8,9 @@
 #ifndef ERRORS_SRCBUF_H
 #define ERRORS_SRCBUF_H
 
-#include "libs.h"
+#include <string.h>
+#include "errors_common.h"
+#include "../scanner.h"
 
 /*
  * @brief: set all memory of buffer to '\0'

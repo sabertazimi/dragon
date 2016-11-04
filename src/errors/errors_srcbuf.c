@@ -5,10 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include "../scanner.h"
-#include "errors.h"
+#include "errors_srcbuf.h"
 
 typedef struct srcbuf {
     list_t buf;     ///< list_t <string>: store source code
