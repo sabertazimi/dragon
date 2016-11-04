@@ -48,6 +48,14 @@ expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, type_
     return (expr_t)p;
 }
 
+
+expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind) {
+    expr_left_this_t p = (expr_left_this_t)malloc(sizeof(*p));
+    p->kind = kind;
+    p->sub_kind = sub_kind;
+    return (expr_t)p;
+}
+
 expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t array, expr_t index) {
     expr_left_index_t p = (expr_left_index_t)malloc(sizeof(*p));
     p->kind = kind;

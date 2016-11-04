@@ -14,6 +14,8 @@
     int yylex(void);
     int yyerror(const char *msg);
 
+    // yydebug = 1;
+
     int parse_failed;
     int proposed_solution(const char *sol);
 
@@ -744,10 +746,6 @@ unary_expr
     {
         $$ = $1;
     }
-    | THIS
-    {
-        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_THIS, NULL);
-    }
     | '+' unary_expr
     {
         $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_PLUS, (expr_unary_t)$2);
@@ -766,6 +764,10 @@ left_expr
 	: prim_expr
     {
         $$ = $1;
+    }
+    | THIS
+    {
+        $$ = expr_left_this_new(EXPR_LEFT, EXPR_LEFT_THIS);
     }
 	| left_expr '[' expr ']'
     {

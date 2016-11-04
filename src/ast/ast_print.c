@@ -287,9 +287,6 @@ void expr_print(expr_t node, int num_space) {
             expr_unary_t p = (expr_unary_t)node;
 
             switch (p->sub_kind) {
-                case EXPR_UNARY_THIS:
-                    fprintf(stdout, "this\n");
-                    break;
                 case EXPR_UNARY_PLUS:
                     fprintf(stdout, "expr_unary_plus->\n");
                     expr_print((expr_t)p->body, num_space + SPACE_STEP);
@@ -315,6 +312,9 @@ void expr_print(expr_t node, int num_space) {
             expr_left_t p = (expr_left_t)node;
 
             switch (p->sub_kind) {
+                case EXPR_LEFT_THIS:
+                    fprintf(stdout, "expr_left_this\n");
+                    break;
                 case EXPR_LEFT_INDEX:
                 {
                     expr_left_index_t pp = (expr_left_index_t)p;

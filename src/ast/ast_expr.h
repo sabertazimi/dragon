@@ -107,7 +107,8 @@ typedef struct expr_prim_newarray_t {
  * @brief: kind of expr_left_t
  */
 typedef enum expr_left_kind {
-    EXPR_LEFT_INDEX = 131,
+    EXPR_LEFT_THIS = 131,
+    EXPR_LEFT_INDEX,
     EXPR_LEFT_CLASS_FIELD,
     EXPR_LEFT_CLASS_CALL,
     EXPR_LEFT_FUNC_CALL,
@@ -121,6 +122,14 @@ typedef struct expr_left {
     expr_kind_t kind;
     expr_left_kind_t sub_kind;
 } *expr_left_t;
+
+/*
+ * @implements: expr_left_this_t
+ */
+typedef struct expr_left_this {
+    expr_kind_t kind;
+    expr_left_kind_t sub_kind;
+} *expr_left_this_t;
 
 /*
  * @implements: expr_left_index_t
@@ -177,8 +186,7 @@ typedef struct expr_left_anony_call {
  * @brief: kind of expr_unary_t
  */
 typedef enum expr_unary_kind {
-    EXPR_UNARY_THIS = 121,
-    EXPR_UNARY_PLUS,
+    EXPR_UNARY_PLUS = 121,
     EXPR_UNARY_MINUS,
     EXPR_UNARY_NOT
 } expr_unary_kind_t;
@@ -314,6 +322,7 @@ expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, type_
 /*
  * @brief: create left_expr node
  */
+expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind);
 expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t array, expr_t index);
 expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id);
 expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, expr_left_t left, string field_id, list_t actuals);

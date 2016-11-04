@@ -24,6 +24,7 @@ class Mac extends Computer {
 
 class Main {
     int main = (void) => {
+        this.field;
         class Mac powerbook;
         powerbook = new Mac();
         powerbook.Crash(2);
