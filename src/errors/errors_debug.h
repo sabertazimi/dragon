@@ -9,9 +9,7 @@
 #define ERRORS_DEBUG_H
 
 #include "errors_common.h"
-
-#define LEX_DEBUG
-#undef LEX_DEBUG
+#include "../scanner.h"
 
 /*
  * @macro: DRAGON_DEBUG

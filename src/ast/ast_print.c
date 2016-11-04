@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "ast.h"
+#include "ast_print.h"
 
 void type_print(type_t node, int num_space) {
     space_print(num_space);

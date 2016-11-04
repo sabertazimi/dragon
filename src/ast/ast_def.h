@@ -8,7 +8,7 @@
 #ifndef AST_DEF_H
 #define AST_DEF_H
 
-#include "list.h"
+#include "ast_common.h"
 #include "ast_type.h"
 
 // pre-defination to eliminate defination circle dependencies

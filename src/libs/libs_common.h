@@ -13,4 +13,7 @@
 
 typedef char *string;
 
+///< space step when print ast tree
+#define SPACE_STEP 2
+
 #endif /* !LIBS_COMMON_H */

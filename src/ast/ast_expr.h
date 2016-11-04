@@ -8,7 +8,7 @@
 #ifndef AST_EXPR_H
 #define AST_EXPR_H
 
-#include "list.h"
+#include "ast_common.h"
 #include "ast_type.h"
 #include "ast_const.h"
 #include "ast_def.h"

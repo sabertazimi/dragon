@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ast.h"
-#include "parser.h"
 
 #define AST_DEBUG
 // #undef AST_DEBUG

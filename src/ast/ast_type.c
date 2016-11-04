@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "ast.h"
+#include "ast_type.h"
 
 type_t type_basic_new(type_kind_t kind) {
     type_basic_t p = (type_basic_t)malloc(sizeof(*p));

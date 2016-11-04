@@ -5,8 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include "ast.h"
+#include "ast_stmt.h"
 
 stmt_t stmt_var_def_new(stmt_kind_t kind, var_def_t var_def) {
     stmt_var_def_t p = (stmt_var_def_t)malloc(sizeof(*p));

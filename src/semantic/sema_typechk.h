@@ -8,7 +8,7 @@
 #ifndef SEMA_TYPECHK_H
 #define SEMA_TYPECHK_H
 
-#include <sema_common.h>
+#include "sema_common.h"
 
 type_t type_typechk(type_t node);
 type_t const_typechk(const_t node);

@@ -8,7 +8,7 @@
 #ifndef AST_OTHERS_H
 #define AST_OTHERS_H
 
-#include "list.h"
+#include "ast_common.h"
 #include "ast_type.h"
 #include "ast_def.h"
 #include "ast_expr.h"

@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "ast.h"
+#include "ast_def.h"
 
 var_def_t var_def_new(type_t type, string id, expr_assign_t initializer) {
     var_def_t p = (var_def_t)malloc(sizeof(*p));

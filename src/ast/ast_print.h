@@ -8,7 +8,7 @@
 #ifndef AST_PRINT_H
 #define AST_PRINT_H
 
-#include "list.h"
+#include "ast_common.h"
 #include "ast_type.h"
 #include "ast_const.h"
 #include "ast_def.h"
@@ -16,6 +16,9 @@
 #include "ast_stmt.h"
 #include "ast_others.h"
 
+/*
+ * @brief: functions for print ast tree
+ */
 void type_print(type_t node, int num_space);
 void const_print(const_t node, int num_space);
 void var_def_print(var_def_t node, int num_space);

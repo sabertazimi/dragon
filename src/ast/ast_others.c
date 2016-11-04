@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "ast.h"
+#include "ast_others.h"
 
 formal_t formal_new(type_t type, string id) {
     formal_t p = (formal_t)malloc(sizeof(*p));

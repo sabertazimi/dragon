@@ -16,6 +16,7 @@ YFLAGS=-dv
 RM=rm -fr
 MKDIR=mkdir -p
 MV=mv
+ZIP=zip
 
 # paths
 SRC_PATH=src
@@ -62,8 +63,8 @@ all: $(PROG)
 # dependencies
 $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) -o $(SRC_PATH)/$(PROG) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(RAW_OBJS)))
-	make clean
 	make release
+	make clean
 	@echo
 	@echo '>>>' Build Success! '<<<'
 
@@ -71,7 +72,8 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
-	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c $(SRC_PATH)/scanner.c
+	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c  $(SRC_PATH)/scanner.c
+	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
 	$(RM) .gdb_history
 
 release:
@@ -104,8 +106,6 @@ ifeq ($(AST_TEST), 1)
 	@echo '>>>' Ast Test Passed! '<<<'
 	@echo
 endif
-
-
 
 # vim:ft=make
 #

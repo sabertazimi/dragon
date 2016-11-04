@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "ast.h"
+#include "ast_expr.h"
 
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, string id) {
     expr_prim_ident_t p = (expr_prim_ident_t)malloc(sizeof(*p));

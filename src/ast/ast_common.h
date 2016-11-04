@@ -8,8 +8,9 @@
 #ifndef AST_COMMON_H
 #define AST_COMMON_H
 
-#include "list.h"
-#include "utils.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "libs.h"
 
 #endif /* !AST_COMMON_H */

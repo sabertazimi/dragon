@@ -10,8 +10,10 @@
 
 #include <stdio.h>
 #include "ast.h"
-#include "../parser.h"
 #include "libs.h"
+
+#define LEX_DEBUG
+#undef LEX_DEBUG
 
 extern FILE* yyout;
 

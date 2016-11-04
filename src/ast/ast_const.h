@@ -8,7 +8,7 @@
 #ifndef AST_CONST_H
 #define AST_CONST_H
 
-#include "list.h"
+#include "ast_common.h"
 
 /*
  * @brief: kind of constant

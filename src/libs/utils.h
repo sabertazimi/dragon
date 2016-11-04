@@ -10,9 +10,6 @@
 
 #include "libs_common.h"
 
-///< space step when print ast tree
-#define SPACE_STEP 2
-
 /*
  * @brief: print space(and level number)
  */

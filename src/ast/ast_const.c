@@ -5,9 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "ast.h"
+#include "ast_const.h"
 
 const_t const_num_new(const_kind_t kind, int value) {
     const_num_t p = (const_num_t)malloc(sizeof(*p));

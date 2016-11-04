@@ -8,7 +8,7 @@
 #ifndef AST_TYPE_H
 #define AST_TYPE_H
 
-#include "list.h"
+#include "ast_common.h"
 
 /*
  * @brief: kind of type_t
