@@ -5,7 +5,6 @@
  * Distributed under terms of the MIT license.
  */
 
-#include <stdlib.h>
 #include "list.h"
 
 list_t list_new(void *data, list_t tail) {

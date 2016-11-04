@@ -8,7 +8,7 @@
 #ifndef ERRORS_SRCBUF_H
 #define ERRORS_SRCBUF_H
 
-#include "list.h"
+#include "libs.h"
 
 /*
  * @brief: set all memory of buffer to '\0'

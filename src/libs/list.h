@@ -8,6 +8,8 @@
 #ifndef LIBS_LIST_H
 #define LIBS_LIST_H
 
+#include "libs_common.h"
+
 typedef struct list_t {
     void *data;
     struct list_t *next;
@@ -27,7 +29,5 @@ list_t list_new(void *data, list_t tail);
  * @return: list_t new list reversed from l
  */
 list_t list_rev(list_t l);
-
-typedef char *string;
 
 #endif /* !LIBS_LIST_H */
