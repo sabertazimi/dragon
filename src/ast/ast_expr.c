@@ -113,7 +113,7 @@ expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyl
     return (expr_t)p;
 }
 
-expr_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, expr_unary_t body) {
+expr_t expr_unary_new(expr_kind_t kind, expr_unary_kind_t sub_kind, yyltype loc, expr_unary_t body) {
     expr_unary_t p = (expr_unary_t)malloc(sizeof(*p));
     p->kind = kind;
     p->loc = loc;

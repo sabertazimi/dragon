@@ -76,9 +76,9 @@ typedef struct class_def {
 /*
  * @brief: create defination node
  */
-var_def_t var_def_new(type_t type, string id, expr_assign_t initializer);
-func_def_t func_normal_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts, string id);
-func_def_t func_anony_def_new(func_kind_t kind, type_t type, list_t formals, list_t stmts);
-class_def_t class_def_new(string id, string super, list_t fields);
+var_def_t var_def_new(yyltype loc, type_t type, string id, expr_assign_t initializer);
+func_def_t func_normal_def_new(func_kind_t kind, yyltype loc, type_t type, list_t formals, list_t stmts, string id);
+func_def_t func_anony_def_new(func_kind_t kind, yyltype loc, type_t type, list_t formals, list_t stmts);
+class_def_t class_def_new(yyltype loc, string id, string super, list_t fields);
 
 #endif /* !AST_DEF_H */
