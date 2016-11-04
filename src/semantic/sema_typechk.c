@@ -7,19 +7,50 @@
 
 #include "sema_typechk.h"
 
-// type_kind_t(enum) start from 21
-#define TYPE_NAME(node) (type_name[((node)->kind)-21])
-
 extern int typechk_failed;
 
-static char *type_name[6] = {
-    "int",
-    "bool",
-    "string",
-    "void",
-    "class",
-    "array",
-};
+char *type_name(type_t node) {
+    char *typestr = strdup("\0");
+
+    switch (node->kind) {
+        case TYPE_INT:
+            strcat(typestr, "int");
+            break;
+        case TYPE_BOOL:
+            strcat(typestr, "bool");
+            break;
+        case TYPE_STRING:
+            strcat(typestr, "string");
+            break;
+        case TYPE_VOID:
+            strcat(typestr, "void");
+            break;
+        case TYPE_CLASS:
+        {
+            type_class_t p = (type_class_t)node;
+            strcat(typestr, "class ");
+            strcat(typestr, p->class_id);
+            break;
+        }
+        case TYPE_ARRAY:
+        {
+            type_array_t p = (type_array_t)node;
+            char *arr_type = type_name(p->type);
+            strcat(typestr, "array of ");
+            strcat(typestr, arr_type);
+            break;
+        }
+        default:
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown type");
+            break;
+    }
+
+    return typestr;
+}
+
+// mock location information
+static yyltype mock_loc = { 233, 233, 233, 234 };
 
 int typechk(type_t left, type_t right) {
     int equality;
@@ -40,9 +71,9 @@ int typechk(type_t left, type_t right) {
         type_array_t r = (type_array_t)right;
         equality = typechk(l->type, r->type);
     } else {
-        // erros_report();
         equality = 0;
         typechk_failed = 1;
+        dragon_report(left->loc, "unkown type");
     }
 
     return equality;
@@ -66,10 +97,9 @@ type_t const_typechk(const_t node) {
             ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
             break;
         default:
-            // @TODO: errors_report
-            // @TODO: set ret_val
-            // @TODO: set typechk_failed = 1
             ret = NULL;
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown const");
             break;
     }
 
@@ -80,7 +110,8 @@ type_t const_typechk(const_t node) {
  * @brief: kind of symbol
  */
 typedef enum sym_kind {
-    SYM_VARDEF,
+    SYM_LOCALVARDEF,
+    SYM_CLASSVARDEF,
     SYM_FUNCDEF,
     SYM_CLASSDEF
 } sym_kind_t;
@@ -93,6 +124,8 @@ typedef struct sym *sym_t;
 /*
  * @implements: sym_vardef_t
  */
+// @TODO: seperate vardef to local vardef and field vardef
+// @FIXME
 typedef struct sym_vardef *sym_vardef_t;
 
 /*
@@ -112,6 +145,8 @@ struct sym {
 
 struct sym_vardef {
     sym_kind_t kind;
+    yyltype loc;
+    var_def_t vardef;
     type_t type;
     string id;
     sym_classdef_t classdef;
@@ -120,6 +155,7 @@ struct sym_vardef {
 struct sym_funcdef {
     sym_kind_t kind;
     yyltype loc;
+    func_normal_def_t funcdef;
     type_t type;
     list_t formals;
     list_t stmts;
@@ -133,6 +169,8 @@ struct sym_funcdef {
 
 struct sym_classdef {
     sym_kind_t kind;
+    yyltype loc;
+    class_def_t classdef;
     string id;
     list_t vardefs;     ///< list_t <sym_vardef_t>
     list_t funcdefs;    ///< list_t <sym_funcdef_t>
@@ -165,7 +203,12 @@ sym_t sym_vardef_new(sym_kind_t kind, type_t type) {
  */
 sym_t symtab_lookup(sym_kind_t kind, string id) {
     switch (kind) {
-        case SYM_VARDEF:
+        case SYM_LOCALVARDEF:
+        {
+            // sym_vardef_t p = sym_vardef_new(SYM_VARDEF, （type_t)type_basic_new(TYPE_INT));
+            break;
+        }
+        case SYM_CLASSVARDEF:
         {
             // sym_vardef_t p = sym_vardef_new(SYM_VARDEF, （type_t)type_basic_new(TYPE_INT));
             break;
@@ -182,39 +225,35 @@ sym_t symtab_lookup(sym_kind_t kind, string id) {
         }
     }
 
-    yyltype loc = {
-        5,5,6,7
-    };
-
-    sym_vardef_t p = sym_vardef_new(SYM_VARDEF, (type_t)type_basic_new(TYPE_INT, loc));
+    sym_vardef_t p = sym_vardef_new(SYM_LOCALVARDEF, (type_t)type_basic_new(TYPE_INT, mock_loc));
     return (sym_t)p;
 }
 
 type_t var_def_typechk(var_def_t node) {
-    sym_vardef_t p = (sym_vardef_t *)symtab_lookup(SYM_VARDEF, node->id);
-    type_t left = (type_t)p->type;
+    type_t left = (type_t)node->type;
 
     if (node->initializer) {
         type_t right = expr_typechk((expr_t)node->initializer);
 
-        // @TODO: add advanced branch reporting
-        if (left->kind != right->kind) {
-            fprintf(stderr, "Type dismatch in var_def<%s, %s>\n", TYPE_NAME(left), TYPE_NAME(right));
+        if (!typechk(left, right)) {
             typechk_failed = 1;
+            dragon_report(node->loc, "incompatible types when assigning to type '%s' from type '%s'", type_name(left), type_name(right));
         }
     }
+
+    return left;
 }
 
 // @FIXME; func_anony_def_t
 // @TODO: func_anony_def_t
 // for anonymous function, check their type in left_expr
 type_t func_normal_def_typechk(func_normal_def_t node) {
-    sym_funcdef_t p = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, node->id);
+    // sym_funcdef_t p = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, node->id);
 
-    type_t ret_def = (type_t)p->type;
+    type_t ret_def = (type_t)node->type;
     type_t ret_stmt = NULL;
 
-    list_t stmts = p->stmts;
+    list_t stmts = node->stmts;
 
     // search return statement node
     while (stmts) {
@@ -227,14 +266,13 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
     }
 
     if (ret_stmt = NULL) {
-        ret_stmt = (type_t)type_basic_new(TYPE_VOID, p->loc);
+        ret_stmt = (type_t)type_basic_new(TYPE_VOID, node->loc);
     }
 
     if (!typechk(ret_def, ret_stmt)) {
-        // @TODO: dragon_report
-        // @TODO: set failed flag
-        // @TODO: set return value
-        fprintf(stderr, "Type dismatch in func_def: conflict return type <%s, %s>\n", TYPE_NAME(ret_def), TYPE_NAME(ret_stmt));
+        typechk_failed = 1;
+        dragon_report(ret_stmt->loc, "incompatible types when returning type '%s' but '%s' was expected",
+                type_name(ret_stmt), type_name(ret_def));
     }
 
     /* if (node->initializer) { */
@@ -259,10 +297,11 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
 }
 
 type_t class_def_typechk(class_def_t node) {
-
+    return NULL;
 }
 
 type_t class_defs_typechk(list_t class_defs) {
+    return NULL;
 }
 
 type_t expr_bool_typechk(expr_bool_t node) {
@@ -271,20 +310,285 @@ type_t expr_bool_typechk(expr_bool_t node) {
 }
 
 type_t expr_assign_typechk(expr_assign_t node) {
-    type_t left = expr_left_typechk(node->left);
-    type_t right = expr_assign_typechk(node->right);
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
 
     if (!typechk(left, right)) {
-        // @TODO: errors_report();
-        // @TODO: set ret_val
-        // @TODO: set typechk_failed = 1
+        typechk_failed = 1;
+        dragon_report(node->left->loc, "incompatible types when assigning to type '%s' from type '%s'", type_name(left), type_name(right));
     }
 
     return left;
 }
 
+type_t expr_or_typechk(expr_or_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right)) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible logical types between type '%s' and type '%s'", type_name(left), type_name(right));
+    } else if (left->kind == TYPE_CLASS || left->kind == TYPE_ARRAY) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "used '%s' type where scalar is required", type_name(left));
+    }
+
+    return left;
+}
+
+type_t expr_and_typechk(expr_and_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right)) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible logical types between type '%s' and type '%s'", type_name(left), type_name(right));
+    } else if (left->kind == TYPE_CLASS || left->kind == TYPE_ARRAY) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "used '%s' type where scalar is required", type_name(left));
+    }
+
+    return left;
+}
+
+type_t expr_eq_typechk(expr_eq_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right)) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible logical types between type '%s' and type '%s'", type_name(left), type_name(right));
+    } else if (left->kind == TYPE_CLASS || left->kind == TYPE_ARRAY) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "used '%s' type where scalar is required", type_name(left));
+    }
+
+    return left;
+}
+
+type_t expr_cmp_typechk(expr_cmp_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right)) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible logical types between type '%s' and type '%s'", type_name(left), type_name(right));
+    } else if (left->kind == TYPE_CLASS || left->kind == TYPE_ARRAY) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "used '%s' type where scalar is required", type_name(left));
+    }
+
+    return left;
+}
+
+type_t expr_add_typechk(expr_add_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right) || left->kind != TYPE_INT) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible arithmetic types between type '%s' and type '%s', expected type 'int'", type_name(left), type_name(right));
+    }
+
+    return left;
+}
+
+type_t expr_mul_typechk(expr_mul_t node) {
+    type_t left = expr_typechk((expr_t)node->left);
+    type_t right = expr_typechk((expr_t)node->right);
+
+    if (!typechk(left, right) || left->kind != TYPE_INT) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "incompatible arithmetic types between type '%s' and type '%s', expected type 'int'", type_name(left), type_name(right));
+    }
+
+    return left;
+}
+
+type_t expr_unary_typechk(expr_unary_t node) {
+    type_t ret = expr_typechk((expr_t)node->body);
+
+    switch (node->kind) {
+        case EXPR_UNARY_PLUS:
+        case EXPR_UNARY_MINUS:
+            if (ret->kind != TYPE_INT) {
+                typechk_failed = 1;
+                dragon_report(node->loc, "wrong type argument to unary plus/minus");
+            }
+            break;
+        case EXPR_UNARY_NOT:
+            if (ret->kind == TYPE_CLASS || ret->kind == TYPE_ARRAY) {
+                typechk_failed = 1;
+                dragon_report(node->loc, "used '%s' type where scalar is required", type_name(ret));
+            }
+            break;
+        default:
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown unary expression");
+            break;
+    }
+}
 
 type_t expr_left_typechk(expr_left_t node) {
+    type_t ret;
+
+    switch (node->sub_kind) {
+        case EXPR_LEFT_INDEX:
+        {
+            expr_left_index_t p = (expr_left_index_t)node;
+            type_t array = expr_typechk((expr_t)p->array);
+            type_t index = expr_typechk((expr_t)p->index);
+            ret = array;
+
+            if (index->kind != TYPE_INT) {
+                typechk_failed = 1;
+                dragon_report(p->index->loc, "array subscript is not an integer");
+            }
+            break;
+        }
+        case EXPR_LEFT_CLASS_FIELD:
+        {
+            expr_left_class_field_t p = (expr_left_class_field_t)node;
+
+            if (p->left->sub_kind != EXPR_LEFT_THIS) {
+                ret = NULL;
+                typechk_failed = 1;
+                dragon_report(p->left->loc, "invalid access to private class field");
+            } else {
+                sym_vardef_t field_sym = (sym_vardef_t *)symtab_lookup(SYM_CLASSVARDEF, p->field_id);
+
+                if (field_sym == NULL) {
+                    ret = NULL;
+                    typechk_failed = 1;
+                    dragon_report(p->left->loc, "invalid access to non-exist class field");
+                } else {
+                    // @TODO: mock
+                    ret = field_sym->type;
+                }
+            }
+            break;
+        }
+        /* case EXPR_LEFT_CLASS_CALL: */
+        /* { */
+        /*     expr_left_class_call_t p = (expr_left_class_call_t)node; */
+        /*     type_t left = expr_typchk((expr_t)p->left); */
+        /*     sym_funcdef_t field_sym = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, p->field_id); */
+
+        /*     if (field_sym == NULL) { */
+        /*         ret = NULL; */
+        /*         typechk_failed = 1; */
+        /*         dragon_report(p->loc, "invalid access to non-exist class field"); */
+        /*     } else { */
+        /*         // @TODO: mock */
+        /*         // type_t field_type = field_sym->type; */
+        /*         func_normal_def_t func = field_sym->funcdef; */
+
+        /*         if (!arguments_typchk(func->formals, p->actuals)) { */
+        /*             ret = NULL; */
+        /*             typechk_failed = 1; */
+        /*             dragon_report(p->loc, ""); */
+        /*         } else { */
+        /*             ret = func->type; */
+        /*         } */
+        /*     } */
+        /* } */
+        /* case EXPR_LEFT_FUNC_CALL: */
+        /* { */
+        /*     type_t left = expr_typchk((expr_t)p->left); */
+        /*     sym_funcdef_t field_sym = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, p->field_id); */
+
+        /*     expr_left_func_call_t p = (expr_left_func_call_t)node; */
+        /*     fprintf(stdout, "expr_left_func_call->\n"); */
+        /*     expr_print((expr_t)p->left, num_space + SPACE_STEP); */
+        /*     actuals_print(p->actuals, num_space + SPACE_STEP); */
+
+        /*     if (field_sym == NULL) { */
+        /*         ret = NULL; */
+        /*         typechk_failed = 1; */
+        /*         dragon_report(p->loc, "invalid access to non-exist class field"); */
+        /*     } else { */
+        /*         // @TODO: mock */
+        /*         // type_t field_type = field_sym->type; */
+        /*         func_normal_def_t func = field_sym->funcdef; */
+
+        /*         if (!arguments_typchk(func->formals, p->actuals)) { */
+        /*             ret = NULL; */
+        /*             typechk_failed = 1; */
+        /*             dragon_report(p->loc, ""); */
+        /*         } else { */
+        /*             ret = func->type; */
+        /*         } */
+        /*     } */
+
+        /*     break; */
+        /* } */
+        /* case EXPR_LEFT_ANONY_CALL: */
+        /* { */
+        /*     expr_left_anony_call_t p = (expr_left_anony_call_t)node; */
+        /*     fprintf(stdout, "expr_left_anony_call->\n"); */
+        /*     func_def_print((func_def_t)p->func_body, num_space + SPACE_STEP); */
+        /*     actuals_print(p->actuals, num_space + SPACE_STEP); */
+        /*     break; */
+        /* } */
+        /* default: */
+        /*     ret = NULL; */
+        /*     typechk_failed = 1; */
+        /*     dragon_report(node->loc, "unkown unary expression"); */
+        /*     break; */
+        /*     break; */
+        /* } */
+    }
+    return NULL;
+}
+
+type_t expr_prim_typechk(expr_prim_t node) {
+    return NULL;
+            /* switch (p->sub_kind) { */
+            /*     case EXPR_PRIM_IDENT: */
+            /*     { */
+            /*         expr_prim_ident_t pp = (expr_prim_ident_t)p; */
+            /*         sym_vardef_t ppp = (sym_vardef_t *)symtab_lookup(SYM_VARDEF, node->id); */
+            /*         ret = ppp->type; */
+            /*         break; */
+            /*     } */
+            /*     case EXPR_PRIM_CONST: */
+            /*     { */
+            /*         expr_prim_const_t pp = (expr_prim_const_t)p; */
+            /*         fprintf(stdout, "expr_prim_const_t->\n"); */
+            /*         const_print(pp->const_val, num_space + SPACE_STEP); */
+            /*         break; */
+            /*     } */
+            /*     case EXPR_PRIM_READINT: */
+            /*     { */
+            /*         fprintf(stdout, "expr_prim_readint\n"); */
+            /*         break; */
+            /*     } */
+            /*     case EXPR_PRIM_READLINE: */
+            /*     { */
+            /*         fprintf(stdout, "expr_prim_readline\n"); */
+            /*         break; */
+            /*     } */
+            /*     case EXPR_PRIM_NEWCLASS: */
+            /*     { */
+            /*         expr_prim_newclass_t pp = (expr_prim_newclass_t)p; */
+            /*         fprintf(stdout, "expr_prim_newclass->%s\n", pp->id); */
+            /*         actuals_print(pp->actuals, num_space + SPACE_STEP); */
+            /*         break; */
+            /*     } */
+            /*     case EXPR_PRIM_NEWARRAY: */
+            /*     { */
+            /*         expr_prim_newarray_t pp = (expr_prim_newarray_t)p; */
+            /*         fprintf(stdout, "expr_prim_newarray->\n"); */
+            /*         type_print(pp->type, num_space + SPACE_STEP); */
+            /*         expr_print(pp->length, num_space + SPACE_STEP); */
+            /*         break; */
+            /*     } */
+            /*     default: */
+            /*         fprintf(stdout, "unkown expr\n"); */
+            /*         exit(1); */
+            /*         break; */
+            /* } */
+
 
 }
 
@@ -304,307 +608,106 @@ type_t expr_typechk(expr_t node) {
             ret = expr_assign_typechk(p);
             break;
         }
+        case EXPR_OR:
+        {
+            expr_or_t p = (expr_or_t)node;
+            ret = expr_or_typechk(p);
+            break;
+        }
+        case EXPR_AND:
+        {
+            expr_and_t p = (expr_and_t)node;
+            ret = expr_and_typechk(p);
+            break;
+        }
+        case EXPR_EQ:
+        {
+            expr_eq_t p = (expr_eq_t)node;
+            ret = expr_eq_typechk(p);
+            break;
+        }
+        case EXPR_CMP:
+        {
+            expr_cmp_t p = (expr_cmp_t)node;
+            ret = expr_cmp_typechk(p);
+            break;
+        }
+        case EXPR_ADD:
+        {
+            expr_add_t p = (expr_add_t)node;
+            ret = expr_add_typechk(p);
+            break;
+        }
+        case EXPR_MUL:
+        {
+            expr_mul_t p = (expr_mul_t)node;
+            ret = expr_mul_typechk(p);
+            break;
+        }
+        case EXPR_UNARY:
+        {
+            expr_unary_t p = (expr_unary_t)node;
+            ret = expr_unary_typechk(p);
+            break;
+        }
+        case EXPR_LEFT:
+        {
+            expr_left_t p = (expr_left_t)node;
+            ret = expr_left_typechk(p);
+            break;
+        }
+        case EXPR_PRIM:
+        {
+            expr_prim_t p = (expr_prim_t)node;
+            ret = expr_prim_typechk(p);
+            break;
+        }
+        default:
+            ret = NULL;
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown expression");
+            break;
     }
-        /* case EXPR_OR: */
-        /* { */
-        /*     expr_or_t p = (expr_or_t)node; */
-        /*     expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*     expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*     break; */
-        /* } */
-        /* case EXPR_AND: */
-        /* { */
-        /*     expr_and_t p = (expr_and_t)node; */
-        /*     expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*     expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*     break; */
-        /* } */
-        /* case EXPR_EQ: */
-        /* { */
-        /*     expr_eq_t p = (expr_eq_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_EQ_EQ: */
-        /*             fprintf(stdout, "expr_eq->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_EQ_NE: */
-        /*             fprintf(stdout, "expr_ne->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_CMP: */
-        /* { */
-        /*     expr_cmp_t p = (expr_cmp_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_CMP_LT: */
-        /*             fprintf(stdout, "expr_cmp_lt->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_CMP_GT: */
-        /*             fprintf(stdout, "expr_cmp_gt->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_CMP_LE: */
-        /*             fprintf(stdout, "expr_cmp_le->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_CMP_GE: */
-        /*             fprintf(stdout, "expr_cmp_ge->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_ADD: */
-        /* { */
-        /*     expr_add_t p = (expr_add_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_ADD_ADD: */
-        /*             fprintf(stdout, "expr_add->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_ADD_SUB: */
-        /*             fprintf(stdout, "expr_sub->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_MUL: */
-        /* { */
-        /*     expr_mul_t p = (expr_mul_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_MUL_MUL: */
-        /*             fprintf(stdout, "expr_mul->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_MUL_DIV: */
-        /*             fprintf(stdout, "expr_div->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_MUL_MOD: */
-        /*             fprintf(stdout, "expr_mod->\n"); */
-        /*             expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)p->right, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_UNARY: */
-        /* { */
-        /*     expr_unary_t p = (expr_unary_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_UNARY_THIS: */
-        /*             fprintf(stdout, "this\n"); */
-        /*             break; */
-        /*         case EXPR_UNARY_PLUS: */
-        /*             fprintf(stdout, "expr_unary_plus->\n"); */
-        /*             expr_print((expr_t)p->body, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_UNARY_MINUS: */
-        /*             fprintf(stdout, "expr_unary_minus->\n"); */
-        /*             expr_print((expr_t)p->body, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         case EXPR_UNARY_NOT: */
-        /*             fprintf(stdout, "expr_unary_not->\n"); */
-        /*             expr_print((expr_t)p->body, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_LEFT: */
-        /* { */
-        /*     expr_left_t p = (expr_left_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_LEFT_INDEX: */
-        /*         { */
-        /*             expr_left_index_t pp = (expr_left_index_t)p; */
-        /*             fprintf(stdout, "expr_left_array_index->\n"); */
-        /*             expr_print((expr_t)pp->array, num_space + SPACE_STEP); */
-        /*             expr_print((expr_t)pp->index, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_LEFT_CLASS_FIELD: */
-        /*         { */
-        /*             expr_left_class_field_t pp = (expr_left_class_field_t)p; */
-        /*             fprintf(stdout, "expr_left_class_field->%s\n", pp->field_id); */
-        /*             expr_print((expr_t)pp->left, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_LEFT_CLASS_CALL: */
-        /*         { */
-        /*             expr_left_class_call_t pp = (expr_left_class_call_t)p; */
-        /*             fprintf(stdout, "expr_left_class_call->%s\n", pp->field_id); */
-        /*             expr_print((expr_t)pp->left, num_space + SPACE_STEP); */
-        /*             actuals_print(pp->actuals, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_LEFT_FUNC_CALL: */
-        /*         { */
-        /*             expr_left_func_call_t pp = (expr_left_func_call_t)p; */
-        /*             fprintf(stdout, "expr_left_func_call->\n"); */
-        /*             expr_print((expr_t)pp->left, num_space + SPACE_STEP); */
-        /*             actuals_print(pp->actuals, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_LEFT_ANONY_CALL: */
-        /*         { */
-        /*             expr_left_anony_call_t pp = (expr_left_anony_call_t)p; */
-        /*             fprintf(stdout, "expr_left_anony_call->\n"); */
-        /*             func_def_print((func_def_t)pp->func_body, num_space + SPACE_STEP); */
-        /*             actuals_print(pp->actuals, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_PRIM: */
-        /* { */
-        /*     expr_prim_t p = (expr_prim_t)node; */
-
-        /*     switch (p->sub_kind) { */
-        /*         case EXPR_PRIM_IDENT: */
-        /*         { */
-        /*             expr_prim_ident_t pp = (expr_prim_ident_t)p; */
-        /*             sym_vardef_t ppp = (sym_vardef_t *)symtab_lookup(SYM_VARDEF, node->id); */
-        /*             ret = ppp->type; */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_PRIM_CONST: */
-        /*         { */
-        /*             expr_prim_const_t pp = (expr_prim_const_t)p; */
-        /*             fprintf(stdout, "expr_prim_const_t->\n"); */
-        /*             const_print(pp->const_val, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_PRIM_READINT: */
-        /*         { */
-        /*             fprintf(stdout, "expr_prim_readint\n"); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_PRIM_READLINE: */
-        /*         { */
-        /*             fprintf(stdout, "expr_prim_readline\n"); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_PRIM_NEWCLASS: */
-        /*         { */
-        /*             expr_prim_newclass_t pp = (expr_prim_newclass_t)p; */
-        /*             fprintf(stdout, "expr_prim_newclass->%s\n", pp->id); */
-        /*             actuals_print(pp->actuals, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         case EXPR_PRIM_NEWARRAY: */
-        /*         { */
-        /*             expr_prim_newarray_t pp = (expr_prim_newarray_t)p; */
-        /*             fprintf(stdout, "expr_prim_newarray->\n"); */
-        /*             type_print(pp->type, num_space + SPACE_STEP); */
-        /*             expr_print(pp->length, num_space + SPACE_STEP); */
-        /*             break; */
-        /*         } */
-        /*         default: */
-        /*             fprintf(stdout, "unkown expr\n"); */
-        /*             exit(1); */
-        /*             break; */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* default: */
-        /*     fprintf(stdout, "unkown expr\n"); */
-        /*     exit(1); */
-        /*     break; */
-    /* } */
-
-
 }
 
 type_t assigns_typechk(list_t assigns) {
-
+    return NULL;
 }
 
 type_t stmt_typechk(stmt_t node) {
-
+    return NULL;
 }
 
 type_t stmts_typechk(list_t stmts) {
-
+    return NULL;
 }
 
 type_t formal_typechk(formal_t node) {
-
+    return NULL;
 }
 
 type_t formals_typechk(list_t formals) {
-
+    return NULL;
 }
 
 type_t actual_typechk(actual_t node) {
-
+    return NULL;
 }
 
 type_t actuals_typechk(list_t actuals) {
-
+    return NULL;
 }
 
 type_t field_typechk(field_t node) {
-
+    return NULL;
 }
 
 type_t fields_typechk(list_t fields) {
-
+    return NULL;
 }
 
-type_t prog_typechk(prog_t prog) {
-
+int prog_typechk(prog_t prog) {
+    return 0;
 }
 
 

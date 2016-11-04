@@ -9,9 +9,10 @@
 #define SEMA_COMMON_H
 
 #include <stdlib.h>
+#include "libs.h"
 #include "ast.h"
 #include "../scanner.h"
 
-int typechk_failed;
+int typechk_failed = 0;
 
 #endif /* !SEMA_COMMON_H */
