@@ -31,7 +31,7 @@ void *stack_get(stack_t s, int index) {
     if (stack_empty(s) || index > s->num_datas - 1) {
         data = NULL;
     } else {
-        for (i = 0, cur = s->list; i < index && cur != NULL; cur = cur->next) {
+        for (i = 0, cur = s->list; i < index && cur != NULL; i++, cur = cur->next) {
             ;   // search target node
         }
 
@@ -57,7 +57,7 @@ void *stack_remove(stack_t s, int index) {
     } else {
         for (i = 0, prev = s->list, cur = s->list;
                 i < index && cur != NULL;
-                prev = cur, cur = cur->next) {
+                i++, prev = cur, cur = cur->next) {
             ;   // search target node
         }
 

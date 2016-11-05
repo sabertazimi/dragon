@@ -13,16 +13,15 @@ void stack_spec(void) {
 
     assert(stack_empty(s) == 1);
 
-    stack_push(s, data);
-    assert(stack_empty(s) == 0);
-    assert(s->list != NULL);
-    assert(s->num_datas == 1);
-    assert(*((int *)s->list->data) == 0);
+    for (int i = 0; i < 10; i++) {
+        stack_push(s, data + i);
+        assert(stack_empty(s) == 0);
+        assert(s->list != NULL);
+        assert(s->num_datas == i + 1);
 
-    stack_push(s, data + 1);
-    assert(stack_empty(s) == 0);
-    assert(s->list != NULL);
-    assert(s->num_datas == 2);
-    assert(*((int *)s->list->data) == 1);
-    assert(*((int *)s->list->next->data) == 0);
+        for (int j = 0; j < i + 1; j++) {
+            assert(*((int*)stack_get(s, j)) == (i - j));
+        }
+
+    }
 }
