@@ -8,7 +8,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-#include "errors_debug.h"
+#include "errors_utils.h"
 #include "errors_srcbuf.h"
 
 #endif /* !ERRORS_H */

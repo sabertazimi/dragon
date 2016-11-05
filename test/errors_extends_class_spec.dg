@@ -19,6 +19,14 @@ class KaliLinux extends "Linux" {
 }
 
 // syntax error: unmatched {}
+class LinuxMint extends Linux {
+    int cpu;
+
+    int getCPU = (void) => {
+        return cpu;
+    };
+
+// syntax error: unmatched {}
 class GentooLinux extends Linux
     int cpu;
 
@@ -26,12 +34,4 @@ class GentooLinux extends Linux
         return cpu;
     };
 }
-
-// syntax error: unmatched {}
-class LinuxMint extends Linux {
-    int cpu;
-
-    int getCPU = (void) => {
-        return cpu;
-    };
 

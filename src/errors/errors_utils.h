@@ -1,12 +1,12 @@
 /*
- * errors_debug.h
+ * errors_utils.h
  * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
  *
  * Distributed under terms of the MIT license.
  */
 
-#ifndef ERRORS_DEBUG_H
-#define ERRORS_DEBUG_H
+#ifndef ERRORS_UTILS_H
+#define ERRORS_UTILS_H
 
 #include <stdarg.h>
 #include "errors_common.h"
@@ -33,4 +33,9 @@ void dragon_debug(const char *type, const char *value);
  */
 void dragon_report(yyltype loc, const char *fmt, ...);
 
-#endif /* !ERRORS_DEBUG_H */
+/*
+ * @brief: simple logger function
+ */
+void dragon_log(const char *fmt, ...);
+
+#endif /* !ERRORS_UTILS_H */

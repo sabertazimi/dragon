@@ -1,11 +1,11 @@
 /*
- * errors_debug.c
+ * errors_utils.c
  * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
  *
  * Distributed under terms of the MIT license.
  */
 
-#include "errors_debug.h"
+#include "errors_utils.h"
 
 static char errmsg[1000];
 
@@ -36,4 +36,13 @@ void dragon_report(yyltype loc, const char *fmt, ...) {
         fprintf(stderr, "^");
     }
     fprintf(stderr, "\n");
+}
+
+void dragon_log(const char *fmt, ...) {
+    // print error message
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(errmsg, 1000, fmt, args);
+    va_end(args);
+    fprintf(stderr, ">>> log: %s\n", errmsg);
 }
