@@ -22,6 +22,13 @@ void stack_spec(void) {
         for (int j = 0; j < i + 1; j++) {
             assert(*((int*)stack_get(s, j)) == (i - j));
         }
+    }
 
+    int *_data = (int *)stack_remove(s, 9);
+    assert(*_data == 0);
+
+    for (int i = 0; i < 9; i++) {
+        _data = (int *)stack_pop(s);
+        assert(*_data == 9 - i);
     }
 }
