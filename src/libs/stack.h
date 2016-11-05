@@ -41,6 +41,11 @@ stack_t stack_new(void);
 int stack_empty(stack_t s);
 
 /*
+ * @brief: get specfic index node of stack
+ */
+void *stack_get(stack_t s, int index);
+
+/*
  * @brief: push a new data node into stack
  */
 stack_t stack_push(stack_t s, void *data);

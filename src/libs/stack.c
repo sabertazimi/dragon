@@ -22,6 +22,25 @@ int stack_empty(stack_t s) {
     }
 }
 
+void *stack_get(stack_t s, int index) {
+    void *data;
+
+    int i;
+    list_t cur;
+
+    if (stack_empty(s) || index > s->num_datas - 1) {
+        data = NULL;
+    } else {
+        for (i = 0, cur = s->list; i < index && cur != NULL; cur = cur->next) {
+            ;   // search target node
+        }
+
+        data = cur->data;
+    }
+
+    return data;
+}
+
 stack_t stack_push(stack_t s, void *data) {
     s->list = list_new(data, s->list);
     s->num_datas += 1;
@@ -29,6 +48,7 @@ stack_t stack_push(stack_t s, void *data) {
 
 void *stack_remove(stack_t s, int index) {
     void *data;
+
     int i;
     list_t prev, cur;
 
