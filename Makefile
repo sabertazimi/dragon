@@ -32,8 +32,8 @@ INCLUDE_PATH=src/libs 		\
 
 # test enable flags
 LEX_TEST=0
-SYNTAX_TEST=1
-AST_TEST=0
+SYNTAX_TEST=0
+AST_TEST=1
 
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)

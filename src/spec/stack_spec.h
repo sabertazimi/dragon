@@ -9,6 +9,7 @@
 #define STACK_SPEC_H
 
 #include "spec_common.h"
+#include "stack.h"
 
 void stack_spec(void);
 

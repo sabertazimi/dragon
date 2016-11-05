@@ -10,8 +10,15 @@
 #include <string.h>
 #include "ast.h"
 
+#define DRAGON_DEBUG
+// #undef DRAGON_DEBUG
+
 #define AST_DEBUG
 // #undef AST_DEBUG
+
+#ifdef DRAGON_DEBUG
+    #include "spec.h"
+#endif
 
 extern FILE *yyin;
 extern int yyparse(void);
@@ -42,6 +49,9 @@ int main(int argc, char **argv) {
     prog_print(prog_tree);
 #endif
 
+#ifdef DRAGON_DEBUG
+    stack_spec();
+#endif
 
     fclose(fp);
     return 0;
