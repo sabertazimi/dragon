@@ -8,6 +8,8 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
+#include "semantic_symtab.h"
+#include "semantic_scope.h"
 #include "semantic_typechk.h"
 
 endif /* !SEMANTIC_H */

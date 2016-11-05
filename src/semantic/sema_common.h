@@ -13,6 +13,4 @@
 #include "ast.h"
 #include "../scanner.h"
 
-int typechk_failed = 0;
-
 #endif /* !SEMA_COMMON_H */

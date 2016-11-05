@@ -11,6 +11,8 @@
 #include <string.h>
 #include "sema_common.h"
 
+int typechk_failed = 0;
+
 /*
  * @brief: check equality of two type nodes
  * @return: 0 not equal; 1 equal
