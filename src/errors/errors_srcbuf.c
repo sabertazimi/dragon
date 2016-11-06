@@ -16,12 +16,9 @@ typedef struct srcbuf {
 static srcbuf_t srcbuf;
 
 void srcbuf_init(void) {
-    srcbuf.cnt_line = 1;
+    srcbuf.cnt_line = 0;
     srcbuf.cnt_chars = 0;
-
-    // set line 0 to empty line
-    // true source start from line 1
-    srcbuf.buf = list_new(strdup("\0"), NULL);
+    srcbuf.buf = NULL;
 }
 
 void srcbuf_append(const char *src) {
@@ -38,7 +35,7 @@ const char * srcbuf_get(int num_line) {
     // argument check
     if (num_line <= 0 || num_line > srcbuf_length()) num_line = 1;
 
-    for (i = srcbuf_length(), srcs = srcbuf.buf; i > num_line && srcs != NULL; i++, srcs = srcs->next) {
+    for (i = srcbuf_length(), srcs = srcbuf.buf; i > num_line && srcs != NULL; i--, srcs = srcs->next) {
         ;
     }
 
@@ -47,7 +44,7 @@ const char * srcbuf_get(int num_line) {
 }
 
 int srcbuf_length(void) {
-    return srcbuf.cnt_line - 1;
+    return srcbuf.cnt_line;
 }
 
 static int srcbuf_printable(int num_line) {

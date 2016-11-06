@@ -78,7 +78,8 @@ clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
 	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c  $(SRC_PATH)/scanner.c
 	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
-	$(RM) .gdb_history
+	$(RM) core
+# $(RM) .gdb_history
 
 release:
 	$(MKDIR) $(BIN_PATH)
@@ -120,8 +121,8 @@ endif
 
 
 debug:
-	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG)
-	make clean
+	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG) core
+# $(RM) .gdb_history
 
 # vim:ft=make
 #

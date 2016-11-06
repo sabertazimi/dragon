@@ -60,6 +60,22 @@ expr: expr '-' expr
 
 ## BUGs
 
+### Debug Tips
+
+```sh
+$ ulimit -c 0
+```
+
+```sh
+$ ulimit -c unlimited
+```
+
+可使得程序产生段错误时生成 core 文件, 使用 gdb 打开 core 文件可获得段错误的详细信息
+
+```sh
+$ gdb prog core
+```
+
 ### yylloc not decalared in .l
 
 add
