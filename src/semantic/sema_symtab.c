@@ -7,6 +7,16 @@
 
 #include "sema_symtab.h"
 
+static int cnt_offset = 0;
+
+symbol_t symbol_new(const char *id, yyltype loc, void *def) {
+    symbol_t symbol = (symbol_t)malloc(sizeof(*symbol));
+    symbol->id = strdup(id);
+    symbol->loc = loc;
+    symbol->def = def;
+    symbol->offset = cnt_offset++;
+}
+
 /*
  * @TODO: get inspiration from cs143
  * relationships between ast node, scope_t and symtab_t
@@ -31,57 +41,34 @@
  * @TODO: implement data structure symbol_t, symtab_t and scope_t and operations on them.
  */
 
-static yyltype mock_loc = {233, 233, 233, 234};
-
-// scope_t
-// sym_classdef -> ... -> ... -> sym_classdef_main
-
-// @FIXME
-/* sym_t sym_vardef_new(sym_kind_t kind, var_def_t var_def) { */
-/*     sym_vardef_t p = (sym_vardef_t)malloc(sizeof(*p)); */
-/*     p->kind = kind; */
-/*     p->type = var_def->type; */
-/*     p->id = var_def->id; */
-/*     return (sym_t)p; */
-/* } */
-
-// @TODO: this is a mock function
-sym_t sym_vardef_new(sym_kind_t kind, type_t type) {
-    sym_vardef_t p = (sym_vardef_t)malloc(sizeof(*p));
-    p->kind = kind;
-    p->type = type;
-    return (sym_t)p;
-}
-
 /*
- * @mock: temporary for testing
- * @TODO: implements truly symtab_lookup function
+ * @brief: search symbol in symbol table with id
+ * @return: NULL/symbol_t
  */
-sym_t symtab_lookup(sym_kind_t kind, string id) {
-    switch (kind) {
-        case SYM_LOCALVARDEF:
-        {
-            // sym_vardef_t p = sym_vardef_new(SYM_VARDEF, （type_t)type_basic_new(TYPE_INT));
-            break;
-        }
-        case SYM_CLASSVARDEF:
-        {
-            // sym_vardef_t p = sym_vardef_new(SYM_VARDEF, （type_t)type_basic_new(TYPE_INT));
-            break;
-        }
-        case SYM_FUNCDEF:
-        {
+symbol_t symtab_lookup(symtab_t symtab, const char *id) {
+    for (int i = 0; i < symtab->num_symbols; i++) {
+        symbol_t symbol = (symbol_t)stack_get(symtab->table, i);
 
-            break;
-        }
-        case SYM_CLASSDEF:
-        {
-
-            break;
+        if (!strcmp(symbol->id, id)) {
+            return symbol;
         }
     }
 
-    sym_vardef_t p = sym_vardef_new(SYM_LOCALVARDEF, (type_t)type_basic_new(TYPE_INT, mock_loc));
-    return (sym_t)p;
+    return NULL;
 }
 
+/*
+ * @brief: insert a new symbol to symbol table
+ */
+symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
+    symbol_t exist = symtab_lookup(symtab, symbol->id)
+
+    if (symtab_lookup(symtab, symbol->id) != NULL) {
+        symtab_failed = 1;
+        dragon_report(symbol->loc, "redefined %s", symbol->id);
+        return NULL;
+    } else {
+        stack_push(symtab->table, symbol);
+        return symtab;
+    }
+}

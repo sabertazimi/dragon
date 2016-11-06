@@ -9,6 +9,7 @@
 #define SEMA_COMMON_H
 
 #include <stdlib.h>
+#include <string.h>
 #include "libs.h"
 #include "ast.h"
 #include "../scanner.h"

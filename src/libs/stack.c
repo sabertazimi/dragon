@@ -44,6 +44,7 @@ void *stack_get(stack_t s, int index) {
 stack_t stack_push(stack_t s, void *data) {
     s->list = list_new(data, s->list);
     s->num_datas += 1;
+    return s;
 }
 
 void *stack_remove(stack_t s, int index) {

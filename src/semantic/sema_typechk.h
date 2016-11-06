@@ -8,7 +8,6 @@
 #ifndef SEMA_TYPECHK_H
 #define SEMA_TYPECHK_H
 
-#include <string.h>
 #include "sema_common.h"
 
 int typechk_failed = 0;
