@@ -11,11 +11,12 @@ int symtab_failed = 0;
 
 static int cnt_offset = 0;
 
-symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def) {
+symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type, void *def) {
     symbol_t symbol = (symbol_t)malloc(sizeof(*symbol));
     symbol->kind = kind;
-    symbol->id = strdup(id);
     symbol->loc = loc;
+    symbol->id = strdup(id);
+    symbol->type = type;
     symbol->def = def;
     symbol->offset = cnt_offset++;
 }

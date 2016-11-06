@@ -969,11 +969,11 @@ left_expr
         $5 = list_rev($5);
         $$ = expr_left_class_call_new(EXPR_LEFT, EXPR_LEFT_CLASS_CALL, @3, (expr_left_t)$1, $3, $5);
     }
-	| left_expr '(' actuals ')'
+	| IDENTIFIER '(' actuals ')'
     {
         @$ = @1;
         $3 = list_rev($3);
-        $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, @1, (expr_left_t)$1, $3);
+        $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, @1, $1, $3);
     }
     | func_anony_def '(' actuals ')'
     {

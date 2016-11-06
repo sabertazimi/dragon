@@ -194,7 +194,7 @@ typedef struct expr_left_func_call {
     yyltype loc;
     scope_t env;
     expr_left_kind_t sub_kind;
-    expr_left_t left;
+    char *id;
     list_t actuals;         ///< list_t <actual_t>
 } *expr_left_func_call_t;
 
@@ -372,7 +372,7 @@ expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype l
 expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t array, expr_t index);
 expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id);
 expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id, list_t actuals);
-expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, list_t actuals);
+expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, char *id, list_t actuals);
 expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, func_anony_def_t func_body, list_t actuals);
 
 /*

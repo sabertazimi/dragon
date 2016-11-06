@@ -160,9 +160,6 @@ static void scope_setup_expr(expr_t node) {
                 {
                     expr_left_func_call_t pp = (expr_left_func_call_t)p;
 
-                    pp->left->env = pp->env;
-                    scope_setup_expr((expr_t)pp->left);
-
                     for (list_t list = pp->actuals; list != NULL; list = list->next) {
                         actual_t actual = (actual_t)list->data;
                         actual->env = pp->env;
@@ -184,12 +181,13 @@ static void scope_setup_expr(expr_t node) {
                     }
 
                     // insert a new def symbol
-                    symbol_t symbol = symbol_new(SYMBOL_FUNC_ANONY_DEF, pp->func_body->loc, "\0", pp->func_body);
+                    symbol_t symbol = symbol_new(SYMBOL_FUNC_ANONY_DEF, pp->func_body->loc, "\0", pp->func_body->type, pp->func_body);
                     char str[100];
                     sprintf(str, "%d", symbol->offset);
                     symbol->id = strdup(str);
                     scope_enter(pp->env, symbol);
 
+                    pp->func_body->type->env = pp->env;
                     scope_setup_func_anony_def(pp->func_body);
 
                     // dragon_log("anony func symbol id: %s", symbol->id);
@@ -240,12 +238,6 @@ static void scope_setup_expr(expr_t node) {
     }
 }
 
-/*
- * @TODO: add defs to scope
- * @TODO: re-direct env and env->parent
- * @TODO: re-direct scope->parent and scope->super
- */
-
 void scope_setup(prog_t prog) {
     scope_setup_glb(prog);
     scope_setup_class_defs(prog->class_defs);
@@ -283,7 +275,7 @@ static void scope_setup_glb(prog_t prog) {
 
     for (list_t class_defs = prog->class_defs; class_defs != NULL; class_defs = class_defs->next) {
         class_def_t class_def = (class_def_t)class_defs->data;
-        scope_enter(glb_scope, symbol_new(SYMBOL_CLASS_DEF, class_def->loc, class_def->id, class_def));
+        scope_enter(glb_scope, symbol_new(SYMBOL_CLASS_DEF, class_def->loc, class_def->id, type_class_new(TYPE_CLASS, class_def->loc, class_def->id), class_def));
     }
 }
 
@@ -420,8 +412,10 @@ static void scope_setup_stmt(stmt_t node) {
 static void scope_setup_func_anony_def(func_anony_def_t func_def) {
     for (list_t formals = func_def->formals; formals != NULL; formals = formals->next) {
         formal_t formal = (formal_t)formals->data;
-        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal));
+        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal->type, formal));
         formal->env = func_def->scope;
+        formal->type->env = func_def->scope;
+        scope_setup_type(formal->type);
     }
 
     for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
@@ -432,12 +426,16 @@ static void scope_setup_func_anony_def(func_anony_def_t func_def) {
             var_def_t var_def = ss->var_def;
 
             // insert a new def symbol
-            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def));
+            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def->type, var_def));
 
             // set up scope list
             var_def->env = func_def->scope;
+            var_def->type->env = func_def->scope;
+            scope_setup_type(var_def->type);
+
             if (var_def->initializer) {
                 var_def->initializer->env = func_def->scope;
+                scope_setup_expr((expr_t)var_def->initializer);
             }
         }
 
@@ -452,8 +450,10 @@ static void scope_setup_func_anony_def(func_anony_def_t func_def) {
 static void scope_setup_func_normal_def(func_normal_def_t func_def) {
     for (list_t formals = func_def->formals; formals != NULL; formals = formals->next) {
         formal_t formal = (formal_t)formals->data;
-        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal));
+        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal->type, formal));
         formal->env = func_def->scope;
+        formal->type->env = func_def->scope;
+        scope_setup_type(formal->type);
     }
 
     for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
@@ -464,12 +464,16 @@ static void scope_setup_func_normal_def(func_normal_def_t func_def) {
             var_def_t var_def = ss->var_def;
 
             // insert a new def symbol
-            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def));
+            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def->type, var_def));
 
             // set up scope list
             var_def->env = func_def->scope;
+            var_def->type->env = func_def->scope;
+            scope_setup_type(var_def->type);
+
             if (var_def->initializer) {
                 var_def->initializer->env = func_def->scope;
+                scope_setup_expr((expr_t)var_def->initializer);
             }
         }
 
@@ -491,14 +495,19 @@ static void scope_setup_class_def(class_def_t class_def) {
                 field_var_t p = (field_var_t)field;
 
                 // insert new def symbol
-                scope_enter(class_def->scope, symbol_new(SYMBOL_VAR_DEF, p->var_def->loc, p->var_def->id, p->var_def));
+                scope_enter(class_def->scope, symbol_new(SYMBOL_VAR_DEF, p->var_def->loc, p->var_def->id, p->var_def->type, p->var_def));
 
                 // set up scope list
                 p->env = class_def->scope;
                 p->var_def->env = class_def->scope;
+                var_def->type->env = func_def->scope;
+                scope_setup_type(var_def->type);
+
                 if (p->var_def->initializer) {
                     p->var_def->initializer->env = class_def->scope;
+                    scope_setup_expr((expr_t)var_def->initializer);
                 }
+
                 break;
             }
             case FIELD_FUNC:
@@ -510,11 +519,13 @@ static void scope_setup_class_def(class_def_t class_def) {
                     func_normal_def_t func_def = (func_normal_def_t)p->func_def;
 
                     // insert new def symbol
-                    scope_enter(class_def->scope, symbol_new(SYMBOL_FUNC_NORMAL_DEF, func_def->loc, func_def->id, func_def));
+                    scope_enter(class_def->scope, symbol_new(SYMBOL_FUNC_NORMAL_DEF, func_def->loc, func_def->id, func_def->type, func_def));
 
                     // set up scope list
                     p->env = func_def->scope;
                     func_def->scope->parent = class_def->scope;
+                    func_def->type->env = func_def->scope;
+                    scope_setup_type(func_def->type);
 
                     // set up scope of normal function
                     scope_setup_func_normal_def(func_def);

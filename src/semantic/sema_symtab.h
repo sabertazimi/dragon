@@ -30,7 +30,8 @@ struct _symbol_ {
     symbol_kind_t kind;
     yyltype loc;
     const char *id;
-    void *def;      // def_t
+    void *type;     ///< type_t
+    void *def;      ///< def_t
     int offset;
 };
 
@@ -47,7 +48,7 @@ struct _symtab_ {
 /*
  * @brief: create a new symbol
  */
-symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def);
+symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type, void *def);
 
 /*
  * @brief: create a empty symbol table

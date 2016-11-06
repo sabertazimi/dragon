@@ -93,12 +93,12 @@ expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyl
     return (expr_t)p;
 }
 
-expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, list_t actuals) {
+expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, char *id, list_t actuals) {
     expr_left_func_call_t p = (expr_left_func_call_t)malloc(sizeof(*p));
     p->kind = kind;
     p->loc = loc;
     p->sub_kind = sub_kind;
-    p->left = left;
+    p->id = id;
     p->actuals = actuals;
     return (expr_t)p;
 }

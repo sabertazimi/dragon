@@ -341,8 +341,7 @@ void expr_print(expr_t node, int num_space) {
                 case EXPR_LEFT_FUNC_CALL:
                 {
                     expr_left_func_call_t pp = (expr_left_func_call_t)p;
-                    fprintf(stdout, "expr_left_func_call->\n");
-                    expr_print((expr_t)pp->left, num_space + SPACE_STEP);
+                    fprintf(stdout, "expr_left_func_call->%s\n", pp->id);
                     actuals_print(pp->actuals, num_space + SPACE_STEP);
                     break;
                 }

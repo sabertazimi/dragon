@@ -10,6 +10,8 @@
 
 int typechk_failed = 0;
 
+extern scope_t glb_scope;
+
 char *type_name(type_t node) {
     char *typestr = strdup("\0");
 
@@ -122,12 +124,7 @@ type_t var_def_typechk(var_def_t node) {
     return left;
 }
 
-// @FIXME; func_anony_def_t
-// @TODO: func_anony_def_t
-// for anonymous function, check their type in left_expr
 type_t func_normal_def_typechk(func_normal_def_t node) {
-    // sym_funcdef_t p = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, node->id);
-
     type_t ret_def = (type_t)node->type;
     type_t ret_stmt = NULL;
 
@@ -153,33 +150,18 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
                 type_name(ret_stmt), type_name(ret_def));
     }
 
-    /* if (node->initializer) { */
-    /*     type_t right = expr_typechk((expr_t)node->initializer); */
-
-    /*     // @TODO: add advanced branch reporting */
-    /*     // @TODO: dragon_report */
-    /*     // @TODO: set failed flag */
-    /*     // @TODO: set return value */
-    /*     if (!typechk(left, right)) { */
-    /*         fprintf("Type dismatch in var_def<%s, %s>\n", TYPE_NAME(left), TYPE_NAME(right)); */
-    /*         typechk_failed = 1; */
-    /*     } */
-    /* } */
-
-        /* case FUNC_NORMAL_DEF: */
-        /*     type_print(p->type, num_space + SPACE_STEP); */
-        /*     formals_print(p->formals, num_space + SPACE_STEP); */
-        /*     stmts_print(p->stmts, num_space + SPACE_STEP); */
-        /*     break; */
-        /* case FUNC_ANONY_DEF: */
+    stmts_typechk(node->stmts);
 }
 
-type_t class_def_typechk(class_def_t node) {
-    return NULL;
+void class_def_typechk(class_def_t node) {
+    fields_typechk(node->fields);
 }
 
-type_t class_defs_typechk(list_t class_defs) {
-    return NULL;
+void class_defs_typechk(list_t class_defs) {
+    for (list_t list = class_defs; list != NULL; list = list->next) {
+        class_def_t c = (class_def_t)list->data;
+        class_def_typechk(c);
+    }
 }
 
 type_t expr_bool_typechk(expr_bool_t node) {
@@ -305,6 +287,8 @@ type_t expr_unary_typechk(expr_unary_t node) {
             dragon_report(node->loc, "unkown unary expression");
             break;
     }
+
+    return ret;
 }
 
 type_t expr_left_typechk(expr_left_t node) {
@@ -318,10 +302,16 @@ type_t expr_left_typechk(expr_left_t node) {
             type_t index = expr_typechk((expr_t)p->index);
             ret = array;
 
+            if (array->kind != TYPE_ARRAY) {
+                typechk_failed = 1;
+                dragon_report(p->array->loc, "subscripted value is neither array nor vector");
+            }
+
             if (index->kind != TYPE_INT) {
                 typechk_failed = 1;
                 dragon_report(p->index->loc, "array subscript is not an integer");
             }
+
             break;
         }
         case EXPR_LEFT_CLASS_FIELD:
@@ -333,142 +323,166 @@ type_t expr_left_typechk(expr_left_t node) {
                 typechk_failed = 1;
                 dragon_report(p->left->loc, "invalid access to private class field");
             } else {
-                // sym_vardef_t field_sym = (sym_vardef_t *)symtab_lookup(SYM_CLASSVARDEF, p->field_id);
+                symbol_t symbol = scope_lookup(p->env->parent, p->field_id);
 
-                //if (field_sym == NULL) {
-                if (1) {
+                if (symbol == NULL) {
                     ret = NULL;
                     typechk_failed = 1;
                     dragon_report(p->left->loc, "invalid access to non-exist class field");
                 } else {
-                    // @TODO: mock
-                    // ret = field_sym->type;
+                    // @FIXME: maybe bugs(segment fault)
+                    if (symbol->kind == SYMBOL_CLASS_DEF) {
+                        ret = NULL;
+                        typechk_failed = 1;
+                        dragon_report(p->left->loc, "invalid access to non-exist class field");
+                    } else {
+                        ret = symbol->type;
+                    }
                 }
+            }
+
+            break;
+        }
+        case EXPR_LEFT_CLASS_CALL:
+        {
+            expr_left_class_call_t p = (expr_left_class_call_t)node;
+            type_t left = expr_typchk((expr_t)p->left);
+
+            if (left->kind == TYPE_CLASS) {
+                symbol_t class_def = scope_lookup(glb_scopem, left->class_id);
+                symbol_t symbol = scope_lookup(class_def->scope, p->field_id);
+
+                if (symbol == NULL) {
+                    ret = NULL;
+                    typechk_failed = 1;
+                    dragon_report(p->loc, "invalid access to non-exist class field");
+                } else {
+                    func_normal_def_t func = (func_normal_def_t)symbol->def;
+
+                    if (symbol->kind == SYMBOL_CLASS_DEF) {
+                        ret = NULL;
+                        typechk_failed = 1;
+                        dragon_report(p->left->loc, "invalid access to non-exist class field");
+                    } else if (!arguments_typchk(func->formals, p->actuals)) {
+                        ret = NULL;
+                        typechk_failed = 1;
+                        dragon_report(p->loc, "incompatible arguments when call %s", func->id);
+                    } else {
+                        ret = func->type;
+                    }
+                }
+            } else {
+                ret = NULL;
+                typechk_failed = 1;
+                dragon_report(p->left->loc, "invalid access to field of a non-class variable");
+            }
+
+            break;
+        }
+        case EXPR_LEFT_FUNC_CALL:
+        {
+            expr_left_func_call_t p = (expr_left_func_call_t)node;
+            symbol_t symbol = scope_lookup(p->env->parent, p->id);
+
+            if (symbol == NULL) {
+                ret = NULL;
+                typechk_failed = 1;
+                dragon_report(p->loc, "invalid access to non-exist class field");
+            } else {
+                ret = symbol->type;
+                func_normal_def_t func = (func_normal_def_t)
+
+                if (symbol->kind == SYMBOL_CLASS_DEF) {
+                    ret = NULL;
+                    typechk_failed = 1;
+                    dragon_report(p->left->loc, "invalid access to non-exist class field");
+                } else if (!arguments_typchk(func->formals, p->actuals)) {
+                    ret = NULL;
+                    typechk_failed = 1;
+                    dragon_report(p->loc, "incompatible arguments when call %s", func->id);
+                } else {
+                    ret = func->type;
+                }
+            }
+
+            break;
+        }
+        case EXPR_LEFT_ANONY_CALL:
+        {
+            // @TODO: implement type check for anonymous function call
+            break;
+        }
+        default:
+            ret = NULL;
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown expression");
+            break;
+    }
+
+    return ret;
+}
+
+type_t expr_prim_typechk(expr_prim_t p) {
+    type_t ret;
+
+    switch (p->sub_kind) {
+        case EXPR_PRIM_IDENT:
+        {
+            expr_prim_ident_t pp = (expr_prim_ident_t)p;
+            symbol_t symbol = scope_lookup(pp->env, pp->id);
+
+            if (symbol == NULL) {
+                ret = NULL;
+                typechk_failed = 1;
+                dragon_report(pp->loc, "undefined %s", pp->id);
+            } else {
+                ret = symbol->type;
             }
             break;
         }
-        /* case EXPR_LEFT_CLASS_CALL: */
-        /* { */
-        /*     expr_left_class_call_t p = (expr_left_class_call_t)node; */
-        /*     type_t left = expr_typchk((expr_t)p->left); */
-        /*     sym_funcdef_t field_sym = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, p->field_id); */
-
-        /*     if (field_sym == NULL) { */
-        /*         ret = NULL; */
-        /*         typechk_failed = 1; */
-        /*         dragon_report(p->loc, "invalid access to non-exist class field"); */
-        /*     } else { */
-        /*         // @TODO: mock */
-        /*         // type_t field_type = field_sym->type; */
-        /*         func_normal_def_t func = field_sym->funcdef; */
-
-        /*         if (!arguments_typchk(func->formals, p->actuals)) { */
-        /*             ret = NULL; */
-        /*             typechk_failed = 1; */
-        /*             dragon_report(p->loc, ""); */
-        /*         } else { */
-        /*             ret = func->type; */
-        /*         } */
-        /*     } */
-        /* } */
-        /* case EXPR_LEFT_FUNC_CALL: */
-        /* { */
-        /*     type_t left = expr_typchk((expr_t)p->left); */
-        /*     sym_funcdef_t field_sym = (sym_funcdef_t *)symtab_lookup(SYM_FUNCDEF, p->field_id); */
-
-        /*     expr_left_func_call_t p = (expr_left_func_call_t)node; */
-        /*     fprintf(stdout, "expr_left_func_call->\n"); */
-        /*     expr_print((expr_t)p->left, num_space + SPACE_STEP); */
-        /*     actuals_print(p->actuals, num_space + SPACE_STEP); */
-
-        /*     if (field_sym == NULL) { */
-        /*         ret = NULL; */
-        /*         typechk_failed = 1; */
-        /*         dragon_report(p->loc, "invalid access to non-exist class field"); */
-        /*     } else { */
-        /*         // @TODO: mock */
-        /*         // type_t field_type = field_sym->type; */
-        /*         func_normal_def_t func = field_sym->funcdef; */
-
-        /*         if (!arguments_typchk(func->formals, p->actuals)) { */
-        /*             ret = NULL; */
-        /*             typechk_failed = 1; */
-        /*             dragon_report(p->loc, ""); */
-        /*         } else { */
-        /*             ret = func->type; */
-        /*         } */
-        /*     } */
-
-        /*     break; */
-        /* } */
-        /* case EXPR_LEFT_ANONY_CALL: */
-        /* { */
-        /*     expr_left_anony_call_t p = (expr_left_anony_call_t)node; */
-        /*     fprintf(stdout, "expr_left_anony_call->\n"); */
-        /*     func_def_print((func_def_t)p->func_body, num_space + SPACE_STEP); */
-        /*     actuals_print(p->actuals, num_space + SPACE_STEP); */
-        /*     break; */
-        /* } */
-        /* default: */
-        /*     ret = NULL; */
-        /*     typechk_failed = 1; */
-        /*     dragon_report(node->loc, "unkown unary expression"); */
-        /*     break; */
-        /*     break; */
-        /* } */
+        case EXPR_PRIM_CONST:
+        {
+            expr_prim_const_t pp = (expr_prim_const_t)p;
+            fprintf(stdout, "expr_prim_const_t->\n");
+            const_print(pp->const_val, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_PRIM_READINT:
+        {
+            fprintf(stdout, "expr_prim_readint\n");
+            break;
+        }
+        case EXPR_PRIM_READLINE:
+        {
+            fprintf(stdout, "expr_prim_readline\n");
+            break;
+        }
+        case EXPR_PRIM_NEWCLASS:
+        {
+            expr_prim_newclass_t pp = (expr_prim_newclass_t)p;
+            fprintf(stdout, "expr_prim_newclass->%s\n", pp->id);
+            actuals_print(pp->actuals, num_space + SPACE_STEP);
+            break;
+        }
+        case EXPR_PRIM_NEWARRAY:
+        {
+            expr_prim_newarray_t pp = (expr_prim_newarray_t)p;
+            fprintf(stdout, "expr_prim_newarray->\n");
+            type_print(pp->type, num_space + SPACE_STEP);
+            expr_print(pp->length, num_space + SPACE_STEP);
+            break;
+        }
+        default:
+            ret = NULL;
+            typechk_failed = 1;
+            dragon_report(node->loc, "unkown unary expression");
+        default:
+            fprintf(stdout, "unkown expr\n");
+            exit(1);
+            break;
     }
-    return NULL;
-}
 
-type_t expr_prim_typechk(expr_prim_t node) {
-    return NULL;
-            /* switch (p->sub_kind) { */
-            /*     case EXPR_PRIM_IDENT: */
-            /*     { */
-            /*         expr_prim_ident_t pp = (expr_prim_ident_t)p; */
-            /*         sym_vardef_t ppp = (sym_vardef_t *)symtab_lookup(SYM_VARDEF, node->id); */
-            /*         ret = ppp->type; */
-            /*         break; */
-            /*     } */
-            /*     case EXPR_PRIM_CONST: */
-            /*     { */
-            /*         expr_prim_const_t pp = (expr_prim_const_t)p; */
-            /*         fprintf(stdout, "expr_prim_const_t->\n"); */
-            /*         const_print(pp->const_val, num_space + SPACE_STEP); */
-            /*         break; */
-            /*     } */
-            /*     case EXPR_PRIM_READINT: */
-            /*     { */
-            /*         fprintf(stdout, "expr_prim_readint\n"); */
-            /*         break; */
-            /*     } */
-            /*     case EXPR_PRIM_READLINE: */
-            /*     { */
-            /*         fprintf(stdout, "expr_prim_readline\n"); */
-            /*         break; */
-            /*     } */
-            /*     case EXPR_PRIM_NEWCLASS: */
-            /*     { */
-            /*         expr_prim_newclass_t pp = (expr_prim_newclass_t)p; */
-            /*         fprintf(stdout, "expr_prim_newclass->%s\n", pp->id); */
-            /*         actuals_print(pp->actuals, num_space + SPACE_STEP); */
-            /*         break; */
-            /*     } */
-            /*     case EXPR_PRIM_NEWARRAY: */
-            /*     { */
-            /*         expr_prim_newarray_t pp = (expr_prim_newarray_t)p; */
-            /*         fprintf(stdout, "expr_prim_newarray->\n"); */
-            /*         type_print(pp->type, num_space + SPACE_STEP); */
-            /*         expr_print(pp->length, num_space + SPACE_STEP); */
-            /*         break; */
-            /*     } */
-            /*     default: */
-            /*         fprintf(stdout, "unkown expr\n"); */
-            /*         exit(1); */
-            /*         break; */
-            /* } */
-
-
+    return ret;
 }
 
 type_t expr_typechk(expr_t node) {

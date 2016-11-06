@@ -32,8 +32,8 @@ type_t const_typechk(const_t node);
  */
 type_t var_def_typechk(var_def_t node);
 type_t func_def_typechk(func_def_t node);
-type_t class_def_typechk(class_def_t node);
-type_t class_defs_typechk(list_t class_defs);
+void class_def_typechk(class_def_t node);
+void class_defs_typechk(list_t class_defs);
 
 /*
  * @brief: check type on expression nodes
