@@ -7,6 +7,8 @@
 
 #include "sema_symtab.h"
 
+int symtab_failed = 0;
+
 static int cnt_offset = 0;
 
 symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def) {
@@ -19,16 +21,6 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def) 
 }
 
 /*
- * @TODO: get inspiration from cs143
- * relationships between ast node, scope_t and symtab_t
- * ast node(class_def and func_def) has pointer member pointing to a scope_t variable, to store their scope
- * scope_t has a symtab_t member ,to store all symbol valid in this scope
- * symtab_t has a stack_t/list_t (<stack_t/list_t <symbol_t>) member, to store all defs binding to symbols
- * typedef struct _symbol_ {
- *  const char* id;     // key
- *  def_t def;          // value
- * } *symbol_t;
- *
  * when travel ast tree first time, set up all scope_t in class_def_t or func_def_t
  * 1. create empty scope
  * 2. bind a specific def_t to a symbol_t (set up id -> def_t mapping)
@@ -36,10 +28,7 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def) 
  *
  * when travel ast tree second time, start to truly semantic analysis(e.g type check)
  *
- * @TODO: change ast node <class_def_t> <func_def_t> , add scope_t member
- * @TODO: change ast node <without scope_t>, add parent member
- * @TODO: change parser.y and new ast node function <class_def_t, func_def_t>, bind all children of them to them(children->parent = this/them)
- * @TODO: implement data structure symbol_t, symtab_t and scope_t and operations on them.
+ * @TODO: set up scope list
  */
 
 symtab_t symtab_new(void) {
@@ -64,7 +53,7 @@ symbol_t symtab_lookup(symtab_t symtab, const char *id) {
 }
 
 symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
-    symbol_t exist = symtab_lookup(symtab, symbol->id)
+    symbol_t exist = symtab_lookup(symtab, symbol->id);
 
     if (exist != NULL) {
         symtab_failed = 1;
@@ -72,7 +61,7 @@ symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
         return NULL;
     } else {
         stack_push(symtab->table, symbol);
-        symbol->num_symbols += 1;
+        symtab->num_symbols += 1;
         return symtab;
     }
 }

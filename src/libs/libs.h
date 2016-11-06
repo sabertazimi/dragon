@@ -10,5 +10,6 @@
 
 #include "utils.h"
 #include "list.h"
+#include "stack.h"
 
 #endif /* !LIBS_H */

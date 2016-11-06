@@ -46,7 +46,7 @@ typedef enum field_kind {
 typedef struct field {
     field_kind_t kind;
     yyltype loc;
-    scope_t scope;
+    scope_t env;
 } *field_t;
 
 /*
@@ -55,7 +55,7 @@ typedef struct field {
 typedef struct field_var {
     field_kind_t kind;
     yyltype loc;
-    scope_t scope;
+    scope_t env;
     var_def_t var_def;
 } *field_var_t;
 
@@ -65,7 +65,7 @@ typedef struct field_var {
 typedef struct field_func {
     field_kind_t kind;
     yyltype loc;
-    scope_t scope;
+    scope_t env;
     func_def_t func_def;
 } *field_func_t;
 
@@ -74,7 +74,7 @@ typedef struct field_func {
  */
 typedef struct prog {
     yyltype loc;
-    scope_t scope;
+    scope_t env;
     list_t class_defs;      ///< list_t <class_def_t>
 } *prog_t;
 

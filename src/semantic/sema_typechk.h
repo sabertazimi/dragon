@@ -9,8 +9,7 @@
 #define SEMA_TYPECHK_H
 
 #include "sema_common.h"
-
-int typechk_failed = 0;
+#include "ast.h"
 
 /*
  * @brief: check equality of two type nodes

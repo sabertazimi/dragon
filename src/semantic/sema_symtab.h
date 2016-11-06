@@ -10,8 +10,6 @@
 
 #include "sema_common.h"
 
-int symtab_failed = 0;
-
 /*
  * @brief: kind of symbol
  */
@@ -38,7 +36,7 @@ struct _symbol_ {
 /*
  * @brief: symbol table
  */
-typedef _symtab_ *symtab_t;
+typedef struct _symtab_ *symtab_t;
 
 struct _symtab_ {
     // symtab_kind_t kind;

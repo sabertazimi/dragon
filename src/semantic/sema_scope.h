@@ -11,7 +11,7 @@
 #include "sema_common.h"
 #include "sema_symtab.h"
 
-typdef struct _scope_ *scope_t;
+typedef struct _scope_ *scope_t;
 
 struct _scope_ {
     scope_t parent;             ///< scope from upper ast node

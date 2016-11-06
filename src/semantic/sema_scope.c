@@ -11,19 +11,15 @@ scope_t scope_new(scope_t super, scope_t parent,
         symtab_t class_defs, symtab_t var_defs,
         symtab_t func_normal_defs, symtab_t func_anony_defs) {
     scope_t scope = (scope_t)malloc(sizeof(*scope));
-    p->super = super;
-    p->parent = parent;
-    p->class_defs = class_defs;
-    p->var_defs = var_defs;
-    p->func_normal_defs = func_normal_defs;
-    p->func_anony_defs = func_anony_defs;
-    return p;
+    scope->super = super;
+    scope->parent = parent;
+    scope->class_defs = class_defs;
+    scope->var_defs = var_defs;
+    scope->func_normal_defs = func_normal_defs;
+    scope->func_anony_defs = func_anony_defs;
+    return scope;
 }
 
-/*
- * @brief: search symbol in scope with id
- * @return: NULL/symbol_t
- */
 symbol_t scope_lookup(scope_t scope, const char *id) {
     symbol_t symbol;
 
@@ -44,9 +40,6 @@ symbol_t scope_lookup(scope_t scope, const char *id) {
     }
 }
 
-/*
- * @brief: insert a new symbol to scope
- */
 scope_t scope_enter(scope_t scope, symbol_t symbol) {
     switch (symbol->kind) {
         case SYMBOL_VAR_DEF:
@@ -55,7 +48,7 @@ scope_t scope_enter(scope_t scope, symbol_t symbol) {
             } else {
                 return NULL;
             }
-        case SYMBOL_FUNC_NORAML_DEF:
+        case SYMBOL_FUNC_NORMAL_DEF:
             if (symtab_enter(scope->func_normal_defs, symbol)) {
                 return scope;
             } else {
@@ -70,9 +63,5 @@ scope_t scope_enter(scope_t scope, symbol_t symbol) {
             } else {
                 return NULL;
             }
-        default:
-            symtab_failed = 1;
-            dragon_report(symbol->loc, "unkown symbol %s", symbol->id);
-            return NULL;
     }
 }

@@ -14,7 +14,7 @@
 // #undef DRAGON_DEBUG
 
 #define AST_DEBUG
-#undef AST_DEBUG
+// #undef AST_DEBUG
 
 #ifdef DRAGON_DEBUG
     #include "spec.h"

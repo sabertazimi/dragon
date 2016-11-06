@@ -8,7 +8,7 @@
 #include "sema_typechk.h"
 #include "sema_symtab.h"
 
-extern int typechk_failed;
+int typechk_failed = 0;
 
 char *type_name(type_t node) {
     char *typestr = strdup("\0");
@@ -333,15 +333,16 @@ type_t expr_left_typechk(expr_left_t node) {
                 typechk_failed = 1;
                 dragon_report(p->left->loc, "invalid access to private class field");
             } else {
-                sym_vardef_t field_sym = (sym_vardef_t *)symtab_lookup(SYM_CLASSVARDEF, p->field_id);
+                // sym_vardef_t field_sym = (sym_vardef_t *)symtab_lookup(SYM_CLASSVARDEF, p->field_id);
 
-                if (field_sym == NULL) {
+                //if (field_sym == NULL) {
+                if (1) {
                     ret = NULL;
                     typechk_failed = 1;
                     dragon_report(p->left->loc, "invalid access to non-exist class field");
                 } else {
                     // @TODO: mock
-                    ret = field_sym->type;
+                    // ret = field_sym->type;
                 }
             }
             break;
