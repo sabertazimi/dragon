@@ -52,9 +52,6 @@ char *type_name(type_t node) {
     return typestr;
 }
 
-// mock location information
-static yyltype mock_loc = { 233, 233, 233, 234 };
-
 int typechk(type_t left, type_t right) {
     int equality;
 
@@ -82,6 +79,20 @@ int typechk(type_t left, type_t right) {
     return equality;
 }
 
+type_t type_typechk(type_t node) {
+    if (node->kind == TYPE_CLASS) {
+        type_class_t p = (type_class_t)node;
+        symbol_t class_def = scope_lookup(glb_scope, p->class_id);
+
+        if (class_def == NULL) {
+            typechk_failed = 1;
+            dragon_report(node->loc, "undefined class %s", p->class_id);
+        }
+    }
+
+    return node;
+}
+
 
 type_t const_typechk(const_t node) {
     type_t ret;   ///< store result of type check
@@ -89,15 +100,19 @@ type_t const_typechk(const_t node) {
     switch (node->kind) {
         case CONST_INT:
             ret = (type_t)type_basic_new(TYPE_INT, node->loc);
+            ret->env = node->env;
             break;
         case CONST_BOOL:
             ret = (type_t)type_basic_new(TYPE_BOOL, node->loc);
+            ret->env = node->env;
             break;
         case CONST_STRING:
             ret = (type_t)type_basic_new(TYPE_STRING, node->loc);
+            ret->env = node->env;
             break;
         case CONST_NIL:
             ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             break;
         default:
             ret = NULL;
@@ -110,7 +125,7 @@ type_t const_typechk(const_t node) {
 }
 
 type_t var_def_typechk(var_def_t node) {
-    type_t left = (type_t)node->type;
+    type_t left = type_typechk((type_t)node->type);
 
     if (node->initializer) {
         type_t right = expr_typechk((expr_t)node->initializer);
@@ -125,7 +140,7 @@ type_t var_def_typechk(var_def_t node) {
 }
 
 type_t func_normal_def_typechk(func_normal_def_t node) {
-    type_t ret_def = (type_t)node->type;
+    type_t ret_def = type_typechk((type_t)node->type);
     type_t ret_stmt = NULL;
 
     list_t stmts = node->stmts;
@@ -142,6 +157,7 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
 
     if (ret_stmt = NULL) {
         ret_stmt = (type_t)type_basic_new(TYPE_VOID, node->loc);
+        ret_stmt->env = node->scope;
     }
 
     if (!typechk(ret_def, ret_stmt)) {
@@ -151,6 +167,8 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
     }
 
     stmts_typechk(node->stmts);
+
+    return ret_def;
 }
 
 void class_def_typechk(class_def_t node) {
@@ -346,11 +364,21 @@ type_t expr_left_typechk(expr_left_t node) {
         case EXPR_LEFT_CLASS_CALL:
         {
             expr_left_class_call_t p = (expr_left_class_call_t)node;
-            type_t left = expr_typchk((expr_t)p->left);
+            type_t _left = expr_typechk((expr_t)p->left);
 
-            if (left->kind == TYPE_CLASS) {
-                symbol_t class_def = scope_lookup(glb_scopem, left->class_id);
-                symbol_t symbol = scope_lookup(class_def->scope, p->field_id);
+            if (_left->kind == TYPE_CLASS) {
+                type_class_t left = (type_class_t)_left;
+                symbol_t class_def = scope_lookup(glb_scope, left->class_id);
+
+                if (class_def == NULL) {
+                    ret = NULL;
+                    typechk_failed = 1;
+                    dragon_report(p->left->loc, "undefined class %s", left->class_id);
+                    break;
+                }
+
+                class_def_t _class_def = (class_def_t)class_def->def;
+                symbol_t symbol = scope_lookup(_class_def->scope, p->field_id);
 
                 if (symbol == NULL) {
                     ret = NULL;
@@ -363,7 +391,7 @@ type_t expr_left_typechk(expr_left_t node) {
                         ret = NULL;
                         typechk_failed = 1;
                         dragon_report(p->left->loc, "invalid access to non-exist class field");
-                    } else if (!arguments_typchk(func->formals, p->actuals)) {
+                    } else if (!arguments_typechk(func->formals, p->actuals)) {
                         ret = NULL;
                         typechk_failed = 1;
                         dragon_report(p->loc, "incompatible arguments when call %s", func->id);
@@ -390,13 +418,13 @@ type_t expr_left_typechk(expr_left_t node) {
                 dragon_report(p->loc, "invalid access to non-exist class field");
             } else {
                 ret = symbol->type;
-                func_normal_def_t func = (func_normal_def_t)
+                func_normal_def_t func = (func_normal_def_t)symbol->def;
 
                 if (symbol->kind == SYMBOL_CLASS_DEF) {
                     ret = NULL;
                     typechk_failed = 1;
-                    dragon_report(p->left->loc, "invalid access to non-exist class field");
-                } else if (!arguments_typchk(func->formals, p->actuals)) {
+                    dragon_report(p->loc, "invalid access to non-exist class field");
+                } else if (!arguments_typechk(func->formals, p->actuals)) {
                     ret = NULL;
                     typechk_failed = 1;
                     dragon_report(p->loc, "incompatible arguments when call %s", func->id);
@@ -443,43 +471,59 @@ type_t expr_prim_typechk(expr_prim_t p) {
         case EXPR_PRIM_CONST:
         {
             expr_prim_const_t pp = (expr_prim_const_t)p;
-            fprintf(stdout, "expr_prim_const_t->\n");
-            const_print(pp->const_val, num_space + SPACE_STEP);
+            ret = expr_typechk(pp->const_val);
             break;
         }
         case EXPR_PRIM_READINT:
         {
-            fprintf(stdout, "expr_prim_readint\n");
+            expr_prim_read_t pp = (expr_prim_read_t)p;
+            ret = type_basic_new(TYPE_INT, pp->loc);
+            ret->env = pp->env;
             break;
         }
         case EXPR_PRIM_READLINE:
         {
-            fprintf(stdout, "expr_prim_readline\n");
+            expr_prim_read_t pp = (expr_prim_read_t)p;
+            ret = type_basic_new(TYPE_STRING, pp->loc);
+            ret->env = pp->env;
             break;
         }
         case EXPR_PRIM_NEWCLASS:
         {
             expr_prim_newclass_t pp = (expr_prim_newclass_t)p;
-            fprintf(stdout, "expr_prim_newclass->%s\n", pp->id);
-            actuals_print(pp->actuals, num_space + SPACE_STEP);
+
+            symbol_t class_def = scope_lookup(glb_scope, pp->id);
+
+            if (class_def == NULL) {
+                ret = NULL;
+                typechk_failed = 1;
+                dragon_report(p->loc, "undefined class %s", pp->id);
+            } else {
+                ret = type_class_new(TYPE_CLASS, pp->loc, pp->id);
+                ret->env = pp->env;
+            }
+
             break;
         }
         case EXPR_PRIM_NEWARRAY:
         {
             expr_prim_newarray_t pp = (expr_prim_newarray_t)p;
-            fprintf(stdout, "expr_prim_newarray->\n");
-            type_print(pp->type, num_space + SPACE_STEP);
-            expr_print(pp->length, num_space + SPACE_STEP);
+
+            ret = type_typechk(pp->type);
+
+            expr_t length = expr_typechk(pp->length);
+
+            if (length->kind != TYPE_INT) {
+                typechk_failed = 1;
+                dragon_report(pp->length->loc, "array subscript is not an integer");
+            }
+
             break;
         }
         default:
             ret = NULL;
             typechk_failed = 1;
-            dragon_report(node->loc, "unkown unary expression");
-        default:
-            fprintf(stdout, "unkown expr\n");
-            exit(1);
-            break;
+            dragon_report(p->loc, "unkown unary expression");
     }
 
     return ret;
@@ -561,280 +605,186 @@ type_t expr_typechk(expr_t node) {
             dragon_report(node->loc, "unkown expression");
             break;
     }
+
+    return ret;
 }
 
-type_t assigns_typechk(list_t assigns) {
-    return NULL;
+void assigns_typechk(list_t assigns) {
+    for (list_t list = assigns; list != NULL; list = list->next) {
+        expr_t p = (expr_t)list->data;
+        expr_typechk(p);
+    }
 }
 
 type_t stmt_typechk(stmt_t node) {
-    return NULL;
+    type_t ret;
+
+    switch (node->kind) {
+        case STMT_VAR_DEF:
+        {
+            stmt_var_def_t p = (stmt_var_def_t)node;
+            ret = var_def_typechk(p->var_def);
+            break;
+        }
+        case STMT_EXPR:
+        {
+            stmt_expr_t p = (stmt_expr_t)node;
+
+            if (p->expr) {
+                ret = expr_typechk(p->expr);
+            } else {
+                ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+                ret->env = p->env;
+            }
+
+            break;
+        }
+        case STMT_IF:
+        {
+            stmt_if_t p = (stmt_if_t)node;
+
+            expr_typechk((expr_t)p->cond);
+            stmts_typechk(p->body_then);
+
+            if (p->body_else) {
+                stmts_typechk(p->body_else);
+            }
+
+            ret = NULL;
+            break;
+        }
+        case STMT_WHILE:
+        {
+            stmt_while_t p = (stmt_while_t)node;
+            expr_typechk((expr_t)p->cond);
+            stmts_typechk(p->body);
+
+            ret = NULL;
+            break;
+        }
+        case STMT_FOR:
+        {
+            stmt_for_t p = (stmt_for_t)node;
+
+            assigns_typechk(p->initializer);
+            assigns_typechk(p->assigner);
+            expr_typechk((expr_t)p->cond);
+            stmts_typechk(p->body);
+
+            ret = NULL;
+            break;
+        }
+        case STMT_RETURN:
+        {
+            stmt_return_t p = (stmt_return_t)node;
+
+            if (p->ret_val) {
+                ret = expr_typechk(p->ret_val);
+            } else {
+                ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+                ret->env = p->env;
+            }
+
+            break;
+        }
+        case STMT_PRINT:
+        {
+            stmt_print_t p = (stmt_print_t)node;
+            ret = expr_typechk(p->out);
+            break;
+        }
+    }
+
+    return ret;
 }
 
-type_t stmts_typechk(list_t stmts) {
-    return NULL;
+void stmts_typechk(list_t stmts) {
+    for (list_t list = stmts; list != NULL; list = list->next) {
+        stmt_t stmt = (stmt_t)list->data;
+        stmt_typechk(stmt);
+    }
 }
 
 type_t formal_typechk(formal_t node) {
-    return NULL;
+    return type_typechk(node->type);
 }
 
-type_t formals_typechk(list_t formals) {
-    return NULL;
+int arguments_typechk(list_t formals, list_t actuals) {
+    while (formals != NULL && actuals != NULL) {
+        formal_t formal = (formal_t)formals->data;
+        actual_t actual = (actual_t)actuals->data;
+
+        if (!typechk(formal_typechk(formal) , actual_typechk(actual))) {
+            return 0;
+        }
+
+        formals = formals->next;
+        actuals = actuals->next;
+    }
+
+    if (formals != NULL || actuals != NULL) {
+        return 0;
+    }
+
+    return 1;
+}
+
+void formals_typechk(list_t formals) {
+    for (list_t list = formals; list != NULL; list = list->next) {
+        formal_t formal = (formal_t)list->data;
+        formal_typechk(formal);
+    }
 }
 
 type_t actual_typechk(actual_t node) {
-    return NULL;
+    return expr_typechk(node->expr);
 }
 
-type_t actuals_typechk(list_t actuals) {
-    return NULL;
+void actuals_typechk(list_t actuals) {
+    for (list_t list = actuals; list != NULL; list = list->next) {
+        actual_t actual = (actual_t)list->data;
+        actual_typechk(actual);
+    }
 }
 
 type_t field_typechk(field_t node) {
-    return NULL;
+    type_t ret;
+
+    switch (node->kind) {
+        case FIELD_VAR:
+        {
+            field_var_t p = (field_var_t)node;
+            ret = var_def_typechk(p->var_def);
+            break;
+        }
+        case FIELD_FUNC:
+        {
+            field_func_t p = (field_func_t)node;
+
+            if (p->func_def->kind = FUNC_NORMAL_DEF) {
+                func_normal_def_t pp = (func_normal_def_t)p->func_def;
+                ret = func_normal_def_typechk(pp);
+            } else {
+                ret = NULL;
+            }
+
+            break;
+        }
+    }
+
+    return ret;
 }
 
-type_t fields_typechk(list_t fields) {
-    return NULL;
+void fields_typechk(list_t fields) {
+    for (list_t list = fields; list != NULL; list = list->next) {
+        field_t field = (field_t)list->data;
+        field_typechk(field);
+    }
 }
 
-int prog_typechk(prog_t prog) {
-    return 0;
+void prog_typechk(prog_t prog) {
+    class_defs_typechk(prog->class_defs);
 }
 
 
 
-
-/* void class_def_print(class_def_t node, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "class_def-><%s, %s>\n", node->id, node->super); */
-/*     fields_print(node->fields, num_space + SPACE_STEP); */
-/* } */
-
-/* void class_defs_print(list_t class_defs, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "class_defs->\n"); */
-
-/*     list_t pf = class_defs; */
-
-/*     while (pf) { */
-/*         class_def_t node = (class_def_t)pf->data; */
-
-/*         if (node) { */
-/*             class_def_print(node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void expr_print(expr_t node, int num_space) { */
-/* } */
-
-/* void assigns_print(list_t assigns, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "assigns->\n"); */
-
-/*     list_t pf = assigns; */
-
-/*     while (pf) { */
-/*         expr_assign_t node = (expr_assign_t)pf->data; */
-
-/*         if (node) { */
-/*             expr_print((expr_t)node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void stmt_print(stmt_t node, int num_space) { */
-/*     space_print(num_space); */
-
-/*     switch (node->kind) { */
-/*         case STMT_VAR_DEF: */
-/*         { */
-/*             stmt_var_def_t p = (stmt_var_def_t)node; */
-/*             fprintf(stdout, "stmt_var_def->\n"); */
-/*             var_def_print(p->var_def, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         case STMT_EXPR: */
-/*         { */
-/*             stmt_expr_t p = (stmt_expr_t)node; */
-/*             fprintf(stdout, "stmt_expr->\n"); */
-/*             if (p->expr) { */
-/*                 expr_print(p->expr, num_space + SPACE_STEP); */
-/*             } */
-/*             break; */
-/*         } */
-/*         case STMT_IF: */
-/*         { */
-/*             stmt_if_t p = (stmt_if_t)node; */
-/*             fprintf(stdout, "stmt_if->\n"); */
-/*             expr_print((expr_t)p->cond, num_space + SPACE_STEP); */
-/*             stmts_print(p->body_then, num_space + SPACE_STEP); */
-/*             stmts_print(p->body_else, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         case STMT_WHILE: */
-/*         { */
-/*             stmt_while_t p = (stmt_while_t)node; */
-/*             fprintf(stdout, "stmt_while->\n"); */
-/*             expr_print((expr_t)p->cond, num_space + SPACE_STEP); */
-/*             stmts_print(p->body, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         case STMT_FOR: */
-/*         { */
-/*             stmt_for_t p = (stmt_for_t)node; */
-/*             fprintf(stdout, "stmt_for->\n"); */
-/*             assigns_print(p->initializer, num_space + SPACE_STEP); */
-/*             expr_print((expr_t)p->cond, num_space + SPACE_STEP); */
-/*             assigns_print(p->assigner, num_space + SPACE_STEP); */
-/*             stmts_print(p->body, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         case STMT_RETURN: */
-/*         { */
-/*             stmt_return_t p = (stmt_return_t)node; */
-/*             fprintf(stdout, "stmt_return->\n"); */
-/*             if (p->ret_val) { */
-/*                 expr_print(p->ret_val, num_space + SPACE_STEP); */
-/*             } */
-/*             break; */
-/*         } */
-/*         case STMT_PRINT: */
-/*         { */
-/*             stmt_print_t p = (stmt_print_t)node; */
-/*             fprintf(stdout, "stmt_print->\n"); */
-/*             expr_print(p->out, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         default: */
-/*             fprintf(stdout, "unkown stmt\n"); */
-/*             exit(1); */
-/*             break; */
-/*     } */
-/* } */
-
-/* void stmts_print(list_t stmts, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "stmts->\n"); */
-
-/*     list_t pf = stmts; */
-
-/*     while (pf) { */
-/*         stmt_t node = (stmt_t)pf->data; */
-
-/*         if (node) { */
-/*             stmt_print(node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void formal_print(formal_t node, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "formal->%s\n", node->id); */
-/*     type_print(node->type, num_space + SPACE_STEP); */
-/* } */
-
-/* void formals_print(list_t formals, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "formals->\n"); */
-
-/*     list_t pf = formals; */
-
-/*     while (pf) { */
-/*         formal_t node = (formal_t)pf->data; */
-
-/*         if (node) { */
-/*             formal_print(node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void actual_print(actual_t node, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "actual->\n"); */
-/*     expr_print(node->expr, num_space + SPACE_STEP); */
-/* } */
-
-/* void actuals_print(list_t actuals, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "actuals->\n"); */
-
-/*     list_t pf = actuals; */
-
-/*     while (pf) { */
-/*         actual_t node = (actual_t)pf->data; */
-
-/*         if (node) { */
-/*             actual_print(node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void field_print(field_t node, int num_space) { */
-/*     space_print(num_space); */
-
-/*     switch (node->kind) { */
-/*         case FIELD_VAR: */
-/*         { */
-/*             field_var_t p = (field_var_t)node; */
-/*             fprintf(stdout, "field_var->\n"); */
-/*             var_def_print(p->var_def, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         case FIELD_FUNC: */
-/*         { */
-/*             field_func_t p = (field_func_t)node; */
-/*             fprintf(stdout, "field_func->\n"); */
-/*             func_def_print(p->func_def, num_space + SPACE_STEP); */
-/*             break; */
-/*         } */
-/*         default: */
-/*             fprintf(stdout, "unkown field\n"); */
-/*             exit(1); */
-/*             break; */
-/*     } */
-/* } */
-
-/* void fields_print(list_t fields, int num_space) { */
-/*     space_print(num_space); */
-
-/*     fprintf(stdout, "fields->\n"); */
-
-/*     list_t pf = fields; */
-
-/*     while (pf) { */
-/*         field_t node = (field_t)pf->data; */
-
-/*         if (node) { */
-/*             field_print(node, num_space + SPACE_STEP); */
-/*         } */
-
-/*         pf = pf->next; */
-/*     } */
-/* } */
-
-/* void prog_print(prog_t prog) { */
-/*     fprintf(stdout, "prog_tree->\n"); */
-
-/*     class_defs_print(prog->class_defs, SPACE_STEP); */
-/* } */

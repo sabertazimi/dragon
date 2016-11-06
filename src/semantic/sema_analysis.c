@@ -500,12 +500,12 @@ static void scope_setup_class_def(class_def_t class_def) {
                 // set up scope list
                 p->env = class_def->scope;
                 p->var_def->env = class_def->scope;
-                var_def->type->env = func_def->scope;
-                scope_setup_type(var_def->type);
+                p->var_def->type->env = class_def->scope;
+                scope_setup_type(p->var_def->type);
 
                 if (p->var_def->initializer) {
                     p->var_def->initializer->env = class_def->scope;
-                    scope_setup_expr((expr_t)var_def->initializer);
+                    scope_setup_expr((expr_t)p->var_def->initializer);
                 }
 
                 break;

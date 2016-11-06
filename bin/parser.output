@@ -180,7 +180,7 @@ Terminals unused in grammar
   135          | left_expr '[' expr ']'
   136          | left_expr '.' IDENTIFIER
   137          | left_expr '.' IDENTIFIER '(' actuals ')'
-  138          | left_expr '(' actuals ')'
+  138          | IDENTIFIER '(' actuals ')'
   139          | func_anony_def '(' actuals ')'
 
   140 prim_expr: IDENTIFIER
@@ -257,7 +257,7 @@ CONSTANT_BOOL (284) 149
 CONSTANT_INT (285) 148
 CONSTANT_STRING (286) 150
 IDENTIFIER (287) 4 5 6 8 9 10 11 12 13 14 15 20 21 23 25 30 32 36 38
-    39 40 41 42 54 136 137 140 145
+    39 40 41 42 54 136 137 138 140 145
 CLASS_FIELD (288)
 NOELSE (289)
 
@@ -342,7 +342,6 @@ unary_expr (89)
     左： 129 130 131 132, 右： 125 126 127 128 130 131 132
 left_expr (90)
     左： 133 134 135 136 137 138 139, 右： 103 129 135 136 137
-    138
 prim_expr (91)
     左： 140 141 142 143 144 145 146 147, 右： 133
 constant (92)
@@ -1423,7 +1422,10 @@ State 85
 
 State 86
 
+  138 left_expr: IDENTIFIER . '(' actuals ')'
   140 prim_expr: IDENTIFIER .
+
+    '('  shift, and go to state 122
 
     $default  reduce using rule 140 (prim_expr)
 
@@ -1434,7 +1436,7 @@ State 87
   142 prim_expr: '(' . expr ')'
   147          | '(' . error ')'
 
-    error            shift, and go to state 122
+    error            shift, and go to state 123
     NIL              shift, and go to state 78
     BOOL             shift, and go to state 21
     INT              shift, and go to state 22
@@ -1449,18 +1451,18 @@ State 87
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
-    type            转到状态 124
+    type            转到状态 125
     func_anony_def  转到状态 92
-    formals         转到状态 125
+    formals         转到状态 126
     formals_body    转到状态 69
     formal          转到状态 70
-    expr            转到状态 126
-    assign_expr     转到状态 127
+    expr            转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -1492,15 +1494,15 @@ State 88
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 128
-    left_expr       转到状态 129
+    unary_expr      转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
@@ -1524,15 +1526,15 @@ State 89
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 130
-    left_expr       转到状态 129
+    unary_expr      转到状态 131
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
@@ -1556,15 +1558,15 @@ State 90
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 131
-    left_expr       转到状态 129
+    unary_expr      转到状态 132
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
@@ -1585,14 +1587,14 @@ State 92
 
   139 left_expr: func_anony_def . '(' actuals ')'
 
-    '('  shift, and go to state 132
+    '('  shift, and go to state 133
 
 
 State 93
 
    24 var_def: type error '=' assign_expr . ';'
 
-    ';'  shift, and go to state 133
+    ';'  shift, and go to state 134
 
 
 State 94
@@ -1600,7 +1602,7 @@ State 94
   102 assign_expr: or_expr .
   111 or_expr: or_expr . OP_OR and_expr
 
-    OP_OR  shift, and go to state 134
+    OP_OR  shift, and go to state 135
 
     $default  reduce using rule 102 (assign_expr)
 
@@ -1610,7 +1612,7 @@ State 95
   110 or_expr: and_expr .
   113 and_expr: and_expr . OP_AND eq_expr
 
-    OP_AND  shift, and go to state 135
+    OP_AND  shift, and go to state 136
 
     $default  reduce using rule 110 (or_expr)
 
@@ -1621,8 +1623,8 @@ State 96
   115 eq_expr: eq_expr . OP_EQ cmp_expr
   116        | eq_expr . OP_NE cmp_expr
 
-    OP_EQ  shift, and go to state 136
-    OP_NE  shift, and go to state 137
+    OP_EQ  shift, and go to state 137
+    OP_NE  shift, and go to state 138
 
     $default  reduce using rule 112 (and_expr)
 
@@ -1635,10 +1637,10 @@ State 97
   120         | cmp_expr . OP_LE add_expr
   121         | cmp_expr . OP_GE add_expr
 
-    OP_LE  shift, and go to state 138
-    OP_GE  shift, and go to state 139
-    '<'    shift, and go to state 140
-    '>'    shift, and go to state 141
+    OP_LE  shift, and go to state 139
+    OP_GE  shift, and go to state 140
+    '<'    shift, and go to state 141
+    '>'    shift, and go to state 142
 
     $default  reduce using rule 114 (eq_expr)
 
@@ -1649,8 +1651,8 @@ State 98
   123 add_expr: add_expr . '+' mul_expr
   124         | add_expr . '-' mul_expr
 
-    '+'  shift, and go to state 142
-    '-'  shift, and go to state 143
+    '+'  shift, and go to state 143
+    '-'  shift, and go to state 144
 
     $default  reduce using rule 117 (cmp_expr)
 
@@ -1662,9 +1664,9 @@ State 99
   127         | mul_expr . '/' unary_expr
   128         | mul_expr . '%' unary_expr
 
-    '*'  shift, and go to state 144
-    '/'  shift, and go to state 145
-    '%'  shift, and go to state 146
+    '*'  shift, and go to state 145
+    '/'  shift, and go to state 146
+    '%'  shift, and go to state 147
 
     $default  reduce using rule 122 (add_expr)
 
@@ -1683,9 +1685,7 @@ State 101
   135 left_expr: left_expr . '[' expr ']'
   136          | left_expr . '.' IDENTIFIER
   137          | left_expr . '.' IDENTIFIER '(' actuals ')'
-  138          | left_expr . '(' actuals ')'
 
-    '('  shift, and go to state 147
     '='  shift, and go to state 148
     '['  shift, and go to state 149
     '.'  shift, and go to state 150
@@ -1734,7 +1734,7 @@ State 105
   142 prim_expr: '(' . expr ')'
   147          | '(' . error ')'
 
-    error            shift, and go to state 122
+    error            shift, and go to state 123
     NIL              shift, and go to state 78
     BOOL             shift, and go to state 21
     INT              shift, and go to state 22
@@ -1749,18 +1749,18 @@ State 105
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
-    type            转到状态 124
+    type            转到状态 125
     func_anony_def  转到状态 92
     formals         转到状态 152
     formals_body    转到状态 69
     formal          转到状态 70
-    expr            转到状态 126
-    assign_expr     转到状态 127
+    expr            转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -1914,21 +1914,9 @@ State 121
 
 State 122
 
-   32 type: error . IDENTIFIER
-   49 formals: error .
-  147 prim_expr: '(' error . ')'
+  138 left_expr: IDENTIFIER '(' . actuals ')'
 
-    IDENTIFIER  shift, and go to state 41
-
-    $default  reduce using rule 49 (formals)
-
-
-State 123
-
-  142 prim_expr: '(' . expr ')'
-  147          | '(' . error ')'
-
-    error            shift, and go to state 165
+    error            shift, and go to state 20
     NIL              shift, and go to state 78
     BOOL             shift, and go to state 21
     INT              shift, and go to state 22
@@ -1943,15 +1931,20 @@ State 123
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
+    ')'  reduce using rule 94 (actuals)
+
     type            转到状态 91
     func_anony_def  转到状态 92
-    expr            转到状态 126
-    assign_expr     转到状态 127
+    actuals         转到状态 164
+    actuals_body    转到状态 165
+    actual          转到状态 166
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -1964,7 +1957,59 @@ State 123
     constant        转到状态 103
 
 
+State 123
+
+   32 type: error . IDENTIFIER
+   49 formals: error .
+  147 prim_expr: '(' error . ')'
+
+    IDENTIFIER  shift, and go to state 41
+
+    $default  reduce using rule 49 (formals)
+
+
 State 124
+
+  142 prim_expr: '(' . expr ')'
+  147          | '(' . error ')'
+
+    error            shift, and go to state 169
+    NIL              shift, and go to state 78
+    BOOL             shift, and go to state 21
+    INT              shift, and go to state 22
+    STRING           shift, and go to state 23
+    VOID             shift, and go to state 24
+    CLASS            shift, and go to state 25
+    NEW              shift, and go to state 79
+    THIS             shift, and go to state 80
+    READINTEGER      shift, and go to state 81
+    READLINE         shift, and go to state 82
+    CONSTANT_BOOL    shift, and go to state 83
+    CONSTANT_INT     shift, and go to state 84
+    CONSTANT_STRING  shift, and go to state 85
+    IDENTIFIER       shift, and go to state 86
+    '('              shift, and go to state 124
+    '+'              shift, and go to state 88
+    '-'              shift, and go to state 89
+    '!'              shift, and go to state 90
+
+    type            转到状态 91
+    func_anony_def  转到状态 92
+    expr            转到状态 127
+    assign_expr     转到状态 128
+    or_expr         转到状态 94
+    and_expr        转到状态 95
+    eq_expr         转到状态 96
+    cmp_expr        转到状态 97
+    add_expr        转到状态 98
+    mul_expr        转到状态 99
+    unary_expr      转到状态 100
+    left_expr       转到状态 101
+    prim_expr       转到状态 102
+    constant        转到状态 103
+
+
+State 125
 
    31 type: type . '[' ']'
    43 func_anony_def: type . '(' formals ')' OP_ARROW '{' stmts '}'
@@ -1980,64 +2025,62 @@ State 124
     '['         shift, and go to state 49
 
 
-State 125
+State 126
 
    37 func_normal_def: type error '=' '(' formals . ')' OP_ARROW '{' stmts '}' ';'
 
-    ')'  shift, and go to state 166
-
-
-State 126
-
-  142 prim_expr: '(' expr . ')'
-
-    ')'  shift, and go to state 167
+    ')'  shift, and go to state 170
 
 
 State 127
+
+  142 prim_expr: '(' expr . ')'
+
+    ')'  shift, and go to state 171
+
+
+State 128
 
   101 expr: assign_expr .
 
     $default  reduce using rule 101 (expr)
 
 
-State 128
+State 129
 
   130 unary_expr: '+' unary_expr .
 
     $default  reduce using rule 130 (unary_expr)
 
 
-State 129
+State 130
 
   129 unary_expr: left_expr .
   135 left_expr: left_expr . '[' expr ']'
   136          | left_expr . '.' IDENTIFIER
   137          | left_expr . '.' IDENTIFIER '(' actuals ')'
-  138          | left_expr . '(' actuals ')'
 
-    '('  shift, and go to state 147
     '['  shift, and go to state 149
     '.'  shift, and go to state 150
 
     $default  reduce using rule 129 (unary_expr)
 
 
-State 130
+State 131
 
   131 unary_expr: '-' unary_expr .
 
     $default  reduce using rule 131 (unary_expr)
 
 
-State 131
+State 132
 
   132 unary_expr: '!' unary_expr .
 
     $default  reduce using rule 132 (unary_expr)
 
 
-State 132
+State 133
 
   139 left_expr: func_anony_def '(' . actuals ')'
 
@@ -2056,7 +2099,7 @@ State 132
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -2065,11 +2108,11 @@ State 132
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    actuals         转到状态 168
-    actuals_body    转到状态 169
-    actual          转到状态 170
-    expr            转到状态 171
-    assign_expr     转到状态 127
+    actuals         转到状态 172
+    actuals_body    转到状态 165
+    actual          转到状态 166
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -2082,14 +2125,14 @@ State 132
     constant        转到状态 103
 
 
-State 133
+State 134
 
    24 var_def: type error '=' assign_expr ';' .
 
     $default  reduce using rule 24 (var_def)
 
 
-State 134
+State 135
 
   111 or_expr: or_expr OP_OR . and_expr
 
@@ -2108,25 +2151,25 @@ State 134
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    and_expr        转到状态 172
+    and_expr        转到状态 173
     eq_expr         转到状态 96
     cmp_expr        转到状态 97
     add_expr        转到状态 98
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 135
+State 136
 
   113 and_expr: and_expr OP_AND . eq_expr
 
@@ -2145,24 +2188,24 @@ State 135
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    eq_expr         转到状态 173
+    eq_expr         转到状态 174
     cmp_expr        转到状态 97
     add_expr        转到状态 98
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 136
+State 137
 
   115 eq_expr: eq_expr OP_EQ . cmp_expr
 
@@ -2181,23 +2224,23 @@ State 136
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    cmp_expr        转到状态 174
+    cmp_expr        转到状态 175
     add_expr        转到状态 98
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 137
+State 138
 
   116 eq_expr: eq_expr OP_NE . cmp_expr
 
@@ -2216,23 +2259,23 @@ State 137
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    cmp_expr        转到状态 175
+    cmp_expr        转到状态 176
     add_expr        转到状态 98
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 138
+State 139
 
   120 cmp_expr: cmp_expr OP_LE . add_expr
 
@@ -2251,22 +2294,22 @@ State 138
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    add_expr        转到状态 176
+    add_expr        转到状态 177
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 139
+State 140
 
   121 cmp_expr: cmp_expr OP_GE . add_expr
 
@@ -2285,22 +2328,22 @@ State 139
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    add_expr        转到状态 177
+    add_expr        转到状态 178
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 140
+State 141
 
   118 cmp_expr: cmp_expr '<' . add_expr
 
@@ -2319,22 +2362,22 @@ State 140
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    add_expr        转到状态 178
+    add_expr        转到状态 179
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 141
+State 142
 
   119 cmp_expr: cmp_expr '>' . add_expr
 
@@ -2353,22 +2396,22 @@ State 141
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    add_expr        转到状态 179
+    add_expr        转到状态 180
     mul_expr        转到状态 99
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 142
+State 143
 
   123 add_expr: add_expr '+' . mul_expr
 
@@ -2387,21 +2430,21 @@ State 142
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    mul_expr        转到状态 180
+    mul_expr        转到状态 181
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 143
+State 144
 
   124 add_expr: add_expr '-' . mul_expr
 
@@ -2420,21 +2463,21 @@ State 143
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    mul_expr        转到状态 181
+    mul_expr        转到状态 182
     unary_expr      转到状态 100
-    left_expr       转到状态 129
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 144
+State 145
 
   126 mul_expr: mul_expr '*' . unary_expr
 
@@ -2453,20 +2496,20 @@ State 144
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 182
-    left_expr       转到状态 129
+    unary_expr      转到状态 183
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 145
+State 146
 
   127 mul_expr: mul_expr '/' . unary_expr
 
@@ -2485,20 +2528,20 @@ State 145
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 183
-    left_expr       转到状态 129
+    unary_expr      转到状态 184
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
 
-State 146
+State 147
 
   128 mul_expr: mul_expr '%' . unary_expr
 
@@ -2517,60 +2560,15 @@ State 146
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    unary_expr      转到状态 184
-    left_expr       转到状态 129
-    prim_expr       转到状态 102
-    constant        转到状态 103
-
-
-State 147
-
-  138 left_expr: left_expr '(' . actuals ')'
-
-    error            shift, and go to state 20
-    NIL              shift, and go to state 78
-    BOOL             shift, and go to state 21
-    INT              shift, and go to state 22
-    STRING           shift, and go to state 23
-    VOID             shift, and go to state 24
-    CLASS            shift, and go to state 25
-    NEW              shift, and go to state 79
-    THIS             shift, and go to state 80
-    READINTEGER      shift, and go to state 81
-    READLINE         shift, and go to state 82
-    CONSTANT_BOOL    shift, and go to state 83
-    CONSTANT_INT     shift, and go to state 84
-    CONSTANT_STRING  shift, and go to state 85
-    IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
-    '+'              shift, and go to state 88
-    '-'              shift, and go to state 89
-    '!'              shift, and go to state 90
-
-    ')'  reduce using rule 94 (actuals)
-
-    type            转到状态 91
-    func_anony_def  转到状态 92
-    actuals         转到状态 185
-    actuals_body    转到状态 169
-    actual          转到状态 170
-    expr            转到状态 171
-    assign_expr     转到状态 127
-    or_expr         转到状态 94
-    and_expr        转到状态 95
-    eq_expr         转到状态 96
-    cmp_expr        转到状态 97
-    add_expr        转到状态 98
-    mul_expr        转到状态 99
-    unary_expr      转到状态 100
-    left_expr       转到状态 101
+    unary_expr      转到状态 185
+    left_expr       转到状态 130
     prim_expr       转到状态 102
     constant        转到状态 103
 
@@ -2594,7 +2592,7 @@ State 148
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -2633,7 +2631,7 @@ State 149
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -2641,7 +2639,7 @@ State 149
     type            转到状态 91
     func_anony_def  转到状态 92
     expr            转到状态 187
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -2754,7 +2752,7 @@ State 160
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -2764,10 +2762,10 @@ State 160
     type            转到状态 91
     func_anony_def  转到状态 92
     actuals         转到状态 194
-    actuals_body    转到状态 169
-    actual          转到状态 170
-    expr            转到状态 171
-    assign_expr     转到状态 127
+    actuals_body    转到状态 165
+    actual          转到状态 166
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -2800,7 +2798,7 @@ State 161
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     ']'              shift, and go to state 71
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
@@ -2809,7 +2807,7 @@ State 161
     type            转到状态 91
     func_anony_def  转到状态 92
     expr            转到状态 195
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -2838,91 +2836,98 @@ State 163
 
 State 164
 
-  147 prim_expr: '(' error ')' .
+  138 left_expr: IDENTIFIER '(' actuals . ')'
 
-    $default  reduce using rule 147 (prim_expr)
+    ')'  shift, and go to state 196
 
 
 State 165
-
-   32 type: error . IDENTIFIER
-  147 prim_expr: '(' error . ')'
-
-    IDENTIFIER  shift, and go to state 41
-    ')'         shift, and go to state 164
-
-
-State 166
-
-   37 func_normal_def: type error '=' '(' formals ')' . OP_ARROW '{' stmts '}' ';'
-
-    OP_ARROW  shift, and go to state 196
-
-
-State 167
-
-  142 prim_expr: '(' expr ')' .
-
-    $default  reduce using rule 142 (prim_expr)
-
-
-State 168
-
-  139 left_expr: func_anony_def '(' actuals . ')'
-
-    ')'  shift, and go to state 197
-
-
-State 169
 
    93 actuals: actuals_body .
    95 actuals_body: actuals_body . ',' actual
    97             | actuals_body . error actual
    98             | actuals_body . ',' error
 
-    error  shift, and go to state 198
-    ','    shift, and go to state 199
+    error  shift, and go to state 197
+    ','    shift, and go to state 198
 
     ')'  reduce using rule 93 (actuals)
 
 
-State 170
+State 166
 
    96 actuals_body: actual .
 
     $default  reduce using rule 96 (actuals_body)
 
 
-State 171
+State 167
 
    99 actual: expr .
 
     $default  reduce using rule 99 (actual)
 
 
+State 168
+
+  147 prim_expr: '(' error ')' .
+
+    $default  reduce using rule 147 (prim_expr)
+
+
+State 169
+
+   32 type: error . IDENTIFIER
+  147 prim_expr: '(' error . ')'
+
+    IDENTIFIER  shift, and go to state 41
+    ')'         shift, and go to state 168
+
+
+State 170
+
+   37 func_normal_def: type error '=' '(' formals ')' . OP_ARROW '{' stmts '}' ';'
+
+    OP_ARROW  shift, and go to state 199
+
+
+State 171
+
+  142 prim_expr: '(' expr ')' .
+
+    $default  reduce using rule 142 (prim_expr)
+
+
 State 172
+
+  139 left_expr: func_anony_def '(' actuals . ')'
+
+    ')'  shift, and go to state 200
+
+
+State 173
 
   111 or_expr: or_expr OP_OR and_expr .
   113 and_expr: and_expr . OP_AND eq_expr
 
-    OP_AND  shift, and go to state 135
+    OP_AND  shift, and go to state 136
 
     $default  reduce using rule 111 (or_expr)
 
 
-State 173
+State 174
 
   113 and_expr: and_expr OP_AND eq_expr .
   115 eq_expr: eq_expr . OP_EQ cmp_expr
   116        | eq_expr . OP_NE cmp_expr
 
-    OP_EQ  shift, and go to state 136
-    OP_NE  shift, and go to state 137
+    OP_EQ  shift, and go to state 137
+    OP_NE  shift, and go to state 138
 
     $default  reduce using rule 113 (and_expr)
 
 
-State 174
+State 175
 
   115 eq_expr: eq_expr OP_EQ cmp_expr .
   118 cmp_expr: cmp_expr . '<' add_expr
@@ -2930,15 +2935,15 @@ State 174
   120         | cmp_expr . OP_LE add_expr
   121         | cmp_expr . OP_GE add_expr
 
-    OP_LE  shift, and go to state 138
-    OP_GE  shift, and go to state 139
-    '<'    shift, and go to state 140
-    '>'    shift, and go to state 141
+    OP_LE  shift, and go to state 139
+    OP_GE  shift, and go to state 140
+    '<'    shift, and go to state 141
+    '>'    shift, and go to state 142
 
     $default  reduce using rule 115 (eq_expr)
 
 
-State 175
+State 176
 
   116 eq_expr: eq_expr OP_NE cmp_expr .
   118 cmp_expr: cmp_expr . '<' add_expr
@@ -2946,116 +2951,109 @@ State 175
   120         | cmp_expr . OP_LE add_expr
   121         | cmp_expr . OP_GE add_expr
 
-    OP_LE  shift, and go to state 138
-    OP_GE  shift, and go to state 139
-    '<'    shift, and go to state 140
-    '>'    shift, and go to state 141
+    OP_LE  shift, and go to state 139
+    OP_GE  shift, and go to state 140
+    '<'    shift, and go to state 141
+    '>'    shift, and go to state 142
 
     $default  reduce using rule 116 (eq_expr)
 
 
-State 176
+State 177
 
   120 cmp_expr: cmp_expr OP_LE add_expr .
   123 add_expr: add_expr . '+' mul_expr
   124         | add_expr . '-' mul_expr
 
-    '+'  shift, and go to state 142
-    '-'  shift, and go to state 143
+    '+'  shift, and go to state 143
+    '-'  shift, and go to state 144
 
     $default  reduce using rule 120 (cmp_expr)
 
 
-State 177
+State 178
 
   121 cmp_expr: cmp_expr OP_GE add_expr .
   123 add_expr: add_expr . '+' mul_expr
   124         | add_expr . '-' mul_expr
 
-    '+'  shift, and go to state 142
-    '-'  shift, and go to state 143
+    '+'  shift, and go to state 143
+    '-'  shift, and go to state 144
 
     $default  reduce using rule 121 (cmp_expr)
 
 
-State 178
+State 179
 
   118 cmp_expr: cmp_expr '<' add_expr .
   123 add_expr: add_expr . '+' mul_expr
   124         | add_expr . '-' mul_expr
 
-    '+'  shift, and go to state 142
-    '-'  shift, and go to state 143
+    '+'  shift, and go to state 143
+    '-'  shift, and go to state 144
 
     $default  reduce using rule 118 (cmp_expr)
 
 
-State 179
+State 180
 
   119 cmp_expr: cmp_expr '>' add_expr .
   123 add_expr: add_expr . '+' mul_expr
   124         | add_expr . '-' mul_expr
 
-    '+'  shift, and go to state 142
-    '-'  shift, and go to state 143
+    '+'  shift, and go to state 143
+    '-'  shift, and go to state 144
 
     $default  reduce using rule 119 (cmp_expr)
 
 
-State 180
+State 181
 
   123 add_expr: add_expr '+' mul_expr .
   126 mul_expr: mul_expr . '*' unary_expr
   127         | mul_expr . '/' unary_expr
   128         | mul_expr . '%' unary_expr
 
-    '*'  shift, and go to state 144
-    '/'  shift, and go to state 145
-    '%'  shift, and go to state 146
+    '*'  shift, and go to state 145
+    '/'  shift, and go to state 146
+    '%'  shift, and go to state 147
 
     $default  reduce using rule 123 (add_expr)
 
 
-State 181
+State 182
 
   124 add_expr: add_expr '-' mul_expr .
   126 mul_expr: mul_expr . '*' unary_expr
   127         | mul_expr . '/' unary_expr
   128         | mul_expr . '%' unary_expr
 
-    '*'  shift, and go to state 144
-    '/'  shift, and go to state 145
-    '%'  shift, and go to state 146
+    '*'  shift, and go to state 145
+    '/'  shift, and go to state 146
+    '%'  shift, and go to state 147
 
     $default  reduce using rule 124 (add_expr)
 
 
-State 182
+State 183
 
   126 mul_expr: mul_expr '*' unary_expr .
 
     $default  reduce using rule 126 (mul_expr)
 
 
-State 183
+State 184
 
   127 mul_expr: mul_expr '/' unary_expr .
 
     $default  reduce using rule 127 (mul_expr)
 
 
-State 184
+State 185
 
   128 mul_expr: mul_expr '%' unary_expr .
 
     $default  reduce using rule 128 (mul_expr)
-
-
-State 185
-
-  138 left_expr: left_expr '(' actuals . ')'
-
-    ')'  shift, and go to state 200
 
 
 State 186
@@ -3145,19 +3143,12 @@ State 195
 
 State 196
 
-   37 func_normal_def: type error '=' '(' formals ')' OP_ARROW . '{' stmts '}' ';'
+  138 left_expr: IDENTIFIER '(' actuals ')' .
 
-    '{'  shift, and go to state 211
+    $default  reduce using rule 138 (left_expr)
 
 
 State 197
-
-  139 left_expr: func_anony_def '(' actuals ')' .
-
-    $default  reduce using rule 139 (left_expr)
-
-
-State 198
 
    97 actuals_body: actuals_body error . actual
 
@@ -3176,16 +3167,16 @@ State 198
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    actual          转到状态 212
-    expr            转到状态 171
-    assign_expr     转到状态 127
+    actual          转到状态 211
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3198,12 +3189,12 @@ State 198
     constant        转到状态 103
 
 
-State 199
+State 198
 
    95 actuals_body: actuals_body ',' . actual
    98             | actuals_body ',' . error
 
-    error            shift, and go to state 213
+    error            shift, and go to state 212
     NIL              shift, and go to state 78
     BOOL             shift, and go to state 21
     INT              shift, and go to state 22
@@ -3218,16 +3209,16 @@ State 199
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
 
     type            转到状态 91
     func_anony_def  转到状态 92
-    actual          转到状态 214
-    expr            转到状态 171
-    assign_expr     转到状态 127
+    actual          转到状态 213
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3240,11 +3231,18 @@ State 199
     constant        转到状态 103
 
 
+State 199
+
+   37 func_normal_def: type error '=' '(' formals ')' OP_ARROW . '{' stmts '}' ';'
+
+    '{'  shift, and go to state 214
+
+
 State 200
 
-  138 left_expr: left_expr '(' actuals ')' .
+  139 left_expr: func_anony_def '(' actuals ')' .
 
-    $default  reduce using rule 138 (left_expr)
+    $default  reduce using rule 139 (left_expr)
 
 
 State 201
@@ -3273,7 +3271,7 @@ State 202
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -3283,10 +3281,10 @@ State 202
     type            转到状态 91
     func_anony_def  转到状态 92
     actuals         转到状态 215
-    actuals_body    转到状态 169
-    actual          转到状态 170
-    expr            转到状态 171
-    assign_expr     转到状态 127
+    actuals_body    转到状态 165
+    actual          转到状态 166
+    expr            转到状态 167
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3349,7 +3347,7 @@ State 206
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 225
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3367,7 +3365,7 @@ State 206
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3405,7 +3403,7 @@ State 207
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 237
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3423,7 +3421,7 @@ State 207
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3462,7 +3460,7 @@ State 208
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 239
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3480,7 +3478,7 @@ State 208
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3509,21 +3507,12 @@ State 210
 
 State 211
 
-   37 func_normal_def: type error '=' '(' formals ')' OP_ARROW '{' . stmts '}' ';'
-
-    $default  reduce using rule 57 (stmts)
-
-    stmts  转到状态 240
-
-
-State 212
-
    97 actuals_body: actuals_body error actual .
 
     $default  reduce using rule 97 (actuals_body)
 
 
-State 213
+State 212
 
    32 type: error . IDENTIFIER
    98 actuals_body: actuals_body ',' error .
@@ -3533,11 +3522,20 @@ State 213
     $default  reduce using rule 98 (actuals_body)
 
 
-State 214
+State 213
 
    95 actuals_body: actuals_body ',' actual .
 
     $default  reduce using rule 95 (actuals_body)
+
+
+State 214
+
+   37 func_normal_def: type error '=' '(' formals ')' OP_ARROW '{' . stmts '}' ';'
+
+    $default  reduce using rule 57 (stmts)
+
+    stmts  转到状态 240
 
 
 State 215
@@ -3645,7 +3643,7 @@ State 223
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     ';'              shift, and go to state 254
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
@@ -3654,7 +3652,7 @@ State 223
     type            转到状态 91
     func_anony_def  转到状态 92
     expr            转到状态 255
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3826,7 +3824,7 @@ State 240
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 262
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3844,7 +3842,7 @@ State 240
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3889,7 +3887,7 @@ State 242
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 263
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3907,7 +3905,7 @@ State 242
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -3945,7 +3943,7 @@ State 243
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 264
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -3963,7 +3961,7 @@ State 243
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4001,7 +3999,7 @@ State 244
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 265
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -4019,7 +4017,7 @@ State 244
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4059,7 +4057,7 @@ State 245
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 267
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -4077,7 +4075,7 @@ State 245
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4109,7 +4107,7 @@ State 246
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4118,7 +4116,7 @@ State 246
     func_anony_def  转到状态 92
     bool_expr       转到状态 268
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4153,7 +4151,7 @@ State 247
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4162,7 +4160,7 @@ State 247
     func_anony_def  转到状态 92
     bool_expr       转到状态 270
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4194,7 +4192,7 @@ State 248
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4239,7 +4237,7 @@ State 249
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4280,7 +4278,7 @@ State 250
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4289,7 +4287,7 @@ State 250
     func_anony_def  转到状态 92
     bool_expr       转到状态 277
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4323,7 +4321,7 @@ State 251
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4332,7 +4330,7 @@ State 251
     func_anony_def  转到状态 92
     bool_expr       转到状态 278
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4402,7 +4400,7 @@ State 256
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4410,7 +4408,7 @@ State 256
     type            转到状态 91
     func_anony_def  转到状态 92
     expr            转到状态 284
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4444,7 +4442,7 @@ State 257
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4452,7 +4450,7 @@ State 257
     type            转到状态 91
     func_anony_def  转到状态 92
     expr            转到状态 285
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4716,7 +4714,7 @@ State 286
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4763,7 +4761,7 @@ State 288
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4875,7 +4873,7 @@ State 299
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4884,7 +4882,7 @@ State 299
     func_anony_def  转到状态 92
     bool_expr       转到状态 313
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -4917,7 +4915,7 @@ State 300
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4956,7 +4954,7 @@ State 301
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -4965,7 +4963,7 @@ State 301
     func_anony_def  转到状态 92
     bool_expr       转到状态 316
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5000,7 +4998,7 @@ State 302
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -5009,7 +5007,7 @@ State 302
     func_anony_def  转到状态 92
     bool_expr       转到状态 317
     expr            转到状态 269
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5236,7 +5234,7 @@ State 326
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 338
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5254,7 +5252,7 @@ State 326
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5292,7 +5290,7 @@ State 327
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 339
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5310,7 +5308,7 @@ State 327
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5348,7 +5346,7 @@ State 328
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 340
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5366,7 +5364,7 @@ State 328
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5405,7 +5403,7 @@ State 329
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 341
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5423,7 +5421,7 @@ State 329
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5455,7 +5453,7 @@ State 330
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -5496,7 +5494,7 @@ State 331
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -5537,7 +5535,7 @@ State 332
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -5580,7 +5578,7 @@ State 333
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '+'              shift, and go to state 88
     '-'              shift, and go to state 89
     '!'              shift, and go to state 90
@@ -5627,7 +5625,7 @@ State 334
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 346
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5645,7 +5643,7 @@ State 334
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5683,7 +5681,7 @@ State 335
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 347
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5701,7 +5699,7 @@ State 335
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5739,7 +5737,7 @@ State 336
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 348
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5757,7 +5755,7 @@ State 336
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -5795,7 +5793,7 @@ State 337
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 349
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -5813,7 +5811,7 @@ State 337
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6048,7 +6046,7 @@ State 363
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 370
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6066,7 +6064,7 @@ State 363
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6104,7 +6102,7 @@ State 364
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 371
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6122,7 +6120,7 @@ State 364
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6160,7 +6158,7 @@ State 365
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 372
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6178,7 +6176,7 @@ State 365
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6216,7 +6214,7 @@ State 366
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 373
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6234,7 +6232,7 @@ State 366
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6272,7 +6270,7 @@ State 367
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 374
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6290,7 +6288,7 @@ State 367
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6328,7 +6326,7 @@ State 368
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 375
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6346,7 +6344,7 @@ State 368
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
@@ -6384,7 +6382,7 @@ State 369
     CONSTANT_INT     shift, and go to state 84
     CONSTANT_STRING  shift, and go to state 85
     IDENTIFIER       shift, and go to state 86
-    '('              shift, and go to state 123
+    '('              shift, and go to state 124
     '}'              shift, and go to state 376
     ';'              shift, and go to state 226
     '+'              shift, and go to state 88
@@ -6402,7 +6400,7 @@ State 369
     return_stmt     转到状态 234
     print_stmt      转到状态 235
     expr            转到状态 236
-    assign_expr     转到状态 127
+    assign_expr     转到状态 128
     or_expr         转到状态 94
     and_expr        转到状态 95
     eq_expr         转到状态 96
