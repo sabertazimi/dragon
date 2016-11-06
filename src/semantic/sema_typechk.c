@@ -89,6 +89,9 @@ type_t type_typechk(type_t node) {
             typechk_failed = 1;
             dragon_report(node->loc, "undefined class %s", p->class_id);
         }
+    } else if (node->kind == TYPE_ARRAY) {
+        type_array_t p = (type_array_t)node;
+        p->type = type_typechk(p->type);
     }
 
     return node;
@@ -323,11 +326,14 @@ type_t expr_left_typechk(expr_left_t node) {
             expr_left_index_t p = (expr_left_index_t)node;
             type_t array = expr_typechk((expr_t)p->array);
             type_t index = expr_typechk((expr_t)p->index);
-            ret = array;
 
             if (array->kind != TYPE_ARRAY) {
+                ret = NULL;
                 typechk_failed = 1;
                 dragon_report(p->array->loc, "subscripted value is neither array nor vector");
+            } else {
+                type_array_t arr = (type_array_t)array;
+                ret = type_typechk(arr->type);
             }
 
             if (index->kind != TYPE_INT) {
