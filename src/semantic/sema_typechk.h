@@ -10,6 +10,7 @@
 
 #include "sema_common.h"
 #include "ast.h"
+#include "errors.h"
 
 /*
  * @brief: check equality of two type nodes
@@ -57,6 +58,7 @@ type_t formal_typechk(formal_t node);
 void formals_typechk(list_t formals);
 type_t actual_typechk(actual_t node);
 void actuals_typechk(list_t actuals);
+int arguments_typechk(list_t formals, list_t actuals);
 
 /*
  * @brief: check_type on field nodes

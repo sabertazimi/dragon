@@ -13,7 +13,8 @@ int typechk_failed = 0;
 extern scope_t glb_scope;
 
 char *type_name(type_t node) {
-    char *typestr = strdup("\0");
+    char *typestr = (char *)malloc(sizeof(char) * 80);
+    memset(typestr, '\0', 80);
 
     switch (node->kind) {
         case TYPE_INT:
@@ -155,7 +156,7 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
         }
     }
 
-    if (ret_stmt = NULL) {
+    if (ret_stmt == NULL) {
         ret_stmt = (type_t)type_basic_new(TYPE_VOID, node->loc);
         ret_stmt->env = node->scope;
     }
@@ -286,7 +287,7 @@ type_t expr_mul_typechk(expr_mul_t node) {
 type_t expr_unary_typechk(expr_unary_t node) {
     type_t ret = expr_typechk((expr_t)node->body);
 
-    switch (node->kind) {
+    switch (node->sub_kind) {
         case EXPR_UNARY_PLUS:
         case EXPR_UNARY_MINUS:
             if (ret->kind != TYPE_INT) {
@@ -438,6 +439,7 @@ type_t expr_left_typechk(expr_left_t node) {
         case EXPR_LEFT_ANONY_CALL:
         {
             // @TODO: implement type check for anonymous function call
+            ret = NULL;
             break;
         }
         default:
@@ -471,7 +473,7 @@ type_t expr_prim_typechk(expr_prim_t p) {
         case EXPR_PRIM_CONST:
         {
             expr_prim_const_t pp = (expr_prim_const_t)p;
-            ret = expr_typechk(pp->const_val);
+            ret = const_typechk(pp->const_val);
             break;
         }
         case EXPR_PRIM_READINT:
@@ -511,7 +513,7 @@ type_t expr_prim_typechk(expr_prim_t p) {
 
             ret = type_typechk(pp->type);
 
-            expr_t length = expr_typechk(pp->length);
+            type_t length = expr_typechk(pp->length);
 
             if (length->kind != TYPE_INT) {
                 typechk_failed = 1;
@@ -693,6 +695,9 @@ type_t stmt_typechk(stmt_t node) {
             ret = expr_typechk(p->out);
             break;
         }
+        default:
+            ret = NULL;
+            break;
     }
 
     return ret;
@@ -761,7 +766,7 @@ type_t field_typechk(field_t node) {
         {
             field_func_t p = (field_func_t)node;
 
-            if (p->func_def->kind = FUNC_NORMAL_DEF) {
+            if (p->func_def->kind == FUNC_NORMAL_DEF) {
                 func_normal_def_t pp = (func_normal_def_t)p->func_def;
                 ret = func_normal_def_typechk(pp);
             } else {
@@ -770,6 +775,9 @@ type_t field_typechk(field_t node) {
 
             break;
         }
+        default:
+            ret = NULL;
+            break;
     }
 
     return ret;

@@ -7,6 +7,8 @@
 
 #include "sema_symtab.h"
 
+extern void dragon_report(yyltype, const char *, ...);
+
 int symtab_failed = 0;
 
 static int cnt_offset = 0;
@@ -19,6 +21,7 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type,
     symbol->type = type;
     symbol->def = def;
     symbol->offset = cnt_offset++;
+    return symbol;
 }
 
 /*

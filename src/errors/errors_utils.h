@@ -18,8 +18,10 @@
  * @brief: print debug info for lexical analysis
  */
 #ifdef LEX_DEBUG
+    #undef DRAGON_DEBUG
     #define DRAGON_DEBUG(type, value) do { dragon_debug(type, value); } while (0)
 #else
+    #undef DRAGON_DEBUG
     #define DRAGON_DEBUG(type, value) do { } while (0)
 #endif
 

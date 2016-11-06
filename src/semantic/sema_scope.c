@@ -24,13 +24,13 @@ scope_t scope_new(scope_t super, scope_t parent,
 symbol_t scope_lookup(scope_t scope, const char *id) {
     symbol_t symbol;
 
-    if (symbol = symtab_lookup(scope->var_defs, id)) {
+    if ((symbol = symtab_lookup(scope->var_defs, id)) != NULL) {
         return symbol;
-    } else if (symbol = symtab_lookup(scope->formal_defs, id)) {
+    } else if ((symbol = symtab_lookup(scope->formal_defs, id)) != NULL) {
         return symbol;
-    } else if (symbol = symtab_lookup(scope->func_normal_defs, id)) {
+    } else if ((symbol = symtab_lookup(scope->func_normal_defs, id)) != NULL) {
         return symbol;
-    } else if (symbol = symtab_lookup(scope->class_defs, id)) {
+    } else if ((symbol = symtab_lookup(scope->class_defs, id)) != NULL) {
         return symbol;
     } else if (scope->super != NULL) {
         symbol = scope_lookup(scope->super, id);
@@ -72,5 +72,7 @@ scope_t scope_enter(scope_t scope, symbol_t symbol) {
             } else {
                 return NULL;
             }
+        default:
+            return NULL;
     }
 }

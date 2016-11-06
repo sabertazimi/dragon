@@ -9,6 +9,7 @@
 
 extern int symtab_failed;
 extern int typechk_failed;
+extern void dragon_report(yyltype, const char *, ...);
 
 scope_t glb_scope;
 
@@ -52,8 +53,8 @@ static void scope_setup_expr(expr_t node) {
             expr_assign_t p = (expr_assign_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_OR:
@@ -61,8 +62,8 @@ static void scope_setup_expr(expr_t node) {
             expr_or_t p = (expr_or_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_AND:
@@ -70,8 +71,8 @@ static void scope_setup_expr(expr_t node) {
             expr_and_t p = (expr_and_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_EQ:
@@ -79,8 +80,8 @@ static void scope_setup_expr(expr_t node) {
             expr_eq_t p = (expr_eq_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_CMP:
@@ -88,8 +89,8 @@ static void scope_setup_expr(expr_t node) {
             expr_cmp_t p = (expr_cmp_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_ADD:
@@ -97,8 +98,8 @@ static void scope_setup_expr(expr_t node) {
             expr_add_t p = (expr_add_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_MUL:
@@ -106,15 +107,15 @@ static void scope_setup_expr(expr_t node) {
             expr_mul_t p = (expr_mul_t)node;
             p->left->env = p->env;
             p->right->env = p->env;
-            scope_setup_expr(p->left);
-            scope_setup_expr(p->right);
+            scope_setup_expr((expr_t)p->left);
+            scope_setup_expr((expr_t)p->right);
             break;
         }
         case EXPR_UNARY:
         {
             expr_unary_t p = (expr_unary_t)node;
             p->body->env = p->env;
-            scope_setup_expr(p->body);
+            scope_setup_expr((expr_t)p->body);
             break;
         }
         case EXPR_LEFT:
@@ -231,6 +232,8 @@ static void scope_setup_expr(expr_t node) {
                     scope_setup_expr(pp->length);
                     break;
                 }
+                default:
+                    break;
             }
 
             break;
@@ -298,13 +301,13 @@ static void scope_setup_stmt(stmt_t node) {
 
             // set up scope list
             p->cond->env = p->env;
-            scope_setup_expr(p->cond);
+            scope_setup_expr((expr_t)p->cond);
 
             // set up scope list
             for (list_t body = p->body_then; body != NULL; body = body->next) {
                 stmt_t s = (stmt_t)body->data;
 
-                if (s->kind = STMT_VAR_DEF) {
+                if (s->kind == STMT_VAR_DEF) {
                     symtab_failed = 1;
                     dragon_report(s->loc, "invalid variable defination in if statement");
                 } else {
@@ -317,7 +320,7 @@ static void scope_setup_stmt(stmt_t node) {
             for (list_t body = p->body_else; body != NULL; body = body->next) {
                 stmt_t s = (stmt_t)body->data;
 
-                if (s->kind = STMT_VAR_DEF) {
+                if (s->kind == STMT_VAR_DEF) {
                     symtab_failed = 1;
                     dragon_report(s->loc, "invalid variable defination in if statement");
                 } else {
@@ -334,13 +337,13 @@ static void scope_setup_stmt(stmt_t node) {
 
             // set up scope list
             p->cond->env = p->env;
-            scope_setup_expr(p->cond);
+            scope_setup_expr((expr_t)p->cond);
 
             // set up scope list
             for (list_t body = p->body; body != NULL; body = body->next) {
                 stmt_t s = (stmt_t)body->data;
 
-                if (s->kind = STMT_VAR_DEF) {
+                if (s->kind == STMT_VAR_DEF) {
                     symtab_failed = 1;
                     dragon_report(s->loc, "invalid variable defination in if statement");
                 } else {
@@ -357,7 +360,7 @@ static void scope_setup_stmt(stmt_t node) {
 
             // set up scope list
             p->cond->env = p->env;
-            scope_setup_expr(p->cond);
+            scope_setup_expr((expr_t)p->cond);
 
             // set up scope list
             for (list_t list = p->initializer; list != NULL; list = list->next) {
@@ -377,7 +380,7 @@ static void scope_setup_stmt(stmt_t node) {
             for (list_t body = p->body; body != NULL; body = body->next) {
                 stmt_t s = (stmt_t)body->data;
 
-                if (s->kind = STMT_VAR_DEF) {
+                if (s->kind == STMT_VAR_DEF) {
                     symtab_failed = 1;
                     dragon_report(s->loc, "invalid variable defination in if statement");
                 } else {
@@ -406,6 +409,8 @@ static void scope_setup_stmt(stmt_t node) {
             scope_setup_expr(p->out);
             break;
         }
+        default:
+            break;
     }
 }
 
