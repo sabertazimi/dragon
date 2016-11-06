@@ -9,8 +9,9 @@
 
 static int cnt_offset = 0;
 
-symbol_t symbol_new(const char *id, yyltype loc, void *def) {
+symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def) {
     symbol_t symbol = (symbol_t)malloc(sizeof(*symbol));
+    symbol->kind = kind;
     symbol->id = strdup(id);
     symbol->loc = loc;
     symbol->def = def;
@@ -41,11 +42,16 @@ symbol_t symbol_new(const char *id, yyltype loc, void *def) {
  * @TODO: implement data structure symbol_t, symtab_t and scope_t and operations on them.
  */
 
-/*
- * @brief: search symbol in symbol table with id
- * @return: NULL/symbol_t
- */
+symtab_t symtab_new(void) {
+    symtab_t symtab = (symtab_t)malloc(sizeof(*symtab));
+    symtab->table = NULL;
+    symtab->num_symbols = 0;
+    return symtab;
+}
+
 symbol_t symtab_lookup(symtab_t symtab, const char *id) {
+    if (symtab == NULL) return NULL;
+
     for (int i = 0; i < symtab->num_symbols; i++) {
         symbol_t symbol = (symbol_t)stack_get(symtab->table, i);
 
@@ -57,18 +63,16 @@ symbol_t symtab_lookup(symtab_t symtab, const char *id) {
     return NULL;
 }
 
-/*
- * @brief: insert a new symbol to symbol table
- */
 symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
     symbol_t exist = symtab_lookup(symtab, symbol->id)
 
-    if (symtab_lookup(symtab, symbol->id) != NULL) {
+    if (exist != NULL) {
         symtab_failed = 1;
         dragon_report(symbol->loc, "redefined %s", symbol->id);
         return NULL;
     } else {
         stack_push(symtab->table, symbol);
+        symbol->num_symbols += 1;
         return symtab;
     }
 }

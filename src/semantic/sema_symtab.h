@@ -13,26 +13,27 @@
 int symtab_failed = 0;
 
 /*
+ * @brief: kind of symbol
+ */
+typedef enum symbol_kind {
+    SYMBOL_VAR_DEF,
+    SYMBOL_FUNC_NORMAL_DEF,
+    SYMBOL_FUNC_ANONY_DEF,
+    SYMBOL_CLASS_DEF
+} symbol_kind_t;
+
+/*
  * @brief: symbol_t , to store symbol name, def_t and offset(other information)
  */
 typedef struct _symbol_ *symbol_t;
 
 struct _symbol_ {
-    const char *id;
+    symbol_kind_t kind;
     yyltype loc;
+    const char *id;
     void *def;      // def_t
     int offset;
 };
-
-/*
- * @brief: kind of symbol table
- */
-/* typedef enum sym_kind { */
-/*     SYMTAB_LOCALVARDEF, */
-/*     SYMTAB_CLASSVARDEF, */
-/*     SYMTAB_FUNCDEF, */
-/*     SYMTAB_CLASSDEF */
-/* } symtab_kind_t; */
 
 /*
  * @brief: symbol table
@@ -46,9 +47,20 @@ struct _symtab_ {
 };
 
 /*
- * @mock: temporary for testing
- * @TODO: implements truly symtab_lookup function
+ * @brief: create a empty symbol table
  */
-sym_t symtab_lookup(symtab_t symtab, const char *id);
+symtab_t symtab_new(void);
+
+/*
+ * @brief: search symbol in symbol table with id
+ * @return: NULL/symbol_t
+ */
+symbol_t symtab_lookup(symtab_t symtab, const char *id);
+
+
+/*
+ * @brief: insert a new symbol to symbol table
+ */
+symtab_t symtab_enter(symtab_t symtab, symbol_t symbol);
 
 #endif /* !SEMA_SYMTAB_H */
