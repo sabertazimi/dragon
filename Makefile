@@ -112,6 +112,7 @@ endif
 
 debug:
 	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG)
+	make clean
 
 # vim:ft=make
 #

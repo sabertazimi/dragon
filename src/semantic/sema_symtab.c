@@ -37,7 +37,7 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type,
 
 symtab_t symtab_new(void) {
     symtab_t symtab = (symtab_t)malloc(sizeof(*symtab));
-    symtab->table = NULL;
+    symtab->table = stack_new();
     symtab->num_symbols = 0;
     return symtab;
 }
