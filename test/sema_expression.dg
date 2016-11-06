@@ -1,0 +1,6 @@
+class Main {
+    int main = (void) => {
+        int x = (3 + 5) * 8;
+        int y = 3 + 5 * 8;
+    };
+}

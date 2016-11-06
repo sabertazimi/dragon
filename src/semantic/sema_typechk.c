@@ -148,12 +148,14 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
 
     // search return statement node
     while (stmts) {
-        stmt_t stmt = stmts->data;
+        stmt_t stmt = (stmt_t)stmts->data;
 
         if (stmt->kind == STMT_RETURN) {
             ret_stmt = stmt_typechk(stmt);
             break;
         }
+
+        stmts = stmts->next;
     }
 
     if (ret_stmt == NULL) {

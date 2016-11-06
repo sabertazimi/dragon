@@ -15,7 +15,7 @@
 // #undef SPEC_DEBUG
 
 #define AST_DEBUG
-// #undef AST_DEBUG
+#undef AST_DEBUG
 
 #ifdef SPEC_DEBUG
     #include "spec.h"
@@ -30,6 +30,10 @@ extern int parse_failed;
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;
+
+#ifdef SPEC_DEBUG
+    stack_spec();
+#endif
 
     if (argc > 1 && (fp = fopen(argv[1], "r")) != NULL) {
         yyin = fp;
@@ -48,10 +52,6 @@ int main(int argc, char **argv) {
 
 #ifdef AST_DEBUG
     prog_print(prog_tree);
-#endif
-
-#ifdef SPEC_DEBUG
-    stack_spec();
 #endif
 
     if (sema_analysis(prog_tree) == 0) {

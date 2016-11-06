@@ -35,7 +35,8 @@ INCLUDE_PATH=src/libs 		\
 # test enable flags
 LEX_TEST=0
 SYNTAX_TEST=0
-AST_TEST=1
+AST_TEST=0
+SEMA_TEST=1
 
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
@@ -109,6 +110,14 @@ ifeq ($(AST_TEST), 1)
 	@echo '>>>' Ast Test Passed! '<<<'
 	@echo
 endif
+ifeq ($(SEMA_TEST), 1)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "sema_*"), echo "\n>>> Semantic test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	@echo
+	@echo '>>>' Semantic Test Passed! '<<<'
+	@echo
+endif
+
+
 
 debug:
 	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG)
