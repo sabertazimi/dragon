@@ -28,6 +28,7 @@ typedef enum type_kind {
 typedef struct type {
     type_kind_t kind;
     yyltype loc;
+    scope_t env;
 } *type_t;
 
 /*
@@ -36,6 +37,7 @@ typedef struct type {
 typedef struct type_basic {
     type_kind_t kind;
     yyltype loc;
+    scope_t env;
 } *type_basic_t;
 
 /*
@@ -44,6 +46,7 @@ typedef struct type_basic {
 typedef struct type_class {
     type_kind_t kind;
     yyltype loc;
+    scope_t env;
     string class_id;
 } *type_class_t;
 
@@ -53,6 +56,7 @@ typedef struct type_class {
 typedef struct type_array {
     type_kind_t kind;
     yyltype loc;
+    scope_t env;
     type_t type;
 } *type_array_t;
 

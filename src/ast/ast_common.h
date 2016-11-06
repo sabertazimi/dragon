@@ -13,5 +13,6 @@
 #include <string.h>
 #include "libs.h"
 #include "../scanner.h"
+#include "sema_scope.h"
 
 #endif /* !AST_COMMON_H */

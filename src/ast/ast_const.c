@@ -11,7 +11,8 @@ const_t const_num_new(const_kind_t kind, yyltype loc, int value) {
     const_num_t p = (const_num_t)malloc(sizeof(*p));
     p->kind = kind;
     p->loc = loc;
-    p->value = value;   return (const_t)p;
+    p->value = value;
+    return (const_t)p;
 }
 
 const_t const_string_new(const_kind_t kind, yyltype loc, string text) {
