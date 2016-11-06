@@ -18,6 +18,7 @@ struct _scope_ {
     scope_t super;              ///< scope from super class
     symtab_t class_defs;        ///< for global scope
     symtab_t var_defs;          ///< for class/function scope
+    symtab_t formal_defs;       ///< for function scope
     symtab_t func_normal_defs;  ///< for class scope
     symtab_t func_anony_defs;   ///< for function scope(ignore func_anony_defs as class fields)
 };
@@ -26,7 +27,7 @@ struct _scope_ {
  * @brief: create a new scope
  */
 scope_t scope_new(scope_t super, scope_t parent,
-        symtab_t class_defs, symtab_t var_defs,
+        symtab_t class_defs, symtab_t var_defs, symtab_t formal_defs,
         symtab_t func_normal_defs, symtab_t func_anony_defs);
 
 /*

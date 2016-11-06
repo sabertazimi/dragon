@@ -53,6 +53,8 @@ symbol_t symtab_lookup(symtab_t symtab, const char *id) {
 }
 
 symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
+    if (symtab == NULL) return NULL;
+
     symbol_t exist = symtab_lookup(symtab, symbol->id);
 
     if (exist != NULL) {

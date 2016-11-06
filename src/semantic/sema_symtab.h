@@ -15,6 +15,7 @@
  */
 typedef enum symbol_kind {
     SYMBOL_VAR_DEF,
+    SYMBOL_FORMAL_DEF,
     SYMBOL_FUNC_NORMAL_DEF,
     SYMBOL_FUNC_ANONY_DEF,
     SYMBOL_CLASS_DEF
@@ -39,10 +40,14 @@ struct _symbol_ {
 typedef struct _symtab_ *symtab_t;
 
 struct _symtab_ {
-    // symtab_kind_t kind;
     stack_t table;      ///< stack_t <symbol_t>
     int num_symbols;
 };
+
+/*
+ * @brief: create a new symbol
+ */
+symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *def);
 
 /*
  * @brief: create a empty symbol table
