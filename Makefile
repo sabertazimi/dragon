@@ -13,6 +13,8 @@ LEX=flex
 LFLAGS=
 YACC=bison
 YFLAGS=-dv
+GDB=gdb
+GFLAGS= -q -x tools/gdbinit
 RM=rm -fr
 MKDIR=mkdir -p
 MV=mv
@@ -69,7 +71,7 @@ $(PROG): $(OBJS)
 	@echo
 	@echo '>>>' Build Success! '<<<'
 
-.PHONY = clean release run count spec
+.PHONY = clean release run count spec debug
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
@@ -107,6 +109,9 @@ ifeq ($(AST_TEST), 1)
 	@echo '>>>' Ast Test Passed! '<<<'
 	@echo
 endif
+
+debug:
+	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG)
 
 # vim:ft=make
 #
