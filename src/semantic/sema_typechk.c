@@ -157,6 +157,8 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
     }
 
     if (ret_stmt == NULL) {
+        typechk_failed = 1;
+        dragon_report(node->loc, "missing return statement");
         ret_stmt = (type_t)type_basic_new(TYPE_VOID, node->loc);
         ret_stmt->env = node->scope;
     }
