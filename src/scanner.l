@@ -70,7 +70,7 @@ hexical [a-fA-F0-9]
     current_column = 1;
 
     if (YYSTATE == SRCBUF) {
-        srcbuf_append("\0");
+        srcbuf_append("\n");
     } else {
         yy_push_state(SRCBUF);
     }
@@ -305,6 +305,10 @@ void dragon_comment(void) {
          prev = '\0';
 
     while ((ch = input()) != '\0' && ch != EOF) {
+        if (ch == '\n') {
+            srcbuf_append("\n");
+        }
+
         if (prev == '*' && ch == '/') {
             return;
         } else {
