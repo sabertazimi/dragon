@@ -16,6 +16,10 @@ char *type_name(type_t node) {
     char *typestr = (char *)malloc(sizeof(char) * 80);
     memset(typestr, '\0', 80);
 
+    if (node == NULL) {
+        return typestr;
+    }
+
     switch (node->kind) {
         case TYPE_INT:
             strcat(typestr, "int");
@@ -56,6 +60,11 @@ char *type_name(type_t node) {
 int typechk(type_t left, type_t right) {
     int equality;
 
+    if (left == NULL || right == NULL) {
+        equality = 0;
+        return equality;
+    }
+
     if (left->kind != right->kind) {
         equality = 0;
     } else if (left->kind == TYPE_INT ||
@@ -81,6 +90,10 @@ int typechk(type_t left, type_t right) {
 }
 
 type_t type_typechk(type_t node) {
+    if (node == NULL) {
+        return NULL;
+    }
+
     if (node->kind == TYPE_CLASS) {
         type_class_t p = (type_class_t)node;
         symbol_t class_def = scope_lookup(glb_scope, p->class_id);
