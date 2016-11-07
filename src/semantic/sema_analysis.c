@@ -218,10 +218,10 @@ static void scope_setup_expr(expr_t node) {
                     symbol->id = strdup(str);
                     scope_enter(pp->env, symbol);
 
+                    // set up scope list(particularly, func_body->scope->parent = pp->env)
                     pp->func_body->type->env = pp->env;
+                    pp->func_body->scope->parent = pp->env;
                     scope_setup_func_anony_def(pp->func_body);
-
-                    // dragon_log("anony func symbol id: %s", symbol->id);
 
                     break;
                 }

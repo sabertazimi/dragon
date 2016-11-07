@@ -24,17 +24,6 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type,
     return symbol;
 }
 
-/*
- * when travel ast tree first time, set up all scope_t in class_def_t or func_def_t
- * 1. create empty scope
- * 2. bind a specific def_t to a symbol_t (set up id -> def_t mapping)
- * 3. add symbol_t to scope->symtab_t
- *
- * when travel ast tree second time, start to truly semantic analysis(e.g type check)
- *
- * @TODO: set up scope list
- */
-
 symtab_t symtab_new(void) {
     symtab_t symtab = (symtab_t)malloc(sizeof(*symtab));
     symtab->table = stack_new();

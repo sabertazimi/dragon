@@ -534,14 +534,16 @@ type_t expr_prim_typechk(expr_prim_t p) {
         {
             expr_prim_newarray_t pp = (expr_prim_newarray_t)p;
 
-            ret = type_typechk(pp->type);
-
             type_t length = expr_typechk(pp->length);
 
             if (length->kind != TYPE_INT) {
                 typechk_failed = 1;
                 dragon_report(pp->length->loc, "array subscript is not an integer");
             }
+
+            type_t arr_type = type_typechk(pp->type);
+            ret = type_array_new(TYPE_ARRAY, arr_type->loc, arr_type);
+            ret->env = arr_type->env;
 
             break;
         }
