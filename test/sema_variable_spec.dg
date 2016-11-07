@@ -3,6 +3,7 @@ class Variable {
     bool archer_lancer= true;
     string _Assassin = "yaoli";
     bool[] cASTer = new bool[10];
+    int[][] arr = new int[10];
 
     int varTest = (void) => {
         bool truth = false;

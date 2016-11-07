@@ -16,6 +16,8 @@ class Mac extends Computer {
      * @override
      */
     int crash = (int numTimes) => {
+        this.Cpu = numTimes;
+        this.cpu = numTimes;
         Print("ack!");
         return numTimes + 1;
     };

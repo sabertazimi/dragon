@@ -100,7 +100,7 @@ type_t type_typechk(type_t node) {
 
         if (class_def == NULL) {
             typechk_failed = 1;
-            dragon_report(node->loc, "undefined class %s", p->class_id);
+            dragon_report(node->loc, "undefined class '%s'", p->class_id);
         }
     } else if (node->kind == TYPE_ARRAY) {
         type_array_t p = (type_array_t)node;
@@ -131,7 +131,8 @@ type_t const_typechk(const_t node) {
             ret->env = node->env;
             break;
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             typechk_failed = 1;
             dragon_report(node->loc, "unkown const");
             break;
@@ -340,7 +341,8 @@ type_t expr_left_typechk(expr_left_t node) {
             type_t index = expr_typechk((expr_t)p->index);
 
             if (array->kind != TYPE_ARRAY) {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                ret->env = p->env;
                 typechk_failed = 1;
                 dragon_report(p->array->loc, "subscripted value is neither array nor vector");
             } else {
@@ -360,19 +362,22 @@ type_t expr_left_typechk(expr_left_t node) {
             expr_left_class_field_t p = (expr_left_class_field_t)node;
 
             if (p->left->sub_kind != EXPR_LEFT_THIS) {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                ret->env = p->env;
                 typechk_failed = 1;
                 dragon_report(p->loc, "invalid access to private class field");
             } else {
                 symbol_t symbol = scope_lookup(p->env->parent, p->field_id);
 
                 if (symbol == NULL) {
-                    ret = NULL;
+                    ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                    ret->env = p->env;
                     typechk_failed = 1;
                     dragon_report(p->loc, "invalid access to non-exist class field");
                 } else {
                     if (symbol->kind == SYMBOL_CLASS_DEF) {
-                        ret = NULL;
+                        ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                        ret->env = p->env;
                         typechk_failed = 1;
                         dragon_report(p->loc, "invalid access to non-exist class field");
                     } else {
@@ -394,9 +399,10 @@ type_t expr_left_typechk(expr_left_t node) {
 
                 // class not exist
                 if (class_def == NULL) {
-                    ret = NULL;
+                    ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                    ret->env = p->env;
                     typechk_failed = 1;
-                    dragon_report(p->left->loc, "undefined class %s", left->class_id);
+                    dragon_report(p->left->loc, "undefined class '%s'", left->class_id);
                     break;
                 }
 
@@ -405,7 +411,8 @@ type_t expr_left_typechk(expr_left_t node) {
 
                 // field not exist
                 if (symbol == NULL) {
-                    ret = NULL;
+                    ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                    ret->env = p->env;
                     typechk_failed = 1;
                     dragon_report(p->loc, "invalid access to non-exist class field");
                 } else {
@@ -413,19 +420,22 @@ type_t expr_left_typechk(expr_left_t node) {
 
                     // this is a class_def symbol(not a variable)
                     if (symbol->kind == SYMBOL_CLASS_DEF) {
-                        ret = NULL;
+                        ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                        ret->env = p->env;
                         typechk_failed = 1;
                         dragon_report(p->left->loc, "invalid access to non-exist class field");
                     } else if (!arguments_typechk(func->formals, p->actuals)) {
                         ret = func->type;
                         typechk_failed = 1;
-                        dragon_report(p->loc, "incompatible arguments when call %s", func->id);
+                        dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call '%s'", func->id);
                     } else {
                         ret = func->type;
                     }
                 }
             } else {
-                ret = NULL;
+                // left is not class
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                ret->env = p->env;
                 typechk_failed = 1;
                 dragon_report(p->left->loc, "invalid access to field of a non-class variable");
             }
@@ -439,7 +449,8 @@ type_t expr_left_typechk(expr_left_t node) {
 
             // function not exist in this scope
             if (symbol == NULL) {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                ret->env = p->env;
                 typechk_failed = 1;
                 dragon_report(p->loc, "invalid access to non-exist class field");
             } else {
@@ -448,13 +459,14 @@ type_t expr_left_typechk(expr_left_t node) {
 
                 // this is a class_def symbol(not a function)
                 if (symbol->kind == SYMBOL_CLASS_DEF) {
-                    ret = NULL;
+                    ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                    ret->env = p->env;
                     typechk_failed = 1;
                     dragon_report(p->loc, "invalid access to non-exist class field");
                 } else if (!arguments_typechk(func->formals, p->actuals)) {
                     ret = func->type;
                     typechk_failed = 1;
-                    dragon_report(p->loc, "incompatible arguments when call %s", func->id);
+                    dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call '%s'", func->id);
                 } else {
                     ret = func->type;
                 }
@@ -475,13 +487,14 @@ type_t expr_left_typechk(expr_left_t node) {
             // type check between formal and actual arguments
             if (!arguments_typechk(func->formals, p->actuals)) {
                     typechk_failed = 1;
-                    dragon_report(p->loc, "incompatible arguments when call this anonymous function");
+                    dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call this anonymous function");
             }
 
             break;
         }
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             typechk_failed = 1;
             dragon_report(node->loc, "unkown expression");
             break;
@@ -500,9 +513,10 @@ type_t expr_prim_typechk(expr_prim_t p) {
             symbol_t symbol = scope_lookup(pp->env, pp->id);
 
             if (symbol == NULL) {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, pp->loc);
+                ret->env = pp->env;
                 typechk_failed = 1;
-                dragon_report(pp->loc, "undefined %s", pp->id);
+                dragon_report(pp->loc, "undefined identifier '%s'", pp->id);
             } else {
                 ret = symbol->type;
             }
@@ -535,9 +549,10 @@ type_t expr_prim_typechk(expr_prim_t p) {
             symbol_t class_def = scope_lookup(glb_scope, pp->id);
 
             if (class_def == NULL) {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, pp->loc);
+                ret->env = pp->env;
                 typechk_failed = 1;
-                dragon_report(p->loc, "undefined class %s", pp->id);
+                dragon_report(p->loc, "undefined class '%s'", pp->id);
             } else {
                 ret = type_class_new(TYPE_CLASS, pp->loc, pp->id);
                 ret->env = pp->env;
@@ -563,7 +578,8 @@ type_t expr_prim_typechk(expr_prim_t p) {
             break;
         }
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+            ret->env = p->env;
             typechk_failed = 1;
             dragon_report(p->loc, "unkown unary expression");
     }
@@ -642,7 +658,8 @@ type_t expr_typechk(expr_t node) {
             break;
         }
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             typechk_failed = 1;
             dragon_report(node->loc, "unkown expression");
             break;
@@ -675,7 +692,7 @@ type_t stmt_typechk(stmt_t node) {
             if (p->expr) {
                 ret = expr_typechk(p->expr);
             } else {
-                ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
                 ret->env = p->env;
             }
 
@@ -692,7 +709,8 @@ type_t stmt_typechk(stmt_t node) {
                 stmts_typechk(p->body_else);
             }
 
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+            ret->env = p->env;
             break;
         }
         case STMT_WHILE:
@@ -701,7 +719,8 @@ type_t stmt_typechk(stmt_t node) {
             expr_typechk((expr_t)p->cond);
             stmts_typechk(p->body);
 
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+            ret->env = p->env;
             break;
         }
         case STMT_FOR:
@@ -713,7 +732,8 @@ type_t stmt_typechk(stmt_t node) {
             expr_typechk((expr_t)p->cond);
             stmts_typechk(p->body);
 
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+            ret->env = p->env;
             break;
         }
         case STMT_RETURN:
@@ -723,7 +743,7 @@ type_t stmt_typechk(stmt_t node) {
             if (p->ret_val) {
                 ret = expr_typechk(p->ret_val);
             } else {
-                ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
                 ret->env = p->env;
             }
 
@@ -736,7 +756,8 @@ type_t stmt_typechk(stmt_t node) {
             break;
         }
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             break;
     }
 
@@ -810,13 +831,15 @@ type_t field_typechk(field_t node) {
                 func_normal_def_t pp = (func_normal_def_t)p->func_def;
                 ret = func_normal_def_typechk(pp);
             } else {
-                ret = NULL;
+                ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
+                ret->env = p->env;
             }
 
             break;
         }
         default:
-            ret = NULL;
+            ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
+            ret->env = node->env;
             break;
     }
 
