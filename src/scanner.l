@@ -56,6 +56,7 @@ hexical [a-fA-F0-9]
 }
 
 <SRCBUF><<EOF>> {
+    srcbuf_append("\n");
     // exit SRCBUF lex state
     yy_pop_state();
 

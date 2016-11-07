@@ -13,14 +13,6 @@ class "KaliLinux" {
 }
 
 // syntax error: unmatched {}
-class LinuxMint {
-    int cpu;
-
-    int getCPU = (void) => {
-        return cpu;
-    };
-
-// syntax error: unmatched {}
 class GentooLinux 
     int cpu;
 
@@ -29,4 +21,10 @@ class GentooLinux
     };
 }
 
+// syntax error: unmatched {}
+class LinuxMint {
+    int cpu;
 
+    int getCPU = (void) => {
+        return cpu;
+    };
