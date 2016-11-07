@@ -110,7 +110,6 @@ type_t type_typechk(type_t node) {
     return node;
 }
 
-
 type_t const_typechk(const_t node) {
     type_t ret;   ///< store result of type check
 
@@ -372,7 +371,6 @@ type_t expr_left_typechk(expr_left_t node) {
                     typechk_failed = 1;
                     dragon_report(p->loc, "invalid access to non-exist class field");
                 } else {
-                    // @FIXME: maybe bugs(segment fault)
                     if (symbol->kind == SYMBOL_CLASS_DEF) {
                         ret = NULL;
                         typechk_failed = 1;
@@ -394,6 +392,7 @@ type_t expr_left_typechk(expr_left_t node) {
                 type_class_t left = (type_class_t)_left;
                 symbol_t class_def = scope_lookup(glb_scope, left->class_id);
 
+                // class not exist
                 if (class_def == NULL) {
                     ret = NULL;
                     typechk_failed = 1;
@@ -404,6 +403,7 @@ type_t expr_left_typechk(expr_left_t node) {
                 class_def_t _class_def = (class_def_t)class_def->def;
                 symbol_t symbol = scope_lookup(_class_def->scope, p->field_id);
 
+                // field not exist
                 if (symbol == NULL) {
                     ret = NULL;
                     typechk_failed = 1;
@@ -411,12 +411,13 @@ type_t expr_left_typechk(expr_left_t node) {
                 } else {
                     func_normal_def_t func = (func_normal_def_t)symbol->def;
 
+                    // this is a class_def symbol(not a variable)
                     if (symbol->kind == SYMBOL_CLASS_DEF) {
                         ret = NULL;
                         typechk_failed = 1;
                         dragon_report(p->left->loc, "invalid access to non-exist class field");
                     } else if (!arguments_typechk(func->formals, p->actuals)) {
-                        ret = NULL;
+                        ret = func->type;
                         typechk_failed = 1;
                         dragon_report(p->loc, "incompatible arguments when call %s", func->id);
                     } else {
@@ -436,6 +437,7 @@ type_t expr_left_typechk(expr_left_t node) {
             expr_left_func_call_t p = (expr_left_func_call_t)node;
             symbol_t symbol = scope_lookup(p->env->parent, p->id);
 
+            // function not exist in this scope
             if (symbol == NULL) {
                 ret = NULL;
                 typechk_failed = 1;
@@ -444,12 +446,13 @@ type_t expr_left_typechk(expr_left_t node) {
                 ret = symbol->type;
                 func_normal_def_t func = (func_normal_def_t)symbol->def;
 
+                // this is a class_def symbol(not a function)
                 if (symbol->kind == SYMBOL_CLASS_DEF) {
                     ret = NULL;
                     typechk_failed = 1;
                     dragon_report(p->loc, "invalid access to non-exist class field");
                 } else if (!arguments_typechk(func->formals, p->actuals)) {
-                    ret = NULL;
+                    ret = func->type;
                     typechk_failed = 1;
                     dragon_report(p->loc, "incompatible arguments when call %s", func->id);
                 } else {
@@ -461,8 +464,20 @@ type_t expr_left_typechk(expr_left_t node) {
         }
         case EXPR_LEFT_ANONY_CALL:
         {
-            // @TODO: implement type check for anonymous function call
-            ret = NULL;
+            expr_left_anony_call_t p = (expr_left_anony_call_t)node;
+            func_anony_def_t func = p->func_body;
+
+            // function type check
+            ret = func_normal_def_typechk((func_normal_def_t)func);
+            // actual arguments type check
+            actuals_typechk(p->actuals);
+
+            // type check between formal and actual arguments
+            if (!arguments_typechk(func->formals, p->actuals)) {
+                    typechk_failed = 1;
+                    dragon_report(p->loc, "incompatible arguments when call this anonymous function");
+            }
+
             break;
         }
         default:
@@ -818,6 +833,3 @@ void fields_typechk(list_t fields) {
 void prog_typechk(prog_t prog) {
     class_defs_typechk(prog->class_defs);
 }
-
-
-

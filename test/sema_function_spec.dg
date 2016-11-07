@@ -25,7 +25,7 @@ class Function {
         int sayHelloVar = int (void) => {
             Print("Hello World!\n");
             return 0;
-        }();
+        }(3);
 
         return addr;
     };
