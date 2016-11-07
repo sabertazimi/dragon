@@ -11,7 +11,16 @@ extern int symtab_failed;
 extern int typechk_failed;
 extern void dragon_report(yyltype, const char *, ...);
 
-scope_t glb_scope;
+static void scope_setup_glb(prog_t prog);
+static void scope_setup_type(type_t node);
+static void scope_setup_expr(expr_t node);
+static void scope_setup_stmt(stmt_t node);
+static void scope_setup_func_normal_def(func_normal_def_t func_def);
+static void scope_setup_func_anony_def(func_anony_def_t func_def);
+static void scope_setup_class_def(class_def_t class_def);
+static void scope_setup_class_defs(list_t class_defs);
+
+scope_t glb_scope;  ///< top scope
 
 int sema_analysis(prog_t prog) {
     scope_setup(prog);
@@ -24,12 +33,33 @@ int sema_analysis(prog_t prog) {
     }
 }
 
-static void scope_setup_glb(prog_t prog);
-static void scope_setup_class_def(class_def_t class_def);
-static void scope_setup_class_defs(list_t class_defs);
-static void scope_setup_func_normal_def(func_normal_def_t func_def);
-static void scope_setup_func_anony_def(func_anony_def_t func_def);
-static void scope_setup_expr(expr_t node);
+void scope_setup(prog_t prog) {
+    scope_setup_glb(prog);
+    scope_setup_class_defs(prog->class_defs);
+}
+
+static void scope_setup_glb(prog_t prog) {
+    // set up global scope: add all class_def_t to global scope
+    glb_scope = scope_new(NULL, NULL, symtab_new(), NULL, NULL, NULL, NULL);
+
+    // record Main class exist whether or not
+    static int main_class_exist = 0;
+
+    for (list_t class_defs = prog->class_defs; class_defs != NULL; class_defs = class_defs->next) {
+        class_def_t class_def = (class_def_t)class_defs->data;
+        scope_enter(glb_scope, symbol_new(SYMBOL_CLASS_DEF, class_def->loc, class_def->id, type_class_new(TYPE_CLASS, class_def->loc, class_def->id), class_def));
+
+        if (!strcmp(class_def->id, "Main")) {
+            main_class_exist = 1;
+        }
+    }
+
+    // Main class not exist
+    if (main_class_exist == 0) {
+        symtab_failed = 1;
+        dragon_report(prog->loc, "missing 'Main' class");
+    }
+}
 
 static void scope_setup_type(type_t node) {
     if (node->kind == TYPE_ARRAY) {
@@ -241,47 +271,6 @@ static void scope_setup_expr(expr_t node) {
     }
 }
 
-void scope_setup(prog_t prog) {
-    scope_setup_glb(prog);
-    scope_setup_class_defs(prog->class_defs);
-}
-
-static void scope_setup_class_defs(list_t class_defs) {
-    for (list_t _class_defs = class_defs; _class_defs != NULL; _class_defs = _class_defs->next) {
-        class_def_t class_def = (class_def_t)_class_defs->data;
-        class_def->scope->parent = glb_scope;
-        scope_setup_class_def(class_def);
-    }
-
-    // set up scope link between super class and extends class
-    for (list_t _class_defs = class_defs; _class_defs != NULL; _class_defs = _class_defs->next) {
-        class_def_t class_def = (class_def_t)_class_defs->data;
-
-        // has super class
-        if (strcmp(class_def->super, "\0")) {
-            for (list_t super_defs = class_defs; super_defs != NULL; super_defs = super_defs->next) {
-                class_def_t super_def = (class_def_t)super_defs->data;
-
-                if (!strcmp(class_def->super, super_def->id)) {
-                    class_def->scope->super = super_def->scope;
-                    break;
-                }
-            }
-        }
-    }
-
-}
-
-static void scope_setup_glb(prog_t prog) {
-    // set up global scope: add all class_def_t to global scope
-    glb_scope = scope_new(NULL, NULL, symtab_new(), NULL, NULL, NULL, NULL);
-
-    for (list_t class_defs = prog->class_defs; class_defs != NULL; class_defs = class_defs->next) {
-        class_def_t class_def = (class_def_t)class_defs->data;
-        scope_enter(glb_scope, symbol_new(SYMBOL_CLASS_DEF, class_def->loc, class_def->id, type_class_new(TYPE_CLASS, class_def->loc, class_def->id), class_def));
-    }
-}
-
 static void scope_setup_stmt(stmt_t node) {
     switch (node->kind) {
         case STMT_EXPR:
@@ -414,44 +403,6 @@ static void scope_setup_stmt(stmt_t node) {
     }
 }
 
-static void scope_setup_func_anony_def(func_anony_def_t func_def) {
-    for (list_t formals = func_def->formals; formals != NULL; formals = formals->next) {
-        formal_t formal = (formal_t)formals->data;
-        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal->type, formal));
-        formal->env = func_def->scope;
-        formal->type->env = func_def->scope;
-        scope_setup_type(formal->type);
-    }
-
-    for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
-        stmt_t s = (stmt_t)stmts->data;
-
-        if (s->kind == STMT_VAR_DEF) {
-            stmt_var_def_t ss = (stmt_var_def_t)s;
-            var_def_t var_def = ss->var_def;
-
-            // insert a new def symbol
-            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def->type, var_def));
-
-            // set up scope list
-            var_def->env = func_def->scope;
-            var_def->type->env = func_def->scope;
-            scope_setup_type(var_def->type);
-
-            if (var_def->initializer) {
-                var_def->initializer->env = func_def->scope;
-                scope_setup_expr((expr_t)var_def->initializer);
-            }
-        }
-
-        // set up scope list
-        s->env = func_def->scope;
-
-        // set up scope of stmt
-        scope_setup_stmt(s);
-    }
-}
-
 static void scope_setup_func_normal_def(func_normal_def_t func_def) {
     for (list_t formals = func_def->formals; formals != NULL; formals = formals->next) {
         formal_t formal = (formal_t)formals->data;
@@ -490,7 +441,48 @@ static void scope_setup_func_normal_def(func_normal_def_t func_def) {
     }
 }
 
+static void scope_setup_func_anony_def(func_anony_def_t func_def) {
+    for (list_t formals = func_def->formals; formals != NULL; formals = formals->next) {
+        formal_t formal = (formal_t)formals->data;
+        scope_enter(func_def->scope, symbol_new(SYMBOL_FORMAL_DEF, formal->loc, formal->id, formal->type, formal));
+        formal->env = func_def->scope;
+        formal->type->env = func_def->scope;
+        scope_setup_type(formal->type);
+    }
+
+    for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
+        stmt_t s = (stmt_t)stmts->data;
+
+        if (s->kind == STMT_VAR_DEF) {
+            stmt_var_def_t ss = (stmt_var_def_t)s;
+            var_def_t var_def = ss->var_def;
+
+            // insert a new def symbol
+            scope_enter(func_def->scope, symbol_new(SYMBOL_VAR_DEF, var_def->loc, var_def->id, var_def->type, var_def));
+
+            // set up scope list
+            var_def->env = func_def->scope;
+            var_def->type->env = func_def->scope;
+            scope_setup_type(var_def->type);
+
+            if (var_def->initializer) {
+                var_def->initializer->env = func_def->scope;
+                scope_setup_expr((expr_t)var_def->initializer);
+            }
+        }
+
+        // set up scope list
+        s->env = func_def->scope;
+
+        // set up scope of stmt
+        scope_setup_stmt(s);
+    }
+}
+
 static void scope_setup_class_def(class_def_t class_def) {
+    // search for main method of Main class
+    static int main_method_exist = 0;
+
     for (list_t fields = class_def->fields; fields != NULL; fields = fields->next) {
         field_t field = (field_t)fields->data;
 
@@ -523,6 +515,12 @@ static void scope_setup_class_def(class_def_t class_def) {
                 if (p->func_def->kind == FUNC_NORMAL_DEF) {
                     func_normal_def_t func_def = (func_normal_def_t)p->func_def;
 
+                    if (!strcmp(class_def->id, "Main")) {
+                        if (!strcmp(func_def->id, "main")) {
+                            main_method_exist = 1;
+                        }
+                    }
+
                     // insert new def symbol
                     scope_enter(class_def->scope, symbol_new(SYMBOL_FUNC_NORMAL_DEF, func_def->loc, func_def->id, func_def->type, func_def));
 
@@ -540,4 +538,38 @@ static void scope_setup_class_def(class_def_t class_def) {
             }
         }
     }
+
+    // main method not exist in Main class
+    if (!strcmp(class_def->id, "Main")) {
+        if (main_method_exist == 0) {
+            symtab_failed = 1;
+            dragon_report(class_def->loc, "missing 'main' method in 'Main' class");
+        }
+    }
+}
+
+static void scope_setup_class_defs(list_t class_defs) {
+    for (list_t _class_defs = class_defs; _class_defs != NULL; _class_defs = _class_defs->next) {
+        class_def_t class_def = (class_def_t)_class_defs->data;
+        class_def->scope->parent = glb_scope;
+        scope_setup_class_def(class_def);
+    }
+
+    // set up scope link between super class and extends class
+    for (list_t _class_defs = class_defs; _class_defs != NULL; _class_defs = _class_defs->next) {
+        class_def_t class_def = (class_def_t)_class_defs->data;
+
+        // has super class
+        if (strcmp(class_def->super, "\0")) {
+            for (list_t super_defs = class_defs; super_defs != NULL; super_defs = super_defs->next) {
+                class_def_t super_def = (class_def_t)super_defs->data;
+
+                if (!strcmp(class_def->super, super_def->id)) {
+                    class_def->scope->super = super_def->scope;
+                    break;
+                }
+            }
+        }
+    }
+
 }

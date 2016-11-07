@@ -16,7 +16,7 @@ void dragon_debug(const char *type, const char *value) {
 
 void dragon_report(yyltype loc, const char *fmt, ...) {
     // print location information
-    fprintf(stderr, "*** %d:%d: ", loc.first_line, loc.first_column);
+    fprintf(stderr, ">>> %d:%d: ", loc.first_line, loc.first_column);
 
     // print error message
     va_list args;

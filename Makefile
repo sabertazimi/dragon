@@ -45,22 +45,22 @@ OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 
 # rules
 %.o: %.c
-	@echo '>>>' Compiling C Source Files $< ... '<<<'
+	@echo '***' Compiling C Source Files $< ... '***'
 	$(CC) $(CFLAGS) -o $@ -c $<
 	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
-	@echo '>>>' Compile $< Success! '<<<'
+	@echo '***' Compile $< Success! '***'
 
 %.c: %.l
-	@echo '>>>' Compiling Lex Source Files $< ... '<<<'
+	@echo '***' Compiling Lex Source Files $< ... '***'
 	$(MKDIR) $(OBJ_PATH)
 	$(LEX) $(LFLAGS) -o $(@:%.o=%.d) $<
-	@echo '>>>' Compile $< Success! '<<<'
+	@echo '***' Compile $< Success! '***'
 
 %.c: %.y
-	@echo '>>>' Compiling Yacc Source Files $< ... '<<<'
+	@echo '***' Compiling Yacc Source Files $< ... '***'
 	$(MKDIR) $(OBJ_PATH)
 	$(YACC) $(YFLAGS) -o $(@:%.o=%.d) $<
-	@echo '>>>' Compile $< Success! '<<<'
+	@echo '***' Compile $< Success! '***'
 
 all: $(PROG)
 
@@ -70,7 +70,7 @@ $(PROG): $(OBJS)
 	make release
 	make clean
 	@echo
-	@echo '>>>' Build Success! '<<<'
+	@echo '***' Build Success! '***'
 
 .PHONY = clean release run count spec debug
 
@@ -94,27 +94,27 @@ count:
 
 spec:
 ifeq ($(LEX_TEST), 1)
-	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n>>> Lex test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n*** Lex test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
-	@echo '>>>' Lex Test Passed! '<<<'
+	@echo '***' Lex Test Passed! '***'
 	@echo
 endif
 ifeq ($(SYNTAX_TEST), 1)
-	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\n>>> Syntax error report test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "errors_*"), echo "\n*** Syntax error report test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
-	@echo '>>>' Syntax Error Report Test Passed! '<<<'
+	@echo '***' Syntax Error Report Test Passed! '***'
 	@echo
 endif
 ifeq ($(AST_TEST), 1)
-	$(foreach filename, $(shell find $(TEST_PATH) -name "ast_*"), echo "\n>>> Ast test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "ast_*"), echo "\n*** Ast test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
-	@echo '>>>' Ast Test Passed! '<<<'
+	@echo '***' Ast Test Passed! '***'
 	@echo
 endif
 ifeq ($(SEMA_TEST), 1)
-	$(foreach filename, $(shell find $(TEST_PATH) -name "sema_*"), echo "\n>>> Semantic test for" $(filename) "<<<\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "sema_*"), echo "\n*** Semantic test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
-	@echo '>>>' Semantic Test Passed! '<<<'
+	@echo '***' Semantic Test Passed! '***'
 	@echo
 endif
 

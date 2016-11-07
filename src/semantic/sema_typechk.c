@@ -350,20 +350,20 @@ type_t expr_left_typechk(expr_left_t node) {
             if (p->left->sub_kind != EXPR_LEFT_THIS) {
                 ret = NULL;
                 typechk_failed = 1;
-                dragon_report(p->left->loc, "invalid access to private class field");
+                dragon_report(p->loc, "invalid access to private class field");
             } else {
                 symbol_t symbol = scope_lookup(p->env->parent, p->field_id);
 
                 if (symbol == NULL) {
                     ret = NULL;
                     typechk_failed = 1;
-                    dragon_report(p->left->loc, "invalid access to non-exist class field");
+                    dragon_report(p->loc, "invalid access to non-exist class field");
                 } else {
                     // @FIXME: maybe bugs(segment fault)
                     if (symbol->kind == SYMBOL_CLASS_DEF) {
                         ret = NULL;
                         typechk_failed = 1;
-                        dragon_report(p->left->loc, "invalid access to non-exist class field");
+                        dragon_report(p->loc, "invalid access to non-exist class field");
                     } else {
                         ret = symbol->type;
                     }

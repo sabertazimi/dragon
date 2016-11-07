@@ -3,6 +3,7 @@ class Function {
 
     int funcTest = (int addr) => {
         addr = 1;
+        addrr = 5;
 
         // anonymous function
         addr = int (int addr) => {
