@@ -636,13 +636,13 @@ return_stmt
     }
     | RETURN VOID ';'
     {
-        @$ = @2;
-        $$ = stmt_return_new(STMT_RETURN, @2, NULL);
+        @$ = @1;
+        $$ = stmt_return_new(STMT_RETURN, @1, NULL);
     }
     | RETURN expr ';'
     {
-        @$ = @2;
-        $$ = stmt_return_new(STMT_RETURN, @2, $2);
+        @$ = @1;
+        $$ = stmt_return_new(STMT_RETURN, @1, $2);
     }
     /* error recovery */
     | RETURN error ';'

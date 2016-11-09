@@ -1,5 +1,5 @@
 class Function {
-    int addr;
+    int addr = 1;
 
     int funcTest = (int addr) => {
         addr = 1;
@@ -28,5 +28,13 @@ class Function {
         }(3);
 
         return addr;
+    };
+
+    int missingReturn = (void) => {
+        // no return statement;
+    };
+
+    bool errorRetType = (int num) => {
+        return num;
     };
 }

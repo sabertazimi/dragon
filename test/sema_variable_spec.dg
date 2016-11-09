@@ -20,5 +20,7 @@ class Variable {
         for (i = 2; i < 10; i = i + 1) {
             cASTer[i] = cASTer[i-2] + cASTer[i-1];
         }
+        
+        return i;
     };
 }
