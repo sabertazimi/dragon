@@ -7,9 +7,26 @@
 
 #include "sema_analysis.h"
 
+/*
+ * @brief: for error report(from errors_utils.h)
+ */
+extern void dragon_report(yyltype, const char *, ...);
+
+/*
+ * @brief: for failed flags(from sema_symtab.c and sema_typchk.c)
+ */
 extern int symtab_failed;
 extern int typechk_failed;
-extern void dragon_report(yyltype, const char *, ...);
+
+/*
+ * @brief: for offset address of symbol(from sema_symtab.c)
+ */
+extern int field_var_offset;
+extern int var_def_offset;
+extern int formal_def_offset;
+extern int func_normal_def_offset;
+extern int class_def_offset;
+extern int cnt_offset;
 
 static void scope_setup_glb(prog_t prog);
 static void scope_setup_type(type_t node);
@@ -412,6 +429,9 @@ static void scope_setup_func_normal_def(func_normal_def_t func_def) {
         scope_setup_type(formal->type);
     }
 
+    // reset formal symbol offset
+    formal_def_offset = 0;
+
     for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
         stmt_t s = (stmt_t)stmts->data;
 
@@ -439,6 +459,9 @@ static void scope_setup_func_normal_def(func_normal_def_t func_def) {
         // set up scope of stmt
         scope_setup_stmt(s);
     }
+
+    // reset varaible defination symbol offset
+    var_def_offset = 0;
 }
 
 static void scope_setup_func_anony_def(func_anony_def_t func_def) {
@@ -450,6 +473,9 @@ static void scope_setup_func_anony_def(func_anony_def_t func_def) {
         scope_setup_type(formal->type);
     }
 
+    // reset formal symbol offset
+    formal_def_offset = 0;
+
     for (list_t stmts = func_def->stmts; stmts != NULL; stmts = stmts->next) {
         stmt_t s = (stmt_t)stmts->data;
 
@@ -477,6 +503,9 @@ static void scope_setup_func_anony_def(func_anony_def_t func_def) {
         // set up scope of stmt
         scope_setup_stmt(s);
     }
+
+    // reset varaible defination symbol offset
+    var_def_offset = 0;
 }
 
 static void scope_setup_class_def(class_def_t class_def) {
@@ -538,6 +567,15 @@ static void scope_setup_class_def(class_def_t class_def) {
             }
         }
     }
+
+    // @TODD: reset field variable symbol offset
+    field_var_offset = 0;
+
+    // @FIXME: should not reset varaible defination symbol offset
+    var_def_offset = 0;
+
+    // reset function defination symbol offset
+    func_normal_def_offset = 0;
 
     // main method not exist in Main class
     if (!strcmp(class_def->id, "Main")) {

@@ -11,7 +11,15 @@ extern void dragon_report(yyltype, const char *, ...);
 
 int symtab_failed = 0;
 
-static int cnt_offset = 0;
+/*
+ * @brief: for offset address of symbol
+ */
+int field_var_offset = 0;
+int var_def_offset = 0;
+int formal_def_offset = 0;
+int func_normal_def_offset = 0;
+int class_def_offset = 0;
+int cnt_offset = 0;
 
 symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type, void *def) {
     symbol_t symbol = (symbol_t)malloc(sizeof(*symbol));
@@ -20,7 +28,25 @@ symbol_t symbol_new(symbol_kind_t kind, yyltype loc, const char *id, void *type,
     symbol->id = strdup(id);
     symbol->type = type;
     symbol->def = def;
-    symbol->offset = cnt_offset++;
+
+    switch (kind) {
+        case SYMBOL_VAR_DEF:
+            symbol->offset = var_def_offset++;
+            break;
+        case SYMBOL_FORMAL_DEF:
+            symbol->offset = formal_def_offset++;
+            break;
+        case SYMBOL_FUNC_NORMAL_DEF:
+            symbol->offset = func_normal_def_offset++;
+            break;
+        case SYMBOL_CLASS_DEF:
+            symbol->offset = class_def_offset++;
+            break;
+        default:
+            symbol->offset = cnt_offset++;
+            break;
+    }
+
     return symbol;
 }
 
