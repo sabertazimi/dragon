@@ -564,6 +564,12 @@ static void scope_setup_class_defs(list_t class_defs) {
             for (list_t super_defs = class_defs; super_defs != NULL; super_defs = super_defs->next) {
                 class_def_t super_def = (class_def_t)super_defs->data;
 
+                if (!strcmp(class_def->super, "Main")) {
+                    symtab_failed = 1;
+                    dragon_report(class_def->loc, "invalid inheriting from 'Main' class");
+                    break;
+                }
+
                 if (!strcmp(class_def->super, super_def->id)) {
                     class_def->scope->super = super_def->scope;
                     break;

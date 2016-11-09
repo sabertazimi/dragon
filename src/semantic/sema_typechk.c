@@ -176,15 +176,15 @@ type_t func_normal_def_typechk(func_normal_def_t node) {
 
     if (ret_stmt == NULL) {
         typechk_failed = 1;
-        dragon_report(node->loc, "missing return statement");
+        dragon_report(node->loc, "missing return statement in function '%s'", node->id);
         ret_stmt = (type_t)type_basic_new(TYPE_VOID, node->loc);
         ret_stmt->env = node->scope;
     }
 
     if (!typechk(ret_def, ret_stmt)) {
         typechk_failed = 1;
-        dragon_report(ret_stmt->loc, "incompatible types when returning type '%s' but '%s' was expected",
-                type_name(ret_stmt), type_name(ret_def));
+        dragon_report(ret_stmt->loc, "incompatible types when returning type '%s' but '%s' was expected in function '%s'",
+                type_name(ret_stmt), type_name(ret_def), node->id);
     }
 
     stmts_typechk(node->stmts);

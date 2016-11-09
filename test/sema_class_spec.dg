@@ -24,6 +24,12 @@ class Mac extends Computer {
 
 }
 
+class Error extends Main {
+    int main = (void) => {
+        return 0;
+    };
+}
+
 class Main {
     int main = (void) => {
         this.field;

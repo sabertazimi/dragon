@@ -118,8 +118,6 @@ ifeq ($(SEMA_TEST), 1)
 	@echo
 endif
 
-
-
 debug:
 	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG) core
 # $(RM) .gdb_history
