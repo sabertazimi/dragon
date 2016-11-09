@@ -45,9 +45,10 @@ char *type_name(type_t node) {
             char buf[80];
             type_array_t p = (type_array_t)node;
             char *arr_type = type_name(p->type);
+            strcat(typestr, "array of ");
 
             if (p->length != 0) {
-                strcat(typestr, "array of [");
+                strcat(typestr, "[");
                 sprintf(buf, "%d", p->length);
                 strcat(typestr, buf);
                 strcat(typestr, "] ");
@@ -56,10 +57,6 @@ char *type_name(type_t node) {
             strcat(typestr, arr_type);
             break;
         }
-        default:
-            typechk_failed = 1;
-            dragon_report(node->loc, "unkown type");
-            break;
     }
 
     return typestr;
@@ -96,7 +93,6 @@ int typechk(type_t left, type_t right) {
     } else {
         equality = 0;
         typechk_failed = 1;
-        dragon_report(left->loc, "unkown type");
     }
 
     return equality;
@@ -147,7 +143,6 @@ type_t const_typechk(const_t node) {
             ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
             ret->env = node->env;
             typechk_failed = 1;
-            dragon_report(node->loc, "unkown const");
             break;
     }
 
@@ -386,7 +381,6 @@ type_t expr_unary_typechk(expr_unary_t node) {
             break;
         default:
             typechk_failed = 1;
-            dragon_report(node->loc, "unkown unary expression");
             break;
     }
 
@@ -559,7 +553,6 @@ type_t expr_left_typechk(expr_left_t node) {
             ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
             ret->env = node->env;
             typechk_failed = 1;
-            dragon_report(node->loc, "unkown expression");
             break;
     }
 
@@ -644,7 +637,7 @@ type_t expr_prim_typechk(expr_prim_t p) {
             ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
             ret->env = p->env;
             typechk_failed = 1;
-            dragon_report(p->loc, "unkown unary expression");
+            break;
     }
 
     return ret;
@@ -724,7 +717,6 @@ type_t expr_typechk(expr_t node) {
             ret = (type_t)type_basic_new(TYPE_VOID, node->loc);
             ret->env = node->env;
             typechk_failed = 1;
-            dragon_report(node->loc, "unkown expression");
             break;
     }
 

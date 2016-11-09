@@ -10,7 +10,7 @@ PROG=dragon
 CC=gcc
 CFLAGS=-Wall -Wextra -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
-LFLAGS=
+LFLAGS=-v
 YACC=bison
 YFLAGS=-dv
 GDB=gdb

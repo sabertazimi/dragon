@@ -1,6 +1,17 @@
 class Main {
+
+    bool[] bool_arr = new bool[10];
+    int[] int_arr = new int[10];
+     
     int main = (void) => {
-        int x = (3 + 5) * 8;
-        int y = 3 + 5 * 8;
+        // incompatible assignent to 'bool' from 'int'
+        bool_arr[1] = bool_arr[0] = 1;
+
+        // incompatible arthimetic types
+        bool_arr[2] = bool_arr[0] + bool_arr[1];
+
+        // incompatible logic types
+        int_arr[1] = int_arr[0] = true;
+        int_arr[2] = int_arr[1] && int_arr[0];
     };
 }

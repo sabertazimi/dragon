@@ -16,9 +16,14 @@ class Mac extends Computer {
      * @override
      */
     int crash = (int numTimes) => {
+        // non-exist field both in this and super
         this.Cpu = numTimes;
+
+        // inherits from super
         this.cpu = numTimes;
+
         Print("ack!");
+
         return numTimes + 1;
     };
 
@@ -32,9 +37,16 @@ class Error extends Main {
 
 class Main {
     int main = (void) => {
-        this.field;
+        // undefined class
+        class UnkownType unkown;
+
+        // invalid access to non-exist field
+        int a = this.field;
+
         class Mac powerbook;
+
         powerbook = new Mac();
+
         powerbook.Crash(2);
         return 0;
     };

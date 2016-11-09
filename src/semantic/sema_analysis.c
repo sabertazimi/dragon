@@ -42,8 +42,8 @@ scope_t glb_scope;  ///< top scope
 int sema_analysis(prog_t prog) {
     scope_setup(prog);
 
-    // prog_typechk(prog);
-    symtabs_print(prog);
+    prog_typechk(prog);
+    // symtabs_print(prog);
 
     if (symtab_failed == 1 || typechk_failed == 1) {
         return 0;

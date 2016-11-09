@@ -86,7 +86,7 @@ symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
 
     if (exist != NULL) {
         symtab_failed = 1;
-        dragon_report(symbol->loc, "redefined %s", symbol->id);
+        dragon_report(symbol->loc, "redefined '%s'", symbol->id);
         return NULL;
     } else {
         stack_push(symtab->table, symbol);

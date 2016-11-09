@@ -5,23 +5,7 @@ class Function {
         addr = 1;
         addrr = 5;
 
-        // anonymous function
-        addr = int (int addr) => {
-            return addr * 2;
-        }(addr);
-
-        // closure
-        addr = int (void) => {
-            return addr + 5;
-        }();
-
-        // function defination
-        // int sayHelloFunc = (void) => {
-        //    Print("Hello World!\n");
-        //    return 0;
-        //};
-
-        // anonymous fucntions invoking, then assign return value to a variable
+        // incompatiable between formals and actuals
         int sayHelloVar = int (void) => {
             Print("Hello World!\n");
             return 0;
@@ -30,11 +14,19 @@ class Function {
         return addr;
     };
 
-    int missingReturn = (void) => {
+    void missingReturn = (void) => {
         // no return statement;
     };
 
     bool errorRetType = (int num) => {
         return num;
+    };
+}
+
+class Main {
+    int main = (void) => {
+        class Function func = new Function();
+        int a = func.nonExistFunction;
+        return a;
     };
 }
