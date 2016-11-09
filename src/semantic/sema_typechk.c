@@ -42,9 +42,17 @@ char *type_name(type_t node) {
         }
         case TYPE_ARRAY:
         {
+            char buf[80];
             type_array_t p = (type_array_t)node;
             char *arr_type = type_name(p->type);
-            strcat(typestr, "array of ");
+
+            if (p->length != 0) {
+                strcat(typestr, "array of [");
+                sprintf(buf, "%d", p->length);
+                strcat(typestr, buf);
+                strcat(typestr, "] ");
+            }
+
             strcat(typestr, arr_type);
             break;
         }
@@ -79,7 +87,12 @@ int typechk(type_t left, type_t right) {
     } else if (left->kind == TYPE_ARRAY) {
         type_array_t l = (type_array_t)left;
         type_array_t r = (type_array_t)right;
+
         equality = typechk(l->type, r->type);
+
+        if (l->length != 0 && r->length != 0 && l->length != r->length) {
+            equality = 0;
+        }
     } else {
         equality = 0;
         typechk_failed = 1;
@@ -150,6 +163,54 @@ type_t var_def_typechk(var_def_t node) {
         if (!typechk(left, right)) {
             typechk_failed = 1;
             dragon_report(node->loc, "incompatible types when assigning to type '%s' from type '%s'", type_name(left), type_name(right));
+        }
+    }
+
+    // array variable should be initialized when defined
+    if (node->type->kind == TYPE_ARRAY) {
+        type_array_t p = (type_array_t)node->type;
+
+        if (node->initializer == NULL) {
+            p->length = 0;
+            typechk_failed = 1;
+            dragon_report(node->loc, "array should be initialized when defined");
+        } else if (node->initializer->kind == EXPR_PRIM) {
+            expr_prim_t _pp = (expr_prim_t)node->initializer;
+
+            if (_pp->sub_kind != EXPR_PRIM_NEWARRAY) {
+                p->length = 0;
+                typechk_failed = 1;
+                dragon_report(node->initializer->loc, "array should be initialized only by 'new' 'type' '[length]' expression");
+            } else {
+                expr_prim_newarray_t _pp_ = (expr_prim_newarray_t)_pp;
+                expr_t new_len = _pp_->length;
+
+                if (new_len->kind == EXPR_PRIM) {
+                    expr_prim_t pp = (expr_prim_t)new_len;
+
+                    if (pp->sub_kind == EXPR_PRIM_CONST) {
+                        expr_prim_const_t ppp = (expr_prim_const_t)pp;
+                        const_t length = ppp->const_val;
+
+                        if (length->kind == CONST_INT) {
+                            const_num_t len = (const_num_t)length;
+                            p->length = len->value;
+                        } else {
+                            // can't not locate array length in semantic analysis when initializer is not integer creator
+                            p->length = 0;
+                        }
+                    } else {
+                        // can't not locate array length in semantic analysis when initializer is not constant creator
+                        p->length = 0;
+                    }
+                } else {
+                    p->length = 0;
+                }
+            }
+        } else {
+            p->length = 0;
+            typechk_failed = 1;
+            dragon_report(node->initializer->loc, "array should be initialized only by 'new' 'type' '[length]' expression");
         }
     }
 
@@ -340,21 +401,21 @@ type_t expr_left_typechk(expr_left_t node) {
         {
             expr_left_index_t p = (expr_left_index_t)node;
             type_t array = expr_typechk((expr_t)p->array);
-            type_t index = expr_typechk((expr_t)p->index);
+            type_t index = expr_typechk(p->index);
 
             if (array->kind != TYPE_ARRAY) {
                 ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
                 ret->env = p->env;
                 typechk_failed = 1;
                 dragon_report(p->array->loc, "subscripted value is neither array nor vector");
+            } else if (index->kind != TYPE_INT) {
+                type_array_t arr = (type_array_t)array;
+                ret = type_typechk(arr->type);
+                typechk_failed = 1;
+                dragon_report(p->index->loc, "array subscript is not an integer");
             } else {
                 type_array_t arr = (type_array_t)array;
                 ret = type_typechk(arr->type);
-            }
-
-            if (index->kind != TYPE_INT) {
-                typechk_failed = 1;
-                dragon_report(p->index->loc, "array subscript is not an integer");
             }
 
             break;
@@ -822,7 +883,6 @@ type_t field_typechk(field_t node) {
         case FIELD_VAR:
         {
             field_var_t p = (field_var_t)node;
-            ret = var_def_typechk(p->var_def);
 
             // field should be initialized when defined
             if (p->var_def->initializer == NULL) {
@@ -839,6 +899,8 @@ type_t field_typechk(field_t node) {
                     dragon_report(p->var_def->loc, "field member should be initialized only by constant creator");
                 }
             }
+
+            ret = var_def_typechk(p->var_def);
 
             break;
         }

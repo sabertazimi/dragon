@@ -3,12 +3,17 @@ class Variable {
     int __saber = _saber;
     bool archer_lancer= true;
     string _Assassin = "yaoli";
-    bool[] cASTer = new bool[10];
+
+    bool[] cASTer = new bool[13];
     int[][] arr = new int[10];
 
     int varTest = (void) => {
         bool truth = false;
         int saber;
+
+        int[] s_arr = new int[10];
+        int[] a_arr = new int[12];
+        s_arr = a_arr;
 
         saber = 233;
         _saber = _saber + 1;

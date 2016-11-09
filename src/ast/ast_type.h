@@ -58,6 +58,7 @@ typedef struct type_array {
     yyltype loc;
     scope_t env;
     type_t type;
+    int length;
 } *type_array_t;
 
 /*
