@@ -484,7 +484,7 @@ type_t expr_left_typechk(expr_left_t node) {
                     } else if (!arguments_typechk(func->formals, p->actuals)) {
                         ret = func->type;
                         typechk_failed = 1;
-                        dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call '%s'", func->id);
+                        dragon_report(p->loc, "incompatible arguments when call '%s'", func->id);
                     } else {
                         ret = func->type;
                     }
@@ -523,7 +523,7 @@ type_t expr_left_typechk(expr_left_t node) {
                 } else if (!arguments_typechk(func->formals, p->actuals)) {
                     ret = func->type;
                     typechk_failed = 1;
-                    dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call '%s'", func->id);
+                    dragon_report(p->loc, "incompatible arguments when call '%s'", func->id);
                 } else {
                     ret = func->type;
                 }
@@ -544,7 +544,7 @@ type_t expr_left_typechk(expr_left_t node) {
             // type check between formal and actual arguments
             if (!arguments_typechk(func->formals, p->actuals)) {
                     typechk_failed = 1;
-                    dragon_report(((actual_t)p->actuals->data)->loc, "incompatible arguments when call this anonymous function");
+                    dragon_report(p->loc, "incompatible arguments when call this anonymous function");
             }
 
             break;

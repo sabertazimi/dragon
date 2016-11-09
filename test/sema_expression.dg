@@ -13,5 +13,18 @@ class Main {
         // incompatible logic types
         int_arr[1] = int_arr[0] = true;
         int_arr[2] = int_arr[1] && int_arr[0];
+        
+        // use vector in where scalar expected
+        int a = int_arr || int_arr;
+        bool b = bool_arr && bool_arr;
+
+        // wrong types to unary operator
+        int c = -bool_arr[0];
+        bool d = !bool_arr;
+
+        // c is not array
+        int e = c[0];
+        // index is not int type
+        int f = bool_arr[d];
     };
 }

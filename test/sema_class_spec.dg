@@ -6,11 +6,15 @@ class Computer {
         Print(numTimes);
         return void;
     };
+
+    void superMethod = (void) => {
+        return;
+    };
 }
 
 class Mac extends Computer {
     // mouse for mac
-    int mouse;
+    int mouse = cpu;
 
     /*
      * @override
@@ -29,6 +33,13 @@ class Mac extends Computer {
 
 }
 
+class OSX extends Mac {
+    int superSuperField = (void) => {
+        // from class Computer
+        return cpu;
+    };
+}
+
 class Error extends Main {
     int main = (void) => {
         return 0;
@@ -43,11 +54,19 @@ class Main {
         // invalid access to non-exist field
         int a = this.field;
 
-        class Mac powerbook;
+        class Mac powerbook= new Mac();
 
-        powerbook = new Mac();
+        // invalid access to private field
+        int b = powerbook.mouse;
 
+        // non-exist function
         powerbook.Crash(2);
+        // incomptible arguments
+        powerbook.crash();
+
+        // method in super class
+        powerbook.superMethod();
+
         return 0;
     };
 }

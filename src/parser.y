@@ -977,9 +977,9 @@ left_expr
     }
     | func_anony_def '(' actuals ')'
     {
-        @$ = @1;
+        @$ = @2;
         $3 = list_rev($3);
-        $$ = expr_left_anony_call_new(EXPR_LEFT, EXPR_LEFT_ANONY_CALL, @1, (func_anony_def_t)$1, $3);
+        $$ = expr_left_anony_call_new(EXPR_LEFT, EXPR_LEFT_ANONY_CALL, @2, (func_anony_def_t)$1, $3);
     }
 	;
 
