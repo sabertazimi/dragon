@@ -67,4 +67,14 @@ symbol_t symtab_lookup(symtab_t symtab, const char *id);
  */
 symtab_t symtab_enter(symtab_t symtab, symbol_t symbol);
 
+/*
+ * @brief: print symbol
+ */
+void symbol_print(symbol_t symbol);
+
+/*
+ * @brief: print symbol table
+ */
+void symtab_print(symtab_t symtab);
+
 #endif /* !SEMA_SYMTAB_H */

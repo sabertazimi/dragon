@@ -24,4 +24,9 @@ int sema_analysis(prog_t prog);
  */
 void scope_setup(prog_t prog);
 
+/*
+ * @brief: print symbol tables
+ */
+void symtabs_print(prog_t prog);
+
 #endif /* !SEMA_ANALYSIS_H */

@@ -7,7 +7,15 @@
 
 #include "sema_symtab.h"
 
+/*
+ * @brief: for error report to users
+ */
 extern void dragon_report(yyltype, const char *, ...);
+
+/*
+ * @brief: for get name of type
+ */
+// extern char *type_name(type_t node);
 
 int symtab_failed = 0;
 
@@ -84,5 +92,19 @@ symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
         stack_push(symtab->table, symbol);
         symtab->num_symbols += 1;
         return symtab;
+    }
+}
+
+void symbol_print(symbol_t symbol) {
+    if (symbol == NULL) return;
+
+    fprintf(stdout, ">>> kind: %d, id: %s, type: %s, offset: %d\n", symbol->kind, symbol->id, type_name(symbol->type), symbol->offset);
+}
+
+void symtab_print(symtab_t symtab) {
+    if (symtab == NULL) return;
+
+    for (int i = 0; i < symtab->num_symbols; i++) {
+        symbol_print((symbol_t)stack_get(symtab->table, i));
     }
 }

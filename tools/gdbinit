@@ -1,2 +1,2 @@
-b sema_analysis.c:5
-r test/sema_function_spec.dg
+b sema_analysis.c: 625
+r test/sema_class_spec.dg

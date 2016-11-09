@@ -41,7 +41,9 @@ scope_t glb_scope;  ///< top scope
 
 int sema_analysis(prog_t prog) {
     scope_setup(prog);
-    prog_typechk(prog);
+
+    // prog_typechk(prog);
+    symtabs_print(prog);
 
     if (symtab_failed == 1 || typechk_failed == 1) {
         return 0;
@@ -616,4 +618,36 @@ static void scope_setup_class_defs(list_t class_defs) {
         }
     }
 
+}
+
+void symtabs_print(prog_t prog) {
+    for (list_t l = prog->class_defs; l != NULL; l = l->next) {
+        class_def_t c = (class_def_t)l->data;
+
+        fprintf(stdout, "*** scope of class %s: \n", c->id);
+        symtab_print(c->scope->class_defs);
+        symtab_print(c->scope->var_defs);
+        symtab_print(c->scope->formal_defs);
+        symtab_print(c->scope->func_normal_defs);
+        symtab_print(c->scope->func_anony_defs);
+
+        for (list_t ll = c->fields; ll != NULL; ll = ll->next) {
+            field_t f = (field_t)ll->data;
+
+            if (f->kind == FIELD_FUNC) {
+                field_func_t ff = (field_func_t)f;
+                func_def_t func = ff->func_def;
+
+                if (func->kind == FUNC_NORMAL_DEF) {
+                    func_normal_def_t func_normal = (func_normal_def_t)func;
+
+                    fprintf(stdout ,"*** scope of function %s: \n", func_normal->id);
+                    symtab_print(func_normal->scope->class_defs);
+                    symtab_print(func_normal->scope->var_defs);
+                    symtab_print(func_normal->scope->formal_defs);
+                    symtab_print(func_normal->scope->func_normal_defs);
+                }
+            }
+        }
+    }
 }
