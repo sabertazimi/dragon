@@ -1,5 +1,6 @@
 class Variable {
     int _saber = 1;
+    int __saber = _saber;
     bool archer_lancer= true;
     string _Assassin = "yaoli";
     bool[] cASTer = new bool[10];

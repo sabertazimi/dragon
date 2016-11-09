@@ -821,6 +821,23 @@ type_t field_typechk(field_t node) {
         {
             field_var_t p = (field_var_t)node;
             ret = var_def_typechk(p->var_def);
+
+            // field should be initialized when defined
+            if (p->var_def->initializer == NULL) {
+                typechk_failed = 1;
+                dragon_report(p->var_def->loc, "field member should be initialized when defined");
+            } else if (p->var_def->initializer->kind != EXPR_PRIM){
+                typechk_failed = 1;
+                dragon_report(p->var_def->loc, "field member should be initialized only by constant creator");
+            } else {
+                expr_prim_t pp = (expr_prim_t)p->var_def->initializer;
+
+                if (pp->sub_kind != EXPR_PRIM_CONST && pp->sub_kind != EXPR_PRIM_NEWCLASS && pp->sub_kind != EXPR_PRIM_NEWARRAY) {
+                    typechk_failed = 1;
+                    dragon_report(p->var_def->loc, "field member should be initialized only by constant creator");
+                }
+            }
+
             break;
         }
         case FIELD_FUNC:
