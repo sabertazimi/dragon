@@ -52,13 +52,13 @@ OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 
 %.c: %.l
 	@echo '***' Compiling Lex Source Files $< ... '***'
-	$(MKDIR) $(OBJ_PATH)
+	test -d $(OBJ_PATH) || $(MKDIR) $(OBJ_PATH)
 	$(LEX) $(LFLAGS) -o $(@:%.o=%.d) $<
 	@echo '***' Compile $< Success! '***'
 
 %.c: %.y
 	@echo '***' Compiling Yacc Source Files $< ... '***'
-	$(MKDIR) $(OBJ_PATH)
+	test -d $(OBJ_PATH) || $(MKDIR) $(OBJ_PATH)
 	$(YACC) $(YFLAGS) -o $(@:%.o=%.d) $<
 	@echo '***' Compile $< Success! '***'
 
@@ -82,7 +82,7 @@ clean:
 # $(RM) .gdb_history
 
 release:
-	$(MKDIR) $(BIN_PATH)
+	test -d $(BIN_PATH) || $(MKDIR) $(BIN_PATH)
 	$(MV) $(SRC_PATH)/parser.output  $(BIN_PATH)/parser.output
 	$(MV) $(SRC_PATH)/$(PROG) $(BIN_PATH)/$(PROG)
 
