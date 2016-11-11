@@ -8,7 +8,7 @@ PROG=dragon
 
 # tools and their flags
 CC=gcc
-CFLAGS=-Wall -Wextra -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-static -Wall -Wextra -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=-v
 YACC=bison
@@ -46,7 +46,7 @@ OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 # rules
 %.o: %.c
 	@echo '***' Compiling C Source Files $< ... '***'
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ $(CFLAGS) -c $<
 	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
 	@echo '***' Compile $< Success! '***'
 
@@ -66,7 +66,7 @@ all: $(PROG)
 
 # dependencies
 $(PROG): $(OBJS)
-	$(CC) $(CFLAGS) -o $(SRC_PATH)/$(PROG) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(RAW_OBJS)))
+	$(CC) -o $(SRC_PATH)/$(PROG) $(CFLAGS) $(patsubst %.o, $(OBJ_PATH)/%.o, $(notdir $(RAW_OBJS)))
 	make release
 	make clean
 	@echo
