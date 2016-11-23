@@ -112,6 +112,14 @@ solution: block scope
 
 综合以上原因, 为了使得后面的编码变得更加地顺利, 提高编码的效率, 从 Lab 3 开始将编写语言由 C 切换至 C++
 
+## Reference
+
+*   Text Book
+*   Lab Book
+*   [Language Implementation Patterns](https://book.douban.com/subject/10482195)
+*   [TsingHua Decaf](https://github.com/Silver-Shen/decaf_PA3])
+*   [CS143 Decaf](https://github.com/davidzchen/decaf)
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)
