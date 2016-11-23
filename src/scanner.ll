@@ -1,7 +1,4 @@
 %{
-    #ifdef __cplusplus
-    extern "C" {
-    #endif
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -28,19 +25,24 @@
         yylloc.first_column = current_column;               \
         yylloc.last_column = current_column + yyleng - 1;   \
         current_column += yyleng;
+
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+
     /*
      * @brief: return 1 making parse only get done 1 time
      */
     int yywrap(void);
 
+    #ifdef __cplusplus
+    }
+    #endif
+
     /*
      * @brief: skip block comment
      */
     void dragon_comment(void);
-
-    #ifdef __cplusplus
-    }
-    #endif
 %}
 
 digit   [0-9]

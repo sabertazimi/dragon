@@ -438,7 +438,7 @@ type_t expr_left_typechk(expr_left_t node) {
                         typechk_failed = 1;
                         dragon_report(p->loc, "invalid access to non-exist class field");
                     } else {
-                        ret = symbol->type;
+                        ret = (type_t)(symbol->type);
                     }
                 }
             }
@@ -511,7 +511,7 @@ type_t expr_left_typechk(expr_left_t node) {
                 typechk_failed = 1;
                 dragon_report(p->loc, "invalid access to non-exist class field");
             } else {
-                ret = symbol->type;
+                ret = (type_t)(symbol->type);
                 func_normal_def_t func = (func_normal_def_t)symbol->def;
 
                 // this is a class_def symbol(not a function)
@@ -574,7 +574,7 @@ type_t expr_prim_typechk(expr_prim_t p) {
                 typechk_failed = 1;
                 dragon_report(pp->loc, "undefined identifier '%s'", pp->id);
             } else {
-                ret = symbol->type;
+                ret = (type_t)(symbol->type);
             }
             break;
         }

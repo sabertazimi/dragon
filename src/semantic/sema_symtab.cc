@@ -98,7 +98,7 @@ symtab_t symtab_enter(symtab_t symtab, symbol_t symbol) {
 void symbol_print(symbol_t symbol) {
     if (symbol == NULL) return;
 
-    fprintf(stdout, ">>> kind: %d, id: %s, type: %s, offset: %d\n", symbol->kind, symbol->id, type_name(symbol->type), symbol->offset);
+    // fprintf(stdout, ">>> kind: %d, id: %s, type: %s, offset: %d\n", symbol->kind, symbol->id, type_name(symbol->type), symbol->offset);
 }
 
 void symtab_print(symtab_t symtab) {
