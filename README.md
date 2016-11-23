@@ -103,6 +103,15 @@ solution: block scope
 *   exprstmt
 *   retstmt
 
+## Change Language
+
+*   实验刚开始时自信满满地用 C 语言进行编译器的编写, 但现实狠狠地打了脸. 从 Lab 2 开始, 代码变得杂乱无序(特别是对于语法树结点类型的判断), 每次遍历语法树都要重写许多代码
+*   虽然实现了模块的解耦, 但 Lab 2 中的代码依赖于未抽象的语法树结点, 导致在进行语义分析时, 特别是建立 scope 时, 还得修改语法树定义以及结点创建函数, 浪费大量精力
+*   进入 Lab 3 后, 发现用 void * 来支持泛型特性的数据结构(list 与 stack), 在很多情况下需要 enum kind 来辅助进行类型判断, 再对 void * 进行强制类型转化, 使用起来十分地不方便
+*   而 泛型 list 与 泛型 stack 已经满足不了需求, 但又没有太多地时间去实现与测试支持泛型特性的 map/set 等复杂数据结构
+
+综合以上原因, 为了使得后面的编码变得更加地顺利, 提高编码的效率, 从 Lab 3 开始将编写语言由 C 切换至 C++
+
 ## License
 
 MIT License Copyright (c) 2016 [sabertazimi](https://github.com/sabertazimi)
