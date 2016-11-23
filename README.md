@@ -116,6 +116,7 @@ solution: block scope
 
 *   Text Book
 *   Lab Book
+*   [Flex/Bison with C++](http://www.doc88.com/p-2989810281943.html)
 *   [Language Implementation Patterns](https://book.douban.com/subject/10482195)
 *   [TsingHua Decaf](https://github.com/Silver-Shen/decaf_PA3])
 *   [CS143 Decaf](https://github.com/davidzchen/decaf)

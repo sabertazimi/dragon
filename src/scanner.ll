@@ -1,26 +1,32 @@
 %{
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
     #include "scanner.h"
     #include "errors.h"
     #include "ast.h"
-    #include "parser.h"
+    #include "parser.hh"
 
     /*
      * @brief: informations of locations
      */
     int current_line;
     int current_column;
+
     #define YY_USER_INIT                                    \
         yy_push_state(SRCBUF);                              \
-        current_line = current_column = 1;                              \
+        current_line = current_column = 1;                  \
         yylloc.first_line = yylloc.first_column = 1;        \
         srcbuf_init();
+
     #define YY_USER_ACTION                                  \
         yylloc.first_line = yylloc.last_line = yylineno;    \
-        yylloc.first_column = current_column;                     \
-        yylloc.last_column = current_column + yyleng - 1;         \
+        yylloc.first_column = current_column;               \
+        yylloc.last_column = current_column + yyleng - 1;   \
         current_column += yyleng;
     /*
      * @brief: return 1 making parse only get done 1 time
@@ -31,6 +37,10 @@
      * @brief: skip block comment
      */
     void dragon_comment(void);
+
+    #ifdef __cplusplus
+    }
+    #endif
 %}
 
 digit   [0-9]
@@ -40,7 +50,6 @@ hexical [a-fA-F0-9]
 %option yylineno
 %option stack
 
-%option nounput
 %option noyy_top_state
 
 /* lexer state for set up source code buffer */
@@ -305,7 +314,7 @@ void dragon_comment(void) {
     char ch = '\0',
          prev = '\0';
 
-    while ((ch = input()) != '\0' && ch != EOF) {
+    while ((ch = yyinput()) != '\0' && ch != EOF) {
         if (ch == '\n') {
             srcbuf_append("\n");
         }

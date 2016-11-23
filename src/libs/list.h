@@ -10,9 +10,9 @@
 
 #include "libs_common.h"
 
-typedef struct list_t {
+typedef struct _list_ {
     void *data;
-    struct list_t *next;
+    struct _list_ *next;
 } *list_t;
 
 /*

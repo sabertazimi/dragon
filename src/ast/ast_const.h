@@ -23,7 +23,7 @@ typedef enum const_kind {
 /*
  * @interface: const_t
  */
-typedef struct const_t {
+typedef struct _const_ {
     const_kind_t kind;
     yyltype loc;
     scope_t env;
@@ -32,7 +32,7 @@ typedef struct const_t {
 /*
  * @implements: const_int_t/const_bool_t
  */
-typedef struct const_num_t {
+typedef struct _const_num_ {
     const_kind_t kind;
     yyltype loc;
     scope_t env;
@@ -42,7 +42,7 @@ typedef struct const_num_t {
 /*
  * @implements: const_string_t
  */
-typedef struct const_string_t {
+typedef struct _const_string_ {
     const_kind_t kind;
     yyltype loc;
     scope_t env;
@@ -52,7 +52,7 @@ typedef struct const_string_t {
 /*
  * @implements: const_nil_t
  */
-typedef struct const_nil_t {
+typedef struct _const_nil_ {
     const_kind_t kind;
     yyltype loc;
     scope_t env;

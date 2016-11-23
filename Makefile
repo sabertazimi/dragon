@@ -7,8 +7,8 @@
 PROG=dragon
 
 # tools and their flags
-CC=gcc
-CFLAGS=-static -Wall -Wextra -std=gnu99 -O2 -g $(addprefix -I, $(INCLUDE_PATH))
+CC=g++
+CFLAGS=-static -Wall -Wextra -std=c++11 -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=-v
 YACC=bison
@@ -34,29 +34,29 @@ INCLUDE_PATH=src/libs 		\
 
 # test enable flags
 LEX_TEST=0
-SYNTAX_TEST=0
+SYNTAX_TEST=1
 AST_TEST=0
-SEMA_TEST=1
+SEMA_TEST=0
 
 # objects
-RAW_SRCS=$(shell find $(SRC_PATH) -name "*.c" -print)
-RAW_OBJS=$(patsubst %.c, %.o, $(RAW_SRCS))
+RAW_SRCS=$(shell find $(SRC_PATH) -name "*.cc" -print)
+RAW_OBJS=$(patsubst %.cc, %.o, $(RAW_SRCS))
 OBJS=$(SRC_PATH)/parser.o $(SRC_PATH)/scanner.o $(RAW_OBJS)
 
 # rules
-%.o: %.c
+%.o: %.cc
 	@echo '***' Compiling C Source Files $< ... '***'
 	$(CC) -o $@ $(CFLAGS) -c $<
 	$(MV) $@ $(OBJ_PATH)/$(notdir $@)
 	@echo '***' Compile $< Success! '***'
 
-%.c: %.l
+%.cc: %.ll
 	@echo '***' Compiling Lex Source Files $< ... '***'
 	test -d $(OBJ_PATH) || $(MKDIR) $(OBJ_PATH)
 	$(LEX) $(LFLAGS) -o $(@:%.o=%.d) $<
 	@echo '***' Compile $< Success! '***'
 
-%.c: %.y
+%.cc: %.yy
 	@echo '***' Compiling Yacc Source Files $< ... '***'
 	test -d $(OBJ_PATH) || $(MKDIR) $(OBJ_PATH)
 	$(YACC) $(YFLAGS) -o $(@:%.o=%.d) $<
@@ -76,7 +76,7 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
-	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.c  $(SRC_PATH)/scanner.c
+	$(RM) $(SRC_PATH)/parser.hh $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
 	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
 	$(RM) core
 # $(RM) .gdb_history

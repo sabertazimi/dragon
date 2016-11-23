@@ -114,7 +114,7 @@ class_defs
     | class_def
     {
         @$ = @1;
-        $$ = list_new($1, NULL);
+        $$ = list_new($1, 0);
     }
     ;
 
@@ -135,61 +135,61 @@ class_def
     | error IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected keyword \"class\"");
     }
     | CLASS error '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER error fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER '{' fields error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | error IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected keyword \"class\"");
     }
     | CLASS error EXTENDS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER error IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected keyword \"extends\"");
     }
     | CLASS IDENTIFIER EXTENDS error '{' fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as class name");
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER error fields '}'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -203,7 +203,7 @@ fields
     | field
     {
         @$ = @1;
-        $$ = list_new($1, NULL);
+        $$ = list_new($1, 0);
     }
     ;
 
@@ -224,7 +224,7 @@ var_def
     : type IDENTIFIER ';'
     {
         @$ = @2;
-        $$ = var_def_new(@2, $1, $2, NULL);
+        $$ = var_def_new(@2, $1, $2, 0);
     }
     | type IDENTIFIER '=' assign_expr ';'
     {
@@ -235,25 +235,25 @@ var_def
     | type error ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';' or expected '=' as assign operator");
     }
     | type error '=' assign_expr ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER '=' assign_expr error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     ;
@@ -293,13 +293,13 @@ type
     | error IDENTIFIER
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unkown type");
     }
     | CLASS error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as class name");
     }
     ;
@@ -329,37 +329,37 @@ func_normal_def
     | type error '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as variable name");
     }
     | type IDENTIFIER error '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected '=' as function defination");
     }
     | type IDENTIFIER '=' '(' formals ')' error '{' stmts '}' ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected '=>' as function defination");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW error stmts '}' ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts error ';'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     ;
@@ -376,19 +376,19 @@ func_anony_def
     | type '(' formals ')' error '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected '=>' as function defination");
     }
     | type '(' formals ')' OP_ARROW error stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     | type '(' formals ')' OP_ARROW '{' stmts error
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -402,12 +402,12 @@ formals
     | VOID
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
     }
     /* error recovery */
     | error {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected keyword 'void' or at least 1 parameter");
     }
     ;
@@ -421,19 +421,19 @@ formals_body
     | formal
     {
         @$ = @1;
-        $$ = list_new($1, NULL);
+        $$ = list_new($1, 0);
     }
     /* error recovery */
     | formals_body error formal
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ',' as separator");
     }
     | formals_body ',' error
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unexpected ','");
     }
     ;
@@ -448,7 +448,7 @@ formal
     | type error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected identifier as parameter name");
     }
     ;
@@ -461,7 +461,7 @@ stmts
     }
     | /* empty */
     {
-        $$ = NULL;
+        $$ = 0;
     }
     ;
 
@@ -512,13 +512,13 @@ expr_stmt
     | ';'
     {
         @$ = @1;
-        $$ = stmt_expr_new(STMT_EXPR, @1, NULL);
+        $$ = stmt_expr_new(STMT_EXPR, @1, 0);
     }
     /* error recovery */
     | expr error
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     ;
@@ -528,7 +528,7 @@ if_stmt
     {
         @$ = @1;
         $6 = list_rev($6);
-        $$ = stmt_if_new(STMT_IF, @1, $3, $6, NULL);
+        $$ = stmt_if_new(STMT_IF, @1, $3, $6, 0);
     }
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
     {
@@ -541,19 +541,19 @@ if_stmt
     | IF error bool_expr ')' '{' stmts '}' %prec NOELSE
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | IF '(' bool_expr error '{' stmts '}' %prec NOELSE
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | IF '(' bool_expr ')' error stmts '}' %prec NOELSE
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -569,19 +569,19 @@ while_stmt
     | WHILE error bool_expr ')' '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | WHILE '(' bool_expr error '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | WHILE '(' bool_expr ')' error stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -599,31 +599,31 @@ for_stmt
     | FOR error assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | FOR '(' assign_list error bool_expr ';' assign_list ')' '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';' as separator between initializer and boolean expression");
     }
     | FOR '(' assign_list ';' bool_expr error assign_list ')' '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';' as separator between boolean expression and assignment");
     }
     | FOR '(' assign_list ';' bool_expr ';' assign_list error '{' stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | FOR '(' assign_list ';' bool_expr ';' assign_list ')' error stmts '}'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
     ;
@@ -632,12 +632,12 @@ return_stmt
     : RETURN ';'
     {
         @$ = @1;
-        $$ = stmt_return_new(STMT_RETURN, @1, NULL);
+        $$ = stmt_return_new(STMT_RETURN, @1, 0);
     }
     | RETURN VOID ';'
     {
         @$ = @1;
-        $$ = stmt_return_new(STMT_RETURN, @1, NULL);
+        $$ = stmt_return_new(STMT_RETURN, @1, 0);
     }
     | RETURN expr ';'
     {
@@ -648,19 +648,19 @@ return_stmt
     | RETURN error ';'
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unkown return value");
     }
     | RETURN VOID error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     | RETURN expr error
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     ;
@@ -675,19 +675,19 @@ print_stmt
     | PRINT error expr ')' ';'
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | PRINT '(' expr error ';'
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unmatched '(' or ')'");
     }
     | PRINT '(' expr ')' error
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ';'");
     }
     ;
@@ -700,7 +700,7 @@ actuals
     }
     | /* empty */
     {
-        $$ = NULL;
+        $$ = 0;
     }
     ;
 
@@ -713,19 +713,19 @@ actuals_body
     | actual
     {
         @$ = @1;
-        $$ = list_new($1, NULL);
+        $$ = list_new($1, 0);
     }
     /* error recovery */
     | actuals_body error actual
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected ',' as separator");
     }
     | actuals_body ',' error
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unexpected ','");
     }
     ;
@@ -776,12 +776,12 @@ assign_list
     | VOID
     {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
     }
     /* error recovery */
     | error {
         @$ = @1;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("expected keyword 'void' or at least 1 assign expression");
     }
     ;
@@ -795,13 +795,13 @@ assign_list_body
     | assign_expr
     {
         @$ = @1;
-        $$ = list_new($1, NULL);
+        $$ = list_new($1, 0);
     }
     /* error recovery */
     | assign_list_body ',' error
     {
         @$ = @3;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unexpected ','");
     }
     ;
@@ -1024,7 +1024,7 @@ prim_expr
 	| '(' error ')'
     {
         @$ = @2;
-        $$ = NULL;
+        $$ = 0;
         proposed_solution("unexpected nested parenthesis");
     }
 	;

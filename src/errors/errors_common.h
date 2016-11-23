@@ -15,6 +15,4 @@
 #define LEX_DEBUG
 #undef LEX_DEBUG
 
-extern FILE* yyout;
-
 #endif /* !ERRORS_COMMON_H */

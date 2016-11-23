@@ -86,7 +86,7 @@ typedef struct expr_prim_const {
 /*
  * @implements: expr_prim_readint_t/expr_prim_readline_t
  */
-typedef struct expr_prim_read_t {
+typedef struct _expr_prim_read_ {
     expr_kind_t kind;
     yyltype loc;
     scope_t env;
@@ -96,7 +96,7 @@ typedef struct expr_prim_read_t {
 /*
  * @implements: expr_prim_newclass_t
  */
-typedef struct expr_prim_newclass_t {
+typedef struct _expr_prim_newclass_ {
     expr_kind_t kind;
     yyltype loc;
     scope_t env;
@@ -108,7 +108,7 @@ typedef struct expr_prim_newclass_t {
 /*
  * @implements: expr_prim_newarray_t
  */
-typedef struct expr_prim_newarray_t {
+typedef struct _expr_prim_newarray_ {
     expr_kind_t kind;
     yyltype loc;
     scope_t env;
