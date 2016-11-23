@@ -1,8 +1,11 @@
-/*
- * ast_const.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file ast_const.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef AST_CONST_H
@@ -10,15 +13,13 @@
 
 #include "ast_common.h"
 
-/*
- * @brief: kind of constant
- */
-typedef enum const_kind {
+///< kind of ast node
+typedef enum __ast_kind__ {
     CONST_INT = 151,
     CONST_BOOL,
     CONST_STRING,
     CONST_NIL
-} const_kind_t;
+} ast_kind;
 
 /*
  * @interface: const_t
