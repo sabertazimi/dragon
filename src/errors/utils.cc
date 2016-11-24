@@ -1,11 +1,14 @@
-/*
- * errors_utils.c
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file utils.cc
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
-#include "errors_utils.h"
+#include "errors/utils.h"
 
 static char errmsg[1000];
 
@@ -46,3 +49,5 @@ void dragon_log(const char *fmt, ...) {
     va_end(args);
     fprintf(stderr, ">>> log: %s\n", errmsg);
 }
+
+

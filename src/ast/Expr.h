@@ -1,5 +1,5 @@
 /*!
- * \file ast_expr.h
+ * \file Expr.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,10 +11,10 @@
 #ifndef AST_EXPR_H
 #define AST_EXPR_H
 
-#include "ast_common.h"
-#include "ast_type.h"
-#include "ast_const.h"
-#include "ast_def.h"
+#include "ast/common.h"
+#include "ast/Type.h"
+#include "ast/Const.h"
+#include "ast/Def.h"
 
 /*
  * @brief: kind of expr_t

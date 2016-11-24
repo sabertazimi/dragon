@@ -1,17 +1,20 @@
-/*
- * errors_utils.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file utils.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef ERRORS_UTILS_H
 #define ERRORS_UTILS_H
 
 #include <stdarg.h>
-#include "errors_common.h"
-#include "errors_srcbuf.h"
-#include "../scanner.h"
+#include "scanner.h"
+#include "errors/common.h"
+#include "errors/srcbuf.h"
 
 /*
  * @macro: DRAGON_DEBUG

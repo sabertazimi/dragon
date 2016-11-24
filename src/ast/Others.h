@@ -1,5 +1,5 @@
 /*!
- * \file ast_others.h
+ * \file Others.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,10 +11,10 @@
 #ifndef AST_OTHERS_H
 #define AST_OTHERS_H
 
-#include "ast_common.h"
-#include "ast_type.h"
-#include "ast_def.h"
-#include "ast_expr.h"
+#include "ast/common.h"
+#include "ast/Type.h"
+#include "ast/Def.h"
+#include "ast/Expr.h"
 
 /*
  * @implements: formal_t

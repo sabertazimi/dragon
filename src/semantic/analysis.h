@@ -1,17 +1,20 @@
-/*
- * sema_analysis.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file analysis.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef SEMA_ANALYSIS_H
 #define SEMA_ANALYSIS_H
 
-#include "sema_common.h"
-#include "sema_symtab.h"
-#include "sema_scope.h"
-#include "sema_typechk.h"
+#include "semantic/common.h"
+#include "semantic/Symtab.h"
+#include "semantic/Scope.h"
+#include "semantic/typechk.h"
 
 /*
  * @brief: top function in semantic analysis module

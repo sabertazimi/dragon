@@ -1,5 +1,5 @@
 /*!
- * \file ast_print.h
+ * \file print.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,13 +11,20 @@
 #ifndef AST_PRINT_H
 #define AST_PRINT_H
 
-#include "ast_common.h"
-#include "ast_type.h"
-#include "ast_const.h"
-#include "ast_def.h"
-#include "ast_expr.h"
-#include "ast_stmt.h"
-#include "ast_others.h"
+#include "ast/common.h"
+#include "ast/Type.h"
+#include "ast/Const.h"
+#include "ast/Def.h"
+#include "ast/Expr.h"
+#include "ast/Stmt.h"
+#include "ast/Others.h"
+
+void space_print(int num_space) {
+    fprintf(stdout, "%4d:", num_space / SPACE_STEP);
+    for (int i = 0;i < num_space - 4; i++) {
+        fprintf(stdout, " ");
+    }
+}
 
 /*
  * @brief: functions for print ast tree

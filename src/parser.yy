@@ -2,8 +2,8 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "errors.h"
-    #include "ast.h"
+    #include "errors/errors.h"
+    #include "ast/ast.h"
 
     #undef YYDEBUG
     #define YYDEBUG 1

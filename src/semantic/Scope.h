@@ -1,15 +1,18 @@
-/*
- * sema_scope.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file Scope.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef SEMA_SCOPE_H
 #define SEMA_SCOPE_H
 
-#include "sema_common.h"
-#include "sema_symtab.h"
+#include "semantic/common.h"
+#include "semantic/Symtab.h"
 
 typedef struct _scope_ *scope_t;
 

@@ -1,15 +1,18 @@
-/*
- * errors_srcbuf.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file srcbuf.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef ERRORS_SRCBUF_H
 #define ERRORS_SRCBUF_H
 
 #include <string.h>
-#include "errors_common.h"
+#include "errors/common.h"
 
 /*
  * @brief: set all memory of buffer to '\0'

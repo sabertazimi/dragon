@@ -1,14 +1,17 @@
-/*
- * errors.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file errors.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef ERRORS_H
 #define ERRORS_H
 
-#include "errors_utils.h"
-#include "errors_srcbuf.h"
+#include "errors/utils.h"
+#include "errors/srcbuf.h"
 
 #endif /* !ERRORS_H */

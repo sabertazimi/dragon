@@ -8,18 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ast.h"
-#include "semantic.h"
-
-#define SPEC_DEBUG
-// #undef SPEC_DEBUG
+#include "ast/ast.h"
+#include "semantic/semantic.h"
 
 #define AST_DEBUG
 #undef AST_DEBUG
-
-#ifdef SPEC_DEBUG
-    #include "spec.h"
-#endif
 
 extern FILE *yyin;
 extern int yyparse(void);
@@ -30,10 +23,6 @@ extern int parse_failed;
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;
-
-#ifdef SPEC_DEBUG
-    stack_spec();
-#endif
 
     if (argc > 1 && (fp = fopen(argv[1], "r")) != NULL) {
         yyin = fp;

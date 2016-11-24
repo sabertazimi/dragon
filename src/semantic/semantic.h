@@ -8,9 +8,9 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
-#include "sema_symtab.h"
-#include "sema_scope.h"
-#include "sema_typechk.h"
-#include "sema_analysis.h"
+#include "semantic/Symtab.h"
+#include "semantic/Scope.h"
+#include "semantic/typechk.h"
+#include "semantic/analysis.h"
 
 #endif /* !SEMANTIC_H */

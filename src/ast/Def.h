@@ -1,5 +1,5 @@
 /*!
- * \file ast_def.h
+ * \file Def.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,8 +11,8 @@
 #ifndef AST_DEF_H
 #define AST_DEF_H
 
-#include "ast_common.h"
-#include "ast_type.h"
+#include "ast/common.h"
+#include "ast/Type.h"
 
 // pre-defination to eliminate defination circle dependencies
 typedef struct expr_assign *expr_assign_t;

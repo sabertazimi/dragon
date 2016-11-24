@@ -1,16 +1,19 @@
-/*
- * sema_typechk.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@avalon>
+/*!
+ * \file typechk.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef SEMA_TYPECHK_H
 #define SEMA_TYPECHK_H
 
-#include "sema_common.h"
-#include "ast.h"
-#include "errors.h"
+#include "semantic/common.h"
+#include "errors/errors.h"
+#include "ast/ast.h"
 
 /*
  * @brief: check equality of two type nodes

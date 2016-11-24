@@ -1,5 +1,5 @@
 /*!
- * \file ast_common.h
+ * \file common.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -13,9 +13,8 @@
 
 #include <iostream>
 #include <string>
-#include "../scanner.h"
-#include "libs.h"
-#include "sema_scope.h"
-#include "ast_node.h"
+#include "scanner.h"
+#include "semantic/Scope.h"
+#include "ast/Node.h"
 
 #endif /* !AST_COMMON_H */

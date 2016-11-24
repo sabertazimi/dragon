@@ -1,14 +1,17 @@
-/*
- * sema_symtab.h
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file Symtab.h
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
 #ifndef SEMA_SYMTAB_H
 #define SEMA_SYMTAB_H
 
-#include "sema_common.h"
+#include "semantic/common.h"
 
 /*
  * @brief: kind of symbol

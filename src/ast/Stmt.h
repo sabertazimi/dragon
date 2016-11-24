@@ -1,5 +1,5 @@
 /*!
- * \file ast_stmt.h
+ * \file Stmt.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,9 +11,9 @@
 #ifndef AST_STMT_H
 #define AST_STMT_H
 
-#include "ast_common.h"
-#include "ast_def.h"
-#include "ast_expr.h"
+#include "ast/common.h"
+#include "ast/Def.h"
+#include "ast/Expr.h"
 
 /*
  * @brief: kind of stmt_t

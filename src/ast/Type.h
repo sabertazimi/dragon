@@ -1,5 +1,5 @@
 /*!
- * \file ast_type.h
+ * \file Type.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,7 +11,7 @@
 #ifndef AST_TYPE_H
 #define AST_TYPE_H
 
-#include "ast_common.h"
+#include "ast/common.h"
 
 /*
  * @brief: kind of type_t

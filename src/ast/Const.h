@@ -1,5 +1,5 @@
 /*!
- * \file ast_const.h
+ * \file Const.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -11,7 +11,7 @@
 #ifndef AST_CONST_H
 #define AST_CONST_H
 
-#include "ast_common.h"
+#include "ast/common.h"
 
 using namespace std;
 

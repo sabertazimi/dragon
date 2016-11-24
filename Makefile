@@ -26,11 +26,7 @@ OBJ_PATH=obj
 BIN_PATH=bin
 TEST_PATH=test
 TOOLS_PATH=tools
-INCLUDE_PATH=src/libs 		\
-			 src/errors 	\
-			 src/ast 		\
-			 src/semantic 	\
-			 src/spec
+INCLUDE_PATH=src
 
 # test enable flags
 LEX_TEST=0

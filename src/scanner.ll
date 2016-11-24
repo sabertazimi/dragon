@@ -3,10 +3,10 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "scanner.h"
-    #include "errors.h"
-    #include "ast.h"
     #include "parser.hh"
+    #include "scanner.h"
+    #include "errors/errors.h"
+    #include "ast/ast.h"
 
     /*
      * @brief: informations of locations

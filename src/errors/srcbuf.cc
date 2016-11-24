@@ -1,16 +1,22 @@
-/*
- * errors_srcbuf.c
- * Copyright (C) 2016 sabertazimi <sabertazimi@gmail.com>
+/*!
+ * \file srcbuf.cc
+ * \brief
  *
- * Distributed under terms of the MIT license.
+ * \author sabertazimi, <sabertazimi@gmail.com>
+ * \version 1.0
+ * \date 2016
+ * \license MIT
  */
 
-#include "errors_srcbuf.h"
+#include <vector>
+#include "errors/srcbuf.h"
+
+using namespace std;
 
 typedef struct srcbuf {
-    list_t buf;     ///< list_t <string>: store source code
-    int  cnt_line;  ///< number of line in buffer
-    int  cnt_chars; ///< number of characters in buffer
+    vector<char *> *buf;   ///< list_t <string>: store source code
+    int  cnt_line;      ///< number of line in buffer
+    int  cnt_chars;     ///< number of characters in buffer
 } srcbuf_t;
 
 static srcbuf_t srcbuf;
@@ -18,29 +24,20 @@ static srcbuf_t srcbuf;
 void srcbuf_init(void) {
     srcbuf.cnt_line = 0;
     srcbuf.cnt_chars = 0;
-    srcbuf.buf = NULL;
+    srcbuf.buf = new vector<string>();
 }
 
 void srcbuf_append(const char *src) {
     srcbuf.cnt_line += 1;
     srcbuf.cnt_chars += strlen(src);
-    srcbuf.buf = list_new(strdup(src), srcbuf.buf);
+    srcbuf.buf.push_back(strdup(src));
 }
 
 const char * srcbuf_get(int num_line) {
-    int i;
-    list_t srcs;
-    char * src;
-
     // argument check
     if (num_line <= 0 || num_line > srcbuf_length()) num_line = 1;
 
-    for (i = srcbuf_length(), srcs = srcbuf.buf; i > num_line && srcs != NULL; i--, srcs = srcs->next) {
-        ;
-    }
-
-    src = (char *)srcs->data;
-    return src;
+    return srcbuf.buf[num_line + 1];
 }
 
 int srcbuf_length(void) {
