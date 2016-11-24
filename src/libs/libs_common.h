@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef char *string;
-
 ///< space step when print ast tree
 #define SPACE_STEP 2
 

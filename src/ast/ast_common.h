@@ -11,11 +11,11 @@
 #ifndef AST_COMMON_H
 #define AST_COMMON_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "libs.h"
+#include <iostream>
+#include <string>
 #include "../scanner.h"
+#include "libs.h"
 #include "sema_scope.h"
+#include "ast_node.h"
 
 #endif /* !AST_COMMON_H */

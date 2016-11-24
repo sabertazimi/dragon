@@ -10,11 +10,13 @@
 
 #include "ast_others.h"
 
+using namespace std;
+
 formal_t formal_new(yyltype loc, type_t type, string id) {
     formal_t p = (formal_t)malloc(sizeof(*p));
     p->loc = loc;
     p->type = type;
-    p->id = strdup(id);
+    p->id = string(id);
     return p;
 }
 

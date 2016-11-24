@@ -21,7 +21,7 @@ type_t type_class_new(type_kind_t kind, yyltype loc, string class_id) {
     type_class_t p = (type_class_t)malloc(sizeof(*p));
     p->kind = kind;
     p->loc = loc;
-    p->class_id = strdup(class_id);
+    p->class_id = string(class_id);
     return (type_t)p;
 }
 

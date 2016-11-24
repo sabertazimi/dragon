@@ -23,7 +23,7 @@
  * @brief: functions for print ast tree
  */
 void type_print(type_t node, int num_space);
-void const_print(const_t node, int num_space);
+void const_print(Const node, int num_space);
 void var_def_print(var_def_t node, int num_space);
 void func_def_print(func_def_t node, int num_space);
 void class_def_print(class_def_t node, int num_space);

@@ -13,65 +13,89 @@
 
 #include "ast_common.h"
 
-///< kind of ast node
-typedef enum __ast_kind__ {
-    CONST_INT = 151,
-    CONST_BOOL,
-    CONST_STRING,
-    CONST_NIL
-} ast_kind;
+using namespace std;
 
-/*
- * @interface: const_t
- */
-typedef struct _const_ {
-    const_kind_t kind;
-    yyltype loc;
-    scope_t env;
-} *const_t;
+/// \brief constant
+class Const: public Node{
+public:
+    Const(yyltype loc) {
+        this->loc = loc;
+        this->env = 0;
+    }
 
-/*
- * @implements: const_int_t/const_bool_t
- */
-typedef struct _const_num_ {
-    const_kind_t kind;
-    yyltype loc;
-    scope_t env;
-    int value;
-} *const_num_t;
+    /// \brief @override
+    virtual bool isConst(void) {
+        return true;
+    }
+};
 
-/*
- * @implements: const_string_t
- */
-typedef struct _const_string_ {
-    const_kind_t kind;
-    yyltype loc;
-    scope_t env;
+/// \brief int constant
+class ConstInt: public Const{
+public:
+    int val;
+
+    ConstInt(yyltype loc, int val = 0): Const(loc) {
+        this->kind = CONST_INT;
+        this->loc = loc;
+        this->env = 0;
+        this->val = val;
+    }
+
+    /// \brief @override
+    virtual string toString(void) {
+        return string("ConstNum->" + this->val);
+    }
+};
+
+/// \brief bool constant
+class ConstBool: public Const {
+public:
+    int val;
+
+    ConstBool(yyltype loc, int val = 0): Const(loc) {
+        this->kind = CONST_BOOL;
+        this->loc = loc;
+        this->env = 0;
+        this->val = val;
+    }
+
+    /// \brief @override
+    virtual string toString(void) {
+        return string("ConstBool->" + this->val);
+    }
+};
+
+/// \brief string constant
+class ConstString: public Const {
+public:
     string text;
-} *const_string_t;
 
-/*
- * @implements: const_nil_t
- */
-typedef struct _const_nil_ {
-    const_kind_t kind;
-    yyltype loc;
-    scope_t env;
-} *const_nil_t;
+    ConstString(yyltype loc, string text = 0): Const(loc) {
+        this->kind = CONST_STRING;
+        this->loc = loc;
+        this->env = 0;
+        this->text = text;
+    }
 
-/*
- * @brief: create number const node(int/bool)
- */
-const_t const_num_new(const_kind_t kind, yyltype loc, int value);
+    /// \brief @override
+    virtual string toString(void) {
+        return string("ConstString->" + this->text);
+    }
+};
 
-/*
- * @brief: create string const node
- */
-const_t const_string_new(const_kind_t kind, yyltype loc, string text);
+/// \brief nil constant
+class ConstNil: public Const {
+public:
+    ConstNil(yyltype loc): Const(loc) {
+        this->kind = CONST_NIL;
+        this->loc = loc;
+        this->env = 0;
+    }
 
-/*
- * @brief: create nil const node
- */
-const_t const_nil_new(const_kind_t kind, yyltype loc);
+    /// \brief @override
+    virtual string toString(void) {
+        return string("ConstNil");
+    }
+};
 
 #endif /* !AST_CONST_H */

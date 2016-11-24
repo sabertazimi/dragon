@@ -83,7 +83,7 @@ typedef struct expr_prim_const {
     yyltype loc;
     scope_t env;
     expr_prim_kind_t sub_kind;
-    const_t const_val;
+    Const *const_val;
 } *expr_prim_const_t;
 
 /*
@@ -363,7 +363,7 @@ typedef struct expr_bool {
  * @brief: create prim_expr node
  */
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id);
-expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, const_t const_val);
+expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, Const *const_val);
 expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc);
 expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id, list_t actuals);
 expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, type_t type, expr_t length);

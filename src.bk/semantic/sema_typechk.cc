@@ -119,7 +119,7 @@ type_t type_typechk(type_t node) {
     return node;
 }
 
-type_t const_typechk(const_t node) {
+type_t const_typechk(Const *node) {
     type_t ret;   ///< store result of type check
 
     switch (node->kind) {

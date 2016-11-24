@@ -31,7 +31,7 @@
     int int_val;
     char str_val[80];
     type_t type_val;
-    const_t const_val;
+    Const *const_val;
     expr_t expr_val;
     expr_bool_t expr_bool_val;
     list_t assigns_val;
@@ -1033,22 +1033,22 @@ constant
     : CONSTANT_INT
     {
         @$ = @1;
-        $$ = const_num_new(CONST_INT, @1, $1);
+        $$ = new ConstInt(@1, $1);
     }
     | CONSTANT_BOOL
     {
         @$ = @1;
-        $$ = const_num_new(CONST_BOOL, @1, $1);
+        $$ = new ConstBool(@1, $1);
     }
     | CONSTANT_STRING
     {
         @$ = @1;
-        $$ = const_string_new(CONST_STRING, @1, $1);
+        $$ = new ConstString(@1, $1);
     }
     | NIL
     {
         @$ = @1;
-        $$ = const_nil_new(CONST_NIL, @1);
+        $$ = new ConstNil(@1);
     }
     ;
 

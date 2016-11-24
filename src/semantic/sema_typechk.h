@@ -26,7 +26,7 @@ char *type_name(type_t node);
 /*
  * @brief: get type of AST node
  */
-type_t const_typechk(const_t node);
+type_t const_typechk(Const *node);
 
 /*
  * @brief: check type on def nodes

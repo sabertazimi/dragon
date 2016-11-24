@@ -46,30 +46,30 @@ void type_print(type_t node, int num_space) {
     }
 }
 
-void const_print(const_t node, int num_space) {
+void const_print(Const *node, int num_space) {
     space_print(num_space);
 
     switch (node->kind) {
         case CONST_INT:
         {
-            const_num_t p = (const_num_t)node;
-            fprintf(stdout, "const_int->%d\n", p->value);
+            // const_num_t p = (const_num_t)node;
+            // cout << toString();
             break;
         }
         case CONST_BOOL:
         {
-            const_num_t p = (const_num_t)node;
-            fprintf(stdout, "const_bool->%d\n", !!p->value);
+            // const_num_t p = (const_num_t)node;
+            // cout << toString();
             break;
         }
         case CONST_STRING:
         {
-            const_string_t p = (const_string_t)node;
-            fprintf(stdout, "const_string->%s\n", p->text);
+            // const_string_t p = (const_string_t)node;
+            // cout << toString();
             break;
         }
         case CONST_NIL:
-            fprintf(stdout, "const_void\n");
+            // cout << toString();
             break;
         default:
             fprintf(stdout, "unkown constant\n");

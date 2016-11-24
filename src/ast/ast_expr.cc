@@ -15,11 +15,11 @@ expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype 
     p->kind = kind;
     p->loc = loc;
     p->sub_kind = sub_kind;
-    p->id = strdup(id);
+    p->id = string(id);
     return (expr_t)p;
 }
 
-expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, const_t const_val) {
+expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, Const *const_val) {
     expr_prim_const_t p = (expr_prim_const_t)malloc(sizeof(*p));
     p->kind = kind;
     p->loc = loc;
@@ -41,7 +41,7 @@ expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yylty
     p->kind = kind;
     p->loc = loc;
     p->sub_kind = sub_kind;
-    p->id = strdup(id);
+    p->id = string(id);
     p->actuals = actuals;
     return (expr_t)p;
 }
@@ -81,7 +81,7 @@ expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, yy
     p->loc = loc;
     p->sub_kind = sub_kind;
     p->left = left;
-    p->field_id = strdup(field_id);
+    p->field_id = string(field_id);
     return (expr_t)p;
 }
 
@@ -91,7 +91,7 @@ expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyl
     p->loc = loc;
     p->sub_kind = sub_kind;
     p->left = left;
-    p->field_id = strdup(field_id);
+    p->field_id = string(field_id);
     p->actuals = actuals;
     return (expr_t)p;
 }

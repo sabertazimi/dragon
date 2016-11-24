@@ -54,10 +54,10 @@ int main(int argc, char **argv) {
     prog_print(prog_tree);
 #endif
 
-    if (sema_analysis(prog_tree) == 0) {
-        fprintf(stderr, "*** please fix semantic error first!\n");
-        exit(0);
-    }
+    /* if (sema_analysis(prog_tree) == 0) { */
+    /*     fprintf(stderr, "*** please fix semantic error first!\n"); */
+    /*     exit(0); */
+    /* } */
 
     fclose(fp);
     return 0;
