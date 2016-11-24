@@ -16,35 +16,23 @@
 using namespace std;
 
 /// \brief constant
-class Const: public Node{
+class Const: public Node {
 public:
-    Const(yyltype loc) {
-        this->loc = loc;
-        this->env = 0;
-    }
+    Const(yyltype loc);
 
     /// \brief @override
-    virtual bool isConst(void) {
-        return true;
-    }
+    virtual bool isConst(void);
 };
 
 /// \brief int constant
-class ConstInt: public Const{
+class ConstInt: public Const {
 public:
     int val;
 
-    ConstInt(yyltype loc, int val = 0): Const(loc) {
-        this->kind = CONST_INT;
-        this->loc = loc;
-        this->env = 0;
-        this->val = val;
-    }
+    ConstInt(yyltype loc, int val);
 
     /// \brief @override
-    virtual string toString(void) {
-        return string("ConstNum->" + this->val);
-    }
+    virtual string toString(void);
 };
 
 /// \brief bool constant
@@ -52,17 +40,10 @@ class ConstBool: public Const {
 public:
     int val;
 
-    ConstBool(yyltype loc, int val = 0): Const(loc) {
-        this->kind = CONST_BOOL;
-        this->loc = loc;
-        this->env = 0;
-        this->val = val;
-    }
+    ConstBool(yyltype loc, int val);
 
     /// \brief @override
-    virtual string toString(void) {
-        return string("ConstBool->" + this->val);
-    }
+    virtual string toString(void);
 };
 
 /// \brief string constant
@@ -70,32 +51,19 @@ class ConstString: public Const {
 public:
     string text;
 
-    ConstString(yyltype loc, string text = 0): Const(loc) {
-        this->kind = CONST_STRING;
-        this->loc = loc;
-        this->env = 0;
-        this->text = text;
-    }
+    ConstString(yyltype loc, string text);
 
     /// \brief @override
-    virtual string toString(void) {
-        return string("ConstString->" + this->text);
-    }
+    virtual string toString(void);
 };
 
 /// \brief nil constant
 class ConstNil: public Const {
 public:
-    ConstNil(yyltype loc): Const(loc) {
-        this->kind = CONST_NIL;
-        this->loc = loc;
-        this->env = 0;
-    }
+    ConstNil(yyltype loc);
 
     /// \brief @override
-    virtual string toString(void) {
-        return string("ConstNil");
-    }
+    virtual string toString(void);
 };
 
 #endif /* !AST_CONST_H */

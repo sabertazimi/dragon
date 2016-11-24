@@ -78,7 +78,7 @@ typedef struct field_func {
 typedef struct prog {
     yyltype loc;
     scope_t env;
-    list_t class_defs;      ///< list_t <class_def_t>
+    List<class_def_t> class_defs;      ///< list_t <class_def_t>
 } *prog_t;
 
 /*
@@ -104,6 +104,6 @@ field_t field_func_new(field_kind_t kind, yyltype loc, func_def_t func_def);
 /*
  * @brief: create program node(root node)
  */
-prog_t prog_new(yyltype loc, list_t class_defs);
+prog_t prog_new(yyltype loc, List<class_def_t> class_defs);
 
 #endif /* !AST_OTHERS_H */

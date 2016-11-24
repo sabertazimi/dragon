@@ -53,8 +53,8 @@ typedef struct func_normal_def {
     yyltype loc;
     scope_t scope;
     type_t type;
-    list_t formals;         ///< list_t <formal_t>
-    list_t stmts;           ///< list_t <stmt_t>
+    List<formal_t> formals;         ///< list_t <formal_t>
+    List<stmt_t> stmts;           ///< list_t <stmt_t>
     string id;
 } *func_normal_def_t;
 
@@ -66,8 +66,8 @@ typedef struct func_anony_def {
     yyltype loc;
     scope_t scope;
     type_t type;
-    list_t formals;         ///< list_t <formal_t>
-    list_t stmts;           ///< list_t <stmt_t>
+    List<formal_t> formals;         ///< list_t <formal_t>
+    List<stmt_t> stmts;           ///< list_t <stmt_t>
 } *func_anony_def_t;
 
 /*
@@ -78,15 +78,15 @@ typedef struct class_def {
     scope_t scope;
     string id;
     string super;
-    list_t fields;          ///< list_t <field_t>
+    List<field_t> fields;          ///< list_t <field_t>
 } *class_def_t;
 
 /*
  * @brief: create defination node
  */
 var_def_t var_def_new(yyltype loc, type_t type, string id, expr_assign_t initializer);
-func_def_t func_normal_def_new(func_kind_t kind, yyltype loc, type_t type, list_t formals, list_t stmts, string id);
-func_def_t func_anony_def_new(func_kind_t kind, yyltype loc, type_t type, list_t formals, list_t stmts);
-class_def_t class_def_new(yyltype loc, string id, string super, list_t fields);
+func_def_t func_normal_def_new(func_kind_t kind, yyltype loc, type_t type, List<formal_t> formals, List<stmt_t> stmts, string id);
+func_def_t func_anony_def_new(func_kind_t kind, yyltype loc, type_t type, List<formal_t> formals, List<stmt_t> stmts);
+class_def_t class_def_new(yyltype loc, string id, string super, List<field_t> fields);
 
 #endif /* !AST_DEF_H */

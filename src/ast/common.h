@@ -14,7 +14,8 @@
 #include <iostream>
 #include <string>
 #include "scanner.h"
-#include "semantic/Scope.h"
+#include "libs/List.h"
 #include "ast/Node.h"
+#include "semantic/Scope.h"
 
 #endif /* !AST_COMMON_H */

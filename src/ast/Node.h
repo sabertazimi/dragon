@@ -30,40 +30,27 @@ public:
 
     /// \brief generate information of node
     /// \return information string
-    virtual string toString(void) {
-        return string("node->" + this->kind);
-    }
+    virtual string toString(void);
 
-    /// \brief type check function {
+    /// \brief type check function
     /// \return bool
-    virtual bool isClass(void) {
-        return false;
-    }
+    virtual bool isClass(void);
 
-    /// \brief type check function {
+    /// \brief type check function
     /// \return bool
-    virtual bool isFunc(void) {
-        return false;
-    }
+    virtual bool isFunc(void);
 
-    /// \brief type check function {
+    /// \brief type check function
     /// \return bool
-    virtual bool isStmt(void) {
-        return false;
-    }
+    virtual bool isStmt(void);
 
-    /// \brief type check function {
+    /// \brief type check function
     /// \return bool
-    virtual bool isExpr(void) {
-        return false;
-    }
+    virtual bool isExpr(void);
 
-    /// \brief type check function {
+    /// \brief type check function
     /// \return bool
-    virtual bool isConst(void) {
-        return false;
-    }
+    virtual bool isConst(void);
 };
-
 
 #endif /* !AST_NODE_H */

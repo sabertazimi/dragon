@@ -4,6 +4,7 @@
     #include <string.h>
     #include "errors/errors.h"
     #include "ast/ast.h"
+    #include "libs/List.h"
 
     #undef YYDEBUG
     #define YYDEBUG 1
@@ -34,19 +35,19 @@
     Const *const_val;
     expr_t expr_val;
     expr_bool_t expr_bool_val;
-    list_t assigns_val;
+    List<expr_t> assigns_val;
     formal_t formal_val;
-    list_t formals_val;
+    List<formal_t> formals_val;
     actual_t actual_val;
-    list_t actuals_val;
+    List<actual_t> actuals_val;
     var_def_t var_def_val;
     func_def_t func_def_val;
     field_t field_val;
-    list_t fields_val;
+    List<field_t> fields_val;
     stmt_t stmt_val;
-    list_t stmts_val;
+    List<stmt_t> stmts_val;
     class_def_t class_def_val;
-    list_t class_defs_val;
+    List<class_def_t> class_defs_val;
     prog_t prog_val;
 }
 
@@ -100,7 +101,6 @@ program
     : class_defs END
     {
         @$ = @1;
-        $1 = list_rev($1);
         prog_tree = prog_new(@1, $1);
     }
     ;
@@ -109,12 +109,12 @@ class_defs
     : class_defs class_def
     {
         @$ = @2;
-        $$ = list_new($2, $1);
+        ($$ = $1)->append($2);
     }
     | class_def
     {
         @$ = @1;
-        $$ = list_new($1, 0);
+        ($$ = new List<class_def_t>())->append($1);
     }
     ;
 
@@ -122,13 +122,11 @@ class_def
     : CLASS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $4 = list_rev($4);
         $$ = class_def_new(@2, $2, "\0", $4);
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $6 = list_rev($6);
         $$ = class_def_new(@2, $2, $4, $6);
     }
     /* error recovery */
@@ -198,12 +196,12 @@ fields
     : fields field
     {
         @$ = @2;
-        $$ = list_new($2, $1);
+        ($$ = $1)->append($2);
     }
     | field
     {
         @$ = @1;
-        $$ = list_new($1, 0);
+        ($$ = new List<class_def_t>())->append($1);
     }
     ;
 
@@ -321,8 +319,6 @@ func_normal_def
     : type IDENTIFIER '=' '(' formals ')' OP_ARROW '{' stmts '}' ';'
     {
         @$ = @2;
-        $5 = list_rev($5);
-        $9 = list_rev($9);
         $$ = func_normal_def_new(FUNC_NORMAL_DEF, @2, $1, $5, $9, $2);
     }
     /* error recovery */
@@ -368,8 +364,6 @@ func_anony_def
     : type '(' formals ')' OP_ARROW '{' stmts '}'
     {
         @$ = @1;
-        $3 = list_rev($3);
-        $7 = list_rev($7);
         $$ = func_anony_def_new(FUNC_ANONY_DEF, @1, $1, $3, $7);
     }
     /* error recovery */
@@ -416,12 +410,12 @@ formals_body
     : formals_body ',' formal
     {
         @$ = @3;
-        $$ = list_new($3, $1);
+        ($$ = $1)->append($3);
     }
     | formal
     {
         @$ = @1;
-        $$ = list_new($1, 0);
+        ($$ = new List<class_def_t>())->append($1);
     }
     /* error recovery */
     | formals_body error formal
@@ -457,7 +451,7 @@ stmts
     : stmts stmt
     {
         @$ = @2;
-        $$ = list_new($2, $1);
+        ($$ = $1)->append($2);
     }
     | /* empty */
     {
@@ -527,14 +521,11 @@ if_stmt
     : IF '(' bool_expr ')' '{' stmts '}' %prec NOELSE
     {
         @$ = @1;
-        $6 = list_rev($6);
         $$ = stmt_if_new(STMT_IF, @1, $3, $6, 0);
     }
     | IF '(' bool_expr ')' '{' stmts '}' ELSE '{' stmts '}'
     {
         @$ = @1;
-        $6  = list_rev($6);
-        $10 = list_rev($10);
         $$  = stmt_if_new(STMT_IF, @1, $3, $6, $10);
     }
     /* error recovery */
@@ -562,7 +553,6 @@ while_stmt
     : WHILE '(' bool_expr ')' '{' stmts '}'
     {
         @$ = @1;
-        $6 = list_rev($6);
         $$ = stmt_while_new(STMT_WHILE, @1, $3, $6);
     }
     /* error recovery */
@@ -590,9 +580,6 @@ for_stmt
     : FOR '(' assign_list ';' bool_expr ';' assign_list ')' '{' stmts '}'
     {
         @$  = @1;
-        $3  = list_rev($3);
-        $7  = list_rev($7);
-        $10 = list_rev($10);
         $$  = stmt_for_new(STMT_FOR, @1, $3, $5, $7, $10);
     }
     /* error recovery */
@@ -708,12 +695,12 @@ actuals_body
     : actuals_body ',' actual
     {
         @$ = @3;
-        $$ = list_new($3, $1);
+        ($$ = $1)->append($3);
     }
     | actual
     {
         @$ = @1;
-        $$ = list_new($1, 0);
+        ($$ = new List<class_def_t>())->append($1);
     }
     /* error recovery */
     | actuals_body error actual
@@ -790,12 +777,12 @@ assign_list_body
     : assign_list_body ',' assign_expr
     {
         @$ = @3;
-        $$ = list_new($3, $1);
+        ($$ = $1)->append($3);
     }
     | assign_expr
     {
         @$ = @1;
-        $$ = list_new($1, 0);
+        ($$ = new List<class_def_t>())->append($1);
     }
     /* error recovery */
     | assign_list_body ',' error
@@ -966,19 +953,16 @@ left_expr
     | left_expr '.' IDENTIFIER '(' actuals ')'
     {
         @$ = @3;
-        $5 = list_rev($5);
         $$ = expr_left_class_call_new(EXPR_LEFT, EXPR_LEFT_CLASS_CALL, @3, (expr_left_t)$1, $3, $5);
     }
 	| IDENTIFIER '(' actuals ')'
     {
         @$ = @1;
-        $3 = list_rev($3);
         $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, @1, $1, $3);
     }
     | func_anony_def '(' actuals ')'
     {
         @$ = @2;
-        $3 = list_rev($3);
         $$ = expr_left_anony_call_new(EXPR_LEFT, EXPR_LEFT_ANONY_CALL, @2, (func_anony_def_t)$1, $3);
     }
 	;
@@ -1012,7 +996,6 @@ prim_expr
     | NEW IDENTIFIER '(' actuals ')'
     {
         @$ = @2;
-        $4 = list_rev($4);
         $$ = expr_prim_newclass_new(EXPR_PRIM, EXPR_PRIM_NEWCLASS, @2, $2, $4);
     }
     | NEW type '[' expr ']'

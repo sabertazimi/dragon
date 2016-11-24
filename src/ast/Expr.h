@@ -105,7 +105,7 @@ typedef struct _expr_prim_newclass_ {
     scope_t env;
     expr_prim_kind_t sub_kind;
     string id;
-    list_t actuals;             ///< list_t <actual_t>
+    List<actual_t> actuals;             ///< list_t <actual_t>
 } *expr_prim_newclass_t;
 
 /*
@@ -186,7 +186,7 @@ typedef struct expr_left_class_call {
     expr_left_kind_t sub_kind;
     expr_left_t left;
     string field_id;
-    list_t actuals;         ///< list_t <actual_t>
+    List<actual_t> actuals;         ///< list_t <actual_t>
 } *expr_left_class_call_t;
 
 /*
@@ -198,7 +198,7 @@ typedef struct expr_left_func_call {
     scope_t env;
     expr_left_kind_t sub_kind;
     char *id;
-    list_t actuals;         ///< list_t <actual_t>
+    List<actual_t> actuals;         ///< list_t <actual_t>
 } *expr_left_func_call_t;
 
 /*
@@ -210,7 +210,7 @@ typedef struct expr_left_anony_call {
     scope_t env;
     expr_left_kind_t sub_kind;
     func_anony_def_t func_body;
-    list_t actuals;         ///< list_t <actual_t>
+    List<actual_t> actuals;         ///< list_t <actual_t>
 } *expr_left_anony_call_t;
 
 /*
@@ -365,7 +365,7 @@ typedef struct expr_bool {
 expr_t expr_prim_ident_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id);
 expr_t expr_prim_const_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, Const *const_val);
 expr_t expr_prim_read_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc);
-expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id, list_t actuals);
+expr_t expr_prim_newclass_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, string id, List<actual_t> actuals);
 expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yyltype loc, type_t type, expr_t length);
 
 /*
@@ -374,9 +374,9 @@ expr_t expr_prim_newarray_new(expr_kind_t kind, expr_prim_kind_t sub_kind, yylty
 expr_t expr_left_this_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc);
 expr_t expr_left_index_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t array, expr_t index);
 expr_t expr_left_class_field_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id);
-expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id, list_t actuals);
-expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, char *id, list_t actuals);
-expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, func_anony_def_t func_body, list_t actuals);
+expr_t expr_left_class_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, expr_left_t left, string field_id, List<actual_t> actuals);
+expr_t expr_left_func_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, char *id, List<actual_t> actuals);
+expr_t expr_left_anony_call_new(expr_kind_t kind, expr_left_kind_t sub_kind, yyltype loc, func_anony_def_t func_body, List<actual_t> actuals);
 
 /*
  * @brief: create unary_expr node
