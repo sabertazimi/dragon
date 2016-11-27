@@ -177,8 +177,8 @@ hexical [a-fA-F0-9]
     return READLINE;
 }
 ({letter}|_)({letter}|{digit}|_)* {
-    DRAGON_DEBUG("identifier", "IDENTIFIER");
-    strcpy(yylval.str_val, yytext);
+    char *str = strdup(yytext);
+    yylval.str_val = str;
     DRAGON_DEBUG("identifier", yylval.str_val);
     return IDENTIFIER;
 }
@@ -194,8 +194,9 @@ hexical [a-fA-F0-9]
 }
 \"(\\.|[^\\"\n])*\"	{
     DRAGON_DEBUG("constant", "CONSTANT_STRING");
-    strcpy(yylval.str_val, yytext + 1);
-    memset(yylval.str_val + strlen(yytext) - 2, '\0', 1);
+    char *str = strdup(yytext + 1);
+    memset(str + strlen(yytext) - 2, '\0', 1);
+    yylval.str_val = str;
     DRAGON_DEBUG("string", yylval.str_val);
     return CONSTANT_STRING;
 }
