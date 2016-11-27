@@ -13,7 +13,7 @@
 
 #include <iostream>
 #include <string>
-#include "scanner.h"
+#include "location.h"
 #include "libs/List.h"
 #include "ast/Node.h"
 #include "semantic/Scope.h"

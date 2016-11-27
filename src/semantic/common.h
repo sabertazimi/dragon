@@ -14,6 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "scanner.h"
+#include "location.h"
 
 #endif /* !SEMA_COMMON_H */

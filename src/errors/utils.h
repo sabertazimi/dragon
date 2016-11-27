@@ -12,7 +12,7 @@
 #define ERRORS_UTILS_H
 
 #include <stdarg.h>
-#include "scanner.h"
+#include "location.h"
 #include "errors/common.h"
 #include "errors/srcbuf.h"
 
