@@ -628,259 +628,192 @@ print_stmt
     }
     ;
 
+receiver
+    : expr '.'
+    {
+        @$ = @1;
+        $$ = $1;
+    }
+    | /* empty */
+    {
+        $$ = 0;
+    }
+    ; 
+
+Lvalue
+    : receiver IDENTIFIER
+    {
+        if ($1 == 0) {
+            @$ = @2;
+        } else {
+            @$ = @1;
+        }
+
+        $$ = new Ident($1, $2, locdup(&@2));
+    }
+    | expr '[' expr ']'
+    {
+        lvalue = new Indexed($1, $3, locdup(&@1));
+    }
+    ;
+
+call
+    : receiver IDENTIFIER '(' actuals ')'
+    {
+        if ($1 == 0) {
+            @$ = @2;
+        } else {
+            @$ = @1;
+        }
+
+        $$ = new CallExpr($1, $2, $4, locdup(&@2));
+    }
+    ;
+
 expr
-    : assign_expr
+    : Lvalue
     {
         @$ = @1;
         $$ = $1;
     }
-    ;
-
-assign_expr
-	: or_expr
+    | call
     {
         @$ = @1;
         $$ = $1;
     }
-	| left_expr '=' assign_expr
-    {
-    }
-	;
-
-or_expr
-	: and_expr
+    | constant
     {
         @$ = @1;
         $$ = $1;
     }
-	| or_expr OP_OR and_expr
+    | expr '+' expr
     {
         @$ = @2;
-        $$ = expr_or_new(EXPR_OR, @2, (expr_or_t)$1, (expr_and_t)$3);
+        $$ = new Binary(EXPR_ADD, expr, expr, locdup(&@2));
     }
-	;
-
-and_expr
-	: eq_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-	| and_expr OP_AND eq_expr
+    | expr '-' expr
     {
         @$ = @2;
-        $$ = expr_and_new(EXPR_AND, @2, (expr_and_t)$1, (expr_eq_t)$3);
+        $$ = new Binary(EXPR_SUB, $1, $3, locdup(&@2));
     }
-	;
-
-eq_expr
-	: cmp_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-	| eq_expr OP_EQ cmp_expr
+    | expr '*' expr
     {
         @$ = @2;
-        $$ = expr_eq_new(EXPR_EQ, EXPR_EQ_EQ, @2, (expr_eq_t)$1, (expr_cmp_t)$3);
+        $$ = new Binary(EXPR_MUL, $1, $3, locdup(&@2));
     }
-	| eq_expr OP_NE cmp_expr
+    | expr '/' expr
     {
         @$ = @2;
-        $$ = expr_eq_new(EXPR_EQ, EXPR_EQ_NE, @2, (expr_eq_t)$1, (expr_cmp_t)$3);
+        $$ = new Binary(EXPR_DIV, $1, $3, locdup(&@2));
     }
-	;
-
-cmp_expr
-	: add_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-	| cmp_expr '<' add_expr
+    | expr '%' expr
     {
         @$ = @2;
-        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_LT, @2, (expr_cmp_t)$1, (expr_add_t)$3);
+        $$ = new Binary(EXPR_MOD, $1, $3, locdup(&@2));
     }
-	| cmp_expr '>' add_expr
+    | expr OP_EQ expr
     {
         @$ = @2;
-        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_GT, @2, (expr_cmp_t)$1, (expr_add_t)$3);
+        $$ = new Binary(EXPR_EQ, $1, $3, locdup(&@2));
     }
-	| cmp_expr OP_LE add_expr
+    | expr OP_NE expr
     {
         @$ = @2;
-        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_LE, @2, (expr_cmp_t)$1, (expr_add_t)$3);
+        $$ = new Binary(EXPR_NE, $1, $3, locdup(&@2));
     }
-	| cmp_expr OP_GE add_expr
+    | expr '<' expr
     {
         @$ = @2;
-        $$ = expr_cmp_new(EXPR_CMP, EXPR_CMP_GE, @2, (expr_cmp_t)$1, (expr_add_t)$3);
+        $$ = new Binary(EXPR_LT, $1, $3, locdup(&@2));
     }
-	;
-
-add_expr
-	: mul_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-	| add_expr '+' mul_expr
+    | expr '>' expr
     {
         @$ = @2;
-        $$ = expr_add_new(EXPR_ADD, EXPR_ADD_ADD, @2, (expr_add_t)$1, (expr_mul_t)$3);
+        $$ = new Binary(EXPR_GT, $1, $3, locdup(&@2));
     }
-	| add_expr '-' mul_expr
+    | expr OP_LE expr
     {
         @$ = @2;
-        $$ = expr_add_new(EXPR_ADD, EXPR_ADD_SUB, @2, (expr_add_t)$1, (expr_mul_t)$3);
+        $$ = new Binary(EXPR_LE, $1, $3, locdup(&@2));
     }
-	;
-
-mul_expr
-	: unary_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-	| mul_expr '*' unary_expr
+    | expr OP_GE expr
     {
         @$ = @2;
-        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_MUL, @2, (expr_mul_t)$1, (expr_unary_t)$3);
+        $$ = new Binary(EXPR_GE, $1, $3, locdup(&@2));
     }
-	| mul_expr '/' unary_expr
+    | expr OP_AND expr
     {
         @$ = @2;
-        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_DIV, @2, (expr_mul_t)$1, (expr_unary_t)$3);
+        $$ = new Binary(EXPR_AND, $1, $3, locdup(&@2));
     }
-	| mul_expr '%' unary_expr
+    | expr OP_OR expr
     {
         @$ = @2;
-        $$ = expr_mul_new(EXPR_MUL, EXPR_MUL_MOD, @2, (expr_mul_t)$1, (expr_unary_t)$3);
+        $$ = new Binary(EXPR_OR, $1, $3, locdup(&@2));
     }
-	;
-
-unary_expr
-    : left_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-    | '+' unary_expr
-    {
-        @$ = @1;
-        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_PLUS, @1, (expr_unary_t)$2);
-    }
-    | '-' unary_expr
-    {
-        @$ = @1;
-        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_MINUS, @1, (expr_unary_t)$2);
-    }
-    | '!' unary_expr
-    {
-        @$ = @1;
-        $$ = expr_unary_new(EXPR_UNARY, EXPR_UNARY_NOT, @1, (expr_unary_t)$2);
-    }
-    ;
-
-left_expr
-	: prim_expr
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-    | THIS
-    {
-        @$ = @1;
-        $$ = expr_left_this_new(EXPR_LEFT, EXPR_LEFT_THIS, @1);
-    }
-	| left_expr '[' expr ']'
-    {
-        @$ = @1;
-        $$ = expr_left_index_new(EXPR_LEFT, EXPR_LEFT_INDEX, @1, (expr_left_t)$1, $3);
-    }
-	| left_expr '.' IDENTIFIER %prec CLASS_FIELD
-    {
-        @$ = @3;
-        $$ = expr_left_class_field_new(EXPR_LEFT, EXPR_LEFT_CLASS_FIELD, @3, (expr_left_t)$1, $3);
-    }
-    | left_expr '.' IDENTIFIER '(' actuals ')'
-    {
-        @$ = @3;
-        $$ = expr_left_class_call_new(EXPR_LEFT, EXPR_LEFT_CLASS_CALL, @3, (expr_left_t)$1, $3, $5);
-    }
-	| IDENTIFIER '(' actuals ')'
-    {
-        @$ = @1;
-        $$ = expr_left_func_call_new(EXPR_LEFT, EXPR_LEFT_FUNC_CALL, @1, $1, $3);
-    }
-	;
-
-prim_expr
-	: IDENTIFIER
-    {
-        @$ = @1;
-        $$ = expr_prim_ident_new(EXPR_PRIM, EXPR_PRIM_IDENT, @1, $1);
-    }
-	| constant
-    {
-        @$ = @1;
-        $$ = expr_prim_const_new(EXPR_PRIM, EXPR_PRIM_CONST, @1, $1);
-    }
-	| '(' expr ')'
+    | '(' expr ')'
     {
         @$ = @2;
         $$ = $2;
     }
-    | READINTEGER '(' ')'
+    | '-' expr %prec UMINUS
     {
         @$ = @1;
-        $$ = expr_prim_read_new(EXPR_PRIM, EXPR_PRIM_READINT, @1);
+        $$ = new Unary(EXPR_NEG, $2, locdup(&@1));
     }
-    | READLINE '(' ')'
+    | '!' expr
     {
         @$ = @1;
-        $$ = expr_prim_read_new(EXPR_PRIM, EXPR_PRIM_READLINE, @1);
+        $$ = new Unary(EXPR_NOT, $2, locdup(&@1));
     }
-    | NEW IDENTIFIER '(' actuals ')'
+    | READ_INTEGER '(' ')'
     {
-        @$ = @2;
-        $$ = expr_prim_newclass_new(EXPR_PRIM, EXPR_PRIM_NEWCLASS, @2, $2, $4);
+        @$ = @1;
+        $$ = new ReadIntExpr(locdup(&@1));
     }
-    | NEW type '[' expr ']'
+    | READ_LINE '(' ')'
     {
-        @$ = @2;
-        $$ = expr_prim_newarray_new(EXPR_PRIM, EXPR_PRIM_NEWARRAY, @2, $2, $4);
+        @$ = @1;
+        $$ = new ReadLineExpr(locdup(&@1));
     }
-    /* error recovery */
-	| '(' error ')'
+    | THIS
     {
-        @$ = @2;
-        $$ = 0;
-        proposed_solution("unexpected nested parenthesis");
+        @$ = @1;
+        $$ = new ThisExpr(locdup(&@1));
     }
-	;
+    | NEW IDENTIFIER '(' ')'
+    {
+        @$ = @1;
+        $$ = new NewClass($2, locdup(&@1));
+    }
+    | NEW Type '[' Expr ']'
+    {
+        @$ = @1;
+        $$ = new NewArray($2, $4, locdup(&@1));
+    }
+    ;
 
 constant
+    /* $$ = new Constant(kind, $1, locdup(&@1)); */
     : CONSTANT_INT
     {
         @$ = @1;
-        $$ = new ConstInt(@1, $1);
+        $$ = new Constant(locdup(&@1), $1);
     }
     | CONSTANT_BOOL
     {
         @$ = @1;
-        $$ = new ConstBool(@1, $1);
+        $$ = new Constant(locdup(&@1), $1);
     }
     | CONSTANT_STRING
     {
         @$ = @1;
-        $$ = new ConstString(@1, $1);
+        $$ = new Constant(locdup(&@1), $1);
     }
     | NIL
     {
         @$ = @1;
-        $$ = new ConstNil(@1);
+		$$ = new Null(locdup(&@1));
     }
     ;
 

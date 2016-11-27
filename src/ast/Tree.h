@@ -12,7 +12,6 @@
 #define TREE_H
 
 #include <iostream>
-#include <string>
 #include "location.h"
 #include "libs/List.h"
 #include "ast/Type.h"
@@ -22,234 +21,206 @@
 
 class Visitor;
 
-typedef enum __ast_kind__ {
-    FIELD_VAR = 1,
-    FIELD_FUNC
-    EXPR_BOOL = 41,
-    EXPR_ASSIGN,
-    EXPR_OR,
-    EXPR_AND,
-    EXPR_EQ,
-    EXPR_EQ = 81,
-    EXPR_NE
-    EXPR_LT = 91,
-    EXPR_GT,
-    EXPR_LE,
-    EXPR_GE
-    EXPR_ADD = 101,
-    EXPR_SUB
-    EXPR_MUL = 111,
-    EXPR_DIV,
-    EXPR_MOD
-    EXPR_PLUS = 121,
-    EXPR_MINUS,
-    EXPR_NOT
-    EXPR_THIS = 131,
-    EXPR_INDEX,
-    EXPR_CLASS_FIELD,
-    EXPR_CLASS_CALL,
-    EXPR_FUNC_CALL,
-    EXPR_IDENT = 141,
-    EXPR_CONST,
-    EXPR_READINT,
-    EXPR_READLINE,
-    EXPR_NEWCLASS,
-    EXPR_NEWARRAY
-    STMT_VAR_DEF = 31,
-    STMT_EXPR,
+typedef enum __astKind__ {
+    PROGRAM,
+    CLASS_DEF,
+    FUNC_DEF,
+    VAR_DEF,
+    STMT_BLOCK,
     STMT_IF,
     STMT_WHILE,
     STMT_FOR,
     STMT_RETURN,
     STMT_PRINT
-    CONST_INT = 1,
-    CONST_BOOL,
-    CONST_STRING,
-    CONST_NIL
-} ast_kind ;
+    EXEC,
+    APPLY,
+    NEWCLASS,
+    NEWARRAY,
+    PARENS,
+    INDEXED,
+    IDENT,
+    CONSTANT,
+    TYPE_BASIC,
+    TYPE_CLASS,
+    TYPE_ARRAY,
+    TYPE_APPLY,
+    TYPE_PARAMETER,
+    NILLCHK,
+    EXPR_ASSIGN,
+    EXPR_NEG,
+    EXPR_NOT
+    EXPR_OR,
+    EXPR_AND,
+    EXPR_EQ,
+    EXPR_NE
+    EXPR_LT,
+    EXPR_GT,
+    EXPR_LE,
+    EXPR_GE
+    EXPR_ADD,
+    EXPR_SUB
+    EXPR_MUL,
+    EXPR_DIV,
+    EXPR_MOD
+    EXPR_PLUS,
+    CONSTANT
+    CALLEXPR,
+    THISEXPR,
+    READINTEXPR,
+    READLINEEXPR,
+    NIL,
+
+    /**
+     * Tags for constant and TypeLiteral
+     */
+    TYPE_VOID,
+    TYPE_INT,
+    TYPE_BOOL,
+    TYPE_STRING,
+
+} astKind ;
+
+typedef enum __lvKind__ {
+    LOCAL_VAR,
+    PARAM_VAR,
+    MEMBER_VAR,
+    ARRAY_ELEMENT
+} lvKind;
 
 class Node {
     public:
-        ast_kind kind;      ///< kind of node
+        astKind kind;      ///< kind of node
         yyltype* loc;       ///< location information
         Type* type;         ///< type information
 
-        /// \brief type check function
-        /// \return bool
-        virtual bool isClass(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isFunc(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isVar(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isStmt(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isExpr(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isType(void);
-
-        /// \brief type check function
-        /// \return bool
-        virtual bool isConst(void);
+        /// \brief constructor
+        Node(astKind kind, yyltype *loc);
 
         /// \brief setup visitor
-        public void accept(Visitor v);
+        virtual void accept(Visitor *v);
 
         /// \brief generate information of node
         /// \return information string
-        virtual string toString(void);
+        virtual void print(AstPrinter *ap);
 };
 
 
 
 class Program:public Node {
     public:
-        List < ClassDef > classes;
-        Class main;
-        GlobalScope globalScope;
+        List <ClassDef *> *classes;
+        Class *main;
+        GlobalScope *globalScope;
 
-        Program(List < ClassDef > classes, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Program(List <ClassDef *> *classes, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class ClassDef:public Node {
     public:
-        String name;
-        String parent;
-        List < Node > fields;
-        Class symbol;
+        char *name;
+        char *parent;
+        List <Node *> *fields;
+        Class *symbol;
 
-        ClassDef(String name, String parent, List < Node > fields,
-                yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        ClassDef(char *name, char *parent, List <Node *> *fields, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class FuncDef:public Node {
     public:
-        boolean statik;
-        String name;
-        TypeLiteral returnType;
-        List < VarDef > formals;
-        Block body;
-        Function symbol;
+        char *name;
+        TypeLiteral *returnType;
+        List <VarDef *> *formals;
+        Block *body;
+        Function *symbol;
 
-        FuncDef(boolean statik, String name, TypeLiteral returnType,
-                List < VarDef > formals, Block body, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        FuncDef(char *name, TypeLiteral *returnType, List <VarDef *> *formals, Block *body, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class VarDef:public Node {
     public:
-        String name;
-        TypeLiteral type;
-        Variable symbol;
+        char *name;
+        TypeLiteral *type;
+        Variable *symbol;
 
-        VarDef(String name, TypeLiteral type, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        VarDef(char *name, TypeLiteral *type, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Block:public Node {
     public:
-        List < Node > block;
-        LocalScope associatedScope;
+        List <Node *> *block;
+        LocalScope *associatedScope;
 
-        Block(List < Node > block, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Block(List <Node *> *block, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class WhileLoop:public Node {
     public:
-        Expr condition;
-        Node loopBody;
+        Expr *condition;
+        Node *loopBody;
 
-        WhileLoop(Expr condition, Node loopBody, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        WhileLoop(Expr *condition, Node *loopBody, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class ForLoop:public Node {
     public:
-        Node init;
-        Expr condition;
-        Node update;
-        Node loopBody;
+        Node *init;
+        Expr *condition;
+        Node *update;
+        Node *loopBody;
 
-        ForLoop(Node init, Expr condition, Node update,
-                Node loopBody, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        ForLoop(Node *init, Expr *condition, Node *update, Node *loopBody, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class If:public Node {
     public:
-        Expr condition;
-        Node trueBranch;
-        Node falseBranch;
+        Expr *condition;
+        Node *trueBranch;
+        Node *falseBranch;
 
-        If(Expr condition, Node trueBranch, Node falseBranch, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        If(Expr *condition, Node *trueBranch, Node *falseBranch, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Exec:public Node {
     public:
-        Expr expr;
+        Expr *expr;
 
-        Exec(Expr expr, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
-}
-
-class Break:public Node {
-    public:
-        Break(yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Exec(Expr *expr, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Print:public Node {
     public:
-        List < Expr > exprs;
+        List <Expr *> exprs;
 
-        Print(List < Expr > exprs, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Print(List <Expr *> *exprs, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Return:public Node {
     public:
-        Expr expr;
+        Expr *expr;
 
-        Return(Expr expr, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Return(Expr *expr, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Expr:public Node {
@@ -259,216 +230,185 @@ class Expr:public Node {
         boolean isClass;
         boolean usedForRef;
 
-        Expr(int tag, yyltype *loc);
+        Expr(int kind, yyltype *loc);
 }
 
 class Apply:public Expr {
     public:
-        Expr receiver;
-        String method;
-        List < Expr > actuals;
-        Function symbol;
+        Expr *receiver;
+        char *method;
+        List <Expr *> *actuals;
+        Function *symbol;
         boolean isArrayLength;
 
-        Apply(Expr receiver, String method, List < Expr > actuals,
-                yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Apply(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class NewClass:public Expr {
     public:
-        String className;
+        char *className;
         Class symbol;
 
-        NewClass(String className, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        NewClass(char *className, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class NewArray:public Expr {
     public:
-        TypeLiteral elementType;
-        Expr length;
+        TypeLiteral *elementType;
+        Expr *length;
 
-        NewArray(TypeLiteral elementType, Expr length, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        NewArray(TypeLiteral *elementType, Expr *length, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
-
-typedef enum _lvKind_ {
-    LOCAL_VAR,
-    PARAM_VAR,
-    MEMBER_VAR,
-    ARRAY_ELEMENT
-} lvKind;
 
 class LValue:public Expr {
     public:
+        lvKind kind;
 
-        LValue(int tag, yyltype *loc);
+        LValue(astKind kind, yyltype *loc);
 }
 
 class Assign:public Node {
     public:
         LValue left;
-        Expr expr;
+        Expr *expr;
 
-        Assign(LValue left, Expr expr, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Assign(LValue left, Expr *expr, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Unary:public Expr {
     public:
-        Expr expr;
+        Expr *expr;
 
-        Unary(int kind, Expr expr, yyltype *loc);
-        void unaryOperatorToString(IndentPrintWriter pw, String op);
-
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Unary(astKind kind, Expr *expr, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Binary:public Expr {
     public:
-        Expr left;
-        Expr right;
+        Expr *left;
+        Expr *right;
 
-        Binary(int kind, Expr left, Expr right, yyltype *loc);
-        private void binaryOperatorPrintTo(IndentPrintWriter pw, String op);
-
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        Binary(int kind, Expr *left, Expr *right, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class CallExpr:public Expr {
     public:
-        Expr receiver;
-
-        String method;
-
-        List < Expr > actuals;
-
-        Function symbol;
-
+        Expr *receiver;
+        char *method;
+        List <Expr *> *actuals;
+        Function *symbol;
         boolean isArrayLength;
 
-        CallExpr(Expr receiver, String method, List < Expr > actuals,
-                yyltype *loc);
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        CallExpr(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class ReadIntExpr:public Expr {
     public:
         ReadIntExpr(yyltype *loc);
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class ReadLineExpr:public Expr {
     public:
         ReadLineExpr(yyltype *loc);
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class ThisExpr:public Expr {
     public:
         ThisExpr(yyltype *loc);
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Indexed:public LValue {
     public:
-        Expr array;
-        Expr index;
+        Expr *array;
+        Expr *index;
 
-        Indexed(Expr array, Expr index, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Indexed(Expr *array, Expr *index, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Ident:public LValue {
     public:
-        Expr owner;
-        String name;
-        Variable symbol;
+        Expr *owner;
+        char *name;
+        Variable *symbol;
         boolean isDefined;
 
-        Ident(Expr owner, String name, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Ident(Expr *owner, char *name, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
-class Literal:public Expr {
+class Constant:public Expr {
     public:
-        int typeTag;
-        Object value;
+        astKind typekind;
+        int num_val;
+        char *str_val;
 
-        Literal(int typeTag, Object value, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        Constant(astKind typekind, int num_val, yyltype *loc);
+        Constant(astKind typekind, char *str_val, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class Null:public Expr {
     public:
         Null(yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class TypeLiteral:public Node {
     public:
         Type type;
 
-        TypeLiteral(int tag, yyltype *loc);
+        TypeLiteral(astKind kind, yyltype *loc);
 }
 
-class TypeIdent:public TypeLiteral {
+class TypeBasic:public TypeLiteral {
     public:
-        int typeTag;
+        astKind typekind;
 
-        TypeIdent(int typeTag, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        TypeBasic(astKind typekind, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class TypeClass:public TypeLiteral {
     public:
-        String name;
+        char *name;
 
-        TypeClass(String name, yyltype *loc);
-        void accept(Visitor visitor);
-
-        void printTo(IndentPrintWriter pw);
+        TypeClass(char *name, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 class TypeArray:public TypeLiteral {
     public:
-        TypeLiteral elementType;
+        TypeLiteral *elementType;
 
-        TypeArray(TypeLiteral elementType, yyltype *loc);
-        void accept(Visitor v);
-
-        void printTo(IndentPrintWriter pw);
+        TypeArray(TypeLiteral *elementType, yyltype *loc);
+        virtual void accept(Visitor *v);
+        virtual void print(AstPrinter *ap);
 }
 
 #endif
