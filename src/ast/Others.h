@@ -38,9 +38,6 @@ typedef struct actual {
 /*
  * @brief: kind of field
  */
-typedef enum field_kind {
-    FIELD_VAR = 1,
-    FIELD_FUNC
 } field_kind_t;
 
 /*

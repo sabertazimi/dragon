@@ -18,14 +18,6 @@
 /*
  * @brief: kind of stmt_t
  */
-typedef enum stmt_kind {
-    STMT_VAR_DEF = 31,
-    STMT_EXPR,
-    STMT_IF,
-    STMT_WHILE,
-    STMT_FOR,
-    STMT_RETURN,
-    STMT_PRINT
 } stmt_kind_t;
 
 /*

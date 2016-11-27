@@ -12,9 +12,8 @@
 
 using namespace std;
 
-Const::Const(yyltype loc) {
+Const::Const(yyltype* loc) {
     this->loc = loc;
-    this->env = 0;
 }
 
 bool Const::isConst(void) {
@@ -24,7 +23,6 @@ bool Const::isConst(void) {
 ConstInt::ConstInt(yyltype loc, int val = 0): Const(loc) {
     this->kind = CONST_INT;
     this->loc = loc;
-    this->env = 0;
     this->val = val;
 }
 
@@ -35,7 +33,6 @@ string ConstInt::toString(void) {
 ConstBool::ConstBool(yyltype loc, int val = 0): Const(loc) {
     this->kind = CONST_BOOL;
     this->loc = loc;
-    this->env = 0;
     this->val = val;
 }
 
@@ -46,7 +43,6 @@ string ConstBool::toString(void) {
 ConstString::ConstString(yyltype loc, string text = 0): Const(loc) {
     this->kind = CONST_STRING;
     this->loc = loc;
-    this->env = 0;
     this->text = text;
 }
 
@@ -57,7 +53,6 @@ string ConstString::toString(void) {
 ConstNil::ConstNil(yyltype loc): Const(loc) {
     this->kind = CONST_NIL;
     this->loc = loc;
-    this->env = 0;
 }
 
 string ConstNil::toString(void) {

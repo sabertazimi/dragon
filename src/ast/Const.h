@@ -17,53 +17,53 @@ using namespace std;
 
 /// \brief constant
 class Const: public Node {
-public:
-    Const(yyltype loc);
+    public:
+        Const(yyltype loc);
 
-    /// \brief @override
-    virtual bool isConst(void);
+        /// \brief @override
+        virtual bool isConst(void);
 };
 
 /// \brief int constant
 class ConstInt: public Const {
-public:
-    int val;
+    public:
+        int val;
 
-    ConstInt(yyltype loc, int val);
+        ConstInt(yyltype loc, int val);
 
-    /// \brief @override
-    virtual string toString(void);
+        /// \brief @override
+        virtual string toString(void);
 };
 
 /// \brief bool constant
 class ConstBool: public Const {
-public:
-    int val;
+    public:
+        int val;
 
-    ConstBool(yyltype loc, int val);
+        ConstBool(yyltype loc, int val);
 
-    /// \brief @override
-    virtual string toString(void);
+        /// \brief @override
+        virtual string toString(void);
 };
 
 /// \brief string constant
 class ConstString: public Const {
-public:
-    string text;
+    public:
+        string text;
 
-    ConstString(yyltype loc, string text);
+        ConstString(yyltype loc, string text);
 
-    /// \brief @override
-    virtual string toString(void);
+        /// \brief @override
+        virtual string toString(void);
 };
 
 /// \brief nil constant
 class ConstNil: public Const {
-public:
-    ConstNil(yyltype loc);
+    public:
+        ConstNil(yyltype loc);
 
-    /// \brief @override
-    virtual string toString(void);
+        /// \brief @override
+        virtual string toString(void);
 };
 
 #endif /* !AST_CONST_H */

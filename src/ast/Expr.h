@@ -19,18 +19,6 @@
 /*
  * @brief: kind of expr_t
  */
-typedef enum expr_kind {
-    EXPR_BOOL = 41,
-    EXPR_ASSIGN,
-    EXPR_OR,
-    EXPR_AND,
-    EXPR_EQ,
-    EXPR_CMP,
-    EXPR_ADD,
-    EXPR_MUL,
-    EXPR_UNARY,
-    EXPR_LEFT,
-    EXPR_PRIM,
 } expr_kind_t;
 
 /*
@@ -45,13 +33,6 @@ typedef struct expr {
 /*
  * @brief: kind of expr_prim_t
  */
-typedef enum expr_prim_kind {
-    EXPR_PRIM_IDENT = 141,
-    EXPR_PRIM_CONST,
-    EXPR_PRIM_READINT,
-    EXPR_PRIM_READLINE,
-    EXPR_PRIM_NEWCLASS,
-    EXPR_PRIM_NEWARRAY
 } expr_prim_kind_t;
 
 /*
@@ -123,13 +104,6 @@ typedef struct _expr_prim_newarray_ {
 /*
  * @brief: kind of expr_left_t
  */
-typedef enum expr_left_kind {
-    EXPR_LEFT_THIS = 131,
-    EXPR_LEFT_INDEX,
-    EXPR_LEFT_CLASS_FIELD,
-    EXPR_LEFT_CLASS_CALL,
-    EXPR_LEFT_FUNC_CALL,
-    EXPR_LEFT_ANONY_CALL
 } expr_left_kind_t;
 
 /*
@@ -216,10 +190,6 @@ typedef struct expr_left_anony_call {
 /*
  * @brief: kind of expr_unary_t
  */
-typedef enum expr_unary_kind {
-    EXPR_UNARY_PLUS = 121,
-    EXPR_UNARY_MINUS,
-    EXPR_UNARY_NOT
 } expr_unary_kind_t;
 
 /*
@@ -236,10 +206,6 @@ typedef struct expr_unary {
 /*
  * @brief: kind of expr_mul_t
  */
-typedef enum expr_mul_kind {
-    EXPR_MUL_MUL = 111,
-    EXPR_MUL_DIV,
-    EXPR_MUL_MOD
 } expr_mul_kind_t;
 
 /*
@@ -257,9 +223,6 @@ typedef struct expr_mul {
 /*
  * @brief: kind of expr_add_t
  */
-typedef enum expr_add_kind {
-    EXPR_ADD_ADD = 101,
-    EXPR_ADD_SUB
 } expr_add_kind_t;
 
 /*
@@ -277,11 +240,6 @@ typedef struct expr_add {
 /*
  * @brief: kind of expr_cmp_t
  */
-typedef enum expr_cmp_kind {
-    EXPR_CMP_LT = 91,
-    EXPR_CMP_GT,
-    EXPR_CMP_LE,
-    EXPR_CMP_GE
 } expr_cmp_kind_t;
 
 /*
@@ -299,9 +257,6 @@ typedef struct expr_cmp {
 /*
  * @brief: kind of expr_eq_t
  */
-typedef enum expr_eq_kind {
-    EXPR_EQ_EQ = 81,
-    EXPR_EQ_NE
 } expr_eq_kind_t;
 
 /*

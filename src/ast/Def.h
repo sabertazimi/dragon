@@ -32,8 +32,6 @@ typedef struct var_def {
  * @brief: kind of func_def_t
  */
 typedef enum func_kind {
-    FUNC_NORMAL_DEF = 11,
-    FUNC_ANONY_DEF
 } func_kind_t;
 
 /*

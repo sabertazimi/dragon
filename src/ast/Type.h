@@ -1,6 +1,6 @@
 /*!
  * \file Type.h
- * \brief
+ * \brief Type System(independence of grammar/ast tree)
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
  * \version 1.0
