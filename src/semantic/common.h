@@ -13,7 +13,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <cstring>
+#include <stack>
+#include <set>
+#include <map>
 #include "location.h"
 
 #endif /* !SEMA_COMMON_H */

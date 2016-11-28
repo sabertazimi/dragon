@@ -6,12 +6,13 @@ class Main {
 
     void main2 = (void) => {
         // syntax error: expected ';'
-        int c = 1
+        int c;
+        c = 1
     };
 
     void main3 = (void) => {
         // syntax error: expected identifier as variable name
-        int[] "123" = new int[10];
+        int[] "123";
     };
 
     x = 1;

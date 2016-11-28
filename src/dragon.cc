@@ -9,14 +9,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "syntax/Tree.h"
-#include "semantic/semantic.h"
+#include "syntax/AstPrinter.h"
+// #include "semantic/semantic.h"
 
 #define AST_DEBUG
-#undef AST_DEBUG
+// #undef AST_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);
-extern prog_t prog_tree;
+extern Program *tree;
 
 extern int lex_failed;
 extern int parse_failed;
@@ -40,7 +41,8 @@ int main(int argc, char **argv) {
     }
 
 #ifdef AST_DEBUG
-    prog_print(prog_tree);
+    AstPrinter *ap = new AstPrinter();
+    tree->print(ap);
 #endif
 
     /* if (sema_analysis(prog_tree) == 0) { */

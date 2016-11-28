@@ -12,37 +12,32 @@
 #define SEMA_SCOPE_H
 
 #include "semantic/common.h"
-#include "semantic/Symtab.h"
+#include "semantic/Symbol.h"
 
-typedef struct _scope_ *scope_t;
+using namespace std;
 
-struct _scope_ {
-    scope_t parent;             ///< scope from upper ast node
-    scope_t super;              ///< scope from super class
-    symtab_t class_defs;        ///< for global scope
-    symtab_t var_defs;          ///< for class/function scope
-    symtab_t formal_defs;       ///< for function scope
-    symtab_t func_normal_defs;  ///< for class scope
-    symtab_t func_anony_defs;   ///< for function scope(ignore func_anony_defs as class fields)
+class Scope {
+
 };
 
-/*
- * @brief: create a new scope
- */
-scope_t scope_new(scope_t super, scope_t parent,
-        symtab_t class_defs, symtab_t var_defs, symtab_t formal_defs,
-        symtab_t func_normal_defs, symtab_t func_anony_defs);
+class FormalScope: public Scope{
 
-/*
- * @brief: search symbol in scope with id
- * @return: NULL/symbol_t
- */
-symbol_t scope_lookup(scope_t scope, const char *id);
+};
 
+class LocalScope: public Scope{
 
-/*
- * @brief: insert a new symbol to scope
- */
-scope_t scope_enter(scope_t scope, symbol_t symbol);
+};
+
+class ClassScope: public Scope{
+
+};
+
+class GlobalScope: public Scope {
+
+};
+
+class ScopeStack{
+
+};
 
 #endif /* !SEMA_SCOPE_H */

@@ -4,7 +4,7 @@ class Computer {
 
     void crash = (int numTimes) => {
         Print(numTimes);
-        return void;
+        return ;
     };
 }
 

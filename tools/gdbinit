@@ -1,2 +1,2 @@
-b sema_analysis.c: 625
-r test/sema_class_spec.dg
+b dragon.c: 1
+r test/errors_statement_spec.dg

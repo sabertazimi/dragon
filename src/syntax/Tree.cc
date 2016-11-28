@@ -18,7 +18,7 @@ Node::Node(astKind kind, yyltype *loc) {
 }
 
 void Node::accept(Visitor *v) {
-    v.visitNode(this);
+    v->visitNode(this);
 }
 
 void Node::print(AstPrinter *ap) {
@@ -30,7 +30,7 @@ Program::Program(List <ClassDef *> *classes, yyltype *loc): Node(PROGRAM, loc) {
 }
 
 void Program::accept(Visitor *v) {
-    v.visitProgram(this);
+    v->visitProgram(this);
 }
 
 void Program::print(AstPrinter *ap) {
@@ -38,7 +38,7 @@ void Program::print(AstPrinter *ap) {
     ap->incIndent();
 
     for (int i = 0; i < classes->size(); i++) {
-        classes[i]->print(ap);
+        (*classes)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -51,15 +51,15 @@ ClassDef::ClassDef(char *name, char *parent, List <Node *> *fields, yyltype *loc
 }
 
 void ClassDef::accept(Visitor *v) {
-    v.visitClassDef(this);
+    v->visitClassDef(this);
 }
 
 void ClassDef::print(AstPrinter *ap) {
     ap->print("class-><%s, %s>", name, parent);
     ap->incIndent();
 
-    for (int i = 0; i < fields.size(); i++) {
-        fields[i]->print(ap);
+    for (int i = 0; i < fields->size(); i++) {
+        (*fields)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -73,21 +73,21 @@ FuncDef::FuncDef(char *name, TypeLiteral *returnType, List <VarDef *> *formals, 
 }
 
 void FuncDef::accept(Visitor *v) {
-    v.visitFuncDef(this);
+    v->visitFuncDef(this);
 }
 
 void FuncDef::print(AstPrinter *ap) {
     ap->print("func->%s", name);
 
     returnType->print(ap);
-    ap->print();
+    ap->print("");
 
     ap->incIndent();
     ap->print("formals->");
     ap->incIndent();
 
-    for (int i = 0; i < formals.size(); i++) {
-        formals[i]->print(ap);
+    for (int i = 0; i < formals->size(); i++) {
+        (*formals)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -101,13 +101,13 @@ VarDef::VarDef(char *name, TypeLiteral *type, yyltype *loc): Node(VAR_DEF, loc) 
 }
 
 void VarDef::accept(Visitor *v) {
-    v.visitVarDef(this);
+    v->visitVarDef(this);
 }
 
 void VarDef::print(AstPrinter *ap) {
     ap->print("vardef->%s", name);
     type->print(ap);
-    ap->print();
+    ap->print("");
 }
 
 Block::Block(List <Node *> *block, yyltype *loc): Node(STMT_BLOCK, loc) {
@@ -115,15 +115,15 @@ Block::Block(List <Node *> *block, yyltype *loc): Node(STMT_BLOCK, loc) {
 }
 
 void Block::accept(Visitor *v) {
-    v.visitBlock(this);
+    v->visitBlock(this);
 }
 
 void Block::print(AstPrinter *ap) {
     ap->print("stmtblock->");
     ap->incIndent();
 
-    for (int i = 0;i < block.size(); i++) {
-        block[i]->print(ap);
+    for (int i = 0;i < block->size(); i++) {
+        (*block)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -135,7 +135,7 @@ WhileLoop::WhileLoop(Expr *condition, Node *loopBody, yyltype *loc): Node(STMT_W
 }
 
 void WhileLoop::accept(Visitor *v) {
-    v.visitWhileLoop(this);
+    v->visitWhileLoop(this);
 }
 
 void WhileLoop::print(AstPrinter *ap) {
@@ -159,7 +159,7 @@ ForLoop::ForLoop(Node *init, Expr *condition, Node *update, Node *loopBody, yylt
 }
 
 void ForLoop::accept(Visitor *v) {
-    v.visitForLoop(this);
+    v->visitForLoop(this);
 }
 
 void ForLoop::print(AstPrinter *ap) {
@@ -194,7 +194,7 @@ If::If(Expr *condition, Node *trueBranch, Node *falseBranch, yyltype *loc): Node
 }
 
 void If::accept(Visitor *v) {
-    v.visitIf(this);
+    v->visitIf(this);
 }
 
 void If::print(AstPrinter *ap) {
@@ -222,7 +222,7 @@ Exec::Exec(Expr *expr, yyltype *loc): Node(EXEC, loc) {
 }
 
 void Exec::accept(Visitor *v) {
-    v.visitExec(this);
+    v->visitExec(this);
 }
 
 void Exec::print(AstPrinter *ap) {
@@ -234,15 +234,15 @@ Print::Print(List <Expr *> *exprs, yyltype *loc): Node(STMT_PRINT, loc) {
 }
 
 void Print::accept(Visitor *v) {
-    v.visitPrint(this);
+    v->visitPrint(this);
 }
 
 void Print::print(AstPrinter *ap) {
     ap->print("print->");
     ap->incIndent();
 
-    for (int i = 0; i < exprs.size(); i++) {
-        exprs[i]->print(ap);
+    for (int i = 0; i < exprs->size(); i++) {
+        (*exprs)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -253,7 +253,7 @@ Return::Return(Expr *expr, yyltype *loc): Node(STMT_RETURN, loc) {
 }
 
 void Return::accept(Visitor *v) {
-    v.visitReturn(this);
+    v->visitReturn(this);
 }
 
 void Return::print(AstPrinter *ap) {
@@ -266,7 +266,7 @@ void Return::print(AstPrinter *ap) {
     }
 }
 
-Expr::Expr(int kind, yyltype *loc): Node(kind, loc) {
+Expr::Expr(astKind kind, yyltype *loc): Node(kind, loc) {
     /* empty */
 }
 
@@ -277,7 +277,7 @@ Apply::Apply(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc)
 }
 
 void Apply::accept(Visitor *v) {
-    v.visitApply(this);
+    v->visitApply(this);
 }
 
 void Apply::print(AstPrinter *ap) {
@@ -290,8 +290,8 @@ void Apply::print(AstPrinter *ap) {
         ap->print("<empty>");
     }
 
-    for (int i = 0; i < actuals.size(); i++) {
-        actuals[i]->print(ap);
+    for (int i = 0; i < actuals->size(); i++) {
+        (*actuals)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -302,7 +302,7 @@ NewClass::NewClass(char *className, yyltype *loc): Expr(NEWCLASS, loc) {
 }
 
 void NewClass::accept(Visitor *v) {
-    v.visitNewClass(this);
+    v->visitNewClass(this);
 }
 
 void NewClass::print(AstPrinter *ap) {
@@ -315,13 +315,13 @@ NewArray::NewArray(TypeLiteral *elementType, Expr *length, yyltype *loc): Expr(N
 }
 
 void NewArray::accept(Visitor *v) {
-    v.visitNewArray(this);
+    v->visitNewArray(this);
 }
 
 void NewArray::print(AstPrinter *ap) {
     ap->print("newarray->");
     elementType->print(ap);
-    ap->print();
+    ap->print("");
     ap->incIndent();
 
     length->print(ap);
@@ -333,13 +333,13 @@ LValue::LValue(astKind kind, yyltype *loc): Expr(kind, loc) {
     /* empty */
 }
 
-Assign::Assign(LValue left, Expr *expr, yyltype *loc): Node(EXPR_ASSIGN, loc) {
+Assign::Assign(LValue *left, Expr *expr, yyltype *loc): Node(EXPR_ASSIGN, loc) {
     this->left = left;
     this->expr = expr;
 }
 
 void Assign::accept(Visitor *v) {
-    v.visitAssign(this);
+    v->visitAssign(this);
 }
 
 void Assign::print(AstPrinter *ap) {
@@ -357,7 +357,7 @@ Unary::Unary(astKind kind, Expr *expr, yyltype *loc): Expr(kind, loc) {
 }
 
 void Unary::accept(Visitor *v) {
-    v.visitUnary(this);
+    v->visitUnary(this);
 }
 
 void Unary::print(AstPrinter *ap) {
@@ -368,6 +368,8 @@ void Unary::print(AstPrinter *ap) {
         case EXPR_NOT:
             ap->print("not->");
             break;
+        default:
+            break;
     }
 
     ap->incIndent();
@@ -377,55 +379,57 @@ void Unary::print(AstPrinter *ap) {
     ap->decIndent();
 }
 
-Binary::Binary(int kind, Expr *left, Expr *right, yyltype *loc): Expr(kind, loc) {
+Binary::Binary(astKind kind, Expr *left, Expr *right, yyltype *loc): Expr(kind, loc) {
     this->left = left;
     this->right = right;
 }
 
 void Binary::accept(Visitor *v) {
-    visitor.visitBinary(this);
+    v->visitBinary(this);
 }
 
 void Binary::print(AstPrinter *ap) {
     switch (kind) {
-        case EXPR_PLUS:
+        case EXPR_ADD:
             ap->print("+ ->");
             break;
-        case MINUS:
+        case EXPR_SUB:
             ap->print("- ->");
             break;
-        case MUL:
+        case EXPR_MUL:
             ap->print("* ->");
             break;
-        case DIV:
+        case EXPR_DIV:
             ap->print("/ ->");
             break;
-        case MOD:
+        case EXPR_MOD:
             ap->print("% ->");
             break;
-        case AND:
+        case EXPR_AND:
             ap->print("&&->");
             break;
-        case OR:
+        case EXPR_OR:
             ap->print("||->");
             break;
-        case EQ:
+        case EXPR_EQ:
             ap->print("==->");
             break;
-        case NE:
+        case EXPR_NE:
             ap->print("!=->");
             break;
-        case LT:
+        case EXPR_LT:
             ap->print("< ->");
             break;
-        case LE:
+        case EXPR_LE:
             ap->print("<=->");
             break;
-        case GT:
+        case EXPR_GT:
             ap->print("> ->");
             break;
-        case GE:
+        case EXPR_GE:
             ap->print(">=->");
+            break;
+        default:
             break;
     }
 
@@ -444,11 +448,11 @@ CallExpr::CallExpr(Expr *receiver, char *method, List <Expr *> *actuals, yyltype
 }
 
 void CallExpr::accept(Visitor *v) {
-    visitor.visitCallExpr(this);
+    v->visitCallExpr(this);
 }
 
 void CallExpr::print(AstPrinter *ap) {
-    ap->print("call " + method);
+    ap->print("call->%s", method);
     ap->incIndent();
 
     if (receiver != 0) {
@@ -457,8 +461,8 @@ void CallExpr::print(AstPrinter *ap) {
         ap->print("<empty>");
     }
 
-    for (int i = 0; i < actuals.size(); i++) {
-        actuals[i]->print(ap);
+    for (int i = 0; i < actuals->size(); i++) {
+        (*actuals)[i]->print(ap);
     }
 
     ap->decIndent();
@@ -469,7 +473,7 @@ ReadIntExpr::ReadIntExpr(yyltype *loc): Expr(READINTEXPR, loc) {
 }
 
 void ReadIntExpr::accept(Visitor *v) {
-    visitor.visitReadIntExpr(this);
+    v->visitReadIntExpr(this);
 }
 
 void ReadIntExpr::print(AstPrinter *ap) {
@@ -481,7 +485,7 @@ ReadLineExpr::ReadLineExpr(yyltype *loc): Expr(READLINEEXPR, loc) {
 }
 
 void ReadLineExpr::accept(Visitor *v) {
-    visitor.visitReadLineExpr(this);
+    v->visitReadLineExpr(this);
 }
 
 void ReadLineExpr::print(AstPrinter *ap) {
@@ -493,7 +497,7 @@ ThisExpr::ThisExpr(yyltype *loc): Expr(THISEXPR, loc) {
 }
 
 void ThisExpr::accept(Visitor *v) {
-    visitor.visitThisExpr(this);
+    v->visitThisExpr(this);
 }
 
 void ThisExpr::print(AstPrinter *ap) {
@@ -506,7 +510,7 @@ Indexed::Indexed(Expr *array, Expr *index, yyltype *loc): LValue(INDEXED, loc) {
 }
 
 void Indexed::accept(Visitor *v) {
-    v.visitIndexed(this);
+    v->visitIndexed(this);
 }
 
 void Indexed::print(AstPrinter *ap) {
@@ -525,7 +529,7 @@ Ident::Ident(Expr *owner, char *name, yyltype *loc): LValue(IDENT, loc) {
 }
 
 void Ident::accept(Visitor *v) {
-    v.visitIdent(this);
+    v->visitIdent(this);
 }
 
 void Ident::print(AstPrinter *ap) {
@@ -543,13 +547,13 @@ Constant::Constant(astKind typekind, int num_val, yyltype *loc): Expr(CONSTANT, 
     this->num_val = num_val;
 }
 
-Constant::Constant(astKind typekind, char *str_val, yyltype *loc) {
+Constant::Constant(astKind typekind, char *str_val, yyltype *loc): Expr(CONSTANT, loc) {
     this->typekind = typekind ;
     this->str_val = str_val;
 }
 
 void Constant::accept(Visitor *v) {
-    v.visitConstant(this);
+    v->visitConstant(this);
 }
 
 void Constant::print(AstPrinter *ap) {
@@ -566,12 +570,12 @@ void Constant::print(AstPrinter *ap) {
     }
 }
 
-Null::Null(yyltype *loc): Expr(NIL, loc) {
+Null::Null(yyltype *loc): Expr(TYPE_NIL, loc) {
     /* empty */
 }
 
 void Null::accept(Visitor *v) {
-    v.visitNull(this);
+    v->visitNull(this);
 }
 
 void Null::print(AstPrinter *ap) {
@@ -587,7 +591,7 @@ TypeBasic::TypeBasic(astKind typekind, yyltype *loc): TypeLiteral(TYPE_BASIC, lo
 }
 
 void TypeBasic::accept(Visitor *v) {
-    v.visitTypeBasic(this);
+    v->visitTypeBasic(this);
 }
 
 void TypeBasic::print(AstPrinter *ap) {
@@ -612,7 +616,7 @@ TypeClass::TypeClass(char *name, yyltype *loc): TypeLiteral(TYPE_CLASS, loc) {
 }
 
 void TypeClass::accept(Visitor *v) {
-    visitor.visitTypeClass(this);
+    v->visitTypeClass(this);
 }
 
 void TypeClass::print(AstPrinter *ap) {
@@ -624,10 +628,130 @@ TypeArray::TypeArray(TypeLiteral *elementType, yyltype *loc): TypeLiteral(TYPE_A
 }
 
 void TypeArray::accept(Visitor *v) {
-    v.visitTypeArray(this);
+    v->visitTypeArray(this);
 }
 
 void TypeArray::print(AstPrinter *ap) {
     ap->print("arrtype->");
     elementType->print(ap);
+}
+
+void Visitor::visitNode(Node *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitProgram(Program *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitClassDef(ClassDef *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitFuncDef(FuncDef *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitVarDef(VarDef *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitBlock(Block *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitWhileLoop(WhileLoop *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitForLoop(ForLoop *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitIf(If *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitExec(Exec *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitReturn(Return *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitApply(Apply *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitNewClass(NewClass *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitNewArray(NewArray *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitAssign(Assign *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitUnary(Unary *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitBinary(Binary *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitCallExpr(CallExpr *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitReadIntExpr(ReadIntExpr *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitReadLineExpr(ReadLineExpr *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitPrint(Print *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitThisExpr(ThisExpr *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitLValue(LValue *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitIndexed(Indexed *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitIdent(Ident *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitConstant(Constant *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitNull(Null *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitTypeBasic(TypeBasic*that) {
+    cout << that->kind;
+}
+
+void Visitor::visitTypeClass(TypeClass *that) {
+    cout << that->kind;
+}
+
+void Visitor::visitTypeArray(TypeArray *that) {
+    cout << that->kind;
 }

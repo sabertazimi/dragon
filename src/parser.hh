@@ -75,7 +75,7 @@ extern int yydebug;
     CONSTANT_INT = 285,
     CONSTANT_STRING = 286,
     IDENTIFIER = 287,
-    CLASS_FIELD = 288,
+    UNEG = 288,
     NOELSE = 289
   };
 #endif
@@ -85,31 +85,28 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 30 "src/parser.yy" /* yacc.c:1909  */
+#line 36 "src/parser.yy" /* yacc.c:1909  */
 
-    char bool_val;
-    int int_val;
-    char str_val[80];
-    type_t type_val;
-    Const *const_val;
-    expr_t expr_val;
-    expr_bool_t expr_bool_val;
-    List<expr_t> assigns_val;
-    formal_t formal_val;
-    List<formal_t> formals_val;
-    actual_t actual_val;
-    List<actual_t> actuals_val;
-    var_def_t var_def_val;
-    func_def_t func_def_val;
-    field_t field_val;
-    List<field_t> fields_val;
-    stmt_t stmt_val;
-    List<stmt_t> stmts_val;
-    class_def_t class_def_val;
-    List<class_def_t> class_defs_val;
-    prog_t prog_val;
+    int num_val;
+    char *str_val;
+    TypeLiteral *type_val;
+    Expr *expr_val;
+    List <Expr *> *exprs_val;
+    LValue *Lvalue_val;
+    List <VarDef *> *formals_val;
+    List <Expr *> *actuals_val;
+    VarDef *var_def_val;
+    List <VarDef *> *vars_val;
+    FuncDef *func_def_val;
+    Node *field_val;
+    List <Node *>* fields_val;
+    Node *stmt_val;
+    List <Node *> *stmts_val;
+    ClassDef* class_def_val;
+    List <ClassDef *>* class_defs_val;
+    Program *prog_val;
 
-#line 113 "src/parser.hh" /* yacc.c:1909  */
+#line 110 "src/parser.hh" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

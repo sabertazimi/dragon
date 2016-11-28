@@ -12,11 +12,6 @@
 
 static char errmsg[1000];
 
-void dragon_debug(const char *type, const char *value) {
-    fprintf(stdout, "line %4d, column %-4d-%4d: ", yylloc.first_line, yylloc.first_column, yylloc.last_column);
-    fprintf(stdout, "(%s, %s)\n", type, value);
-}
-
 void dragon_report(yyltype loc, const char *fmt, ...) {
     // print location information
     fprintf(stderr, ">>> %d:%d: ", loc.first_line, loc.first_column);

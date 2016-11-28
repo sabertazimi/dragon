@@ -8,36 +8,32 @@
  * \license MIT
  */
 
-#include <vector>
 #include "errors/srcbuf.h"
 
 using namespace std;
 
 typedef struct srcbuf {
-    vector<char *> *buf;   ///< list_t <string>: store source code
+    vector<char *> *buf;   ///< list_t <char *>: store source code
     int  cnt_line;      ///< number of line in buffer
-    int  cnt_chars;     ///< number of characters in buffer
 } srcbuf_t;
 
 static srcbuf_t srcbuf;
 
 void srcbuf_init(void) {
     srcbuf.cnt_line = 0;
-    srcbuf.cnt_chars = 0;
-    srcbuf.buf = new vector<string>();
+    srcbuf.buf = new vector<char *>();
 }
 
 void srcbuf_append(const char *src) {
     srcbuf.cnt_line += 1;
-    srcbuf.cnt_chars += strlen(src);
-    srcbuf.buf.push_back(strdup(src));
+    srcbuf.buf->push_back(strdup(src));
 }
 
 const char * srcbuf_get(int num_line) {
     // argument check
     if (num_line <= 0 || num_line > srcbuf_length()) num_line = 1;
 
-    return srcbuf.buf[num_line + 1];
+    return (*(srcbuf.buf))[num_line - 1];
 }
 
 int srcbuf_length(void) {

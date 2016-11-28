@@ -3,14 +3,13 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "parser.hh"
-    #include "scanner.h"
+    #include "location.h"
     #include "errors/errors.h"
-    #include "ast/ast.h"
+    #include "libs/List.h"
+    #include "syntax/Tree.h"
+    #include "parser.hh"
 
-    /*
-     * @brief: informations of locations
-     */
+    /// \brief informations of locations
     int current_line;
     int current_column;
 
@@ -19,7 +18,6 @@
         current_line = current_column = 1;                  \
         yylloc.first_line = yylloc.first_column = 1;        \
         srcbuf_init();
-
     #define YY_USER_ACTION                                  \
         yylloc.first_line = yylloc.last_line = yylineno;    \
         yylloc.first_column = current_column;               \
@@ -27,22 +25,33 @@
         current_column += yyleng;
 
     #ifdef __cplusplus
-    extern "C" {
+        extern "C" {
     #endif
 
-    /*
-     * @brief: return 1 making parse only get done 1 time
-     */
+    /// \brief return 1 making parse only get done 1 time
     int yywrap(void);
 
     #ifdef __cplusplus
-    }
+        }
     #endif
 
-    /*
-     * @brief: skip block comment
-     */
+    /// \brief skip block comment
     void dragon_comment(void);
+
+    // #define LEX_DEBUG
+
+    /// \macro DRAGON_DEBUG
+    /// \brief print debug info for lexical analysis
+    #ifdef LEX_DEBUG
+        #undef DRAGON_DEBUG
+        #define DRAGON_DEBUG(type, value) do { dragon_debug(type, value); } while (0)
+    #else
+        #undef DRAGON_DEBUG
+        #define DRAGON_DEBUG(type, value) do { } while (0)
+    #endif
+
+    /// \brief debug output function
+    void dragon_debug(const char *type, const char *value);
 %}
 
 digit   [0-9]
@@ -333,3 +342,10 @@ void dragon_comment(void) {
     fprintf(stderr, "*** please fix lexical error first!\n");
     exit(0);
 }
+
+void dragon_debug(const char *type, const char *value) {
+    fprintf(stdout, "line %4d, column %-4d-%4d: ", yylloc.first_line, yylloc.first_column, yylloc.last_column);
+    fprintf(stdout, "(%s, %s)\n", type, value);
+}
+
+

@@ -8,9 +8,27 @@
  * \license MIT
  */
 
-#ifndef TAC_H
-#define TAC_H
+#ifndef IR_TAC_H
+#define IR_TAC_H
 
+class Tac {
 
+};
 
-#endif /* !TAC_H */
+class Label {
+
+};
+
+class Temp {
+
+};
+
+class Functy {
+
+};
+
+class VTable {
+
+};
+
+#endif /* !IR_TAC_H */

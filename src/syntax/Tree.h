@@ -20,8 +20,6 @@
 #include "semantic/Symbol.h"
 #include "ir/Tac.h"
 
-class Visitor;
-
 typedef enum __astKind__ {
     PROGRAM,
     CLASS_DEF,
@@ -32,7 +30,7 @@ typedef enum __astKind__ {
     STMT_WHILE,
     STMT_FOR,
     STMT_RETURN,
-    STMT_PRINT
+    STMT_PRINT,
     EXEC,
     APPLY,
     NEWCLASS,
@@ -40,7 +38,6 @@ typedef enum __astKind__ {
     PARENS,
     INDEXED,
     IDENT,
-    CONSTANT,
     TYPE_BASIC,
     TYPE_CLASS,
     TYPE_ARRAY,
@@ -49,27 +46,26 @@ typedef enum __astKind__ {
     NILLCHK,
     EXPR_ASSIGN,
     EXPR_NEG,
-    EXPR_NOT
+    EXPR_NOT,
     EXPR_OR,
     EXPR_AND,
     EXPR_EQ,
-    EXPR_NE
+    EXPR_NE,
     EXPR_LT,
     EXPR_GT,
     EXPR_LE,
-    EXPR_GE
+    EXPR_GE,
     EXPR_ADD,
-    EXPR_SUB
+    EXPR_SUB,
     EXPR_MUL,
     EXPR_DIV,
-    EXPR_MOD
-    EXPR_PLUS,
-    CONSTANT
+    EXPR_MOD,
+    CONSTANT,
     CALLEXPR,
     THISEXPR,
     READINTEXPR,
     READLINEEXPR,
-    NIL,
+    TYPE_NIL,
 
     /**
      * Tags for constant and TypeLiteral
@@ -77,8 +73,7 @@ typedef enum __astKind__ {
     TYPE_VOID,
     TYPE_INT,
     TYPE_BOOL,
-    TYPE_STRING,
-
+    TYPE_STRING
 } astKind ;
 
 typedef enum __lvKind__ {
@@ -88,9 +83,17 @@ typedef enum __lvKind__ {
     ARRAY_ELEMENT
 } lvKind;
 
+class Visitor;
+class Node;
+class ClassDef;
+class VarDef;
+class Block;
+class Expr;
+class TypeLiteral;
+
 class Node {
     public:
-        astKind kind;      ///< kind of node
+        astKind kind;       ///< kind of node
         yyltype* loc;       ///< location information
         Type* type;         ///< type information
 
@@ -105,8 +108,6 @@ class Node {
         virtual void print(AstPrinter *ap);
 };
 
-
-
 class Program:public Node {
     public:
         List <ClassDef *> *classes;
@@ -116,7 +117,7 @@ class Program:public Node {
         Program(List <ClassDef *> *classes, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class ClassDef:public Node {
     public:
@@ -128,7 +129,7 @@ class ClassDef:public Node {
         ClassDef(char *name, char *parent, List <Node *> *fields, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class FuncDef:public Node {
     public:
@@ -141,7 +142,7 @@ class FuncDef:public Node {
         FuncDef(char *name, TypeLiteral *returnType, List <VarDef *> *formals, Block *body, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class VarDef:public Node {
     public:
@@ -152,7 +153,7 @@ class VarDef:public Node {
         VarDef(char *name, TypeLiteral *type, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Block:public Node {
     public:
@@ -162,7 +163,7 @@ class Block:public Node {
         Block(List <Node *> *block, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class WhileLoop:public Node {
     public:
@@ -172,7 +173,7 @@ class WhileLoop:public Node {
         WhileLoop(Expr *condition, Node *loopBody, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class ForLoop:public Node {
     public:
@@ -184,7 +185,7 @@ class ForLoop:public Node {
         ForLoop(Node *init, Expr *condition, Node *update, Node *loopBody, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class If:public Node {
     public:
@@ -195,7 +196,7 @@ class If:public Node {
         If(Expr *condition, Node *trueBranch, Node *falseBranch, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Exec:public Node {
     public:
@@ -204,16 +205,16 @@ class Exec:public Node {
         Exec(Expr *expr, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Print:public Node {
     public:
-        List <Expr *> exprs;
+        List <Expr *> *exprs;
 
         Print(List <Expr *> *exprs, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Return:public Node {
     public:
@@ -222,17 +223,17 @@ class Return:public Node {
         Return(Expr *expr, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Expr:public Node {
     public:
-        Type type;
-        Temp val;
-        boolean isClass;
-        boolean usedForRef;
+        Type *type;
+        Temp *val;
+        bool isClass;
+        bool usedForRef;
 
-        Expr(int kind, yyltype *loc);
-}
+        Expr(astKind kind, yyltype *loc);
+};
 
 class Apply:public Expr {
     public:
@@ -240,12 +241,12 @@ class Apply:public Expr {
         char *method;
         List <Expr *> *actuals;
         Function *symbol;
-        boolean isArrayLength;
+        bool isArrayLength;
 
         Apply(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class NewClass:public Expr {
     public:
@@ -255,7 +256,7 @@ class NewClass:public Expr {
         NewClass(char *className, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class NewArray:public Expr {
     public:
@@ -265,24 +266,24 @@ class NewArray:public Expr {
         NewArray(TypeLiteral *elementType, Expr *length, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class LValue:public Expr {
     public:
         lvKind kind;
 
         LValue(astKind kind, yyltype *loc);
-}
+};
 
 class Assign:public Node {
     public:
-        LValue left;
+        LValue *left;
         Expr *expr;
 
-        Assign(LValue left, Expr *expr, yyltype *loc);
+        Assign(LValue *left, Expr *expr, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Unary:public Expr {
     public:
@@ -291,17 +292,17 @@ class Unary:public Expr {
         Unary(astKind kind, Expr *expr, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Binary:public Expr {
     public:
         Expr *left;
         Expr *right;
 
-        Binary(int kind, Expr *left, Expr *right, yyltype *loc);
+        Binary(astKind kind, Expr *left, Expr *right, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class CallExpr:public Expr {
     public:
@@ -309,33 +310,33 @@ class CallExpr:public Expr {
         char *method;
         List <Expr *> *actuals;
         Function *symbol;
-        boolean isArrayLength;
+        bool isArrayLength;
 
         CallExpr(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class ReadIntExpr:public Expr {
     public:
         ReadIntExpr(yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class ReadLineExpr:public Expr {
     public:
         ReadLineExpr(yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class ThisExpr:public Expr {
     public:
         ThisExpr(yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Indexed:public LValue {
     public:
@@ -345,19 +346,19 @@ class Indexed:public LValue {
         Indexed(Expr *array, Expr *index, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Ident:public LValue {
     public:
         Expr *owner;
         char *name;
         Variable *symbol;
-        boolean isDefined;
+        bool isDefined;
 
         Ident(Expr *owner, char *name, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Constant:public Expr {
     public:
@@ -369,21 +370,21 @@ class Constant:public Expr {
         Constant(astKind typekind, char *str_val, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class Null:public Expr {
     public:
         Null(yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class TypeLiteral:public Node {
     public:
-        Type type;
+        Type *type;
 
         TypeLiteral(astKind kind, yyltype *loc);
-}
+};
 
 class TypeBasic:public TypeLiteral {
     public:
@@ -392,7 +393,7 @@ class TypeBasic:public TypeLiteral {
         TypeBasic(astKind typekind, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class TypeClass:public TypeLiteral {
     public:
@@ -401,7 +402,7 @@ class TypeClass:public TypeLiteral {
         TypeClass(char *name, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
 
 class TypeArray:public TypeLiteral {
     public:
@@ -410,6 +411,46 @@ class TypeArray:public TypeLiteral {
         TypeArray(TypeLiteral *elementType, yyltype *loc);
         virtual void accept(Visitor *v);
         virtual void print(AstPrinter *ap);
-}
+};
+
+class Visitor {
+    public:
+        /// \brief this function won't get invoked ever
+        void visitNode(Node *that);
+
+        // below functions will get invoked
+
+        void visitProgram(Program *that);
+        void visitClassDef(ClassDef *that);
+        void visitFuncDef(FuncDef *that);
+        void visitVarDef(VarDef *that);
+        void visitBlock(Block *that);
+        void visitWhileLoop(WhileLoop *that);
+        void visitForLoop(ForLoop *that);
+        void visitIf(If *that);
+        void visitExec(Exec *that);
+        void visitReturn(Return *that);
+        void visitApply(Apply *that);
+        void visitNewClass(NewClass *that);
+        void visitNewArray(NewArray *that);
+        void visitAssign(Assign *that);
+        void visitUnary(Unary *that);
+        void visitBinary(Binary *that);
+        void visitCallExpr(CallExpr *that);
+        void visitReadIntExpr(ReadIntExpr *that);
+        void visitReadLineExpr(ReadLineExpr *that);
+        void visitPrint(Print *that);
+        void visitThisExpr(ThisExpr *that);
+        void visitLValue(LValue *that);
+        void visitIndexed(Indexed *that);
+        void visitIdent(Ident *that);
+        void visitConstant(Constant *that);
+        void visitNull(Null *that);
+        void visitTypeBasic(TypeBasic*that);
+        void visitTypeClass(TypeClass *that);
+        void visitTypeArray(TypeArray *that);
+};
+
+
 
 #endif

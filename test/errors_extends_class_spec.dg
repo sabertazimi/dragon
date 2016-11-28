@@ -25,13 +25,3 @@ class LinuxMint extends Linux {
     int getCPU = (void) => {
         return cpu;
     };
-
-// syntax error: unmatched {}
-class GentooLinux extends Linux
-    int cpu;
-
-    int getCPU = (void) => {
-        return cpu;
-    };
-}
-

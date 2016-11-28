@@ -8,7 +8,7 @@ PROG=dragon
 
 # tools and their flags
 CC=g++
-CFLAGS=-static -Wall -Wextra -std=c++11 -g $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-Wall -Wextra -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=-v
 YACC=bison
@@ -30,8 +30,8 @@ INCLUDE_PATH=src
 
 # test enable flags
 LEX_TEST=0
-SYNTAX_TEST=1
-AST_TEST=0
+SYNTAX_TEST=0
+AST_TEST=1
 SEMA_TEST=0
 
 # objects
@@ -72,7 +72,7 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
-	$(RM) $(SRC_PATH)/parser.hh $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
+	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
 	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
 	$(RM) core
 # $(RM) .gdb_history

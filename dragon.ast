@@ -1,0 +1,18 @@
+program
+  class-><Function, >
+    vardef->addr
+    inttype
+    
+    func->funcTest
+    inttype
+    
+      formals->
+        vardef->addr
+        inttype
+        
+      stmtblock->
+        assign->
+          lvalue_ident->addr
+          intconst->1
+        return->
+          lvalue_ident->addr

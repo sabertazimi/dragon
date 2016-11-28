@@ -4,7 +4,7 @@ class Computer {
 
     void crash = (int numTimes) => {
         Print(numTimes);
-        return void;
+        return ;
     };
 }
 
@@ -17,6 +17,7 @@ class Mac extends Computer {
      */
     int crash = (int numTimes) => {
         Print("ack!");
+        Print(this.mouse);
         return numTimes + 1;
     };
 
@@ -24,7 +25,6 @@ class Mac extends Computer {
 
 class Main {
     int main = (void) => {
-        this.field;
         class Mac powerbook;
         powerbook = new Mac();
         powerbook.Crash(2);

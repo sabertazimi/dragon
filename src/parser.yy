@@ -5,8 +5,7 @@
     #include "location.h"
     #include "errors/errors.h"
     #include "libs/List.h"
-    #include "ast/ast.h"
-    #include "ast/Tree.h"
+    #include "syntax/Tree.h"
 
     #undef YYDEBUG
     #define YYDEBUG 1
@@ -14,6 +13,8 @@
 
     extern char *yytext;
     int yylex(void);
+
+    /// \brief return value will be ignored
     int yyerror(const char *msg);
 
     // enable/disable state machine working result output
@@ -21,6 +22,9 @@
 
     int parse_failed;
     int proposed_solution(const char *sol);
+
+    /// \brief duplicate a yyltype node
+    yyltype *locdup(yyltype *loc);
 
     Program *tree;
 %}
@@ -33,10 +37,9 @@
     int num_val;
     char *str_val;
     TypeLiteral *type_val;
-    Constant *const_val;
     Expr *expr_val;
     List <Expr *> *exprs_val;
-    Lvalue *Lvalue_val;
+    LValue *Lvalue_val;
     List <VarDef *> *formals_val;
     List <Expr *> *actuals_val;
     VarDef *var_def_val;
@@ -64,10 +67,9 @@
 %token <str_val> IDENTIFIER
 
 %type <type_val> type
-%type <const_val> constant
-%type <expr_val> expr receiver call
+%type <expr_val> expr receiver call constant
 %type <exprs_val> exprs
-%type <Lvalue_val> Lvalue
+%type <Lvalue_val> lvalue
 %type <formals_val> formals
 %type <actuals_val> actuals
 %type <var_def_val> var_def var
@@ -329,6 +331,11 @@ formals
         @$ = @1;
         $$ = $1;
     }
+    | VOID
+    {
+        @$ = @1;
+        $$ = new List<VarDef *>();
+    }
     | /* empty */
     {
         $$ = new List<VarDef *>();
@@ -338,12 +345,12 @@ formals
 vars
     : vars ',' var
     {
-        @$ = @3
+        @$ = @3;
         ($$ = $1)->append($3);
     }
     | var
     {
-        @$ = @1
+        @$ = @1;
         ($$ = new List<VarDef *>())->append($1);
     }
     /* error recovery */
@@ -482,7 +489,7 @@ stmt
     ;
 
 simple_stmt
-    : Lvalue '=' expr
+    : lvalue '=' expr
     {
         @$ = @2;
         $$ = new Assign($1, $3, locdup(&@2));
@@ -545,7 +552,7 @@ for_stmt
     : FOR '(' simple_stmt ';' expr ';' simple_stmt ')' stmt
     {
         @$  = @1;
-        $$  = new ForLoop($3, $5, $7, $9, strdup(&@1));
+        $$  = new ForLoop($3, $5, $7, $9, locdup(&@1));
     }
     /* error recovery */
     | FOR error simple_stmt ';' expr ';' simple_stmt ')' stmt
@@ -553,6 +560,12 @@ for_stmt
         @$ = @1;
         $$ = 0;
         proposed_solution("unmatched '(' or ')'");
+    }
+    | FOR '(' error ';' expr ';' simple_stmt ')' stmt
+    {
+        @$ = @1;
+        $$ = 0;
+        proposed_solution("expected ';' as separator between initializer and boolean expression");
     }
     | FOR '(' simple_stmt error expr ';' simple_stmt ')' stmt
     {
@@ -608,7 +621,7 @@ print_stmt
     }
     ;
 
-Lvalue
+lvalue
     : receiver IDENTIFIER
     {
         if ($1 == 0) {
@@ -621,7 +634,7 @@ Lvalue
     }
     | expr '[' expr ']'
     {
-        lvalue = new Indexed($1, $3, locdup(&@1));
+        $$ = new Indexed($1, $3, locdup(&@1));
     }
     ;
 
@@ -651,7 +664,7 @@ receiver
     ; 
 
 expr
-    : Lvalue
+    : lvalue
     {
         @$ = @1;
         $$ = $1;
@@ -669,7 +682,7 @@ expr
     | expr '+' expr
     {
         @$ = @2;
-        $$ = new Binary(EXPR_ADD, expr, expr, locdup(&@2));
+        $$ = new Binary(EXPR_ADD, $1, $3, locdup(&@2));
     }
     | expr '-' expr
     {
@@ -774,7 +787,6 @@ expr
     ;
 
 constant
-    /* $$ = new Constant(kind, $1, locdup(&@1)); */
     : CONSTANT_INT
     {
         @$ = @1;
@@ -799,7 +811,6 @@ constant
 
 %%
 
-// return value will be ignored
 int yyerror(const char *msg) {
     dragon_report(yylloc, "%s", msg);
     memset(yytext, '\0', strlen(yytext));
@@ -811,3 +822,14 @@ int proposed_solution(const char *sol) {
     fprintf(stderr, "    proposed solution: %s\n", sol);
     return 0;
 }
+
+yyltype *locdup(yyltype *loc) {
+    yyltype * p = (yyltype *)malloc(sizeof(yyltype));
+    p->first_line = loc->first_line;
+    p->first_column = loc->first_column;
+    p->last_line = loc->last_line;
+    p->last_column = loc->last_column;
+    return p;
+}
+
+
