@@ -13,8 +13,9 @@
 
 #include <cstring>
 #include "libs/List.h"
-#include "semantic/Scope.h"
-#include "semantic/Symbol.h"
+
+class ClassScope;
+class Class;
 
 class Type {
 public:

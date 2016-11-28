@@ -1,5 +1,5 @@
 /*!
- * \file Symtab.h
+ * \file Symbol.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -8,11 +8,12 @@
  * \license MIT
  */
 
-#ifndef SEMA_SYMTAB_H
-#define SEMA_SYMTAB_H
+#ifndef SEMA_SYMBOL_H
+#define SEMA_SYMBOL_H
 
-#include "semantic/common.h"
-#include "semantic/Symbol.h"
+#include <string>
+
+using namespace std;
 
 class ClassScope;
 
@@ -34,4 +35,4 @@ public:
     ClassScope *AssociatedScope;
 };
 
-#endif /* !SEMA_SYMTAB_H */
+#endif /* !SEMA_SYMBOL_H */

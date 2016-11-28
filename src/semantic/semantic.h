@@ -8,7 +8,7 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
-#include "semantic/Symtab.h"
+#include "semantic/Symbol.h"
 #include "semantic/Scope.h"
 #include "semantic/typechk.h"
 #include "semantic/analysis.h"

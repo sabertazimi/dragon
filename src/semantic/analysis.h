@@ -11,9 +11,8 @@
 #ifndef SEMA_ANALYSIS_H
 #define SEMA_ANALYSIS_H
 
-#include "semantic/common.h"
-#include "semantic/Symtab.h"
 #include "semantic/Scope.h"
+#include "semantic/Symbol.h"
 #include "semantic/typechk.h"
 
 /*

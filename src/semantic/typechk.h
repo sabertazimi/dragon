@@ -11,7 +11,6 @@
 #ifndef SEMA_TYPECHK_H
 #define SEMA_TYPECHK_H
 
-#include "semantic/common.h"
 #include "errors/errors.h"
 #include "ast/ast.h"
 

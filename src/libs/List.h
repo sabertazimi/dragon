@@ -56,6 +56,13 @@ public:
 		elems.push_back(elem);
 	}
 
+    /// \brief pop size()-1
+    Element pop(void) {
+        Element tmp = (*this)[this->elems.size()-1];
+        elems.erase(elems.begin() + this->size() - 1);
+        return tmp;
+	}
+
 	/// \brief removes element at index
 	void removeAt(int index) {
 		if (index < 0 || index >= size()) {

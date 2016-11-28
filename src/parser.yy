@@ -23,9 +23,6 @@
     int parse_failed;
     int proposed_solution(const char *sol);
 
-    /// \brief duplicate a yyltype node
-    yyltype *locdup(yyltype *loc);
-
     Program *tree;
 %}
 
@@ -821,15 +818,6 @@ int yyerror(const char *msg) {
 int proposed_solution(const char *sol) {
     fprintf(stderr, "    proposed solution: %s\n", sol);
     return 0;
-}
-
-yyltype *locdup(yyltype *loc) {
-    yyltype * p = (yyltype *)malloc(sizeof(yyltype));
-    p->first_line = loc->first_line;
-    p->first_column = loc->first_column;
-    p->last_line = loc->last_line;
-    p->last_column = loc->last_column;
-    return p;
 }
 
 

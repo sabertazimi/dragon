@@ -8,6 +8,8 @@
  * \license MIT
  */
 
+#include "semantic/Scope.h"
+#include "semantic/Symbol.h"
 #include "syntax/Type.h"
 
 using namespace std;
