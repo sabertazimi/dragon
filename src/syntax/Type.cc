@@ -12,83 +12,54 @@
 
 using namespace std;
 
-class Type {
-public:
-	char *typeName;
-
-    // type check functions
-
-	virtual bool isBaseType(void);
-	virtual bool isArrayType(void);
-	virtual bool isFuncType(void);
-	virtual bool isClassType(void);
-
-    /// \brief judge compatible of two types
-	virtual bool compatible(Type *type);
-
-    /// \brief judge euqality of two types
-	virtual bool equal(Type *type);
-
-    /// \brief get type name
-	virtual char *toString(void);
+bool Type::isBaseType(void) {
+    return false;
 }
 
-class BaseType: public Type {
-private:
-    /// \constructor
-    BaseType(char *typeName) {
-        this->typeName = strdup(typeName);
+bool Type::isArrayType(void) {
+    return false;
+}
+
+bool Type::isFuncType(void) {
+    return false;
+}
+
+bool Type::isClassType(void) {
+    return false;
+}
+
+bool BaseType::isBaseType(void) {
+    return true;
+}
+
+bool BaseType::compatible(Type *type) {
+	if (equal(NIL) && type->isClassType()) {
+		return true;
+    } else {
+        return equal(type);
     }
+}
 
-public:
-	static final BaseType *INT = new BaseType("int");
-	static final BaseType *BOOL = new BaseType("bool");
-	static final BaseType *STRING = new BaseType("string");
-	static final BaseType *VOID = new BaseType("void");
-	static final BaseType *NIL= new BaseType("null");
-
-	/// \brief @Override
-    virtual bool isBaseType(void) {
-        return true;
-    }
-
-	/// \brief @Override
-	virtual bool compatible(Type *type) {
-		if (equal(NIL) && type->isClassType()) {
-			return true;
-        } else {
-            return equal(type);
-        }
-	}
-
-	/// \brief @Override
-	virtual bool equal(Type *type) {
+	bool BaseType::equal(Type *type) {
         return this == type;
 	}
 
-	/// \brief @Override
-	virtual char *toString(void) {
+	char *BaseType::toString(void) {
 		return typeName;
 	}
-}
 
-class ArrayType: public Type {
-public:
-    Type *elementType;
-
-    /// \constructor
-	ArrayType(Type *elementType) {
+ArrayType::ArrayType(Type *elementType) {
 		this->elementType = elementType;
         typeName = 0;
 	}
 
 	/// \brief @Override
-	virtual bool compatible(Type *type) {
+	bool ArrayType::compatible(Type *type) {
 		return equal(type);
 	}
 
 	/// \brief @Override
-	virtual bool equal(Type *type) {
+	bool ArrayType::equal(Type *type) {
 		if (!type->isArrayType()) {
 			return false;
         } else {
@@ -98,7 +69,7 @@ public:
 	}
 
 	/// \brief @Override
-	virtual char *toString(void) {
+	char *ArrayType::toString(void) {
         if (0 == typeName) {
             typeName = new char[strlen(elementType->typeName)+3];
             strcpy(typeName, elementType->typeName);
@@ -109,24 +80,19 @@ public:
 	}
 
 	/// \brief @Override
-	virtual bool isArrayType(void) {
+	bool ArrayType::isArrayType(void) {
 		return true;
 	}
-}
 
-virtual class FuncType extends Type {
-public:
-	Type *returnType;
-	List <Type *> *argList;
 
-	FuncType(Type *returnType) {
+FuncType::FuncType(Type *returnType) {
 		this->returnType = returnType;
 		argList = new List <Type *>();
         typeName = 0;
     }
 
 	/// \brief @Override
-	virtual bool compatible(Type *type) {
+	bool FuncType::compatible(Type *type) {
         if (!type->isFuncType()) {
             return false;
         } else {
@@ -149,12 +115,12 @@ public:
 	}
 
 	/// \brief @Override
-	virtual bool equal(Type *type) {
+	bool FuncType::equal(Type *type) {
         return compatiable(type);
 	}
 
 	/// \brief @Override
-	virtual char *toString(void) {
+	char *FuncType::toString(void) {
         if (0 == typeName) {
             typeName = new char[80];
 
@@ -175,24 +141,18 @@ public:
 	}
 
 	/// \brief @Override
-	virtual bool isFuncType(void) {
+	bool FuncType::isFuncType(void) {
 		return true;
 	}
-}
 
-virtual class ClassType extends Type {
-public:
-	Class symbol;
-	ClassType *parent;
-
-	ClassType(Class symbol, ClassType *parent) {
+    ClassType::ClassType(Class symbol, ClassType *parent) {
 		this->symbol = symbol;
 		this->parent = parent;
         typeName = 0;
 	}
 
 	/// \brief @Override
-	virtual bool compatible(Type *type) {
+	bool ClassType::compatible(Type *type) {
 		if (!type->isClassType()) {
 			return false;
 		}
@@ -208,17 +168,17 @@ public:
 	}
 
 	/// \brief @Override
-	virtual bool equal(Type *type) {
+	bool ClassType::equal(Type *type) {
 		return type->isClassType() && symbol == ((ClassType *) type)->symbol;
 	}
 
 	/// \brief @Override
-	virtual bool isClassType(void) {
+	bool ClassType::isClassType(void) {
 		return true;
 	}
 
 	/// \brief @Override
-	virtual char *toString(void) {
+	char *ClassType::toString(void) {
         if (0 == typeName) {
             typeName = new char[strlen(symbol->name)+10];
             strcpy(typeName, "class: ");
@@ -228,7 +188,6 @@ public:
         return typeName;
 	}
 
-	virtual ClassScope getClassScope(void) {
+	ClassScope ClassType::getClassScope(void) {
 		return symbol->AssociatedScope;
 	}
-}

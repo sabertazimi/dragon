@@ -118,7 +118,7 @@ public:
 	}
 }
 
-virtual class FuncType extends Type {
+virtual class FuncType: public Type {
 public:
 	Type *returnType;
 	List <Type *> *argList;
@@ -184,7 +184,7 @@ public:
 	}
 }
 
-virtual class ClassType extends Type {
+virtual class ClassType: public Type {
 public:
 	Class symbol;
 	ClassType *parent;

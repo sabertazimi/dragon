@@ -309,12 +309,6 @@ func_def
         $$ = 0;
         proposed_solution("expected identifier as variable name");
     }
-    | type IDENTIFIER error '(' formals ')' OP_ARROW stmt_block ';'
-    {
-        @$ = @2;
-        $$ = 0;
-        proposed_solution("expected '=' as function defination");
-    }
     | type IDENTIFIER '=' '(' formals ')' error stmt_block  ';'
     {
         @$ = @2;
@@ -410,18 +404,6 @@ stmt_block
     {
         @$ = @1;
         $$ = new Block($2, locdup(&@1));
-    }
-    | error stmts '}'
-    {
-        @$ = @1;
-        $$ = 0;
-        proposed_solution("unmatched '{' or '}'");
-    }
-    | '{' stmts error
-    {
-        @$ = @1;
-        $$ = 0;
-        proposed_solution("unmatched '{' or '}'");
     }
     ;
 
@@ -602,13 +584,6 @@ return_stmt
     {
         @$ = @1;
         $$ = new Return($2, locdup(&@1));
-    }
-    /* error recovery */
-    | RETURN error
-    {
-        @$ = @1;
-        $$ = 0;
-        proposed_solution("unkown return value");
     }
     ;
 
