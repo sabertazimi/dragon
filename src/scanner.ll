@@ -156,12 +156,12 @@ hexical [a-fA-F0-9]
 }
 "true"  {
     DRAGON_DEBUG("keyword", "CONSTANT_BOOL");
-    yylval.bool_val = 1;
+    yylval.num_val = 1;
     return CONSTANT_BOOL;
 }
 "false" {
     DRAGON_DEBUG("keyword", "CONSTANT_BOOL");
-    yylval.bool_val = 0;
+    yylval.num_val = 0;
     return CONSTANT_BOOL;
 }
 "Print" {
@@ -184,12 +184,12 @@ hexical [a-fA-F0-9]
 }
 (0|[1-9]{digit}*) {
     DRAGON_DEBUG("constant", "CONSTANT_DEC");
-    yylval.int_val = atoi(yytext);
+    yylval.num_val = atoi(yytext);
     return CONSTANT_INT;
 }
 0[xX]{hexical}+ {
     DRAGON_DEBUG("constant", "CONSTANT_HEX");
-    yylval.int_val = strtol(yytext, NULL, 16);
+    yylval.num_val = strtol(yytext, NULL, 16);
     return CONSTANT_INT;
 }
 \"(\\.|[^\\"\n])*\"	{

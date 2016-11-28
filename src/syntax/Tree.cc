@@ -8,7 +8,7 @@
  * \license MIT
  */
 
-#include "Tree.h"
+#include "syntax/Tree.h"
 
 using namespace std;
 

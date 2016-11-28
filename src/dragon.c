@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ast/ast.h"
+#include "syntax/Tree.h"
 #include "semantic/semantic.h"
 
 #define AST_DEBUG

@@ -22,7 +22,7 @@
     int parse_failed;
     int proposed_solution(const char *sol);
 
-    prog_t prog_tree;
+    Program *tree;
 %}
 
 %defines
@@ -30,24 +30,25 @@
 %locations
 
 %union {
-    char bool_val;
-    int int_val;
-    char str_val[80];
-    type_t type_val;
-    Const *const_val;
-    expr_t expr_val;
-    expr_bool_t expr_bool_val;
-    List<var_def_t> formals_val;
-    List<expr_t> actuals_val;
-    var_def_t var_def_val;
-    func_def_t func_def_val;
-    field_t field_val;
-    List<field_t> fields_val;
-    stmt_t stmt_val;
-    List<stmt_t> stmts_val;
-    class_def_t class_def_val;
-    List<class_def_t> class_defs_val;
-    prog_t prog_val;
+    int num_val;
+    char *str_val;
+    TypeLiteral *type_val;
+    Constant *const_val;
+    Expr *expr_val;
+    List <Expr *> *exprs_val;
+    Lvalue *Lvalue_val;
+    List <VarDef *> *formals_val;
+    List <Expr *> *actuals_val;
+    VarDef *var_def_val;
+    List <VarDef *> *vars_val;
+    FuncDef *func_def_val;
+    Node *field_val;
+    List <Node *>* fields_val;
+    Node *stmt_val;
+    List <Node *> *stmts_val;
+    ClassDef* class_def_val;
+    List <ClassDef *>* class_defs_val;
+    Program *prog_val;
 }
 
 %token END
@@ -58,34 +59,38 @@
 %token IF ELSE FOR WHILE RETURN
 %token PRINT READINTEGER READLINE
 
-%token <bool_val> CONSTANT_BOOL
-%token <int_val> CONSTANT_INT
+%token <num_val> CONSTANT_BOOL CONSTANT_INT
 %token <str_val> CONSTANT_STRING
 %token <str_val> IDENTIFIER
 
 %type <type_val> type
 %type <const_val> constant
-%type <expr_val> expr assign_expr or_expr and_expr eq_expr cmp_expr add_expr mul_expr unary_expr left_expr prim_expr
-%type <expr_bool_val> bool_expr
-%type <assigns_val> assign_list assign_list_body
-%type <formals_val> formals vars
-%type <actuals_val> actuals exprs
+%type <expr_val> expr receiver call
+%type <exprs_val> exprs
+%type <Lvalue_val> Lvalue
+%type <formals_val> formals
+%type <actuals_val> actuals
 %type <var_def_val> var_def var
+%type <vars_val> vars
 %type <func_def_val> func_def
 %type <field_val> field
 %type <fields_val> fields
-%type <stmt_val> stmt expr_stmt if_stmt while_stmt for_stmt return_stmt print_stmt
+%type <stmt_val> stmt stmt_block simple_stmt if_stmt while_stmt for_stmt return_stmt print_stmt
 %type <stmts_val> stmts
 %type <class_def_val> class_def
 %type <class_defs_val> class_defs
 %type <prog_val> program
 
 /* to eliminate S/R conflict */
-%nonassoc CLASS_FIELD
-%left '(' ')'
-
-/* to eliminate S/R conflict */
-%nonassoc NOELSE
+%left OP_OR
+%left OP_AND 
+%nonassoc OP_EQ OP_NE
+%nonassoc OP_LE OP_GE '<' '>'
+%left  '+' '-'
+%left  '*' '/' '%'
+%nonassoc UNEG '!'
+%nonassoc '[' '.'
+%nonassoc ')' NOELSE
 %nonassoc ELSE
 
 %left error
@@ -98,7 +103,7 @@ program
     : class_defs END
     {
         @$ = @1;
-        prog_tree = prog_new(locdup(&@1), $1);
+        tree = new Program($1, locdup(&@1));
     }
     ;
 
@@ -111,7 +116,7 @@ class_defs
     | class_def
     {
         @$ = @1;
-        ($$ = new List<class_def_t>())->append($1);
+        ($$ = new List<ClassDef *>())->append($1);
     }
     ;
 
@@ -119,12 +124,12 @@ class_def
     : CLASS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = class_def_new(@2, $2, strdup("\0"), $4);
+        $$ = new ClassDef($2, strdup("\0"), $4, locdup(&@2));
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = class_def_new(@2, $2, $4, $6);
+        $$ = new ClassDef($2, $4, $6, locdup(&@2));
     }
     /* error recovery */
     | error IDENTIFIER '{' fields '}'
@@ -198,7 +203,7 @@ fields
     | field
     {
         @$ = @1;
-        ($$ = new List<class_def_t>())->append($1);
+        ($$ = new List<Node *>())->append($1);
     }
     ;
 
@@ -206,12 +211,12 @@ field
     : var_def
     {
         @$ = @1;
-        $$ = field_var_new(FIELD_VAR, @1, $1);
+        $$ = $1;
     }
     | func_def
     {
         @$ = @1;
-        $$ = field_func_new(FIELD_FUNC, @1, $1);
+        $$ = $1;
     }
     ;
 
@@ -224,7 +229,7 @@ var_def
     | var error
     {
         @$ = @1;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("expected ';' or expected '=' as assign operator");
     }
     ;
@@ -234,7 +239,7 @@ var
     : type IDENTIFIER
     {
         @$ = @2;
-        $$ = var_def_new(@2, $1, $2, 0);
+        $$ = new VarDef($2, $1, locdup(&@2));
     }
     /* error recovery */
     | type error
@@ -249,32 +254,32 @@ type
     : INT
     {
         @$ = @1;
-        $$ = type_basic_new(TYPE_INT, @1);
+        $$ = new TypeBasic(TYPE_INT, locdup(&@1));
     }
     | BOOL
     {
         @$ = @1;
-        $$ = type_basic_new(TYPE_BOOL, @1);
+        $$ = new TypeBasic(TYPE_BOOL, locdup(&@1));
     }
     | STRING
     {
         @$ = @1;
-        $$ = type_basic_new(TYPE_STRING, @1);
+        $$ = new TypeBasic(TYPE_STRING, locdup(&@1));
     }
     | VOID
     {
         @$ = @1;
-        $$ = type_basic_new(TYPE_VOID, @1);
+        $$ = new TypeBasic(TYPE_VOID, locdup(&@1));
     }
     | CLASS IDENTIFIER
     {
         @$ = @2;
-        $$ = type_class_new(TYPE_CLASS, @2, $2);
+        $$ = new TypeClass($2, locdup(&@2));
     }
     | type '[' ']'
     {
         @$ = @1;
-        $$ = type_array_new(TYPE_ARRAY, @1, $1);
+        $$ = new TypeArray($1, locdup(&@1));
     }
     /* error recovery */
     | error IDENTIFIER
@@ -295,7 +300,7 @@ func_def
     : type IDENTIFIER '=' '(' formals ')' OP_ARROW stmt_block ';'
     {
         @$ = @2;
-        $$ = func_normal_def_new(FUNC_NORMAL_DEF, @2, $1, $5, $9, $2);
+        $$ = new FuncDef($2, $1, $5, (Block *)$8, locdup(&@2));
     }
     /* error recovery */
     | type error '=' '(' formals ')' OP_ARROW stmt_block ';'
@@ -332,7 +337,7 @@ formals
     }
     | /* empty */
     {
-        $$ = new List<var_def_t>();
+        $$ = new List<VarDef *>();
     }
     ;
 
@@ -345,19 +350,19 @@ vars
     | var
     {
         @$ = @1
-        ($$ = new List<class_def_t>())->append($1);
+        ($$ = new List<VarDef *>())->append($1);
     }
     /* error recovery */
     | vars error var
     {
         @$ = @3;
-        $$ = 0;
+        ($$ = $1)->append($3);
         proposed_solution("expected ',' as separator");
     }
     | vars ',' error
     {
         @$ = @2;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("unexpected ','");
     }
     ;
@@ -370,7 +375,7 @@ actuals
     }
     | /* empty */
     {
-        $$ = new List<expr_t>();
+        $$ = new List<Expr *>();
     }
     ;
 
@@ -383,19 +388,19 @@ exprs
     | expr
     {
         @$ = @1;
-        ($$ = new List<class_def_t>())->append($1);
+        ($$ = new List<Expr *>())->append($1);
     }
     /* error recovery */
     | exprs error expr
     {
         @$ = @3;
-        $$ = 0;
+        ($$ = $1)->append($3);
         proposed_solution("expected ',' as separator");
     }
     | exprs ',' error
     {
         @$ = @3;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("unexpected ','");
     }
     ;
@@ -408,7 +413,7 @@ stmt_block
     }
     | error stmts '}'
     {
-        @$ = @2;
+        @$ = @1;
         $$ = 0;
         proposed_solution("unmatched '{' or '}'");
     }
@@ -428,7 +433,7 @@ stmts
     }
     | /* empty */
     {
-        $$ = new List<stmt_t>();
+        $$ = new List<Node *>();
     }
     ;
 
@@ -477,19 +482,19 @@ stmt
     | simple_stmt error
     {
         @$ = @1;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("expected ';'");
     }
     | return_stmt error
     {
         @$ = @1;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("expected ';'");
     }
     | print_stmt error
     {
         @$ = @1;
-        $$ = 0;
+        $$ = $1;
         proposed_solution("expected ';'");
     }
     ;
@@ -498,7 +503,7 @@ simple_stmt
     : Lvalue '=' expr
     {
         @$ = @2;
-        $$ = expr_assign_new(EXPR_ASSIGN, locdup(&@2), (expr_left_t)$1, (expr_assign_t)$3);
+        $$ = new Assign($1, $3, locdup(&@2));
     }
     | call
     {
@@ -511,12 +516,12 @@ if_stmt
     : IF '(' expr ')' stmt %prec NOELSE
     {
         @$ = @1;
-        $$ = stmt_if_new(STMT_IF, @1, $3, $6, 0);
+        $$ = new If($3, $5, 0, locdup(&@1));
     }
     | IF '(' expr ')' stmt ELSE stmt
     {
         @$ = @1;
-        $$  = stmt_if_new(STMT_IF, @1, $3, $6, $10);
+        $$ = new If($3, $5, $7, locdup(&@1));
     }
     /* error recovery */
     | IF error expr ')' stmt %prec NOELSE
@@ -537,7 +542,7 @@ while_stmt
     : WHILE '(' expr ')' stmt
     {
         @$ = @1;
-        $$ = stmt_while_new(STMT_WHILE, @1, $3, $6);
+        $$ = new WhileLoop($3, $5, locdup(&@1));
     }
     /* error recovery */
     | WHILE error expr ')' stmt
@@ -558,7 +563,7 @@ for_stmt
     : FOR '(' simple_stmt ';' expr ';' simple_stmt ')' stmt
     {
         @$  = @1;
-        $$  = stmt_for_new(STMT_FOR, @1, $3, $5, $7, $10);
+        $$  = new ForLoop($3, $5, $7, $9, strdup(&@1));
     }
     /* error recovery */
     | FOR error simple_stmt ';' expr ';' simple_stmt ')' stmt
@@ -591,12 +596,12 @@ return_stmt
     : RETURN
     {
         @$ = @1;
-        $$ = stmt_return_new(STMT_RETURN, @1, 0);
+        $$ = new Return(0, locdup(&@1));
     }
     | RETURN expr
     {
         @$ = @1;
-        $$ = stmt_return_new(STMT_RETURN, @1, $2);
+        $$ = new Return($2, locdup(&@1));
     }
     /* error recovery */
     | RETURN error
@@ -611,7 +616,7 @@ print_stmt
     : PRINT '(' exprs ')'
     {
         @$ = @1;
-        $$ = stmt_print_new(STMT_PRINT, @1, $3);
+        $$ = new Print($3, locdup(&@1));
     }
     /* error recovery */
     | PRINT error exprs ')' ';'
@@ -627,18 +632,6 @@ print_stmt
         proposed_solution("unmatched '(' or ')'");
     }
     ;
-
-receiver
-    : expr '.'
-    {
-        @$ = @1;
-        $$ = $1;
-    }
-    | /* empty */
-    {
-        $$ = 0;
-    }
-    ; 
 
 Lvalue
     : receiver IDENTIFIER
@@ -669,6 +662,18 @@ call
         $$ = new CallExpr($1, $2, $4, locdup(&@2));
     }
     ;
+
+receiver
+    : expr '.'
+    {
+        @$ = @1;
+        $$ = $1;
+    }
+    | /* empty */
+    {
+        $$ = 0;
+    }
+    ; 
 
 expr
     : Lvalue
@@ -756,7 +761,7 @@ expr
         @$ = @2;
         $$ = $2;
     }
-    | '-' expr %prec UMINUS
+    | '-' expr %prec UNEG
     {
         @$ = @1;
         $$ = new Unary(EXPR_NEG, $2, locdup(&@1));
@@ -766,12 +771,12 @@ expr
         @$ = @1;
         $$ = new Unary(EXPR_NOT, $2, locdup(&@1));
     }
-    | READ_INTEGER '(' ')'
+    | READINTEGER '(' ')'
     {
         @$ = @1;
         $$ = new ReadIntExpr(locdup(&@1));
     }
-    | READ_LINE '(' ')'
+    | READLINE '(' ')'
     {
         @$ = @1;
         $$ = new ReadLineExpr(locdup(&@1));
@@ -786,7 +791,7 @@ expr
         @$ = @1;
         $$ = new NewClass($2, locdup(&@1));
     }
-    | NEW Type '[' Expr ']'
+    | NEW type '[' expr ']'
     {
         @$ = @1;
         $$ = new NewArray($2, $4, locdup(&@1));
@@ -798,17 +803,17 @@ constant
     : CONSTANT_INT
     {
         @$ = @1;
-        $$ = new Constant(locdup(&@1), $1);
+        $$ = new Constant(TYPE_INT, $1, locdup(&@1));
     }
     | CONSTANT_BOOL
     {
         @$ = @1;
-        $$ = new Constant(locdup(&@1), $1);
+        $$ = new Constant(TYPE_BOOL, $1, locdup(&@1));
     }
     | CONSTANT_STRING
     {
         @$ = @1;
-        $$ = new Constant(locdup(&@1), $1);
+        $$ = new Constant(TYPE_STRING, $1, locdup(&@1));
     }
     | NIL
     {

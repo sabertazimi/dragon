@@ -8,10 +8,8 @@
  * \license MIT
  */
 
-#ifndef AST_TYPE_H
-#define AST_TYPE_H
-
-#include "ast/common.h"
+#ifndef SYNTAX_TYPE_H
+#define SYNTAX_TYPE_H
 
 /*
  * @brief: kind of type_t
@@ -79,4 +77,4 @@ type_t type_class_new(type_kind_t kind, yyltype loc, string class_id);
  */
 type_t type_array_new(type_kind_t kind, yyltype loc, type_t type);
 
-#endif /* !AST_TYPE_H */
+#endif /* !SYNTAX_TYPE_H */

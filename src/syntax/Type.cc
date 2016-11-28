@@ -8,4 +8,4 @@
  * \license MIT
  */
 
-#include "Type.h"
+#include "syntax/Type.h"

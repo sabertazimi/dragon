@@ -8,13 +8,14 @@
  * \license MIT
  */
 
-#ifndef TREE_H
-#define TREE_H
+#ifndef SYNTAX_TREE_H
+#define SYNTAX_TREE_H
 
 #include <iostream>
 #include "location.h"
 #include "libs/List.h"
-#include "ast/Type.h"
+#include "syntax/Type.h"
+#include "syntax/AstPrinter.h"
 #include "semantic/Scope.h"
 #include "semantic/Symbol.h"
 #include "ir/Tac.h"

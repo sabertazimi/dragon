@@ -8,8 +8,8 @@
  * \license MIT
  */
 
-#ifndef AST_VISITOR_H
-#define AST_VISITOR_H
+#ifndef SYNTAX_VISITOR_H
+#define SYNTAX_VISITOR_H
 
 class Visitor {
     public:
@@ -51,4 +51,4 @@ class Visitor {
         void visitTypeArray(TypeArray *that);
 }
 
-#endif				/* !AST_VISITOR_H */
+#endif				/* !SYNTAX_VISITOR_H */
