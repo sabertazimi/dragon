@@ -4,7 +4,7 @@ class Computer {
 
     void crash = (int numTimes) => {
         Print(numTimes);
-        return void;
+        return;
     };
 
     void superMethod = (void) => {
@@ -14,12 +14,13 @@ class Computer {
 
 class Mac extends Computer {
     // mouse for mac
-    int mouse = cpu;
+    int mouse;
 
     /*
      * @override
      */
     int crash = (int numTimes) => {
+        mouse = cpu;
         // non-exist field both in this and super
         this.Cpu = numTimes;
 
@@ -52,12 +53,15 @@ class Main {
         class UnkownType unkown;
 
         // invalid access to non-exist field
-        int a = this.field;
+        int a;
+        a = this.field;
 
-        class Mac powerbook= new Mac();
+        class Mac powerbook;
+        powerbook = new Mac();
 
         // invalid access to private field
-        int b = powerbook.mouse;
+        int b;
+        b = powerbook.mouse;
 
         // non-exist function
         powerbook.Crash(2);

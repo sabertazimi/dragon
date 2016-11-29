@@ -1,16 +1,8 @@
 class Function {
-    int addr = 1;
+    int addr;
 
     int funcTest = (int addr) => {
         addr = 1;
-        addrr = 5;
-
-        // incompatiable between formals and actuals
-        int sayHelloVar = int (void) => {
-            Print("Hello World!\n");
-            return 0;
-        }(3);
-
         return addr;
     };
 
@@ -24,9 +16,15 @@ class Function {
 }
 
 class Main {
-    int main = (void) => {
-        class Function func = new Function();
-        int a = func.nonExistFunction;
+    void main = (void) => {
+        class Function func;
+        func = new Function();
+
+        // incompatiable between formals and actuals
+        func.funcTest(true);
+
+        int a;
+        a = func.nonExistFunction;
         return a;
     };
 }

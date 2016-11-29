@@ -1,41 +1,33 @@
 class Variable {
-    int _saber = 1;
-
-    // field member should initialized when defined
+    int _saber;
     int __saber;
+    int ___saber;
+    bool archer;
+    bool[] cASTer;
 
-    // field member should initialized by constant creator
-    int ___saber = __saber;
-    
-    bool archer = true;
-
-    bool[] cASTer = new bool[13];
-
-    // error initialization(wrong dimension)
-    int[][] arr = new int[10];
+    int[][] arr;
 
     int varTest = (void) => {
         // redefined variable
         int saber;
         bool saber;
 
+        // error initialization(wrong dimension)
+        arr = new int[10];
 
         // unmatched array types(unmatched length)
-        int[] s_arr = new int[10];
-        int[] a_arr = new int[12];
+        int[] s_arr;
+        s_arr = new int[10];
+        int[] a_arr;
+        a_arr = new int[12];
         s_arr = a_arr;
-
-        // array initialization check
-        int[] shouldInit;
-        int[] shouldInitByNew = a_arr;
-        int[] shouldInitByIntIndex = new int[a_arr];
 
         return saber;
     };
 }
 
 class Main {
-    int main = (void) => {
+    void main = (void) => {
         return 0;
     };
 }

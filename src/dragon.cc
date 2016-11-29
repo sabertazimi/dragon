@@ -1,5 +1,5 @@
 /*
- * dragon.c
+ * dragon.cc
  * Copyright (C) 2016 sabertazimi <sabertazimi@avalon>
  *
  * Distributed under terms of the MIT license.
@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "syntax/Tree.h"
-#include "syntax/AstPrinter.h"
 #include "semantic/Scope.h"
 #include "semantic/semantic.h"
+#include "syntax/AstPrinter.h"
 
 #define AST_DEBUG
 #undef AST_DEBUG
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 
     // yyparse return value: 1 represent error occurs
     while (yyparse()) {
-        fprintf(stderr, "*** bison panic.\n");
+        fprintf(stderr, "*** bison panic!\n");
         exit(1);
     }
 

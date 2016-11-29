@@ -38,7 +38,7 @@ bool Type::compatible(Type *type) {
     return type->typeName == 0;
 }
 
-bool Type::equal(Type *type) {
+bool Type::equals(Type *type) {
     return type->typeName == 0;
 }
 
@@ -62,14 +62,14 @@ BaseType *BaseType::NIL = new BaseType("null");
 BaseType *BaseType::ERROR = new BaseType("error");
 
 bool BaseType::compatible(Type *type) {
-    if (equal(NIL) && type->isClassType()) {
+    if (equals(NIL) && type->isClassType()) {
         return true;
     } else {
-        return equal(type);
+        return equals(type);
     }
 }
 
-bool BaseType::equal(Type *type) {
+bool BaseType::equals(Type *type) {
     return this == type;
 }
 
@@ -83,15 +83,15 @@ ArrayType::ArrayType(Type *elementType) {
 }
 
 bool ArrayType::compatible(Type *type) {
-    return equal(type);
+    return equals(type);
 }
 
-bool ArrayType::equal(Type *type) {
+bool ArrayType::equals(Type *type) {
     if (!type->isArrayType()) {
         return false;
     } else {
         // equality to type of element
-        return elementType->equal(((ArrayType *) type)->elementType);
+        return elementType->equals(((ArrayType *) type)->elementType);
     }
 }
 
@@ -138,7 +138,7 @@ bool FuncType::compatible(Type *type) {
     }
 }
 
-bool FuncType::equal(Type *type) {
+bool FuncType::equals(Type *type) {
     return compatible(type);
 }
 
@@ -187,7 +187,7 @@ bool ClassType::compatible(Type *type) {
 
     // compatiable with inheritance
     for (ClassType *ct = this; ct != 0; ct = ct->parent) {
-        if (ct->equal(type)) {
+        if (ct->equals(type)) {
             return true;
         }
     }
@@ -195,7 +195,7 @@ bool ClassType::compatible(Type *type) {
     return false;
 }
 
-bool ClassType::equal(Type *type) {
+bool ClassType::equals(Type *type) {
     return type->isClassType() && symbol == ((ClassType *) type)->symbol;
 }
 

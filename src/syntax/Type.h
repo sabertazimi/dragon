@@ -35,8 +35,8 @@ public:
     /// \brief judge compatible of two types
 	virtual bool compatible(Type *type);
 
-    /// \brief judge euqality of two types
-	virtual bool equal(Type *type);
+    /// \brief judge equality of two types
+	virtual bool equals(Type *type);
 
     /// \brief get type name
 	virtual char *toString(void);
@@ -62,7 +62,7 @@ public:
 	virtual bool compatible(Type *type);
 
 	/// \brief @Override
-	virtual bool equal(Type *type);
+	virtual bool equals(Type *type);
 
 	/// \brief @Override
 	virtual char *toString(void);
@@ -79,7 +79,7 @@ public:
 	virtual bool compatible(Type *type);
 
 	/// \brief @Override
-	virtual bool equal(Type *type);
+	virtual bool equals(Type *type);
 
 	/// \brief @Override
 	virtual char *toString(void);
@@ -99,7 +99,7 @@ public:
 	virtual bool compatible(Type *type);
 
 	/// \brief @Override
-	virtual bool equal(Type *type);
+	virtual bool equals(Type *type);
 
 	/// \brief @Override
 	virtual char *toString(void);
@@ -125,7 +125,7 @@ public:
 	virtual bool compatible(Type *type);
 
 	/// \brief @Override
-	virtual bool equal(Type *type);
+	virtual bool equals(Type *type);
 
 	/// \brief @Override
 	virtual bool isClassType(void);

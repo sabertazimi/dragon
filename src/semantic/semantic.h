@@ -47,11 +47,11 @@ public:
 		}
 
         // set main
-		((Function *) main)->setMain(true);
+		((Function *) main)->isMain = true;
 
         // main function: return type must be VOID, parametes must be 0
 		FuncType *type = (FuncType *) main->type;
-		return type->getReturnType()->equal(BaseType::VOID) && type->numOfParams() == 0;
+		return type->returnType->equals(BaseType::VOID) && type->numOfParams() == 0;
 	}
 
     /// \brief calculate depth in inheriting tree
@@ -94,8 +94,8 @@ public:
 
 		table->open(parentScope);
 
-        for (map<string, Symbol *>::iterator it = symbols->begin();
-                it != symbols->end(); it++) {
+        for (map<string, Symbol *>::iterator it = subScope->symbols->begin();
+                it != subScope->symbols->end(); it++) {
             Symbol *suspect = it->second;
 
             // parent symbol
@@ -128,9 +128,9 @@ public:
 		table->open(program->globalScope);
 
 		// declare classes in global scope
-        for (int i = 0; i < classes->size(); i++) {
-            ClassDef *cd = (*classes)[i];
-            Class *c = new Class(cd->name, cd->parent, cd->location);
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
+            Class *c = new Class(cd->name, cd->parent, cd->loc);
 			Class *earlier = table->lookupClass(cd->name);
 
 			if (earlier != 0) {
@@ -145,8 +145,8 @@ public:
         }
 
         // inheritance check
-        for (int i = 0; i < classes->size(); i++) {
-            ClassDef *cd = (*classes)[i];
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
 			Class *c = cd->symbol;
 
 			if (cd->parent != 0 && c->getParent() == 0) {
@@ -166,31 +166,32 @@ public:
 
         // before recursion
 		// create class description
-        for (int i = 0; i < classes->size(); i++) {
-            ClassDef *cd = (*classes)[i];
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
 			cd->symbol->createType();
 		}
 
 		// recursion
-        for (int i = 0; i < classes->size(); i++) {
-            ClassDef *cd = (*classes)[i];
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
 			cd->accept(this);
 
-			if (strcmp("Main", cd->name) {
+			if (strcmp("Main", cd->name)) {
 				program->main = cd->symbol;
 			}
 		}
 
         // after recursion
 		// override check
-		for (ClassDef *cd : program->classes) {
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
 			checkOverride(cd->symbol);
 		}
 
 		// main class check
 		if (!isMainClass(program->main)) {
             failed = 1;
-            dragog_report(program->loc, "missing main class\n");
+            dragon_report(program->loc, "missing main class\n");
 		}
 
 		table->close();
@@ -200,8 +201,8 @@ public:
 		table->open(classDef->symbol->associatedScope);
 
 		// recursion
-        for (int i = 0; i < fields->size(); i++) {
-            Node *f = (*fields)[i];
+        for (int i = 0; i < classDef->fields->size(); i++) {
+            Node *f = (*(classDef->fields))[i];
 		    f->accept(this);
 	    }
 
@@ -211,10 +212,10 @@ public:
 	virtual void visitVarDef(VarDef *varDef) {
 		varDef->type->accept(this);
 
-		if (varDef->type->type->equal(BaseType::VOID)) {
+		if (varDef->type->type->equals(BaseType::VOID)) {
             failed = 1;
-            dragon_report(varDef->loc, "variable can't be 'void", varDef->name);
-			varDef->symbol = new Variable("error", BaseType::ERROR, varDef->location);
+            dragon_report(varDef->loc, "variable can't be 'void\n", varDef->name);
+			varDef->symbol = new Variable("error", BaseType::ERROR, varDef->loc);
 			return ;
 		}
 
@@ -223,13 +224,13 @@ public:
 
 		Symbol *sym = table->lookup(varDef->name, true);
 		if (sym != 0) {
-            // sym can only be member
-			if (table->getCurrentScope()->equals(sym->definedIn))) {
+            // sym only can be member
+			if (table->getCurrentScope() == sym->definedIn) {
                 failed = 1;
-                dragon_report(v->location, "redefined variable '%s'\n", v-name.c_str());
+                dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
 			} else if ((sym->definedIn->isFormalScope() || sym->definedIn->isLocalScope())) {
                 failed = 1;
-                dragon_report(v->location, "redefined variable '%s'\n", v-name.c_str());
+                dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
 			} else {
 				table->declare(v);
 			}
@@ -261,8 +262,8 @@ public:
 		table->open(f->associatedScope);
 
         // recursion
-        for (int i = 0; i < formals->size(); i++) {
-            VarDef *d = (*formals)[i];
+        for (int i = 0; i < funcDef->formals->size(); i++) {
+            VarDef *d = (*(funcDef->formals))[i];
 			d->accept(this);
 			f->appendParam(d->symbol);
 		}
@@ -272,11 +273,11 @@ public:
 	}
 
     /// \brief check variable defination in block(local scope)
-	virtual void visitBlock(Block block) {
+	virtual void visitBlock(Block *block) {
 		block->associatedScope = new LocalScope(block);
 		table->open(block->associatedScope);
-        for (int i = 0;i < block->size(); i++) {
-            Node *s = (*block)[i];
+        for (int i = 0;i < block->block->size(); i++) {
+            Node *s = (*(block->block))[i];
 			s->accept(this);
 		}
 		table->close();
@@ -307,7 +308,7 @@ public:
 	}
 
 	virtual void visitTypeBasic(TypeBasic *type) {
-		switch (type->typeKind) {
+		switch (type->typekind) {
 		    case TYPE_VOID:
 			    type->type = BaseType::VOID;
 			    break;
@@ -340,17 +341,17 @@ public:
         // recursion
 		typeArray->elementType->accept(this);
 
-		if (typeArray->elementType->type->equal(BaseType::ERROR)) {
+		if (typeArray->elementType->type->equals(BaseType::ERROR)) {
 			typeArray->type = BaseType::ERROR;
-		} else if (typeArray->elementType->type->equal(BaseType::VOID)) {
+		} else if (typeArray->elementType->type->equals(BaseType::VOID)) {
             failed = 1;
-            dragon_report(typeArray->loc, "type of array elements can't be 'void'"\n);
+            dragon_report(typeArray->loc, "type of array elements can't be 'void'\n");
 			typeArray->type = BaseType::ERROR;
 		} else {
 			typeArray->type = new ArrayType(typeArray->elementType->type);
 		}
 	}
-}
+};
 
 class TypeCheck: Visitor {
 public:
@@ -366,8 +367,8 @@ public:
 
 	virtual void visitProgram(Program *program) {
 		table->open(program->globalScope);
-        for (int i = 0; i < classes->size(); i++) {
-            ClassDef *cd = (*classes)[i];
+        for (int i = 0; i < program->classes->size(); i++) {
+            ClassDef *cd = (*(program->classes))[i];
 			cd->accept(this);
 		}
 		table->close();
@@ -375,8 +376,8 @@ public:
 
 	virtual void visitClassDef(ClassDef *classDef) {
 		table->open(classDef->symbol->associatedScope);
-        for (int i = 0; i < fields->size(); i++) {
-            Node *f = (*fields)[i];
+        for (int i = 0; i < classDef->fields->size(); i++) {
+            Node *f = (*(classDef->fields))[i];
 			f->accept(this);
 		}
 		table->close();
@@ -389,10 +390,10 @@ public:
 		table->close();
 	}
 
-	virtual void visitBlock(Block block) {
+	virtual void visitBlock(Block *block) {
 		table->open(block->associatedScope);
-        for (int i = 0;i < block->size(); i++) {
-            Node *s = (*block)[i];
+        for (int i = 0;i < block->block->size(); i++) {
+            Node *s = (*(block->block))[i];
 			s->accept(this);
 		}
 		table->close();
@@ -402,7 +403,7 @@ public:
 	virtual void checkTestExpr(Expr *expr) {
 		expr->accept(this);
 
-		if (!expr->type->equal(BaseType::ERROR) && !expr->type->equal(BaseType::BOOL)) {
+		if (!expr->type->equals(BaseType::ERROR) && !expr->type->equals(BaseType::BOOL)) {
             failed = 1;
             dragon_report(expr->loc, "condition expression must be 'bool' type\n");
 		}
@@ -445,22 +446,22 @@ public:
 	}
 
 	virtual void visitPrint(Print *printStmt) {
-        for (int i = 0; i < exprs->size(); i++) {
-            Expr *e = (*exprs)[i];
+        for (int i = 0; i < printStmt->exprs->size(); i++) {
+            Expr *e = (*(printStmt->exprs))[i];
             // recursion
 			e->accept(this);
 
-			if (!e->type->equal(BaseType::ERROR)
-                && !e->type->equal(BaseType::BOOL)
-				&& !e->type->equal(BaseType::INT)
-				&& !e->type->equal(BaseType::STRING)) {
+			if (!e->type->equals(BaseType::ERROR)
+                && !e->type->equals(BaseType::BOOL)
+				&& !e->type->equals(BaseType::INT)
+				&& !e->type->equals(BaseType::STRING)) {
                 failed = 1;
                 dragon_report(e->loc, "incompatible argument %d type '%s'\n", i+1, e->type->toString());
 			}
 		}
 	}
 
-	virtual void visitReturn(Return returnStmt) {
+	virtual void visitReturn(Return *returnStmt) {
         // get return type in function scope
 		Type *returnType = ((FormalScope *)table->lookForScope(SCOPE_FORMAL))->owner->getReturnType();
 
@@ -468,7 +469,7 @@ public:
 			returnStmt->expr->accept(this);
 		}
 
-		if (returnType->equal(BaseType::VOID)) {
+		if (returnType->equals(BaseType::VOID)) {
 			if (returnStmt->expr != 0) {
                 failed = 1;
                 dragon_report(returnStmt->loc, "incompatible return type between '%s' and '%s'\n",
@@ -477,7 +478,7 @@ public:
 		} else if (returnStmt->expr == 0) {
                 failed = 1;
                 dragon_report(returnStmt->loc, "missing return statement, need '%s'\n", returnType->toString());
-		} else if (!returnStmt->expr->type->equal(BaseType::ERROR)
+		} else if (!returnStmt->expr->type->equals(BaseType::ERROR)
 				&& !returnStmt->expr->type->compatible(returnType)) {
                 failed = 1;
                 dragon_report(returnStmt->loc, "incompatible return type between '%s' and '%s'\n",
@@ -490,7 +491,7 @@ public:
 		assign->left->accept(this);
 		assign->expr->accept(this);
 
-		if (!assign->left->type->equal(BaseType::ERROR) &&
+		if (!assign->left->type->equals(BaseType::ERROR) &&
         (assign->left->type->isFuncType() || !assign->expr->type->compatible(assign->left->type))) {
             failed = 1;
             dragon_report(assign->loc, "incompatible assignment from '%s' to '%s'\n",
@@ -511,13 +512,13 @@ public:
 	}
 
 	virtual void visitIndexed(Indexed *indexed) {
-		indexed->lvKind = ARRAY_ELEMENT;
+		indexed->kind = ARRAY_ELEMENT;
 
         // recursion
 		indexed->array->accept(this);
 		if (!indexed->array->type->isArrayType()) {
             failed = 1;
-            dragon_report(indexed->array->loc, "subscripted value is neither array nor vector");
+            dragon_report(indexed->array->loc, "subscripted value is neither array nor vector\n");
 			indexed->type = BaseType::ERROR;
 		} else {
 			indexed->type = ((ArrayType *) indexed->array->type)->elementType;
@@ -525,20 +526,13 @@ public:
 
         // recursion
 		indexed->index->accept(this);
-		if (!indexed->index->type->equal(BaseType::INT)) {
+		if (!indexed->index->type->equals(BaseType::INT)) {
             failed = 1;
-            dragon_report(indexed->loc, "array subscript is not an integer");
+            dragon_report(indexed->loc, "array subscript is not an integer\n");
 		}
 	}
 
 	virtual void checkCallExpr(CallExpr *callExpr, Symbol *f) {
-        // get receiver type
-		Type *receiverType = callExpr->receiver == 0
-            // class type
-            ? ((ClassScope *)table->lookForScope(SCOPE_CLASS))->owner->type
-            // receiver type
-            : callExpr->receiver->type;
-
 		if (f == 0) {
             failed = 1;
             dragon_report(callExpr->loc, "undefined method '%s'\n", callExpr->method);
@@ -558,7 +552,7 @@ public:
 			if (callExpr->receiver != 0 && callExpr->receiver->isClass) {
                 // can't access other class's field
                 failed = 1;
-                dragon_report(ident->loc, "invalid access to private field '%s' in '%s'\n",
+                dragon_report(callExpr->loc, "invalid access to private field '%s' in '%s'\n",
 						callExpr->method, callExpr->receiver->type->toString());
 			}
 
@@ -569,12 +563,12 @@ public:
 			}
 
             // recursion
-            for (int i = 0; i < actuals->size(); i++) {
-                Expr *e = (*actuals)[i];
+            for (int i = 0; i < callExpr->actuals->size(); i++) {
+                Expr *e = (*(callExpr->actuals))[i];
 				e->accept(this);
 			}
 
-			List <Type *> *argList = func->type->argList;
+			List <Type *> *argList = ((FuncType *)(func->type))->argList;
 
 			if ((argList->size() - 1) != callExpr->actuals->size()) {
                 failed = 1;
@@ -584,12 +578,12 @@ public:
                 for (int i = 1, j = 0; i < argList->size() && j < callExpr->actuals->size(); i++, j++) {
 					Type *t1 = (*argList)[i];
 
-					Expr *e = (*(callExpr->actuals)[i]);
+					Expr *e = (*(callExpr->actuals))[i];
 					Type *t2 = e->type;
 
-					if (!t2->equal(BaseType::ERROR) && !t2->compatible(t1)) {
+					if (!t2->equals(BaseType::ERROR) && !t2->compatible(t1)) {
                         failed = 1;
-                        dragon_report(e->loc, "incompatible type between '%s' and '%s'\n", t2->toString(), t1->toString);
+                        dragon_report(e->loc, "incompatible type between '%s' and '%s'\n", t2->toString(), t1->toString());
 					}
 				}
 			}
@@ -605,7 +599,7 @@ public:
 		    callExpr->receiver->usedForRef = true;
 		    callExpr->receiver->accept(this);
 
-		    if (callExpr->receiver->type->equal(BaseType::ERROR)) {
+		    if (callExpr->receiver->type->equals(BaseType::ERROR)) {
 			    callExpr->type = BaseType::ERROR;
 			    return;
 		    }
@@ -618,12 +612,12 @@ public:
 			    return;
 		    }
 
-		    ClassScope *cs = ((ClassType *)callExpr->receiver->type)->classScope;
+		    ClassScope *cs = ((ClassType *)callExpr->receiver->type)->getClassScope();
 		    checkCallExpr(callExpr, cs->lookupVisible(callExpr->method));
         }
  }
 
-	virtual void visitExec(Exec exec){
+	virtual void visitExec(Exec *exec){
 		exec->expr->accept(this);
 	}
 
@@ -631,11 +625,11 @@ public:
         // recursion
 		newArrayExpr->elementType->accept(this);
 
-		if (newArrayExpr->elementType->type->equal(BaseType::ERROR)) {
+		if (newArrayExpr->elementType->type->equals(BaseType::ERROR)) {
 			newArrayExpr->type = BaseType::ERROR;
-		} else if (newArrayExpr->elementType->type->equal(BaseType::VOID)) {
+		} else if (newArrayExpr->elementType->type->equals(BaseType::VOID)) {
             failed = 1;
-            dragon_report(newArrayExpr->elementType->location, "type of array elements can't be 'void'"\n);
+            dragon_report(newArrayExpr->elementType->loc, "type of array elements can't be 'void'\n");
 			newArrayExpr->type = BaseType::ERROR;
 		} else {
 			newArrayExpr->type = new ArrayType(newArrayExpr->elementType->type);
@@ -644,8 +638,8 @@ public:
         // recursion
 		newArrayExpr->length->accept(this);
 
-		if (!newArrayExpr->length->type->equal(BaseType::ERROR)
-				&& !newArrayExpr->length->type->equal(BaseType::INT)) {
+		if (!newArrayExpr->length->type->equals(BaseType::ERROR)
+				&& !newArrayExpr->length->type->equals(BaseType::INT)) {
             failed = 1;
             dragon_report(newArrayExpr->length->loc, "array length is not an integer\n");
 		}
@@ -657,7 +651,7 @@ public:
 
 		if (c == 0) {
             failed = 1;
-            dragon_report(newClass->loc, "undefined class '%s'\n", newClass->name);
+            dragon_report(newClass->loc, "undefined class '%s'\n", newClass->className);
 			newClass->type = BaseType::ERROR;
 		} else {
 			newClass->type = c->getType();
@@ -684,14 +678,14 @@ public:
 				ident->symbol = var;
 
 				if (var->isLocalVar()) {
-					ident->lvKind = LOCAL_VAR;
+					ident->kind = LOCAL_VAR;
 				} else if (var->isParam()) {
-					ident->lvKind = PARAM_VAR;
+					ident->kind = PARAM_VAR;
 				} else {
                     // field
-					ident->owner = new ThisExpr(ident->location);
+					ident->owner = new ThisExpr(ident->loc);
 					ident->owner->accept(this);
-					ident->lvKind = MEMBER_VAR;
+					ident->kind = MEMBER_VAR;
 				}
 			} else {
                 // bind symbol and node
@@ -712,7 +706,7 @@ public:
 			ident->owner->usedForRef = true;
 			ident->owner->accept(this);
 
-			if (!ident->owner->type->equal(BaseType::ERROR)) {
+			if (!ident->owner->type->equals(BaseType::ERROR)) {
                 // can't access other class fields
 				if (ident->owner->isClass || !ident->owner->type->isClassType()) {
                     failed = 1;
@@ -720,12 +714,12 @@ public:
 							ident->name, ident->owner->type->toString());
 					ident->type = BaseType::ERROR;
 				} else {
-					ClassScope *cs = ((ClassType *)ident->owner->type)->classScope();
+					ClassScope *cs = ((ClassType *)ident->owner->type)->getClassScope();
 					Symbol *v = cs->lookupVisible(ident->name);
 
 					if (v == 0) {
                         failed = 1;
-                        dragon_report(ident->loc, "invalid access to undefined field '%s' in '%s'\n"
+                        dragon_report(ident->loc, "invalid access to undefined field '%s' in '%s'\n",
 								ident->name, ident->owner->type->toString());
 						ident->type = BaseType::ERROR;
 					} else if (v->isVariable()) {
@@ -734,11 +728,11 @@ public:
 
 						if (!thisType->compatible(ident->owner->type)) {
                             failed = 1;
-                            dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n"
+                            dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n",
 									ident->name, ident->owner->type->toString());
 						} else {
 							ident->symbol = (Variable *)v;
-							ident->lvKind = MEMBER_VAR;
+							ident->kind = MEMBER_VAR;
 						}
 					} else {
 						ident->type = v->type;
@@ -751,7 +745,7 @@ public:
 	}
 
 	virtual void visitTypeBasic(TypeBasic *type) {
-		switch (type->typeKind) {
+		switch (type->typekind) {
 		    case TYPE_VOID:
 			    type->type = BaseType::VOID;
 			    break;
@@ -783,11 +777,11 @@ public:
         // recursion
 		typeArray->elementType->accept(this);
 
-		if (typeArray->elementType->type->equal(BaseType::ERROR)) {
+		if (typeArray->elementType->type->equals(BaseType::ERROR)) {
 			typeArray->type = BaseType::ERROR;
-		} else if (typeArray->elementType->type->equal(BaseType::VOID)) {
+		} else if (typeArray->elementType->type->equals(BaseType::VOID)) {
             failed = 1;
-            dragon_report(typeArray->loc, "type of array elements can't be 'void'"\n);
+            dragon_report(typeArray->loc, "type of array elements can't be 'void'\n");
 			typeArray->type = BaseType::ERROR;
 		} else {
 			typeArray->type = new ArrayType(typeArray->elementType->type);
@@ -799,7 +793,7 @@ public:
 		left->accept(this);
 		right->accept(this);
 
-		if (left->type->equal(BaseType::ERROR) || right->type->equal(BaseType::ERROR)) {
+		if (left->type->equals(BaseType::ERROR) || right->type->equals(BaseType::ERROR)) {
 			switch (op) {
 			case EXPR_ADD:
 			case EXPR_SUB:
@@ -822,20 +816,20 @@ public:
 		    case EXPR_MUL:
 		    case EXPR_DIV:
 			    compatible = left->type->equals(BaseType::INT)
-					    && left->type->equal(right->type);
+					    && left->type->equals(right->type);
 			    returnType = left->type;
 			    break;
 		    case EXPR_GT:
 		    case EXPR_GE:
 		    case EXPR_LT:
 		    case EXPR_LE:
-			    compatible = left->type->equal(BaseType::INT)
-					    && left->type->equal(right->type);
+			    compatible = left->type->equals(BaseType::INT)
+					    && left->type->equals(right->type);
 			    returnType = BaseType::BOOL;
 			    break;
 		    case EXPR_MOD:
-			    compatible = left->type->equal(BaseType::INT)
-					    && right->type->equal(BaseType::INT);
+			    compatible = left->type->equals(BaseType::INT)
+					    && right->type->equals(BaseType::INT);
 			    returnType = BaseType::INT;
 			    break;
 		    case EXPR_EQ:
@@ -846,8 +840,8 @@ public:
 			    break;
 		    case EXPR_AND:
 		    case EXPR_OR:
-			    compatible = left->type->equal(BaseType::BOOL)
-					    && right->type->equal(BaseType::BOOL);
+			    compatible = left->type->equals(BaseType::BOOL)
+					    && right->type->equals(BaseType::BOOL);
 			    returnType = BaseType::BOOL;
 			    break;
 		    default:
@@ -863,16 +857,16 @@ public:
 		return returnType;
 	}
 
-	virtual void visitBinary(Binary expr) {
+	virtual void visitBinary(Binary *expr) {
 		expr->type = checkBinaryOp(expr->left, expr->right, expr->kind, expr->loc);
 	}
 
-	virtual void visitUnary(Unary expr) {
+	virtual void visitUnary(Unary *expr) {
 		expr->expr->accept(this);
 
-		if(expr->kind == TYPE_NEG){
-			if (expr->expr->type->equal(BaseType::ERROR)
-					|| expr->expr->type->equal(BaseType::INT)) {
+		if(expr->kind == EXPR_NEG){
+			if (expr->expr->type->equals(BaseType::ERROR)
+					|| expr->expr->type->equals(BaseType::INT)) {
 				expr->type = expr->expr->type;
 			} else {
                 failed =1;
@@ -880,7 +874,7 @@ public:
 				expr->type = BaseType::ERROR;
 			}
 		} else{
-			if (!(expr->expr->type->equal(BaseType::BOOL) || expr->expr->type->equal(BaseType::ERROR))) {
+			if (!(expr->expr->type->equals(BaseType::BOOL) || expr->expr->type->equals(BaseType::ERROR))) {
                 failed =1;
                 dragon_report(expr->loc, "incompatible '!' operation on '%s'\n", expr->expr->type->toString());
 			}
@@ -890,7 +884,7 @@ public:
 	}
 
 	virtual void visitConstant(Constant *constant) {
-		switch (constant->typeKind) {
+		switch (constant->typekind) {
 		    case TYPE_INT:
 			    constant->type = BaseType::INT;
 			    break;
@@ -904,6 +898,6 @@ public:
                 break;
 		}
 	}
-}
+};
 
 #endif /* !SEMANTIC_H */
