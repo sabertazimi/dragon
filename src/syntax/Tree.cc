@@ -8,6 +8,10 @@
  * \license MIT
  */
 
+#include "syntax/Type.h"
+#include "semantic/Scope.h"
+#include "semantic/Symbol.h"
+#include "ir/Tac.h"
 #include "syntax/Tree.h"
 
 using namespace std;

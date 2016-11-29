@@ -9,6 +9,7 @@
  */
 
 #include "syntax/Tree.h"
+#include "semantic/Symbol.h"
 #include "semantic/Scope.h"
 
 Scope::Scope(void) {
@@ -151,7 +152,7 @@ void ClassScope::print(AstPrinter *ap) {
 }
 
 bool ClassScope::isInherited(Symbol *symbol) {
-    Scope *scope = symbol->definedIn();
+    Scope *scope = symbol->definedIn;
 
     // empty scope or non-classScope can't be inherited
     if (scope == 0 || scope == this || !scope->isClassScope()) {

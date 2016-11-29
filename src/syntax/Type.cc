@@ -43,7 +43,7 @@ bool Type::equal(Type *type) {
 }
 
 char *Type::toString(void) {
-    return 0;
+    return typeName;
 }
 
 BaseType::BaseType(const char *typeName) {
@@ -165,6 +165,14 @@ bool FuncType::isFuncType(void) {
     return true;
 }
 
+int FuncType::numOfParams(void) {
+	return argList->size();
+}
+
+void FuncType::appendParam(Type *type) {
+	argList->append(type);
+}
+
 ClassType::ClassType(Class *symbol, ClassType *parent) {
     this->symbol = symbol;
     this->parent = parent;
@@ -196,14 +204,14 @@ bool ClassType::isClassType(void) {
 
 char *ClassType::toString(void) {
     if (0 == typeName) {
-        typeName = new char[strlen(symbol->name)+10];
+        typeName = new char[strlen(symbol->name.c_str())+10];
         strcpy(typeName, "class: ");
-        strcat(typeName, symbol->name);
+        strcat(typeName, symbol->name.c_str());
     }
 
     return typeName;
 }
 
 ClassScope *ClassType::getClassScope(void) {
-    return symbol->AssociatedScope;
+    return symbol->associatedScope;
 }

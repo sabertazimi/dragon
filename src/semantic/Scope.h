@@ -16,11 +16,13 @@
 #include "libs/List.h"
 #include "location.h"
 #include "syntax/AstPrinter.h"
-#include "semantic/Symbol.h"
 
 using namespace std;
 
 class Block;
+class Symbol;
+class Function;
+class Class;
 
 /// \brief kind of scope(common kind: SCOPE)
 typedef enum __scopeKind__ {
@@ -61,19 +63,20 @@ class Scope {
 };
 
 class FormalScope: public Scope{
-    Function *owner;
-    Block *astNode;
+    public:
+        Function *owner;
+        Block *astNode;
 
-    FormalScope(Function *owner, Block *astNode);
+        FormalScope(Function *owner, Block *astNode);
 
-    /// \brief @Override
-    virtual scopeKind getKind(void);
+        /// \brief @Override
+        virtual scopeKind getKind(void);
 
-    /// \brief @Override
-    virtual bool isFormalScope(void);
+        /// \brief @Override
+        virtual bool isFormalScope(void);
 
-    /// \brief @Override
-    virtual void print(AstPrinter *ap);
+        /// \brief @Override
+        virtual void print(AstPrinter *ap);
 };
 
 class LocalScope: public Scope {
@@ -121,45 +124,47 @@ class ClassScope: public Scope{
 };
 
 class GlobalScope: public Scope {
-    /// \brief @Override
-    virtual bool isGlobalScope(void);
+    public:
+        /// \brief @Override
+        virtual bool isGlobalScope(void);
 
-    /// \brief @Override
-    virtual scopeKind getKind(void);
+        /// \brief @Override
+        virtual scopeKind getKind(void);
 
-    /// \brief @Override
-    virtual void print(AstPrinter *ap);
+        /// \brief @Override
+        virtual void print(AstPrinter *ap);
 };
 
 class ScopeStack {
-    List <Scope *> *scopeStack;     ///< top: scopeStack[scoep->size()-1]
-    GlobalScope *globalScope;
+    public:
+        List <Scope *> *scopeStack;     ///< top: scopeStack[scoep->size()-1]
+        GlobalScope *globalScope;
 
-    ScopeStack(void);
+        ScopeStack(void);
 
-    /// \brief look up symbol in scope stack
-    /// \param through whether search into stack or not
-    virtual Symbol *lookup(string name, bool through);
+        /// \brief look up symbol in scope stack
+        /// \param through whether search into stack or not
+        virtual Symbol *lookup(string name, bool through);
 
-    /// \brief look up symbol in scope stack
-    /// \param location location limits
-    virtual Symbol *lookupBeforeLocation(string name, yyltype *loc);
+        /// \brief look up symbol in scope stack
+        /// \param location location limits
+        virtual Symbol *lookupBeforeLocation(string name, yyltype *loc);
 
-    virtual void declare(Symbol *symbol);
+        virtual void declare(Symbol *symbol);
 
-    /// \brief bind global scope and push all new scopes
-    virtual void open(Scope *scope);
+        /// \brief bind global scope and push all new scopes
+        virtual void open(Scope *scope);
 
-    /// \brief clear scope stack
-    virtual void close(void);
+        /// \brief clear scope stack
+        virtual void close(void);
 
-    /// \brief get closest specific kind scope
-    /// \param kind kind of scope
-    virtual Scope *lookForScope(scopeKind kind);
+        /// \brief get closest specific kind scope
+        /// \param kind kind of scope
+        virtual Scope *lookForScope(scopeKind kind);
 
-    virtual Scope *getCurrentScope(void);
+        virtual Scope *getCurrentScope(void);
 
-    virtual Class *lookupClass(string name);
+        virtual Class *lookupClass(string name);
 };
 
 #endif /* !SEMA_SCOPE_H */

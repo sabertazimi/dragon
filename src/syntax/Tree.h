@@ -14,11 +14,7 @@
 #include <iostream>
 #include "location.h"
 #include "libs/List.h"
-#include "syntax/Type.h"
 #include "syntax/AstPrinter.h"
-#include "semantic/Scope.h"
-#include "semantic/Symbol.h"
-#include "ir/Tac.h"
 
 typedef enum __astKind__ {
     PROGRAM,
@@ -83,13 +79,31 @@ typedef enum __lvKind__ {
     ARRAY_ELEMENT
 } lvKind;
 
-class Visitor;
+
+// forword defination
 class Node;
 class ClassDef;
 class VarDef;
 class Block;
 class Expr;
 class TypeLiteral;
+
+// forword defination
+class Visitor;
+
+// forword defination(extern)
+class Type;
+
+// forword defination owing to circular reference
+class Variable;
+class Function;
+class Class;
+
+// forword defination owing to circular reference
+class LocalScope;
+class GlobalScope;
+
+class Temp;
 
 class Node {
     public:
@@ -251,7 +265,7 @@ class Apply:public Expr {
 class NewClass:public Expr {
     public:
         char *className;
-        Class symbol;
+        Class *symbol;
 
         NewClass(char *className, yyltype *loc);
         virtual void accept(Visitor *v);

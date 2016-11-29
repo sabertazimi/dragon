@@ -14,6 +14,7 @@
 #include <cstring>
 #include "libs/List.h"
 
+// forward defination owing to circular reference
 class ClassScope;
 class Class;
 
@@ -103,6 +104,12 @@ public:
 
 	/// \brief @Override
 	virtual bool isFuncType(void);
+
+    /// \brief get number of parameters
+	int numOfParams(void);
+
+    /// \brief add a new parameters
+	void appendParam(Type *type);
 };
 
 class ClassType: public Type {

@@ -12,7 +12,26 @@ A toy compiler for Dragon language
 $ sudo apt install flex bison
 ```
 
-## Lex Notes
+## Frame
+
+### Ast node
+
+Program/ClassDef/FuncDef/Block has a scope:
+
+*   Program/Block with Scope member
+*   ClassDef/Funcdef with Symbol member(symbol->definedIn)
+
+VarDef has a symbol member
+
+### Scope
+
+Scope has Symbol member
+
+### Symbol(information center)
+
+symbol has Type member, Scope member(definedIn/associatedScope), Tac member
+
+
 
 ### Built-in Variables/Macros/Functions
 
@@ -59,6 +78,12 @@ expr: expr '-' expr
 *   Print function: Print(recursion, whitespace+4)
 
 ## BUGs
+
+### Flags
+
+*   LEX_DEBUG in scanner.ll: print tokens
+*   AST_DEBUG in dragon.cc: print ast tree
+*   SEMA_DEBUG in dragon.cc: print scopes and symbols
 
 ### Debug Tips
 
