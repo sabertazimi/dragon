@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
 
     if (bs->failed == 1 || tc->failed == 1) {
         fprintf(stderr, "*** please fix semantic error first!\n");
-        exit(0);
+        // exit(0);
     }
 
 #ifdef SEMA_DEBUG

@@ -74,7 +74,7 @@ bool FormalScope::isFormalScope(void) {
 }
 
 void FormalScope::print(AstPrinter *ap) {
-    ap->print("FORMAL SCOPE OF '%s': ", owner->name);
+    ap->print("FORMAL SCOPE OF '%s': ", owner->name.c_str());
     ap->incIndent();
 
     for (map<string, Symbol *>::iterator it = symbols->begin();
@@ -133,7 +133,7 @@ scopeKind ClassScope::getKind(void) {
 }
 
 void ClassScope::print(AstPrinter *ap) {
-    ap->print("CLASS SCOPE OF '%s': ", owner->name);
+    ap->print("CLASS SCOPE OF '%s': ", owner->name.c_str());
     ap->incIndent();
 
     for (map<string, Symbol *>::iterator it = symbols->begin();

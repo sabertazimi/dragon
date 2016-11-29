@@ -177,7 +177,7 @@ public:
             ClassDef *cd = (*(program->classes))[i];
 			cd->accept(this);
 
-			if (strcmp("Main", cd->name)) {
+			if (!strcmp("Main", cd->name)) {
 				program->main = cd->symbol;
 			}
 		}

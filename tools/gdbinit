@@ -1,2 +1,2 @@
-b dragon.c: 1
-r test/errors_statement_spec.dg
+b semantic/semantic.h: 193
+r test/sema_class_spec.dg
