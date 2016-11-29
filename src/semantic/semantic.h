@@ -8,6 +8,7 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
+#include <cstring>
 #include <string>
 #include <map>
 #include "syntax/Tree.h"
@@ -149,7 +150,7 @@ public:
             ClassDef *cd = (*(program->classes))[i];
 			Class *c = cd->symbol;
 
-			if (cd->parent != 0 && c->getParent() == 0) {
+			if (strcmp(cd->parent, "") && c->getParent() == 0) {
                 failed = 1;
                 dragon_report(cd->loc, "undefined parent class '%s' of '%s'\n", cd->parent, cd->name);
 				c->dettachParent();
