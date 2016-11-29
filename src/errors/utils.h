@@ -18,7 +18,7 @@
 #include "errors/srcbuf.h"
 
 /// \brief print error information
-void dragon_report(yyltype loc, const char *fmt, ...);
+void dragon_report(yyltype *loc, const char *fmt, ...);
 
 /// brief\ simple logger function
 void dragon_log(const char *fmt, ...);

@@ -59,6 +59,7 @@ BaseType *BaseType::BOOL = new BaseType("bool");
 BaseType *BaseType::STRING = new BaseType("string");
 BaseType *BaseType::VOID = new BaseType("void");
 BaseType *BaseType::NIL = new BaseType("null");
+BaseType *BaseType::ERROR = new BaseType("error");
 
 bool BaseType::compatible(Type *type) {
     if (equal(NIL) && type->isClassType()) {

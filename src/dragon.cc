@@ -11,7 +11,7 @@
 #include "syntax/Tree.h"
 #include "syntax/AstPrinter.h"
 #include "semantic/Scope.h"
-#include "semantic/Symbol.h"
+#include "semantic/semantic.h"
 
 #define AST_DEBUG
 #undef AST_DEBUG
@@ -22,7 +22,6 @@
 extern FILE *yyin;
 extern int yyparse(void);
 extern Program *tree;
-extern int lex_failed;
 extern int parse_failed;
 
 ScopeStack *gtable;
@@ -53,10 +52,20 @@ int main(int argc, char **argv) {
     // set up global scope stack
     gtable = new ScopeStack();
 
-    /* if (sema_analysis(prog_tree) == 0) { */
-    /*     fprintf(stderr, "*** please fix semantic error first!\n"); */
-    /*     exit(0); */
-    /* } */
+	BuildSymbol *bs = new BuildSymbol(gtable);
+    bs->visitProgram(tree);
+	TypeCheck *tc = new TypeCheck(gtable);
+    tc->visitProgram(tree);
+
+    if (bs->failed == 1 || tc->failed == 1) {
+        fprintf(stderr, "*** please fix semantic error first!\n");
+        exit(0);
+    }
+
+#ifdef SEMA_DEBUG
+    AstPrinter *ap = new AstPrinter();
+    tree->globalScope->print(ap);
+#endif
 
     fclose(fp);
     return 0;

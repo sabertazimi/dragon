@@ -311,7 +311,7 @@ hexical [a-fA-F0-9]
 }
 
 . {
-    dragon_report(yylloc, "lexical error near %s", yytext);
+    dragon_report(&yylloc, "lexical error near %s", yytext);
     fprintf(stderr, "*** please fix lexical error first!\n");
     exit(0);
 }
@@ -338,7 +338,7 @@ void dragon_comment(void) {
         }
     }
 
-    dragon_report(yylloc, "unterminated block comment near %s", yytext);
+    dragon_report(&yylloc, "unterminated block comment near %s", yytext);
     fprintf(stderr, "*** please fix lexical error first!\n");
     exit(0);
 }

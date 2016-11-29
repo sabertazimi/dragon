@@ -136,15 +136,17 @@ public:
 
     ClassType *getType(void);
 
+    /// \brief get symbol of parent class
+	virtual Class *getParent(void);
+
+    /// \brief remove parent class
+	virtual void dettachParent(void);
+
 	/// \brief @Override
 	virtual char *toString(void);
 
-	virtual Class *getParent(void);
-
 	/// \brief @Override
 	virtual bool isClass(void);
-
-	virtual void dettachParent(void);
 
     /// \brief set up correct order for fields in class
 	virtual void resolveFieldOrder(void);

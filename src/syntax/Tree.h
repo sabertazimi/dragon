@@ -243,7 +243,7 @@ class Expr:public Node {
     public:
         Type *type;
         Temp *val;
-        bool isClass;
+        bool isClass;       ///< make all fields become private
         bool usedForRef;
 
         Expr(astKind kind, yyltype *loc);

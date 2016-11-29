@@ -12,9 +12,9 @@
 
 static char errmsg[1000];
 
-void dragon_report(yyltype loc, const char *fmt, ...) {
+void dragon_report(yyltype *loc, const char *fmt, ...) {
     // print location information
-    fprintf(stderr, ">>> %d:%d: ", loc.first_line, loc.first_column);
+    fprintf(stderr, ">>> %d:%d: ", loc->first_line, loc->first_column);
 
     // print error message
     va_list args;
@@ -24,13 +24,13 @@ void dragon_report(yyltype loc, const char *fmt, ...) {
     fprintf(stderr, "%s\n", errmsg);
 
     // print source code
-    srcbuf_print(loc.first_line);
+    srcbuf_print(loc->first_line);
 
     // print ^, to highlight error position
-    for (int i = 1; i < loc.first_column; i++) {
+    for (int i = 1; i < loc->first_column; i++) {
         fprintf(stderr, " ");
     }
-    for (int i = loc.first_column - 1; i < loc.last_column; i++) {
+    for (int i = loc->first_column - 1; i < loc->last_column; i++) {
         fprintf(stderr, "^");
     }
     fprintf(stderr, "\n");
@@ -44,5 +44,3 @@ void dragon_log(const char *fmt, ...) {
     va_end(args);
     fprintf(stderr, ">>> log: %s\n", errmsg);
 }
-
-

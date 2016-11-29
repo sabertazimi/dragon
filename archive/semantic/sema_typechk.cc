@@ -401,12 +401,10 @@ type_t expr_left_typechk(expr_left_t node) {
                 ret = (type_t)type_basic_new(TYPE_VOID, p->loc);
                 ret->env = p->env;
                 typechk_failed = 1;
-                dragon_report(p->array->loc, "subscripted value is neither array nor vector");
             } else if (index->kind != TYPE_INT) {
                 type_array_t arr = (type_array_t)array;
                 ret = type_typechk(arr->type);
                 typechk_failed = 1;
-                dragon_report(p->index->loc, "array subscript is not an integer");
             } else {
                 type_array_t arr = (type_array_t)array;
                 ret = type_typechk(arr->type);

@@ -123,7 +123,7 @@ class_def
     : CLASS IDENTIFIER '{' fields '}'
     {
         @$ = @2;
-        $$ = new ClassDef($2, strdup("\0"), $4, locdup(&@2));
+        $$ = new ClassDef($2, strdup(""), $4, locdup(&@2));
     }
     | CLASS IDENTIFIER EXTENDS IDENTIFIER '{' fields '}'
     {
@@ -809,7 +809,7 @@ constant
 %%
 
 int yyerror(const char *msg) {
-    dragon_report(yylloc, "%s", msg);
+    dragon_report(&yylloc, "%s", msg);
     memset(yytext, '\0', strlen(yytext));
     parse_failed = 1;
     return 0;

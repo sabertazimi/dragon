@@ -23,15 +23,16 @@ Program/ClassDef/FuncDef/Block has a scope:
 
 VarDef has a symbol member
 
+Lvalue(Ident/Ref/Indexed) has symbol member
+
 ### Scope
 
 Scope has Symbol member
 
 ### Symbol(information center)
 
-symbol has Type member, Scope member(definedIn/associatedScope), Tac member
-
-
+*   symbol has Type member, Scope member(definedIn/associatedScope), Tac member
+*   order of class: depth of inheriting tree
 
 ### Built-in Variables/Macros/Functions
 
@@ -136,6 +137,12 @@ solution: block scope
 *   而 泛型 list 与 泛型 stack 已经满足不了需求, 但又没有太多地时间去实现与测试支持泛型特性的 map/set 等复杂数据结构
 
 综合以上原因, 为了使得后面的编码变得更加地顺利, 提高编码的效率, 从 Lab 3 开始将编写语言由 C 切换至 C++
+
+## Challenges
+
+*   inheritance
+*   OO(3 points)
+*   call/field ref/ident ref(receiver.member)(member)
 
 ## Reference
 

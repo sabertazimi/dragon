@@ -44,11 +44,13 @@ public:
 
 class BaseType: public Type {
 public:
+    // singleton pattern
 	static BaseType *INT;
 	static BaseType *BOOL;
 	static BaseType *STRING;
 	static BaseType *VOID;
 	static BaseType *NIL;
+	static BaseType *ERROR;
 
     /// \constructor
     BaseType(const char *typeName);
