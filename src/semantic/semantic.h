@@ -8,9 +8,9 @@
 #ifndef SEMANTIC_H
 #define SEMANTIC_H
 
-#include "semantic/Symbol.h"
+#include "syntax/Tree.h"
+#include "syntax/Type.h"
 #include "semantic/Scope.h"
-#include "semantic/typechk.h"
-#include "semantic/analysis.h"
+#include "semantic/Symbol.h"
 
 #endif /* !SEMANTIC_H */
