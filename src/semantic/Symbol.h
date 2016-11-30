@@ -62,15 +62,6 @@ public:
     /// \brief print assistant function
     virtual char *toString(void);
 
-    /// \brief compare two symbols with location
-    static int symloccmp(Symbol *o1, Symbol *o2) {
-	    return loccmp(o1->location, o2->location);
-    }
-
-    /// \brief compare two symbols with order
-    static int symordcmp(Symbol *o1, Symbol *o2) {
-	    return o1->order > o2->order ? 1 : o1->order == o2->order ? 0 : -1;
-    }
 };
 
 class Variable: public Symbol{
@@ -151,5 +142,11 @@ public:
     /// \brief set up correct order for fields in class
 	virtual void resolveFieldOrder(void);
 };
+
+/// \brief compare two symbols with location
+int symloccmp(Symbol *o1, Symbol *o2);
+
+/// \brief compare two symbols with order
+int symordcmp(Symbol *o1, Symbol *o2);
 
 #endif /* !SEMA_SYMBOL_H */

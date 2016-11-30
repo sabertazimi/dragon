@@ -12,10 +12,12 @@
 #define SYNTAX_TYPE_H
 
 #include <cstring>
+#include "location.h"
 #include "libs/List.h"
 
 // forward defination owing to circular reference
 class ClassScope;
+class Symbol;
 class Class;
 
 class Type {

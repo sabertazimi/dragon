@@ -10,6 +10,7 @@
 
 #include "semantic/Scope.h"
 #include "semantic/Symbol.h"
+#include "semantic/semantic.h"
 #include "syntax/Type.h"
 
 using namespace std;
@@ -62,11 +63,15 @@ bool BaseType::isBaseType(void) {
 }
 
 bool BaseType::compatible(Type *type) {
+    if (equals(ERROR) || type->equals(ERROR)) {
+        return true;
+    }
+
     if (equals(NIL) && type->isClassType()) {
         return true;
-    } else {
-        return equals(type);
     }
+
+    return equals(type);
 }
 
 bool BaseType::equals(Type *type) {
@@ -83,6 +88,10 @@ ArrayType::ArrayType(Type *elementType) {
 }
 
 bool ArrayType::compatible(Type *type) {
+    if (type->equals(BaseType::ERROR)) {
+        return true;
+    }
+
     return equals(type);
 }
 
@@ -117,6 +126,10 @@ FuncType::FuncType(Type *returnType) {
 }
 
 bool FuncType::compatible(Type *type) {
+    if (type->equals(BaseType::ERROR)) {
+        return true;
+    }
+
     if (!type->isFuncType()) {
         return false;
     } else {
@@ -181,6 +194,10 @@ ClassType::ClassType(Class *symbol, ClassType *parent) {
 }
 
 bool ClassType::compatible(Type *type) {
+    if (type->equals(BaseType::ERROR)) {
+        return true;
+    }
+
     if (!type->isClassType()) {
         return false;
     }
@@ -196,7 +213,8 @@ bool ClassType::compatible(Type *type) {
 }
 
 bool ClassType::equals(Type *type) {
-    return type->isClassType() && symbol == ((ClassType *) type)->symbol;
+    return type->isClassType() && symbol == (((ClassType *)type)->symbol);
+        // && symloccmp(symbol, ((ClassType *) type)->symbol);
 }
 
 bool ClassType::isClassType(void) {

@@ -21,3 +21,9 @@ int sayHelloFunc = (void) => {
     Print("Hello World!\n");
     return 0;
 };
+
+## Scope
+
+*   局部变量不可与函数参数重名
+*   局部域({}, including FuncDef) 不可有重名变量
+*   局部域间的生命周期不同

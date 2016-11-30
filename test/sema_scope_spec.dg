@@ -2,9 +2,9 @@ class Computer {
     // cpu for pc
     int cpu;
 
-    void crash = (int numTimes) => {
+    int crash = (int numTimes) => {
         Print(numTimes);
-        return;
+        return numTimes;
     };
 
     void superMethod = (void) => {
@@ -23,7 +23,6 @@ class Mac extends Computer {
         Print("ack!");
         return numTimes + 1;
     };
-
 }
 
 class OSX extends Mac {
@@ -51,20 +50,14 @@ class Expression{
 
     bool[] bool_arr;
     int[] int_arr;
-     
+
     void main = (void) => {
         bool_arr[1] = true;
         bool_arr[2] = bool_arr[0] || bool_arr[1];
 
         int_arr[1] = 233;
         int_arr[2] = int_arr[1] + int_arr[0];
-        
-        int a;
-        a = int_arr[2] || int_arr[3];
-        bool b;
-        b = bool_arr[1] && bool_arr[2];
 
-        // wrong types to unary operator
         int c;
         c = -int_arr[0];
         bool d;
@@ -89,7 +82,6 @@ class Statement {
         int x;
 
         while (x > 0) {
-            int x;
             int y;
             x = x - 1;
             y = x - 1;
@@ -105,8 +97,7 @@ class Variable {
     int[][] arr;
 
     int varTest = (void) => {
-        bool saber;
-        arr = new int[10][5];
-        return saber;
+        arr = new int[10];
+        return arr[1][1];
     };
 }

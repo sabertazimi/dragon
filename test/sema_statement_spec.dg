@@ -1,8 +1,9 @@
 class Statement {
     void stmt2 = (void) => {
         int x;
+        int z;
 
-        while (x > 0) {
+        while (z > 0) {
             int x;
             int y;
             x = x - 1;

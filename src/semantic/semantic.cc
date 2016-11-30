@@ -35,6 +35,8 @@ void BuildSymbol::mainClassCheck(Class *c) {
         failed = 1;
         dragon_report(main->location, "error type for 'main' function in 'Main' class: 'main' function must be with 0 parameter and return void\n");
     }
+
+    table->close();
 }
 
 int BuildSymbol::calcOrder(Class *c) {
@@ -207,10 +209,11 @@ void BuildSymbol::visitVarDef(VarDef *varDef) {
 
     Symbol *sym = table->lookup(varDef->name, true);
     if (sym != 0) {
-        // sym only can be member
+        // sym only can be member, or report redefined error
         if (table->getCurrentScope() == sym->definedIn) {
             failed = 1;
             dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
+            // purge local scope multiple defination: simplify compiler implementation(in IR/ASM phase)
         } else if ((sym->definedIn->isFormalScope() || sym->definedIn->isLocalScope())) {
             failed = 1;
             dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
@@ -258,10 +261,12 @@ void BuildSymbol::visitFuncDef(FuncDef *funcDef) {
 void BuildSymbol::visitBlock(Block *block) {
     block->associatedScope = new LocalScope(block);
     table->open(block->associatedScope);
+
     for (int i = 0;i < block->block->size(); i++) {
         Node *s = (*(block->block))[i];
         s->accept(this);
     }
+
     table->close();
 }
 
@@ -363,10 +368,12 @@ void TypeCheck::visitFuncDef(FuncDef *func) {
 
 void TypeCheck::visitBlock(Block *block) {
     table->open(block->associatedScope);
+
     for (int i = 0;i < block->block->size(); i++) {
         Node *s = (*(block->block))[i];
         s->accept(this);
     }
+
     table->close();
 }
 

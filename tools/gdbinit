@@ -1,2 +1,2 @@
-b TypeCheck::visitCallExpr
-r test/sema_class_spec.dg
+b TypeCheck:visitIdent
+r tmp.dg
