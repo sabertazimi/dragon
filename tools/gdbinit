@@ -1,2 +1,2 @@
-b TypeCheck:visitIdent
-r tmp.dg
+b LocalScope::print
+r test/sema_scope_spec.dg

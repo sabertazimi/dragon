@@ -13,6 +13,15 @@
 ...
 ```
 
+## Variable
+
+### Array
+
+```java
+int[][] arr;
+arr = new int[][10];
+```
+
 ## Function
 
 ```java

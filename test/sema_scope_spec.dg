@@ -97,7 +97,7 @@ class Variable {
     int[][] arr;
 
     int varTest = (void) => {
-        arr = new int[10];
+        arr = new int[][5];
         return arr[1][1];
     };
 }

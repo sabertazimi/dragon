@@ -105,7 +105,12 @@ void LocalScope::print(AstPrinter *ap) {
     }
 
     for (int i = 0; i < node->block->size(); i++) {
-        ((Block *)((*(node->block))[i]))->associatedScope->print(ap);
+        // print nested local scope
+        Node *n = ((Node *)((*(node->block))[i]));
+        if (n->kind == STMT_BLOCK) {
+            Block *b = (Block *)n;
+            b->associatedScope->print(ap);
+        }
     }
 
     ap->decIndent();
