@@ -132,7 +132,7 @@ public:
 
 	virtual void visitTypeArray(TypeArray *typeArray);
 
-	Type *checkBinaryOp(Expr *left, Expr *right, astKind op, yyltype *loc);
+	virtual Type *checkBinaryOp(Expr *left, Expr *right, astKind op, yyltype *loc);
 
 	virtual void visitBinary(Binary *expr);
 

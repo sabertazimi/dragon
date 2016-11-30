@@ -434,35 +434,35 @@ class Visitor {
 
         // below functions will get invoked
 
-        void visitProgram(Program *that);
-        void visitClassDef(ClassDef *that);
-        void visitFuncDef(FuncDef *that);
-        void visitVarDef(VarDef *that);
-        void visitBlock(Block *that);
-        void visitWhileLoop(WhileLoop *that);
-        void visitForLoop(ForLoop *that);
-        void visitIf(If *that);
-        void visitExec(Exec *that);
-        void visitReturn(Return *that);
-        void visitApply(Apply *that);
-        void visitNewClass(NewClass *that);
-        void visitNewArray(NewArray *that);
-        void visitAssign(Assign *that);
-        void visitUnary(Unary *that);
-        void visitBinary(Binary *that);
-        void visitCallExpr(CallExpr *that);
-        void visitReadIntExpr(ReadIntExpr *that);
-        void visitReadLineExpr(ReadLineExpr *that);
-        void visitPrint(Print *that);
-        void visitThisExpr(ThisExpr *that);
-        void visitLValue(LValue *that);
-        void visitIndexed(Indexed *that);
-        void visitIdent(Ident *that);
-        void visitConstant(Constant *that);
-        void visitNull(Null *that);
-        void visitTypeBasic(TypeBasic*that);
-        void visitTypeClass(TypeClass *that);
-        void visitTypeArray(TypeArray *that);
+        virtual void visitProgram(Program *that);
+        virtual void visitClassDef(ClassDef *that);
+        virtual void visitFuncDef(FuncDef *that);
+        virtual void visitVarDef(VarDef *that);
+        virtual void visitBlock(Block *that);
+        virtual void visitWhileLoop(WhileLoop *that);
+        virtual void visitForLoop(ForLoop *that);
+        virtual void visitIf(If *that);
+        virtual void visitExec(Exec *that);
+        virtual void visitReturn(Return *that);
+        virtual void visitApply(Apply *that);
+        virtual void visitNewClass(NewClass *that);
+        virtual void visitNewArray(NewArray *that);
+        virtual void visitAssign(Assign *that);
+        virtual void visitUnary(Unary *that);
+        virtual void visitBinary(Binary *that);
+        virtual void visitCallExpr(CallExpr *that);
+        virtual void visitReadIntExpr(ReadIntExpr *that);
+        virtual void visitReadLineExpr(ReadLineExpr *that);
+        virtual void visitPrint(Print *that);
+        virtual void visitThisExpr(ThisExpr *that);
+        virtual void visitLValue(LValue *that);
+        virtual void visitIndexed(Indexed *that);
+        virtual void visitIdent(Ident *that);
+        virtual void visitConstant(Constant *that);
+        virtual void visitNull(Null *that);
+        virtual void visitTypeBasic(TypeBasic*that);
+        virtual void visitTypeClass(TypeClass *that);
+        virtual void visitTypeArray(TypeArray *that);
 };
 
 
