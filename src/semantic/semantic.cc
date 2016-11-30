@@ -129,6 +129,13 @@ void BuildSymbol::visitProgram(Program *program) {
             c->dettachParent();
         }
 
+        // ban on inheriting from Main class
+        if (!strcmp(cd->parent, "Main")) {
+            failed = 1;
+            dragon_report(cd->loc, "invalid inheritance from 'Main' class\n");
+            c->dettachParent();
+        }
+
         // wrong inheritance in the inheriting tree
         // parent extends children(circular inheritance)
         if (calcOrder(c) <= calcOrder(c->getParent())) {
@@ -153,7 +160,7 @@ void BuildSymbol::visitProgram(Program *program) {
         if (!strcmp("Main", cd->name)) {
             program->main = cd->symbol;
         }
-    }
+   }
 
     // after recursion
     // override check
