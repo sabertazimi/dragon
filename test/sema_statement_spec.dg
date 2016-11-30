@@ -1,0 +1,20 @@
+class Statement {
+    void stmt2 = (void) => {
+        int x;
+
+        while (x > 0) {
+            int x;
+            int y;
+            x = x - 1;
+            y = x - 1;
+        }
+
+        // local scope: undefined 'y'
+        y = x - 1;
+
+        // syntax error: unmatched '(' or ')'
+        for (x = 0; x < 10; x = x + 1) {
+            Print(x);
+        }
+    };
+}

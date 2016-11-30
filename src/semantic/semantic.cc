@@ -29,9 +29,9 @@ void BuildSymbol::mainClassCheck(Class *c) {
     // set main
     ((Function *) main)->isMain = true;
 
-    // main function: return type must be VOID, parametes must be VOID
+    // main function: return type must be VOID, parameters must be VOID
     FuncType *type = (FuncType *) main->type;
-    if (!type->returnType->equals(BaseType::VOID) || !type->numOfParams() == 0) {
+    if (!type->returnType->equals(BaseType::VOID) || !(type->numOfParams() == 1)) {
         failed = 1;
         dragon_report(main->location, "error type for 'main' function in 'Main' class: 'main' function must be with 0 parameter and return void\n");
     }
@@ -498,7 +498,7 @@ void TypeCheck::visitIndexed(Indexed *indexed) {
     indexed->index->accept(this);
     if (!indexed->index->type->equals(BaseType::INT)) {
         failed = 1;
-        dragon_report(indexed->loc, "array subscript is not an integer\n");
+        dragon_report(indexed->index->loc, "array subscript is not an integer\n");
     }
 }
 

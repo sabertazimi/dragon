@@ -46,6 +46,13 @@ char *Type::toString(void) {
     return typeName;
 }
 
+BaseType *BaseType::INT = new BaseType("int");
+BaseType *BaseType::BOOL = new BaseType("bool");
+BaseType *BaseType::STRING = new BaseType("string");
+BaseType *BaseType::VOID = new BaseType("void");
+BaseType *BaseType::NIL = new BaseType("null");
+BaseType *BaseType::ERROR = new BaseType("error");
+
 BaseType::BaseType(const char *typeName) {
     this->typeName = strdup(typeName);
 }
@@ -53,13 +60,6 @@ BaseType::BaseType(const char *typeName) {
 bool BaseType::isBaseType(void) {
     return true;
 }
-
-BaseType *BaseType::INT = new BaseType("int");
-BaseType *BaseType::BOOL = new BaseType("bool");
-BaseType *BaseType::STRING = new BaseType("string");
-BaseType *BaseType::VOID = new BaseType("void");
-BaseType *BaseType::NIL = new BaseType("null");
-BaseType *BaseType::ERROR = new BaseType("error");
 
 bool BaseType::compatible(Type *type) {
     if (equals(NIL) && type->isClassType()) {
@@ -97,8 +97,8 @@ bool ArrayType::equals(Type *type) {
 
 char *ArrayType::toString(void) {
     if (0 == typeName) {
-        typeName = new char[strlen(elementType->typeName)+3];
-        strcpy(typeName, elementType->typeName);
+        typeName = new char[strlen(elementType->toString())+3];
+        strcpy(typeName, elementType->toString());
         strcat(typeName, "[]");
     }
 
@@ -147,16 +147,16 @@ char *FuncType::toString(void) {
         typeName = new char[80];
 
         // arguments type
-        strcpy(typeName, (*argList)[0]->typeName);
+        strcpy(typeName, (*argList)[0]->toString());
         strcat(typeName, "->");
 
         for (int i = 1; i < argList->size(); i++) {
-            strcat(typeName, (*argList)[i]->typeName);
+            strcat(typeName, (*argList)[i]->toString());
             strcat(typeName, "->");
         }
 
         // return value type
-        strcat(typeName, returnType->typeName);
+        strcat(typeName, returnType->toString());
     }
 
     return typeName;

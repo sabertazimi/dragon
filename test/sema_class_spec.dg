@@ -49,6 +49,7 @@ class Error extends Main {
 }
 
 class Main {
+    // error type for 'main'
     int main = (void) => {
         // undefined class
         class UnkownType unkown;

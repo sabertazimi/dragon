@@ -1,10 +1,4 @@
 class Variable {
-    int _saber;
-    int __saber;
-    int ___saber;
-    bool archer;
-    bool[] cASTer;
-
     int[][] arr;
 
     int varTest = (void) => {
@@ -15,19 +9,12 @@ class Variable {
         // error initialization(wrong dimension)
         arr = new int[10];
 
-        // unmatched array types(unmatched length)
-        int[] s_arr;
-        s_arr = new int[10];
-        int[] a_arr;
-        a_arr = new int[12];
-        s_arr = a_arr;
-
         return saber;
     };
 }
 
 class Main {
     void main = (void) => {
-        return 0;
+        return;
     };
 }

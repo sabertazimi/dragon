@@ -36,11 +36,13 @@ int main(int argc, char **argv) {
     // yyparse return value: 1 represent error occurs
     while (yyparse()) {
         fprintf(stderr, "*** bison panic!\n");
+        fclose(fp);
         exit(1);
     }
 
     if (parse_failed == 1) {
         fprintf(stderr, "*** please fix syntax error first!\n");
+        fclose(fp);
         exit(0);
     }
 
@@ -59,7 +61,8 @@ int main(int argc, char **argv) {
 
     if (bs->failed == 1 || tc->failed == 1) {
         fprintf(stderr, "*** please fix semantic error first!\n");
-        // exit(0);
+        fclose(fp);
+        exit(0);
     }
 
 #ifdef SEMA_DEBUG
@@ -68,5 +71,6 @@ int main(int argc, char **argv) {
 #endif
 
     fclose(fp);
+
     return 0;
 }

@@ -1,2 +1,2 @@
-b semantic/semantic.cc: 18
-r test/sema_class_spec.dg
+b TypeCheck::visitNewArray
+r test/sema_function_spec.dg

@@ -3,7 +3,7 @@ class Main {
     bool[] bool_arr;
     int[] int_arr;
      
-    int main = (void) => {
+    void main = (void) => {
         // incompatible assignent to 'bool' from 'int'
         bool_arr[1] = 1;
 
