@@ -19,11 +19,11 @@ using namespace std;
 extern ScopeStack *gtable;      ///< global scope stack
 
 int symloccmp(Symbol *o1, Symbol *o2) {
-	return loccmp(o1->location, o2->location);
+    return loccmp(o1->location, o2->location);
 }
 
 int symordcmp(Symbol *o1, Symbol *o2) {
-	return o1->order > o2->order ? 1 : o1->order == o2->order ? 0 : -1;
+    return o1->order > o2->order ? 1 : o1->order == o2->order ? 0 : -1;
 }
 
 Symbol::Symbol(string name, Type *type, yyltype *location) {

@@ -162,7 +162,7 @@ void BuildSymbol::visitProgram(Program *program) {
         if (!strcmp("Main", cd->name)) {
             program->main = cd->symbol;
         }
-   }
+    }
 
     // after recursion
     // override check

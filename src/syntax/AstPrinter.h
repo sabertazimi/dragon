@@ -18,27 +18,27 @@
 using namespace std;
 
 class AstPrinter {
-public:
-    int indent;     ///< current indent distance
-    int step;       ///< increase/decrease step
-    char buf[1000]; ///< string buffer
-    ostream *out;   ///< outout stream
-    ofstream fout;  ///< file stream
+    public:
+        int indent;     ///< current indent distance
+        int step;       ///< increase/decrease step
+        char buf[1000]; ///< string buffer
+        ostream *out;   ///< outout stream
+        ofstream fout;  ///< file stream
 
-    /// \brief constructor
-    AstPrinter(void);
+        /// \brief constructor
+        AstPrinter(void);
 
-    /// \brief constructor
-    AstPrinter(const char *outfile);
+        /// \brief constructor
+        AstPrinter(const char *outfile);
 
-    /// \brief increase indent distance
-	void incIndent(void);
+        /// \brief increase indent distance
+        void incIndent(void);
 
-    /// \brief decrease indent distance
-	void decIndent(void);
+        /// \brief decrease indent distance
+        void decIndent(void);
 
-    /// \brief write fmt str to outfile
-    void print(const char *fmt, ...);
+        /// \brief write fmt str to outfile
+        void print(const char *fmt, ...);
 };
 
 #endif /* !SYNTAX_ASTPRINTER_H */

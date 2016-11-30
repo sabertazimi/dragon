@@ -231,7 +231,7 @@ Symbol *ScopeStack::lookup(string name, bool through) {
 
         return 0;
     } else {
-    // only search in top scope(closest scope)
+        // only search in top scope(closest scope)
         return (*scopeStack)[scopeStack->size() - 1]->lookup(name);
     }
 }

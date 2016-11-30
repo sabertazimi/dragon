@@ -180,11 +180,11 @@ bool FuncType::isFuncType(void) {
 }
 
 int FuncType::numOfParams(void) {
-	return argList->size();
+    return argList->size();
 }
 
 void FuncType::appendParam(Type *type) {
-	argList->append(type);
+    argList->append(type);
 }
 
 ClassType::ClassType(Class *symbol, ClassType *parent) {
@@ -214,7 +214,7 @@ bool ClassType::compatible(Type *type) {
 
 bool ClassType::equals(Type *type) {
     return type->isClassType() && symbol == (((ClassType *)type)->symbol);
-        // && symloccmp(symbol, ((ClassType *) type)->symbol);
+    // && symloccmp(symbol, ((ClassType *) type)->symbol);
 }
 
 bool ClassType::isClassType(void) {

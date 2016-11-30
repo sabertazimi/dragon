@@ -21,121 +21,121 @@ class Symbol;
 class Class;
 
 class Type {
-public:
-	char *typeName;
+    public:
+        char *typeName;
 
-    /// \brief constructor
-    Type(void);
+        /// \brief constructor
+        Type(void);
 
-    // type check functions
+        // type check functions
 
-	virtual bool isBaseType(void);
-	virtual bool isArrayType(void);
-	virtual bool isFuncType(void);
-	virtual bool isClassType(void);
+        virtual bool isBaseType(void);
+        virtual bool isArrayType(void);
+        virtual bool isFuncType(void);
+        virtual bool isClassType(void);
 
-    /// \brief judge compatible of two types
-	virtual bool compatible(Type *type);
+        /// \brief judge compatible of two types
+        virtual bool compatible(Type *type);
 
-    /// \brief judge equality of two types
-	virtual bool equals(Type *type);
+        /// \brief judge equality of two types
+        virtual bool equals(Type *type);
 
-    /// \brief get type name
-	virtual char *toString(void);
+        /// \brief get type name
+        virtual char *toString(void);
 };
 
 class BaseType: public Type {
-public:
-    // singleton pattern
-	static BaseType *INT;
-	static BaseType *BOOL;
-	static BaseType *STRING;
-	static BaseType *VOID;
-	static BaseType *NIL;
-	static BaseType *ERROR;
+    public:
+        // singleton pattern
+        static BaseType *INT;
+        static BaseType *BOOL;
+        static BaseType *STRING;
+        static BaseType *VOID;
+        static BaseType *NIL;
+        static BaseType *ERROR;
 
-    /// \constructor
-    BaseType(const char *typeName);
+        /// \constructor
+        BaseType(const char *typeName);
 
-	/// \brief @Override
-    virtual bool isBaseType(void);
+        /// \brief @Override
+        virtual bool isBaseType(void);
 
-	/// \brief @Override
-	virtual bool compatible(Type *type);
+        /// \brief @Override
+        virtual bool compatible(Type *type);
 
-	/// \brief @Override
-	virtual bool equals(Type *type);
+        /// \brief @Override
+        virtual bool equals(Type *type);
 
-	/// \brief @Override
-	virtual char *toString(void);
+        /// \brief @Override
+        virtual char *toString(void);
 };
 
 class ArrayType: public Type {
-public:
-    Type *elementType;
+    public:
+        Type *elementType;
 
-    /// \constructor
-	ArrayType(Type *elementType);
+        /// \constructor
+        ArrayType(Type *elementType);
 
-	/// \brief @Override
-	virtual bool compatible(Type *type);
+        /// \brief @Override
+        virtual bool compatible(Type *type);
 
-	/// \brief @Override
-	virtual bool equals(Type *type);
+        /// \brief @Override
+        virtual bool equals(Type *type);
 
-	/// \brief @Override
-	virtual char *toString(void);
+        /// \brief @Override
+        virtual char *toString(void);
 
-	/// \brief @Override
-	virtual bool isArrayType(void);
+        /// \brief @Override
+        virtual bool isArrayType(void);
 };
 
 class FuncType: public Type {
-public:
-	Type *returnType;
-	List <Type *> *argList;
+    public:
+        Type *returnType;
+        List <Type *> *argList;
 
-	FuncType(Type *returnType);
+        FuncType(Type *returnType);
 
-	/// \brief @Override
-	virtual bool compatible(Type *type);
+        /// \brief @Override
+        virtual bool compatible(Type *type);
 
-	/// \brief @Override
-	virtual bool equals(Type *type);
+        /// \brief @Override
+        virtual bool equals(Type *type);
 
-	/// \brief @Override
-	virtual char *toString(void);
+        /// \brief @Override
+        virtual char *toString(void);
 
-	/// \brief @Override
-	virtual bool isFuncType(void);
+        /// \brief @Override
+        virtual bool isFuncType(void);
 
-    /// \brief get number of parameters
-	int numOfParams(void);
+        /// \brief get number of parameters
+        int numOfParams(void);
 
-    /// \brief add a new parameters
-	void appendParam(Type *type);
+        /// \brief add a new parameters
+        void appendParam(Type *type);
 };
 
 class ClassType: public Type {
-public:
-	Class *symbol;
-	ClassType *parent;
+    public:
+        Class *symbol;
+        ClassType *parent;
 
-	ClassType(Class *symbol, ClassType *parent);
+        ClassType(Class *symbol, ClassType *parent);
 
-	/// \brief @Override
-	virtual bool compatible(Type *type);
+        /// \brief @Override
+        virtual bool compatible(Type *type);
 
-	/// \brief @Override
-	virtual bool equals(Type *type);
+        /// \brief @Override
+        virtual bool equals(Type *type);
 
-	/// \brief @Override
-	virtual bool isClassType(void);
+        /// \brief @Override
+        virtual bool isClassType(void);
 
-	/// \brief @Override
-	virtual char *toString(void);
+        /// \brief @Override
+        virtual char *toString(void);
 
-	virtual ClassScope *getClassScope(void);
+        virtual ClassScope *getClassScope(void);
 };
 
 #endif /* !SYNTAX_TYPE_H */

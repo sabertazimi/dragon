@@ -70,10 +70,10 @@ void ClassDef::print(AstPrinter *ap) {
 }
 
 FuncDef::FuncDef(char *name, TypeLiteral *returnType, List <VarDef *> *formals, Block *body, yyltype *loc): Node(FUNC_DEF, loc) {
-        this->name = name;
-        this->returnType = returnType;
-        this->formals = formals;
-        this->body = body;
+    this->name = name;
+    this->returnType = returnType;
+    this->formals = formals;
+    this->body = body;
 }
 
 void FuncDef::accept(Visitor *v) {
@@ -100,8 +100,8 @@ void FuncDef::print(AstPrinter *ap) {
 }
 
 VarDef::VarDef(char *name, TypeLiteral *type, yyltype *loc): Node(VAR_DEF, loc) {
-        this->name = name;
-        this->type = type;
+    this->name = name;
+    this->type = type;
 }
 
 void VarDef::accept(Visitor *v) {
@@ -134,8 +134,8 @@ void Block::print(AstPrinter *ap) {
 }
 
 WhileLoop::WhileLoop(Expr *condition, Node *loopBody, yyltype *loc): Node(STMT_WHILE, loc) {
-        this->condition = condition;
-        this->loopBody = loopBody;
+    this->condition = condition;
+    this->loopBody = loopBody;
 }
 
 void WhileLoop::accept(Visitor *v) {
@@ -156,10 +156,10 @@ void WhileLoop::print(AstPrinter *ap) {
 }
 
 ForLoop::ForLoop(Node *init, Expr *condition, Node *update, Node *loopBody, yyltype *loc): Node(STMT_FOR, loc) {
-        this->init = init;
-        this->condition = condition;
-        this->update = update;
-        this->loopBody = loopBody;
+    this->init = init;
+    this->condition = condition;
+    this->update = update;
+    this->loopBody = loopBody;
 }
 
 void ForLoop::accept(Visitor *v) {
@@ -192,9 +192,9 @@ void ForLoop::print(AstPrinter *ap) {
 }
 
 If::If(Expr *condition, Node *trueBranch, Node *falseBranch, yyltype *loc): Node(STMT_IF, loc) {
-        this->condition = condition;
-        this->trueBranch = trueBranch;
-        this->falseBranch = falseBranch;
+    this->condition = condition;
+    this->trueBranch = trueBranch;
+    this->falseBranch = falseBranch;
 }
 
 void If::accept(Visitor *v) {
@@ -419,9 +419,9 @@ void Binary::print(AstPrinter *ap) {
 }
 
 CallExpr::CallExpr(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc): Expr(CALLEXPR, loc) {
-        this->receiver = receiver;
-        this->method = method;
-        this->actuals = actuals;
+    this->receiver = receiver;
+    this->method = method;
+    this->actuals = actuals;
 }
 
 void CallExpr::accept(Visitor *v) {

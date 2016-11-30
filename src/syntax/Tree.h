@@ -451,6 +451,4 @@ class Visitor {
         virtual void visitTypeArray(TypeArray *that);
 };
 
-
-
 #endif
