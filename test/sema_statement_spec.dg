@@ -12,7 +12,6 @@ class Statement {
         // local scope: undefined 'y'
         y = x - 1;
 
-        // syntax error: unmatched '(' or ')'
         for (x = 0; x < 10; x = x + 1) {
             Print(x);
         }

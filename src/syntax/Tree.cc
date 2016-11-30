@@ -274,33 +274,6 @@ Expr::Expr(astKind kind, yyltype *loc): Node(kind, loc) {
     /* empty */
 }
 
-Apply::Apply(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc): Expr(APPLY, loc) {
-    this->receiver = receiver;
-    this->method = method;
-    this->actuals = actuals;
-}
-
-void Apply::accept(Visitor *v) {
-    v->visitApply(this);
-}
-
-void Apply::print(AstPrinter *ap) {
-    ap->print("call->%s", method);
-    ap->incIndent();
-
-    if (receiver != 0) {
-        receiver->print(ap);
-    } else {
-        ap->print("<empty>");
-    }
-
-    for (int i = 0; i < actuals->size(); i++) {
-        (*actuals)[i]->print(ap);
-    }
-
-    ap->decIndent();
-}
-
 NewClass::NewClass(char *className, yyltype *loc): Expr(NEWCLASS, loc) {
     this->className = className;
 }
@@ -681,10 +654,6 @@ void Visitor::visitExec(Exec *that) {
 }
 
 void Visitor::visitReturn(Return *that) {
-    cout << that->kind;
-}
-
-void Visitor::visitApply(Apply *that) {
     cout << that->kind;
 }
 

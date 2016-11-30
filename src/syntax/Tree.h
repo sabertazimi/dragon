@@ -243,23 +243,10 @@ class Expr:public Node {
     public:
         Type *type;
         Temp *val;
-        bool isClass;       ///< make all fields become private
-        bool usedForRef;
+        bool isClass;       ///< makr whether it is a Class Name Type
+        bool usedForRef;    ///< mark whether it is left value or not
 
         Expr(astKind kind, yyltype *loc);
-};
-
-class Apply:public Expr {
-    public:
-        Expr *receiver;
-        char *method;
-        List <Expr *> *actuals;
-        Function *symbol;
-        bool isArrayLength;
-
-        Apply(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
-        virtual void accept(Visitor *v);
-        virtual void print(AstPrinter *ap);
 };
 
 class NewClass:public Expr {
@@ -444,7 +431,6 @@ class Visitor {
         virtual void visitIf(If *that);
         virtual void visitExec(Exec *that);
         virtual void visitReturn(Return *that);
-        virtual void visitApply(Apply *that);
         virtual void visitNewClass(NewClass *that);
         virtual void visitNewArray(NewArray *that);
         virtual void visitAssign(Assign *that);

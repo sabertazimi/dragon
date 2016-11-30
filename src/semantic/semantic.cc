@@ -518,11 +518,10 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
         callExpr->symbol = func;
         callExpr->type = func->getReturnType();
 
-        // private check
         if (callExpr->receiver != 0 && callExpr->receiver->isClass) {
-            // can't access other class's field
+            // can't access Class Name Type
             failed = 1;
-            dragon_report(callExpr->loc, "invalid access to private field '%s' in '%s'\n",
+            dragon_report(callExpr->loc, "invalid access to field '%s' in '%s'\n",
                     callExpr->method, callExpr->receiver->type->toString());
         }
 
@@ -548,7 +547,7 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
             for (int i = 1, j = 0; i < argList->size() && j < callExpr->actuals->size(); i++, j++) {
                 Type *t1 = (*argList)[i];
 
-                Expr *e = (*(callExpr->actuals))[i];
+                Expr *e = (*(callExpr->actuals))[j];
                 Type *t2 = e->type;
 
                 if (!t2->equals(BaseType::ERROR) && !t2->compatible(t1)) {
@@ -562,6 +561,7 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
 
 void TypeCheck::visitCallExpr(CallExpr *callExpr) {
     if (callExpr->receiver == 0) {
+        // search method in class scope
         ClassScope *cs = (ClassScope *) table->lookForScope(SCOPE_CLASS);
         checkCallExpr(callExpr, cs->lookupVisible(callExpr->method));
     } else {
@@ -574,6 +574,7 @@ void TypeCheck::visitCallExpr(CallExpr *callExpr) {
             return;
         }
 
+        // receiver check
         if (!callExpr->receiver->type->isClassType()) {
             failed = 1;
             dragon_report(callExpr->loc, "invalid access to '%s' in '%s'\n",
@@ -582,6 +583,7 @@ void TypeCheck::visitCallExpr(CallExpr *callExpr) {
             return;
         }
 
+        // search method in class scope
         ClassScope *cs = ((ClassType *)callExpr->receiver->type)->getClassScope();
         checkCallExpr(callExpr, cs->lookupVisible(callExpr->method));
     }
@@ -666,7 +668,7 @@ void TypeCheck::visitIdent(Ident *ident) {
                     ident->isClass = true;
                 } else {
                     failed = 1;
-                    dragon_report(ident->loc, "undefined variable '%s'\n", ident->name);
+                    dragon_report(ident->loc, "invalid reference to '%s'\n", ident->name);
                     ident->type = BaseType::ERROR;
                 }
             }
@@ -677,10 +679,10 @@ void TypeCheck::visitIdent(Ident *ident) {
         ident->owner->accept(this);
 
         if (!ident->owner->type->equals(BaseType::ERROR)) {
-            // can't access other class fields
+            // can't access on Class Name Type or non-class variable
             if (ident->owner->isClass || !ident->owner->type->isClassType()) {
                 failed = 1;
-                dragon_report(ident->loc, "invalid access to private field '%s' in '%s'\n",
+                dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n",
                         ident->name, ident->owner->type->toString());
                 ident->type = BaseType::ERROR;
             } else {

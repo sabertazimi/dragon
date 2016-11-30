@@ -1,0 +1,112 @@
+class Computer {
+    // cpu for pc
+    int cpu;
+
+    void crash = (int numTimes) => {
+        Print(numTimes);
+        return;
+    };
+
+    void superMethod = (void) => {
+        return;
+    };
+}
+
+class Mac extends Computer {
+    // mouse for mac
+    int mouse;
+
+    int crash = (int numTimes) => {
+        mouse = cpu;
+        // inherits from super
+        this.cpu = numTimes;
+        Print("ack!");
+        return numTimes + 1;
+    };
+
+}
+
+class OSX extends Mac {
+    int superSuperField = (void) => {
+        // from class Computer
+        return cpu;
+    };
+}
+
+class Main {
+    int field;
+
+    void main = (void) => {
+        int a;
+        a = this.field;
+
+        class Mac powerbook;
+        powerbook = new Mac();
+        powerbook.crash(2);
+        powerbook.superMethod();
+    };
+}
+
+class Expression{
+
+    bool[] bool_arr;
+    int[] int_arr;
+     
+    void main = (void) => {
+        bool_arr[1] = true;
+        bool_arr[2] = bool_arr[0] || bool_arr[1];
+
+        int_arr[1] = 233;
+        int_arr[2] = int_arr[1] + int_arr[0];
+        
+        int a;
+        a = int_arr[2] || int_arr[3];
+        bool b;
+        b = bool_arr[1] && bool_arr[2];
+
+        // wrong types to unary operator
+        int c;
+        c = -int_arr[0];
+        bool d;
+        d = !bool_arr[2];
+    };
+}
+class Function {
+    int addr;
+
+    int funcTest = (int addr) => {
+        addr = 1;
+        return addr;
+    };
+
+    bool errorRetType = (int num) => {
+        return true;
+    };
+}
+
+class Statement {
+    void stmt2 = (void) => {
+        int x;
+
+        while (x > 0) {
+            int x;
+            int y;
+            x = x - 1;
+            y = x - 1;
+        }
+
+        for (x = 0; x < 10; x = x + 1) {
+            Print(x);
+        }
+    };
+}
+
+class Variable {
+    int[][] arr;
+
+    int varTest = (void) => {
+        bool saber;
+        arr = new int[10][5];
+        return saber;
+    };
+}

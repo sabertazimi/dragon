@@ -1,6 +1,7 @@
 class Computer {
     // cpu for pc
     int cpu;
+    int override;
 
     void crash = (int numTimes) => {
         Print(numTimes);
@@ -10,15 +11,28 @@ class Computer {
     void superMethod = (void) => {
         return;
     };
+
+    void errOverride = (void) => {
+        return;
+    };
+
+    void func = (void) => {
+        return;
+    };
 }
 
 class Mac extends Computer {
     // mouse for mac
     int mouse;
+    
+    // error override func to var
+    int func;
 
-    /*
-     * @override
-     */
+    // error override var to func
+    int override = (void) => {
+        return 1;
+    };
+
     int crash = (int numTimes) => {
         mouse = cpu;
 
@@ -33,6 +47,10 @@ class Mac extends Computer {
         return numTimes + 1;
     };
 
+    // incomptible override type
+    bool errOverride = (void) => {
+        return true;
+    };
 }
 
 class OSX extends Mac {
@@ -61,14 +79,18 @@ class Main {
         class Mac powerbook;
         powerbook = new Mac();
 
-        // invalid access to private field
+        // invalid access to variable field, only can access to method field
         int b;
         b = powerbook.mouse;
 
         // non-exist function
         powerbook.Crash(2);
+
         // incomptible arguments
         powerbook.crash();
+
+        // invalid access on Class Name
+        Mac.crash(2);
 
         // method in super class
         powerbook.superMethod();

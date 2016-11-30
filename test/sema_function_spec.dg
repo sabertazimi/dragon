@@ -6,10 +6,6 @@ class Function {
         return addr;
     };
 
-    void missingReturn = (void) => {
-        // no return statement;
-    };
-
     bool errorRetType = (int num) => {
         return num;
     };

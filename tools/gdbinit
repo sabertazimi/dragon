@@ -1,2 +1,2 @@
-b TypeCheck::visitNewArray
-r test/sema_function_spec.dg
+b TypeCheck::visitCallExpr
+r test/sema_class_spec.dg
