@@ -28,9 +28,10 @@ class OffSet {
         osKind kind;
         int value;
 
-        static final OffSet LOCAL_COUNTER = new OffsetCounter(OS_LOCAL);
-        static final OffSet PARAM_COUNTER = new OffsetCounter(OS_PARAM);
-        static final OffSet MEMBER_COUNTER = new OffsetCounter(OS_MEMBER);
+        // there only exist three offset counter
+        static OffSet *LOCAL_COUNTER;
+        static OffSet *PARAM_COUNTER;
+        static OffSet *MEMBER_COUNTER;
 
         OffSet(osKind kind);
 

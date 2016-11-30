@@ -14,7 +14,7 @@ using namespace std;
 
 AstPrinter::AstPrinter(void) {
     indent = 0;
-    step = 2;
+    step = 4;
     out = &cout;
 }
 
