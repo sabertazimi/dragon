@@ -1,0 +1,10 @@
+<map id="ClassType" name="ClassType">
+<area shape="rect" id="node2" href="$classType.html" title="Type" alt="" coords="5,5,56,32"/>
+<area shape="rect" id="node4" href="$classSymbol.html" title="Symbol" alt="" coords="383,95,449,121"/>
+<area shape="rect" id="node3" href="$classClass.html" title="Class" alt="" coords="233,184,289,211"/>
+<area shape="rect" id="node7" href="$classClassScope.html" title="ClassScope" alt="" coords="351,273,444,300"/>
+<area shape="rect" id="node5" href="$structyyltype.html" title="to store location information " alt="" coords="304,5,368,32"/>
+<area shape="rect" id="node6" href="$classScope.html" title="Scope" alt="" coords="428,5,487,32"/>
+<area shape="rect" id="node8" href="$classVTable.html" title="VTable" alt="" coords="230,95,293,121"/>
+<area shape="rect" id="node9" href="$classLabel.html" title="Label" alt="" coords="136,5,189,32"/>
+</map>

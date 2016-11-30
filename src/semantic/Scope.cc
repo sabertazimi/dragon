@@ -53,6 +53,8 @@ Symbol *Scope::lookup(string name) {
 
 void Scope::declare(Symbol *symbol) {
     (*symbols)[symbol->name] = symbol;
+
+    // bind symbol and scope
     symbol->definedIn = this;
 }
 

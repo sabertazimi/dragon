@@ -1,0 +1,10 @@
+<map id="VarDef" name="VarDef">
+<area shape="rect" id="node2" href="$classNode.html" title="Node" alt="" coords="103,95,157,121"/>
+<area shape="rect" id="node5" href="$classTypeLiteral.html" title="TypeLiteral" alt="" coords="5,171,92,197"/>
+<area shape="rect" id="node3" href="$structyyltype.html" title="to store location information " alt="" coords="201,5,265,32"/>
+<area shape="rect" id="node7" href="$classSymbol.html" title="Symbol" alt="" coords="227,95,294,121"/>
+<area shape="rect" id="node4" href="$classType.html" title="Type" alt="" coords="65,5,115,32"/>
+<area shape="rect" id="node6" href="$classVariable.html" title="Variable" alt="" coords="218,171,287,197"/>
+<area shape="rect" id="node9" href="$classTemp.html" title="Temp" alt="" coords="253,260,308,287"/>
+<area shape="rect" id="node8" href="$classScope.html" title="Scope" alt="" coords="313,5,371,32"/>
+</map>

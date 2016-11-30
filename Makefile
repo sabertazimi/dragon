@@ -8,7 +8,7 @@ PROG=dragon
 
 # tools and their flags
 CC=g++
-CFLAGS=-Wall -Wextra -g $(addprefix -I, $(INCLUDE_PATH))
+CFLAGS=-pedantic -Wall -Wextra -g $(addprefix -I, $(INCLUDE_PATH))
 LEX=flex
 LFLAGS=-v
 YACC=bison

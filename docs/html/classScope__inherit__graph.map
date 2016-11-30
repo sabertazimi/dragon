@@ -1,0 +1,6 @@
+<map id="Scope" name="Scope">
+<area shape="rect" id="node2" href="$classClassScope.html" title="ClassScope" alt="" coords="5,80,99,107"/>
+<area shape="rect" id="node3" href="$classFormalScope.html" title="FormalScope" alt="" coords="123,80,221,107"/>
+<area shape="rect" id="node4" href="$classGlobalScope.html" title="GlobalScope" alt="" coords="245,80,341,107"/>
+<area shape="rect" id="node5" href="$classLocalScope.html" title="LocalScope" alt="" coords="365,80,456,107"/>
+</map>

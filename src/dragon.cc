@@ -17,7 +17,7 @@
 #undef AST_DEBUG
 
 #define SEMA_DEBUG
-// #undef SEMA_DEBUG
+#undef SEMA_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);
@@ -47,8 +47,8 @@ int main(int argc, char **argv) {
     }
 
 #ifdef AST_DEBUG
-    AstPrinter *ap = new AstPrinter();
-    tree->print(ap);
+    AstPrinter *ast_ap = new AstPrinter();
+    tree->print(ast_ap);
 #endif
 
     // set up global scope stack
@@ -66,8 +66,8 @@ int main(int argc, char **argv) {
     }
 
 #ifdef SEMA_DEBUG
-    AstPrinter *ap = new AstPrinter();
-    tree->globalScope->print(ap);
+    AstPrinter *sema_ap = new AstPrinter();
+    tree->globalScope->print(sema_ap);
 #endif
 
     fclose(fp);

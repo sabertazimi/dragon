@@ -46,3 +46,4 @@ int OffSet::next(int value) {
     this->value += direction[kind] * value;
     return ret;
 }
+

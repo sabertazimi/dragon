@@ -20,7 +20,7 @@ AstPrinter::AstPrinter(void) {
 
 AstPrinter::AstPrinter(const char *outfile) {
     indent = 0;
-    step = 2;
+    step = 4;
     fout.open(outfile);
     out = &fout;
 }
