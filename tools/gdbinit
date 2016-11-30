@@ -1,3 +1,2 @@
-b dragon.cc: 56
-b semantic/semantic.h: 193
+b semantic/semantic.cc: 18
 r test/sema_class_spec.dg

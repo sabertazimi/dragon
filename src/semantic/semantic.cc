@@ -15,26 +15,26 @@ BuildSymbol::BuildSymbol(ScopeStack *table) {
     failed = 0;
 }
 
-bool BuildSymbol::isMainClass(Class *c) {
-    if (c == 0) {
-        return false;
-    }
-
+void BuildSymbol::mainClassCheck(Class *c) {
     // push class scope into stack
     table->open(c->associatedScope);
     // lookup main function in Main class scope
     Symbol *main = table->lookup("main", false);
 
     if (main == 0 || !main->isFunction()) {
-        return false;
+        failed = 1;
+        dragon_report(main->location, "missing 'main' function as program entry in 'Main' class\n");
     }
 
     // set main
     ((Function *) main)->isMain = true;
 
-    // main function: return type must be VOID, parametes must be 0
+    // main function: return type must be VOID, parametes must be VOID
     FuncType *type = (FuncType *) main->type;
-    return type->returnType->equals(BaseType::VOID) && type->numOfParams() == 0;
+    if (!type->returnType->equals(BaseType::VOID) || !type->numOfParams() == 0) {
+        failed = 1;
+        dragon_report(main->location, "error type for 'main' function in 'Main' class: 'main' function must be with 0 parameter and return void\n");
+    }
 }
 
 int BuildSymbol::calcOrder(Class *c) {
@@ -163,9 +163,11 @@ void BuildSymbol::visitProgram(Program *program) {
     }
 
     // main class check
-    if (!isMainClass(program->main)) {
+    if (program->main == 0) {
         failed = 1;
         dragon_report(program->loc, "missing main class\n");
+    } else {
+        mainClassCheck(program->main);
     }
 
     table->close();
@@ -456,7 +458,7 @@ void TypeCheck::visitAssign(Assign *assign) {
             (assign->left->type->isFuncType() || !assign->expr->type->compatible(assign->left->type))) {
         failed = 1;
         dragon_report(assign->loc, "incompatible assignment from '%s' to '%s'\n",
-                assign->left->type->toString(), "=", assign->expr->type->toString());
+                assign->expr->type->toString(), assign->left->type->toString());
     }
 }
 
@@ -533,7 +535,7 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
 
         if ((argList->size() - 1) != callExpr->actuals->size()) {
             failed = 1;
-            dragon_report(callExpr->loc, "incompatible number of arguments, expected '%d', get '%d'\n",
+            dragon_report(callExpr->loc, "incompatible number of arguments, expected %d, get %d\n",
                     argList->size() - 1, callExpr->actuals->size());
         } else {
             for (int i = 1, j = 0; i < argList->size() && j < callExpr->actuals->size(); i++, j++) {

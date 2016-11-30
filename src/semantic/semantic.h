@@ -29,8 +29,12 @@ public:
     /// \brief constructor
 	BuildSymbol(ScopeStack *table);
 
-	/// \brief  Main class must have a main function
-	virtual bool isMainClass(Class *c);
+	/// \brief  check Main class whether valid or not
+    ///
+    /// Main class must have a main function
+    /// with void formal and void return type
+    ///
+	virtual void mainClassCheck(Class *c);
 
     /// \brief calculate depth in inheriting tree
 	virtual int calcOrder(Class *c);

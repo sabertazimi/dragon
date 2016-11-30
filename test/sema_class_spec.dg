@@ -21,6 +21,7 @@ class Mac extends Computer {
      */
     int crash = (int numTimes) => {
         mouse = cpu;
+
         // non-exist field both in this and super
         this.Cpu = numTimes;
 
