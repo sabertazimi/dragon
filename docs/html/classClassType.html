@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>C++ Lab: ClassType Class Reference</title>
+<title>Dragon Compiler: ClassType Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -31,8 +32,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">C++ Lab
-   &#160;<span id="projectnumber">1.0.0</span>
+   <div id="projectname">Dragon Compiler
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
   </td>
  </tr>
@@ -113,7 +114,53 @@ $(document).ready(function(){initNavTree('classClassType.html','');});
 <div class="title">ClassType Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a29036a628bcfe3fd16b60e20efadec03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29036a628bcfe3fd16b60e20efadec03"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ClassType</b> (<a class="el" href="classClass.html">Class</a> *symbol, <a class="el" href="classClassType.html">ClassType</a> *parent)</td></tr>
+<tr class="separator:a29036a628bcfe3fd16b60e20efadec03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74a305f2855e54177a108737c6fad7b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74a305f2855e54177a108737c6fad7b3"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a74a305f2855e54177a108737c6fad7b3">compatible</a> (<a class="el" href="classType.html">Type</a> *type)</td></tr>
+<tr class="separator:a74a305f2855e54177a108737c6fad7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a272c8045dee0553c2eb3fb835fac83d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a272c8045dee0553c2eb3fb835fac83d7"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a272c8045dee0553c2eb3fb835fac83d7">equals</a> (<a class="el" href="classType.html">Type</a> *type)</td></tr>
+<tr class="separator:a272c8045dee0553c2eb3fb835fac83d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba0a130be97ed7e5af97f9ffb82a1571"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba0a130be97ed7e5af97f9ffb82a1571"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#aba0a130be97ed7e5af97f9ffb82a1571">isClassType</a> (void)</td></tr>
+<tr class="separator:aba0a130be97ed7e5af97f9ffb82a1571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a857fbe2711b01e582a4bdaefb82199c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a857fbe2711b01e582a4bdaefb82199c9"></a>
+virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a857fbe2711b01e582a4bdaefb82199c9">toString</a> (void)</td></tr>
+<tr class="separator:a857fbe2711b01e582a4bdaefb82199c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041cbf31b43502bab9f74f245a39b038"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a041cbf31b43502bab9f74f245a39b038"></a>
+virtual <a class="el" href="classClassScope.html">ClassScope</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getClassScope</b> (void)</td></tr>
+<tr class="separator:a041cbf31b43502bab9f74f245a39b038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af22051d8b0e0b0d628e75586aff2c5d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af22051d8b0e0b0d628e75586aff2c5d2"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isBaseType</b> (void)</td></tr>
+<tr class="separator:af22051d8b0e0b0d628e75586aff2c5d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0c0af334b2ac5462557b1777cc3f6ab"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0c0af334b2ac5462557b1777cc3f6ab"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isArrayType</b> (void)</td></tr>
+<tr class="separator:ad0c0af334b2ac5462557b1777cc3f6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab108cd221c70f172fb7a559b88e575c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab108cd221c70f172fb7a559b88e575c1"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isFuncType</b> (void)</td></tr>
+<tr class="separator:ab108cd221c70f172fb7a559b88e575c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:aa7033ff0636dca93f6de618e8d299492"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7033ff0636dca93f6de618e8d299492"></a>
+<a class="el" href="classClass.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>symbol</b></td></tr>
+<tr class="separator:aa7033ff0636dca93f6de618e8d299492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2db0c70b8dea7f7a3f143f39d37b3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e2db0c70b8dea7f7a3f143f39d37b3d"></a>
+<a class="el" href="classClassType.html">ClassType</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
+<tr class="separator:a1e2db0c70b8dea7f7a3f143f39d37b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa480d366ff35d72b42d2f3f52665d75b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa480d366ff35d72b42d2f3f52665d75b"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>typeName</b></td></tr>
+<tr class="separator:aa480d366ff35d72b42d2f3f52665d75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="Type_8h_source.html#l00119">119</a> of file <a class="el" href="Type_8h_source.html">Type.h</a>.</p>
+</div><div class="dynheader">
 Inheritance diagram for ClassType:</div>
 <div class="dyncontent">
 <div class="center"><img src="classClassType__inherit__graph.png" border="0" usemap="#ClassType_inherit__map" alt="Inheritance graph"/></div>
@@ -136,59 +183,7 @@ Collaboration diagram for ClassType:</div>
 <area shape="rect" id="node9" href="classLabel.html" title="Label" alt="" coords="136,5,189,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a29036a628bcfe3fd16b60e20efadec03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29036a628bcfe3fd16b60e20efadec03"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ClassType</b> (<a class="el" href="classClass.html">Class</a> *symbol, <a class="el" href="classClassType.html">ClassType</a> *parent)</td></tr>
-<tr class="separator:a29036a628bcfe3fd16b60e20efadec03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74a305f2855e54177a108737c6fad7b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74a305f2855e54177a108737c6fad7b3"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a74a305f2855e54177a108737c6fad7b3">compatible</a> (<a class="el" href="classType.html">Type</a> *type)</td></tr>
-<tr class="separator:a74a305f2855e54177a108737c6fad7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a272c8045dee0553c2eb3fb835fac83d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a272c8045dee0553c2eb3fb835fac83d7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a272c8045dee0553c2eb3fb835fac83d7">equals</a> (<a class="el" href="classType.html">Type</a> *type)</td></tr>
-<tr class="separator:a272c8045dee0553c2eb3fb835fac83d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba0a130be97ed7e5af97f9ffb82a1571"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba0a130be97ed7e5af97f9ffb82a1571"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#aba0a130be97ed7e5af97f9ffb82a1571">isClassType</a> (void)</td></tr>
-<tr class="separator:aba0a130be97ed7e5af97f9ffb82a1571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a857fbe2711b01e582a4bdaefb82199c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a857fbe2711b01e582a4bdaefb82199c9"></a>
-virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClassType.html#a857fbe2711b01e582a4bdaefb82199c9">toString</a> (void)</td></tr>
-<tr class="separator:a857fbe2711b01e582a4bdaefb82199c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a041cbf31b43502bab9f74f245a39b038"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a041cbf31b43502bab9f74f245a39b038"></a>
-virtual <a class="el" href="classClassScope.html">ClassScope</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getClassScope</b> (void)</td></tr>
-<tr class="separator:a041cbf31b43502bab9f74f245a39b038"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classType"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classType')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classType.html">Type</a></td></tr>
-<tr class="memitem:a25a40c9a2e151aee1971450128a8f0c3 inherit pub_methods_classType"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25a40c9a2e151aee1971450128a8f0c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classType.html#a25a40c9a2e151aee1971450128a8f0c3">Type</a> (void)</td></tr>
-<tr class="memdesc:a25a40c9a2e151aee1971450128a8f0c3 inherit pub_methods_classType"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
-<tr class="separator:a25a40c9a2e151aee1971450128a8f0c3 inherit pub_methods_classType"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af22051d8b0e0b0d628e75586aff2c5d2 inherit pub_methods_classType"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af22051d8b0e0b0d628e75586aff2c5d2"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isBaseType</b> (void)</td></tr>
-<tr class="separator:af22051d8b0e0b0d628e75586aff2c5d2 inherit pub_methods_classType"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0c0af334b2ac5462557b1777cc3f6ab inherit pub_methods_classType"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0c0af334b2ac5462557b1777cc3f6ab"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isArrayType</b> (void)</td></tr>
-<tr class="separator:ad0c0af334b2ac5462557b1777cc3f6ab inherit pub_methods_classType"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab108cd221c70f172fb7a559b88e575c1 inherit pub_methods_classType"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab108cd221c70f172fb7a559b88e575c1"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isFuncType</b> (void)</td></tr>
-<tr class="separator:ab108cd221c70f172fb7a559b88e575c1 inherit pub_methods_classType"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aa7033ff0636dca93f6de618e8d299492"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7033ff0636dca93f6de618e8d299492"></a>
-<a class="el" href="classClass.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>symbol</b></td></tr>
-<tr class="separator:aa7033ff0636dca93f6de618e8d299492"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e2db0c70b8dea7f7a3f143f39d37b3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e2db0c70b8dea7f7a3f143f39d37b3d"></a>
-<a class="el" href="classClassType.html">ClassType</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
-<tr class="separator:a1e2db0c70b8dea7f7a3f143f39d37b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classType"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classType')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classType.html">Type</a></td></tr>
-<tr class="memitem:aa480d366ff35d72b42d2f3f52665d75b inherit pub_attribs_classType"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa480d366ff35d72b42d2f3f52665d75b"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>typeName</b></td></tr>
-<tr class="separator:aa480d366ff35d72b42d2f3f52665d75b inherit pub_attribs_classType"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Type_8h_source.html#l00119">119</a> of file <a class="el" href="Type_8h_source.html">Type.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/syntax/<a class="el" href="Type_8h_source.html">Type.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>C++ Lab: Node Class Reference</title>
+<title>Dragon Compiler: Node Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -31,8 +32,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">C++ Lab
-   &#160;<span id="projectnumber">1.0.0</span>
+   <div id="projectname">Dragon Compiler
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
   </td>
  </tr>
@@ -113,7 +114,40 @@ $(document).ready(function(){initNavTree('classNode.html','');});
 <div class="title">Node Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49ec664cfcc9fc3b46020fa44c97df82"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a49ec664cfcc9fc3b46020fa44c97df82">Node</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memdesc:a49ec664cfcc9fc3b46020fa44c97df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
+<tr class="separator:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="separator:a95f7e69a714ba988f4f55b90e2073195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec456fc7173f92d9bdb127db5d237d1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
+<tr class="memdesc:aec456fc7173f92d9bdb127db5d237d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#aec456fc7173f92d9bdb127db5d237d1b">More...</a><br /></td></tr>
+<tr class="separator:aec456fc7173f92d9bdb127db5d237d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e748a074b3817d41f5fb2d4ffeb9ead"></a>
+<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a></td></tr>
+<tr class="memdesc:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">kind of node <br /></td></tr>
+<tr class="separator:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2a3a4425c71810341f3e3960e0c5c08"></a>
+<a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a></td></tr>
+<tr class="memdesc:ae2a3a4425c71810341f3e3960e0c5c08"><td class="mdescLeft">&#160;</td><td class="mdescRight">location information <br /></td></tr>
+<tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bfe58e068d3ebbf9e5de3b9429ce78"></a>
+<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae5bfe58e068d3ebbf9e5de3b9429ce78">type</a></td></tr>
+<tr class="memdesc:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="mdescLeft">&#160;</td><td class="mdescRight">type information <br /></td></tr>
+<tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00108">108</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+</div><div class="dynheader">
 Inheritance diagram for Node:</div>
 <div class="dyncontent">
 <div class="center"><img src="classNode__inherit__graph.png" border="0" usemap="#Node_inherit__map" alt="Inheritance graph"/></div>
@@ -159,40 +193,7 @@ Collaboration diagram for Node:</div>
 <area shape="rect" id="node3" href="classType.html" title="Type" alt="" coords="93,5,144,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49ec664cfcc9fc3b46020fa44c97df82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a49ec664cfcc9fc3b46020fa44c97df82">Node</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
-<tr class="memdesc:a49ec664cfcc9fc3b46020fa44c97df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
-<tr class="separator:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
-<tr class="separator:a95f7e69a714ba988f4f55b90e2073195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec456fc7173f92d9bdb127db5d237d1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
-<tr class="memdesc:aec456fc7173f92d9bdb127db5d237d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#aec456fc7173f92d9bdb127db5d237d1b">More...</a><br /></td></tr>
-<tr class="separator:aec456fc7173f92d9bdb127db5d237d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e748a074b3817d41f5fb2d4ffeb9ead"></a>
-<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a></td></tr>
-<tr class="memdesc:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">kind of node <br /></td></tr>
-<tr class="separator:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2a3a4425c71810341f3e3960e0c5c08"></a>
-<a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a></td></tr>
-<tr class="memdesc:ae2a3a4425c71810341f3e3960e0c5c08"><td class="mdescLeft">&#160;</td><td class="mdescRight">location information <br /></td></tr>
-<tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bfe58e068d3ebbf9e5de3b9429ce78"></a>
-<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae5bfe58e068d3ebbf9e5de3b9429ce78">type</a></td></tr>
-<tr class="memdesc:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="mdescLeft">&#160;</td><td class="mdescRight">type information <br /></td></tr>
-<tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00108">108</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aec456fc7173f92d9bdb127db5d237d1b"></a>
 <div class="memitem">
 <div class="memproto">

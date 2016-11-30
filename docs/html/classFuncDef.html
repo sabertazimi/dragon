@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>C++ Lab: FuncDef Class Reference</title>
+<title>Dragon Compiler: FuncDef Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,6 +23,7 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -31,8 +32,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">C++ Lab
-   &#160;<span id="projectnumber">1.0.0</span>
+   <div id="projectname">Dragon Compiler
+   &#160;<span id="projectnumber">0.5.0</span>
    </div>
   </td>
  </tr>
@@ -113,7 +114,54 @@ $(document).ready(function(){initNavTree('classFuncDef.html','');});
 <div class="title">FuncDef Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a59c7260dba2df9637a82fbc97186cd09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59c7260dba2df9637a82fbc97186cd09"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FuncDef</b> (char *name, <a class="el" href="classTypeLiteral.html">TypeLiteral</a> *returnType, <a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVarDef.html">VarDef</a> * &gt; *formals, <a class="el" href="classBlock.html">Block</a> *body, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="separator:a59c7260dba2df9637a82fbc97186cd09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7875bb072d31461e0f4221520ed3b31"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7875bb072d31461e0f4221520ed3b31"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFuncDef.html#ae7875bb072d31461e0f4221520ed3b31">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:ae7875bb072d31461e0f4221520ed3b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="separator:ae7875bb072d31461e0f4221520ed3b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb59d17ccd216ce0ef4e12d709b0083"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFuncDef.html#abfb59d17ccd216ce0ef4e12d709b0083">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
+<tr class="memdesc:abfb59d17ccd216ce0ef4e12d709b0083"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#abfb59d17ccd216ce0ef4e12d709b0083">More...</a><br /></td></tr>
+<tr class="separator:abfb59d17ccd216ce0ef4e12d709b0083"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a22bb8da44388e6cc85b94db69a2f4c30"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22bb8da44388e6cc85b94db69a2f4c30"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
+<tr class="separator:a22bb8da44388e6cc85b94db69a2f4c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dc805fc5f3ff42356d5a34865a4c0fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4dc805fc5f3ff42356d5a34865a4c0fd"></a>
+<a class="el" href="classTypeLiteral.html">TypeLiteral</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>returnType</b></td></tr>
+<tr class="separator:a4dc805fc5f3ff42356d5a34865a4c0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b3df5ab239f2278816cb22c728cb1c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b3df5ab239f2278816cb22c728cb1c9"></a>
+<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVarDef.html">VarDef</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>formals</b></td></tr>
+<tr class="separator:a3b3df5ab239f2278816cb22c728cb1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a908121ba3edbe2620e93208021f90692"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a908121ba3edbe2620e93208021f90692"></a>
+<a class="el" href="classBlock.html">Block</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
+<tr class="separator:a908121ba3edbe2620e93208021f90692"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292c14b9c05874eba71f8ad6a2e0480b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a292c14b9c05874eba71f8ad6a2e0480b"></a>
+<a class="el" href="classFunction.html">Function</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>symbol</b></td></tr>
+<tr class="separator:a292c14b9c05874eba71f8ad6a2e0480b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e748a074b3817d41f5fb2d4ffeb9ead"></a>
+<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a></td></tr>
+<tr class="memdesc:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">kind of node <br /></td></tr>
+<tr class="separator:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2a3a4425c71810341f3e3960e0c5c08"></a>
+<a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a></td></tr>
+<tr class="memdesc:ae2a3a4425c71810341f3e3960e0c5c08"><td class="mdescLeft">&#160;</td><td class="mdescRight">location information <br /></td></tr>
+<tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bfe58e068d3ebbf9e5de3b9429ce78"></a>
+<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae5bfe58e068d3ebbf9e5de3b9429ce78">type</a></td></tr>
+<tr class="memdesc:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="mdescLeft">&#160;</td><td class="mdescRight">type information <br /></td></tr>
+<tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00148">148</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+</div><div class="dynheader">
 Inheritance diagram for FuncDef:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFuncDef__inherit__graph.png" border="0" usemap="#FuncDef_inherit__map" alt="Inheritance graph"/></div>
@@ -142,60 +190,7 @@ Collaboration diagram for FuncDef:</div>
 <area shape="rect" id="node15" href="classLabel.html" title="Label" alt="" coords="361,363,414,389"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a59c7260dba2df9637a82fbc97186cd09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59c7260dba2df9637a82fbc97186cd09"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FuncDef</b> (char *name, <a class="el" href="classTypeLiteral.html">TypeLiteral</a> *returnType, <a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVarDef.html">VarDef</a> * &gt; *formals, <a class="el" href="classBlock.html">Block</a> *body, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
-<tr class="separator:a59c7260dba2df9637a82fbc97186cd09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7875bb072d31461e0f4221520ed3b31"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7875bb072d31461e0f4221520ed3b31"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFuncDef.html#ae7875bb072d31461e0f4221520ed3b31">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:ae7875bb072d31461e0f4221520ed3b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
-<tr class="separator:ae7875bb072d31461e0f4221520ed3b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfb59d17ccd216ce0ef4e12d709b0083"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFuncDef.html#abfb59d17ccd216ce0ef4e12d709b0083">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
-<tr class="memdesc:abfb59d17ccd216ce0ef4e12d709b0083"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#abfb59d17ccd216ce0ef4e12d709b0083">More...</a><br /></td></tr>
-<tr class="separator:abfb59d17ccd216ce0ef4e12d709b0083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classNode.html">Node</a></td></tr>
-<tr class="memitem:a49ec664cfcc9fc3b46020fa44c97df82 inherit pub_methods_classNode"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49ec664cfcc9fc3b46020fa44c97df82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a49ec664cfcc9fc3b46020fa44c97df82">Node</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
-<tr class="memdesc:a49ec664cfcc9fc3b46020fa44c97df82 inherit pub_methods_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
-<tr class="separator:a49ec664cfcc9fc3b46020fa44c97df82 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a22bb8da44388e6cc85b94db69a2f4c30"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22bb8da44388e6cc85b94db69a2f4c30"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
-<tr class="separator:a22bb8da44388e6cc85b94db69a2f4c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4dc805fc5f3ff42356d5a34865a4c0fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4dc805fc5f3ff42356d5a34865a4c0fd"></a>
-<a class="el" href="classTypeLiteral.html">TypeLiteral</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>returnType</b></td></tr>
-<tr class="separator:a4dc805fc5f3ff42356d5a34865a4c0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b3df5ab239f2278816cb22c728cb1c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b3df5ab239f2278816cb22c728cb1c9"></a>
-<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVarDef.html">VarDef</a> * &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>formals</b></td></tr>
-<tr class="separator:a3b3df5ab239f2278816cb22c728cb1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a908121ba3edbe2620e93208021f90692"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a908121ba3edbe2620e93208021f90692"></a>
-<a class="el" href="classBlock.html">Block</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
-<tr class="separator:a908121ba3edbe2620e93208021f90692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a292c14b9c05874eba71f8ad6a2e0480b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a292c14b9c05874eba71f8ad6a2e0480b"></a>
-<a class="el" href="classFunction.html">Function</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>symbol</b></td></tr>
-<tr class="separator:a292c14b9c05874eba71f8ad6a2e0480b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classNode')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classNode.html">Node</a></td></tr>
-<tr class="memitem:a4e748a074b3817d41f5fb2d4ffeb9ead inherit pub_attribs_classNode"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e748a074b3817d41f5fb2d4ffeb9ead"></a>
-<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a></td></tr>
-<tr class="memdesc:a4e748a074b3817d41f5fb2d4ffeb9ead inherit pub_attribs_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">kind of node <br /></td></tr>
-<tr class="separator:a4e748a074b3817d41f5fb2d4ffeb9ead inherit pub_attribs_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2a3a4425c71810341f3e3960e0c5c08 inherit pub_attribs_classNode"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2a3a4425c71810341f3e3960e0c5c08"></a>
-<a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a></td></tr>
-<tr class="memdesc:ae2a3a4425c71810341f3e3960e0c5c08 inherit pub_attribs_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">location information <br /></td></tr>
-<tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08 inherit pub_attribs_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5bfe58e068d3ebbf9e5de3b9429ce78 inherit pub_attribs_classNode"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5bfe58e068d3ebbf9e5de3b9429ce78"></a>
-<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#ae5bfe58e068d3ebbf9e5de3b9429ce78">type</a></td></tr>
-<tr class="memdesc:ae5bfe58e068d3ebbf9e5de3b9429ce78 inherit pub_attribs_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">type information <br /></td></tr>
-<tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78 inherit pub_attribs_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00148">148</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="abfb59d17ccd216ce0ef4e12d709b0083"></a>
 <div class="memitem">
 <div class="memproto">

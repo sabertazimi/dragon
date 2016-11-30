@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "C++ Lab", "index.html", [
+  [ "Dragon Compiler", "index.html", [
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -27,8 +27,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AstPrinter_8h.html",
-"classClass.html#a2f1ce22955f0c4428b48bd53bd63d09f",
-"classSymbol.html#a0679df5ed66c2fcd040ed48385e40dc7"
+"classBuildSymbol.html#a44237638d07c542fa80e7b6bcce9cd31",
+"classIndexed.html#a08b9aff02a428b653a8e1e74929d0822",
+"classTypeCheck.html#a1434dffe423f00bdfbead16d8f9b6f92"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
