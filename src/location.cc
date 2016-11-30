@@ -20,21 +20,21 @@ yyltype *locdup(yyltype *loc) {
 }
 
 int loccmp(yyltype *l, yyltype *r) {
-	if (l->first_line > r->first_line) {
-		return 1;
-	}
+    if (l->first_line > r->first_line) {
+        return 1;
+    }
 
-	if (l->first_line < r->first_line) {
-		return -1;
-	}
+    if (l->first_line < r->first_line) {
+        return -1;
+    }
 
-	if (l->first_column > r->first_column) {
-		return 1;
-	}
+    if (l->first_column > r->first_column) {
+        return 1;
+    }
 
-	if (l->first_column < r->first_column) {
-		return -1;
-	}
+    if (l->first_column < r->first_column) {
+        return -1;
+    }
 
-	return 0;
+    return 0;
 }

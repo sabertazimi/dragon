@@ -63,8 +63,8 @@ void Scope::cancel(Symbol *symbol) {
 }
 
 FormalScope::FormalScope(Function *owner, Block *astNode) {
-    this->owner = owner;
-    this->astNode = astNode;
+    this->owner = owner;        // function symbol
+    this->astNode = astNode;    // block ast node(belong to function defination)
 }
 
 scopeKind FormalScope::getKind(void) {
@@ -176,6 +176,7 @@ bool ClassScope::isInherited(Symbol *symbol) {
 }
 
 Symbol *ClassScope::lookupVisible(string name) {
+    // search through scope list
     for (ClassScope *cs = this; cs != 0; cs = cs->getParentScope()) {
         Symbol *symbol = cs->lookup(name);
 
@@ -218,6 +219,7 @@ ScopeStack::ScopeStack(void) {
 }
 
 Symbol *ScopeStack::lookup(string name, bool through) {
+    // search into scope stack
     if (through) {
         for (int i = scopeStack->size() - 1;
                 i > -1; i--) {
@@ -229,6 +231,7 @@ Symbol *ScopeStack::lookup(string name, bool through) {
 
         return 0;
     } else {
+    // only search in top scope(closest scope)
         return (*scopeStack)[scopeStack->size() - 1]->lookup(name);
     }
 }
@@ -259,6 +262,7 @@ void ScopeStack::declare(Symbol *symbol) {
 
 void ScopeStack::open(Scope *scope) {
     switch (scope->getKind()) {
+        // bind global scope to globalScope(member of scope stack)
         case SCOPE_GLOBAL:
             globalScope = (GlobalScope *)scope;
             break;
@@ -272,12 +276,15 @@ void ScopeStack::open(Scope *scope) {
             break;
     }
 
+    // push current scope(not GlobalScope) into scope stack
     scopeStack->append(scope);
 }
 
 void ScopeStack::close(void) {
+    // pop top scope
     Scope *scope = scopeStack->pop();
 
+    // if it's class scope, clear up class scope
     if (scope->isClassScope()) {
         for (int n = (scopeStack->size() - 1); n > 0; n--) {
             scopeStack->pop();

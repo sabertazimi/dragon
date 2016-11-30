@@ -18,59 +18,68 @@ using namespace std;
 
 template <class Element>
 class List {
-private:
-	deque <Element> elems;
+    public:
+        deque <Element> elems;      ///< deque container
 
-public:
-	/// \brief create a new empty list
-	List(void) {
-	}
+        /// \brief create a new empty list
+        List(void) {
+        }
 
-	/// \brief number of elements
-	/// \return number
-	int size(void) {
-		return elems.size();
-	}
+        /// \brief number of elements
+        /// \return size of list
+        int size(void) {
+            return elems.size();
+        }
 
-	/// \breif get elements
-	Element operator[](int index) {
-		if (index < 0 || index >= size()) {
-			cerr << "Subscript out of range" << endl;
-			return 0;
-		} else {
-			return elems[index];
-		}
-	}
+        /// \breif get element at index
+        /// \param index index
+        /// \return List[index]
+        Element operator[](int index) {
+            if (index < 0 || index >= size()) {
+                cerr << "Subscript out of range" << endl;
+                return 0;
+            } else {
+                return elems[index];
+            }
+        }
 
-	/// \brief inserts element at index
-	void insertAt(const Element &elem, int index) {
-		if (index < 0 || index >= size()) {
-			cerr << "Subscript out of range" << endl;
-		} else {
-			elems.insert(elems.begin() + index, elem);
-		}
-	}
+        /// \brief insert element at index
+        /// \param elem element to insert
+        /// \param index index
+        /// \return void
+        void insertAt(const Element &elem, int index) {
+            if (index < 0 || index >= size()) {
+                cerr << "Subscript out of range" << endl;
+            } else {
+                elems.insert(elems.begin() + index, elem);
+            }
+        }
 
-	/// \brief append element
-	void append(const Element &elem) {
-		elems.push_back(elem);
-	}
+        /// \brief append element at the tail of list
+        /// \param elem element to append
+        /// \return void
+        void append(const Element &elem) {
+            elems.push_back(elem);
+        }
 
-    /// \brief pop size()-1
-    Element pop(void) {
-        Element tmp = (*this)[this->elems.size()-1];
-        elems.erase(elems.begin() + this->size() - 1);
-        return tmp;
-	}
+        /// \brief pop element at index size()-1
+        /// \return element poped
+        Element pop(void) {
+            Element tmp = (*this)[this->elems.size()-1];
+            elems.erase(elems.begin() + this->size() - 1);
+            return tmp;
+        }
 
-	/// \brief removes element at index
-	void removeAt(int index) {
-		if (index < 0 || index >= size()) {
-			cerr << "Subscript out of range" << endl;
-		} else {
-			elems.erase(elems.begin() + index);
-		}
-	}
+        /// \brief remove element at index
+        /// \param index index
+        /// \return void
+        void removeAt(int index) {
+            if (index < 0 || index >= size()) {
+                cerr << "Subscript out of range" << endl;
+            } else {
+                elems.erase(elems.begin() + index);
+            }
+        }
 };
 
 #endif				/* !LIBS_LIST_H */

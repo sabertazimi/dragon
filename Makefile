@@ -72,7 +72,7 @@ $(PROG): $(OBJS)
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
-	$(RM) $(SRC_PATH)/parser.h $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
+	$(RM) $(SRC_PATH)/parser.hh $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
 	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
 	$(RM) core
 # $(RM) .gdb_history

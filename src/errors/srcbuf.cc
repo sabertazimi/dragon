@@ -12,9 +12,10 @@
 
 using namespace std;
 
+/// \brief static(singleton pattern) source buffer
 typedef struct srcbuf {
-    vector<char *> *buf;   ///< list_t <char *>: store source code
-    int  cnt_line;      ///< number of line in buffer
+    vector<char *> *buf;    ///< list_t <char *>: store source code
+    int  cnt_line;          ///< number of line in buffer
 } srcbuf_t;
 
 static srcbuf_t srcbuf;

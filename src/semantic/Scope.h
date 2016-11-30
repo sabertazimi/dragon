@@ -19,6 +19,7 @@
 
 using namespace std;
 
+// forward defination
 class Block;
 class Symbol;
 class Function;
@@ -33,32 +34,52 @@ typedef enum __scopeKind__ {
     SCOPE_LOCAL
 } scopeKind;
 
+/// \brief scope interface
 class Scope {
     public:
-        map<string , Symbol *> *symbols;
+        map<string , Symbol *> *symbols;    ///< symbol map(symbol table)
 
         /// \brief constructor
         Scope(void);
 
+        /// \brief get kind information
+        /// \return kind of scope
         virtual scopeKind getKind(void);
 
+        /// \brief print information of scope to ap
+        /// \param ap print helper class
+        /// \return void
         void print(AstPrinter *ap);
 
+        /// \brief judge kind of scope
+        /// \return bool value
         virtual bool isGlobalScope(void);
 
+        /// \brief judge kind of scope
+        /// \return bool value
         virtual bool isClassScope(void);
 
+        /// \brief judge kind of scope
+        /// \return bool value
         virtual bool isLocalScope(void);
 
+        /// \brief judge kind of scope
+        /// \return bool value
         virtual bool isFormalScope(void);
 
-        /// \brief look up function
+        /// \brief look up symbol
+        /// \param name symbol name
+        /// return target symbol
         virtual Symbol *lookup(string name);
 
-        /// \brief insert function
+        /// \brief insert symbol from this scope
+        /// \param symbol symbol to insert
+        /// \return void
         virtual void declare(Symbol *symbol);
 
-        /// \brief remove function
+        /// \brief remove symbol from this scope
+        /// \param symbol symbol to remove
+        /// \return void
         virtual void cancel(Symbol *symbol);
 };
 
@@ -69,13 +90,16 @@ class FormalScope: public Scope{
 
         FormalScope(Function *owner, Block *astNode);
 
-        /// \brief @Override
+        /// \brief @Override get kind information
+        /// \return kind of scope
         virtual scopeKind getKind(void);
 
         /// \brief @Override
         virtual bool isFormalScope(void);
 
-        /// \brief @Override
+        /// \brief @Override print information of scope to ap
+        /// \param ap print helper class
+        /// \return void
         virtual void print(AstPrinter *ap);
 };
 
@@ -85,10 +109,13 @@ class LocalScope: public Scope {
 
         LocalScope(Block *node);
 
-        /// \brief @Override
+        /// \brief @Override get kind information
+        /// \return kind of scope
         virtual scopeKind getKind(void);
 
-        /// \brief @Override
+        /// \brief @Override print information of scope to ap
+        /// \param ap print helper class
+        /// \return void
         virtual void print(AstPrinter *ap);
 
         /// \brief @Override
@@ -106,10 +133,13 @@ class ClassScope: public Scope{
 
         virtual ClassScope *getParentScope(void);
 
-        /// \brief @Override
+        /// \brief @Override get kind information
+        /// \return kind of scope
         virtual scopeKind getKind(void);
 
-        /// \brief @Override
+        /// \brief @Override print information of scope to ap
+        /// \param ap print helper class
+        /// \return void
         virtual void print(AstPrinter *ap);
 
         /// \brief judge inheritance relationship
@@ -128,22 +158,31 @@ class GlobalScope: public Scope {
         /// \brief @Override
         virtual bool isGlobalScope(void);
 
-        /// \brief @Override
+        /// \brief @Override get kind information
+        /// \return kind of scope
         virtual scopeKind getKind(void);
 
-        /// \brief @Override
+        /// \brief @Override print information of scope to ap
+        /// \param ap print helper class
+        /// \return void
         virtual void print(AstPrinter *ap);
 };
 
+/// \brief scope stack
+///
+/// there only exists one class scope in this stack at one time(open/close)
 class ScopeStack {
     public:
         List <Scope *> *scopeStack;     ///< top: scopeStack[scoep->size()-1]
-        GlobalScope *globalScope;
+        GlobalScope *globalScope;       ///< global scope reference
 
+        /// \brief constructor
         ScopeStack(void);
 
         /// \brief look up symbol in scope stack
+        /// \param name symbol name
         /// \param through whether search into stack or not
+        /// \return target symbol
         virtual Symbol *lookup(string name, bool through);
 
         /// \brief look up symbol in scope stack

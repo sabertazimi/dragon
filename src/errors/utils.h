@@ -18,9 +18,16 @@
 #include "errors/srcbuf.h"
 
 /// \brief print error information
+/// \param loc location information
+/// \param fmt format string
+/// \param ... more string to output
+/// \return void
 void dragon_report(yyltype *loc, const char *fmt, ...);
 
-/// brief\ simple logger function
+/// \brief simple logger function
+/// \param fmt format string
+/// \param ... more string to output
+/// \return void
 void dragon_log(const char *fmt, ...);
 
 #endif /* !ERRORS_UTILS_H */

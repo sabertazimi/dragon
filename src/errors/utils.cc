@@ -10,7 +10,7 @@
 
 #include "errors/utils.h"
 
-static char errmsg[1000];
+static char errmsg[1000];       ///< error message buffer
 
 void dragon_report(yyltype *loc, const char *fmt, ...) {
     // print location information
