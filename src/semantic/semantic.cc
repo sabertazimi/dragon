@@ -199,7 +199,7 @@ void BuildSymbol::visitVarDef(VarDef *varDef) {
 
     if (varDef->type->type->equals(BaseType::VOID)) {
         failed = 1;
-        dragon_report(varDef->loc, "variable can't be 'void\n", varDef->name);
+        dragon_report(varDef->loc, "variable '%s' can't be 'void\n", varDef->name);
         varDef->symbol = new Variable("error", BaseType::ERROR, varDef->loc);
         return ;
     }

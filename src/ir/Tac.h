@@ -12,10 +12,37 @@
 #define IR_TAC_H
 
 #include <climits>
+#include <cstdlib>
 #include <string>
+#include <iostream>
+#include <sstream>
 #include <map>
+#include <set>
+#include "libs/List.h"
 
 using namespace std;
+
+// forward defination
+class Variable;
+class Function;
+class Tac;
+
+/// \brief simple helper function for tranfering integer to string
+/// \param i integer to tranfer
+/// \return integer string
+string itoa(int i);
+
+/// \brief @Override enable string can add with integer
+/// \param s string
+/// \param i integer
+/// \return string
+string operator+(string s, int i);
+
+/// \brief @Override enable integer can add with string
+/// \param s string
+/// \param i integer
+/// \return string
+string operator+(int i, string s);
 
 typedef enum __tacKind__ {
 	TAC_ADD,
@@ -45,7 +72,6 @@ typedef enum __tacKind__ {
     TAC_STORE,
     TAC_LOAD_IMM4,
     TAC_LOAD_STR_CONST,
-    TAC_MEMO,
     TAC_MARK,
     TAC_PARM
 } tacKind;
@@ -56,17 +82,11 @@ public:
 	string name;    ///< label name information
 	bool target;    ///< whether is the target of jmp instruction
 	Tac *where;     ///< label position information
-	static int labelCount = 0;  ///< for id
+	static int labelCount;  ///< for id
 
-    Label(void) {
-    }
+    Label(void);
 
-	Label(int id, string name, bool target) {
-		this->id = id;
-
-        this->name = name;
-		this->target = target;
-	}
+	Label(int id, string name, bool target);
 
 	static Label *createLabel(void) {
 		return createLabel(false);
@@ -83,12 +103,11 @@ public:
 	}
 
 	/// \brief print out Label information
-	virtual string toString(void) {
-		return name;
-	}
+	virtual string toString(void);
 };
 
 class Temp {
+public:
 	int id;
 	string name;
 	int offset;
@@ -98,73 +117,55 @@ class Temp {
 	int value;
 	bool isParam;       ///< whether is parameter of function or not
 	bool isLoaded;
-	static int tempCount = 0;   ///< for id
-	static map<int, Temp*> *constTempPool = new map<int, Temp*>();
+	static int tempCount;   ///< for id
+	static map<int, Temp*> *constTempPool;
 
     /// \brief temp(register) comparation function
     static int tempcmp(Temp *o1, Temp *o2) {
 		return o1->id > o2->id ? 1 : o1->id == o2->id ? 0 : -1;
 	}
 
-	Temp(void) {
-        offset = INT_MAX;
-	}
+	Temp(void);
 
-	Temp(int id, string name, int size, int offset) {
-		this->id = id;
-		this->name = name;
-		this->size = size;
-		this->offset = offset;
-	}
+	Temp(int id, string name, int size, int offset);
 
 	static Temp *createTempI4(void) {
 		int id = tempCount++;
-		return new Temp(id, "_T" + id, 4, Integer->MAX_VALUE);
+		return new Temp(id, "_T" + id, 4, INT_MAX);
 	}
 
 
 	static Temp *createConstTemp(int value) {
-		Temp *temp = constTempPool->get(value);
-		if (temp == null) {
-			temp = new Temp();
+        map<int, Temp*>::iterator it = constTempPool->find(value);
+
+		if (it == constTempPool->end()) {
+			Temp *temp = new Temp();
 			temp->isConst = true;
 			temp->value = value;
-			temp->name = Integer->toString(value);
-			constTempPool->put(value, temp);
-		}
-		return temp;
+			temp->name = itoa(value);
+			(*constTempPool)[value] = temp;
+		    return temp;
+        } else {
+            return it->second;
+        }
 	}
 
-	virtual bool isOffsetFixed(void) {
-		return offset != Integer->MAX_VALUE;
-	}
+	virtual bool isOffsetFixed(void);
 
-	@Override
-	virtual bool equals(Object obj) {
-		if (obj instanceof Temp) {
-			return id == ((Temp) obj)->id;
-		}
-		return false;
-	}
+	/// \brief @Override
+    /// @FIXME
+	virtual bool equals(Temp *temp);
 
-	@Override
-	virtual int hashCode(void) {
-		return id;
-	}
+	/// \brief @Override
+	virtual int hashCode(void);
 
-	@Override
-	virtual string toString(void) {
-		return name;
-	}
-
-
-
+	/// \brief @Override
+	virtual string toString(void);
 };
 
 class Functy {
 public:
 	Label *label;
-	Tac *paramMemo;
 	Tac *head;
 	Tac *tail;
 	Function *sym;
@@ -175,309 +176,188 @@ public:
 	string name;
 	VTable *parent;
 	string className;
-	Label *entries[];
+	List <Label *> *entries;
 };
 
-class Tac *{
-	public Kind opc;
+class Tac {
+public:
+	tacKind opc;
+	bool mark;
+	Tac *prev;
+	Tac *next;
+	Temp *op0;
+	Temp *op1;
+	Temp *op2;
+	Label *label;
+	VTable *vt;
+	string str;
+	int bbNum;
+	set <Temp*> *liveOut;
+	set <Temp*> *saves;
 
-	public bool mark;
+    /// \brief create Tac:
+	Tac(tacKind opc, Temp *op0);
 
-	public Tac *prev;
+    /// \brief create Tac: a := op b
+	Tac(tacKind opc, Temp *op0, Temp *op1);
 
-	public Tac *next;
+    /// \brief create Tac: a := b op c
+	Tac(tacKind opc, Temp *op0, Temp *op1, Temp *op2);
 
-	public Temp *op0;
+    /// \brief create Tac:
+	Tac(tacKind opc, string str);
 
-	public Temp *op1;
+    /// \brief create Tac:
+	Tac(tacKind opc, Temp *op0, string str);
 
-	public Temp *op2;
+    /// \brief create Tac:
+	Tac(tacKind opc, Temp *op0, VTable *vt);
 
-	public Label *label;
+    /// \brief create Tac:
+	Tac(tacKind opc, Label *label);
 
-	public VTable *vt;
+    /// \brief create Tac:
+	Tac(tacKind opc, Temp *op0, Label *label);
 
-	public string str;
-
-	public int bbNum;
-
-	public Set<Temp> liveOut;
-
-	public Set<Temp> saves;
-
-	private Tac(Kind opc, Temp *op0) {
-		this(opc, op0, null, null);
+	static Tac *emitAdd(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_ADD, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, Temp *op0, Temp *op1) {
-		this(opc, op0, op1, null);
+	static Tac *emitSub(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_SUB, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, Temp *op0, Temp *op1, Temp *op2) {
-		this->opc = opc;
-		this->op0 = op0;
-		this->op1 = op1;
-		this->op2 = op2;
+	static Tac *emitMul(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_MUL, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, string str) {
-		this->opc = opc;
-		this->str = str;
+	static Tac *emitDiv(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_DIV, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, Temp *op0, string str) {
-		this->opc = opc;
-		this->op0 = op0;
-		this->str = str;
+	static Tac *emitMod(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_MOD, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, Temp *op0, VTable *vt) {
-		this->opc = opc;
-		this->op0 = op0;
-		this->vt = vt;
+	static Tac *emitNeg(Temp *dst, Temp *src) {
+		return new Tac(TAC_NEG, dst, src);
 	}
 
-	private Tac(Kind opc, Label *label) {
-		this->opc = opc;
-		this->label = label;
+	static Tac *emitLAnd(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_LAND, dst, src1, src2);
 	}
 
-	private Tac(Kind opc, Temp *op0, Label *label) {
-		this->opc = opc;
-		this->op0 = op0;
-		this->label = label;
+	static Tac *emitLOr(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_LOR, dst, src1, src2);
 	}
 
-	public static Tac *emitAdd(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->ADD, dst, src1, src2);
+	static Tac *emitLNot(Temp *dst, Temp *src) {
+		return new Tac(TAC_LNOT, dst, src);
 	}
 
-	public static Tac *emitSub(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->SUB, dst, src1, src2);
+	static Tac *emitGtr(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_GTR, dst, src1, src2);
 	}
 
-	public static Tac *emitMul(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->MUL, dst, src1, src2);
+	static Tac *emitGeq(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_GEQ, dst, src1, src2);
 	}
 
-	public static Tac *emitDiv(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->DIV, dst, src1, src2);
+	static Tac *emitEqu(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_EQU, dst, src1, src2);
 	}
 
-	public static Tac *emitMod(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->MOD, dst, src1, src2);
+	static Tac *emitNeq(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_NEQ, dst, src1, src2);
 	}
 
-	public static Tac *emitNeg(Temp *dst, Temp *src) {
-		return new Tac(Kind->NEG, dst, src);
+	static Tac *emitLeq(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_LEQ, dst, src1, src2);
 	}
 
-	public static Tac *emitLAnd(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->LAND, dst, src1, src2);
+	static Tac *emitLes(Temp *dst, Temp *src1, Temp *src2) {
+		return new Tac(TAC_LES, dst, src1, src2);
 	}
 
-	public static Tac *emitLOr(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->LOR, dst, src1, src2);
+	static Tac *emitAssign(Temp *dst, Temp *src) {
+		return new Tac(TAC_ASSIGN, dst, src);
 	}
 
-	public static Tac *emitLNot(Temp *dst, Temp *src) {
-		return new Tac(Kind->LNOT, dst, src);
+	static Tac *emitLoadVtbl(Temp *dst, VTable *vt) {
+		return new Tac(TAC_LOAD_VTBL, dst, vt);
 	}
 
-	public static Tac *emitGtr(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->GTR, dst, src1, src2);
+	static Tac *emitIndirectCall(Temp *dst, Temp *func) {
+		return new Tac(TAC_INDIRECT_CALL, dst, func);
 	}
 
-	public static Tac *emitGeq(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->GEQ, dst, src1, src2);
+	static Tac *emitDirectCall(Temp *dst, Label *func) {
+		return new Tac(TAC_DIRECT_CALL, dst, func);
 	}
 
-	public static Tac *emitEqu(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->EQU, dst, src1, src2);
+	static Tac *emitReturn(Temp *src) {
+		return new Tac(TAC_RETURN, src);
 	}
 
-	public static Tac *emitNeq(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->NEQ, dst, src1, src2);
-	}
-
-	public static Tac *emitLeq(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->LEQ, dst, src1, src2);
-	}
-
-	public static Tac *emitLes(Temp *dst, Temp *src1, Temp *src2) {
-		return new Tac(Kind->LES, dst, src1, src2);
-	}
-
-	public static Tac *emitAssign(Temp *dst, Temp *src) {
-		return new Tac(Kind->ASSIGN, dst, src);
-	}
-
-	public static Tac *emitLoadVtbl(Temp *dst, VTable *vt) {
-		return new Tac(Kind->LOAD_VTBL, dst, vt);
-	}
-
-	public static Tac *emitIndirectCall(Temp *dst, Temp *func) {
-		return new Tac(Kind->INDIRECT_CALL, dst, func);
-	}
-
-	public static Tac *emitDirectCall(Temp *dst, Label *func) {
-		return new Tac(Kind->DIRECT_CALL, dst, func);
-	}
-
-	public static Tac *emitReturn(Temp *src) {
-		return new Tac(Kind->RETURN, src);
-	}
-
-	public static Tac *emitBranch(Label *label) {
+	static Tac *emitBranch(Label *label) {
 		label->target = true;
-		return new Tac(Kind->BRANCH, label);
+		return new Tac(TAC_BRANCH, label);
 	}
 
-	public static Tac *emitBeqz(Temp *cond, Label *label) {
+	static Tac *emitBeqz(Temp *cond, Label *label) {
 		label->target = true;
-		return new Tac(Kind->BEQZ, cond, label);
+		return new Tac(TAC_BEQZ, cond, label);
 	}
 
-	public static Tac *emitBnez(Temp *cond, Label *label) {
+	static Tac *emitBnez(Temp *cond, Label *label) {
 		label->target = true;
-		return new Tac(Kind->BNEZ, cond, label);
+		return new Tac(TAC_BNEZ, cond, label);
 	}
 
-	public static Tac *emitLoad(Temp *dst, Temp *base, Temp *offset) {
+	static Tac *emitLoad(Temp *dst, Temp *base, Temp *offset) {
 		if (!offset->isConst) {
-			throw new IllegalArgumentException("offset must be const temp");
+            cerr << "offset must be constant" << endl;
+            exit(-1);
 		}
-		return new Tac(Kind->LOAD, dst, base, offset);
+
+		return new Tac(TAC_LOAD, dst, base, offset);
 	}
 
-	public static Tac *emitStore(Temp *src, Temp *base, Temp *offset) {
+	static Tac *emitStore(Temp *src, Temp *base, Temp *offset) {
 		if (!offset->isConst) {
-			throw new IllegalArgumentException("offset must be const temp");
+            cerr << "offset must be constant" << endl;
+            exit(-1);
 		}
-		return new Tac(Kind->STORE, src, base, offset);
+		return new Tac(TAC_STORE, src, base, offset);
 	}
 
-	public static Tac *emitLoadImm4(Temp *dst, Temp *val) {
+	static Tac *emitLoadImm4(Temp *dst, Temp *val) {
 		if (!val->isConst) {
-			throw new IllegalArgumentException("val must be const temp");
+            cerr << "value must be constant" << endl;
+            exit(-1);
 		}
-		return new Tac(Kind->LOAD_IMM4, dst, val);
+		return new Tac(TAC_LOAD_IMM4, dst, val);
 	}
 
-	public static Tac *emitLoadStrConst(Temp *dst, string str) {
-		return new Tac(Kind->LOAD_STR_CONST, dst, str);
+	static Tac *emitLoadStrConst(Temp *dst, string str) {
+		return new Tac(TAC_LOAD_STR_CONST, dst, str);
 	}
 
-	public static Tac *emitMemo(string memo) {
-		return new Tac(Kind->MEMO, memo);
-	}
-
-	public static Tac *emitMark(Label *label) {
-		Tac *mark = new Tac(Kind->MARK, label);
+	static Tac *emitMark(Label *label) {
+		Tac *mark = new Tac(TAC_MARK, label);
 		label->where = mark;
 		return mark;
 	}
 
-	public static Tac *emitParm(Temp *src) {
-		return new Tac(Kind->PARM, src);
+	static Tac *emitParm(Temp *src) {
+		return new Tac(TAC_PARM, src);
 	}
 
-	private string binanyOpToString(string op) {
-		return op0->name + " = (" + op1->name + " " + op + " " + op2->name + ")";
-	}
+	virtual string binanyOpToString(string op);
 
-	private string unaryOpToString(string op) {
-		return op0->name + " = " + op + " " + op1->name;
-	}
+	virtual string unaryOpToString(string op);
 
-	public string toString(void) {
-		switch (opc) {
-		case ADD:
-			return binanyOpToString("+");
-		case SUB:
-			return binanyOpToString("-");
-		case MUL:
-			return binanyOpToString("*");
-		case DIV:
-			return binanyOpToString("/");
-		case MOD:
-			return binanyOpToString("%");
-		case NEG:
-			return unaryOpToString("-");
-		case LAND:
-			return binanyOpToString("&&");
-		case LOR:
-			return binanyOpToString("||");
-		case LNOT:
-			return unaryOpToString("!");
-		case GTR:
-			return binanyOpToString(">");
-		case GEQ:
-			return binanyOpToString(">=");
-		case EQU:
-			return binanyOpToString("==");
-		case NEQ:
-			return binanyOpToString("!=");
-		case LEQ:
-			return binanyOpToString("<=");
-		case LES:
-			return binanyOpToString("<");
-		case ASSIGN:
-			return op0->name + " = " + op1->name;
-		case LOAD_VTBL:
-			return op0->name + " = VTBL <" + vt->name + ">";
-		case INDIRECT_CALL:
-			if (op0 != null) {
-				return op0->name + " = " + " call " + op1->name;
-			} else {
-				return "call " + op1->name;
-			}
-		case DIRECT_CALL:
-			if (op0 != null) {
-				return op0->name + " = " + " call " + label->name;
-			} else {
-				return "call " + label->name;
-			}
-		case RETURN:
-			if (op0 != null) {
-				return "return " + op0->name;
-			} else {
-				return "return <empty>";
-			}
-		case BRANCH:
-			return "branch " + label->name;
-		case BEQZ:
-			return "if (" + op0->name + " == 0) branch " + label->name;
-		case BNEZ:
-			return "if (" + op0->name + " != 0) branch " + label->name;
-		case LOAD:
-			if (op2->value >= 0) {
-				return op0->name + " = *(" + op1->name + " + " + op2->value + ")";
-			} else {
-				return op0->name + " = *(" + op1->name + " - " + (-op2->value)
-						+ ")";
-			}
-		case STORE:
-			if (op2->value >= 0) {
-				return "*(" + op1->name + " + " + op2->value + ") = " + op0->name;
-			} else {
-				return "*(" + op1->name + " - " + (-op2->value) + ") = "
-						+ op0->name;
-			}
-		case LOAD_IMM4:
-			return op0->name + " = " + op1->value;
-		case LOAD_STR_CONST:
-			return op0->name + " = " + MiscUtils->quote(str);
-		case MEMO:
-			return "memo '" + str + "'";
-		case MARK:
-			return label->name + ":";
-		case PARM:
-			return "parm " + op0->name;
-		default:
-			throw new RuntimeException("unknown opc");
-		}
-	}
+	virtual string toString(void);
 };
 
 #endif /* !IR_TAC_H */

@@ -1,2 +1,2 @@
-b LocalScope::print
+b semantic/Scope.cc:1
 r test/sema_scope_spec.dg

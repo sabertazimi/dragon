@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     if (parse_failed == 1) {
         fprintf(stderr, "*** please fix syntax error first!\n");
         fclose(fp);
-        exit(0);
+        return 0;
     }
 
 #ifdef AST_DEBUG
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
     if (bs->failed == 1 || tc->failed == 1) {
         fprintf(stderr, "*** please fix semantic error first!\n");
         fclose(fp);
-        exit(0);
+        return 0;
     }
 
 #ifdef SEMA_DEBUG
@@ -71,6 +71,5 @@ int main(int argc, char **argv) {
 #endif
 
     fclose(fp);
-
     return 0;
 }
