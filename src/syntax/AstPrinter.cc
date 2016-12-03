@@ -45,3 +45,11 @@ void AstPrinter::print(const char *fmt, ...) {
     va_end(args);
     *out << buf << endl;
 }
+
+void AstPrinter::print(string str) {
+    for (int i = 0; i < indent; i++) {
+        *out << " ";
+    }
+
+    *out << str << endl;
+}

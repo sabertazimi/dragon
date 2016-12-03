@@ -311,7 +311,6 @@ class CallExpr:public Expr {
         char *method;
         List <Expr *> *actuals;
         Function *symbol;
-        bool isArrayLength;
 
         CallExpr(Expr *receiver, char *method, List <Expr *> *actuals, yyltype *loc);
         virtual void accept(Visitor *v);

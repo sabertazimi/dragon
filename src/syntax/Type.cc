@@ -214,7 +214,6 @@ bool ClassType::compatible(Type *type) {
 
 bool ClassType::equals(Type *type) {
     return type->isClassType() && symbol == (((ClassType *)type)->symbol);
-    // && symloccmp(symbol, ((ClassType *) type)->symbol);
 }
 
 bool ClassType::isClassType(void) {

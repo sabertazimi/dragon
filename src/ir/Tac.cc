@@ -11,25 +11,11 @@
 #include "semantic/Symbol.h"
 #include "ir/Tac.h"
 
-int Label::labelCount = 0;  ///< for id
-int Temp::tempCount = 0;    ///< for id
-map<int, Temp*> *Temp::constTempPool = new map<int, Temp*>();
+using namespace std;
 
-string itoa(int i) {
-    stringstream ss;
-    string str;
-    ss << i;
-    ss >> str;
-    return string(str);
-}
-
-string operator+(string s, int i) {
-    return string(s + itoa(i));
-}
-
-string operator+(int i, string s) {
-    return string(itoa(i) + s);
-}
+int Label::labelCount = 0;
+int Temp::tempCount = 0;
+map<int, Temp*> *Temp::constTempPool = new map<int , Temp*>();
 
 Label::Label(void) {
 }
@@ -41,7 +27,20 @@ Label::Label(int id, string name, bool target) {
     this->target = target;
 }
 
-/// \brief print out Label information
+Label *Label::createLabel(void) {
+    return createLabel(false);
+}
+
+Label *Label::createLabel(bool target) {
+    int id = (Label::labelCount)++;
+    return new Label(id, "_L" + id, target);
+}
+
+Label *Label::createLabel(string name, bool target) {
+    int id = (Label::labelCount)++;
+    return new Label(id, name, target);
+}
+
 string Label::toString(void) {
     return name;
 }
@@ -55,6 +54,27 @@ Temp::Temp(int id, string name, int size, int offset) {
     this->name = name;
     this->size = size;
     this->offset = offset;
+}
+
+Temp *Temp::createTempI4(void) {
+    int id = (Temp::tempCount)++;
+    return new Temp(id, "_T" + id, 4, INT_MAX);
+}
+
+
+Temp *Temp::createConstTemp(int value) {
+    map<int, Temp*>::iterator it = (Temp::constTempPool)->find(value);
+
+    if (it == (Temp::constTempPool)->end()) {
+        Temp *temp = new Temp();
+        temp->isConst = true;
+        temp->value = value;
+        temp->name = itoa(value);
+        (*(Temp::constTempPool))[value] = temp;
+        return temp;
+    } else {
+        return it->second;
+    }
 }
 
 bool Temp::isOffsetFixed(void) {
@@ -133,6 +153,142 @@ Tac::Tac(tacKind opc, Temp *op0, Label *label) {
     this->opc = opc;
     this->op0 = op0;
     this->label = label;
+}
+
+Tac *Tac::emitAdd(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_ADD, dst, src1, src2);
+}
+
+Tac *Tac::emitSub(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_SUB, dst, src1, src2);
+}
+
+Tac *Tac::emitMul(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_MUL, dst, src1, src2);
+}
+
+Tac *Tac::emitDiv(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_DIV, dst, src1, src2);
+}
+
+Tac *Tac::emitMod(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_MOD, dst, src1, src2);
+}
+
+Tac *Tac::emitNeg(Temp *dst, Temp *src) {
+    return new Tac(TAC_NEG, dst, src);
+}
+
+Tac *Tac::emitLAnd(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_LAND, dst, src1, src2);
+}
+
+Tac *Tac::emitLOr(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_LOR, dst, src1, src2);
+}
+
+Tac *Tac::emitLNot(Temp *dst, Temp *src) {
+    return new Tac(TAC_LNOT, dst, src);
+}
+
+Tac *Tac::emitGtr(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_GTR, dst, src1, src2);
+}
+
+Tac *Tac::emitGeq(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_GEQ, dst, src1, src2);
+}
+
+Tac *Tac::emitEqu(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_EQU, dst, src1, src2);
+}
+
+Tac *Tac::emitNeq(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_NEQ, dst, src1, src2);
+}
+
+Tac *Tac::emitLeq(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_LEQ, dst, src1, src2);
+}
+
+Tac *Tac::emitLes(Temp *dst, Temp *src1, Temp *src2) {
+    return new Tac(TAC_LES, dst, src1, src2);
+}
+
+Tac *Tac::emitAssign(Temp *dst, Temp *src) {
+    return new Tac(TAC_ASSIGN, dst, src);
+}
+
+Tac *Tac::emitLoadVtbl(Temp *dst, VTable *vt) {
+    return new Tac(TAC_LOAD_VTBL, dst, vt);
+}
+
+Tac *Tac::emitIndirectCall(Temp *dst, Temp *func) {
+    return new Tac(TAC_INDIRECT_CALL, dst, func);
+}
+
+Tac *Tac::emitDirectCall(Temp *dst, Label *func) {
+    return new Tac(TAC_DIRECT_CALL, dst, func);
+}
+
+Tac *Tac::emitReturn(Temp *src) {
+    return new Tac(TAC_RETURN, src);
+}
+
+Tac *Tac::emitBranch(Label *label) {
+    label->target = true;
+    return new Tac(TAC_BRANCH, label);
+}
+
+Tac *Tac::emitBeqz(Temp *cond, Label *label) {
+    label->target = true;
+    return new Tac(TAC_BEQZ, cond, label);
+}
+
+Tac *Tac::emitBnez(Temp *cond, Label *label) {
+    label->target = true;
+    return new Tac(TAC_BNEZ, cond, label);
+}
+
+Tac *Tac::emitLoad(Temp *dst, Temp *base, Temp *offset) {
+    if (!offset->isConst) {
+        cerr << "offset must be constant" << endl;
+        exit(-1);
+    }
+
+    return new Tac(TAC_LOAD, dst, base, offset);
+}
+
+Tac *Tac::emitStore(Temp *src, Temp *base, Temp *offset) {
+    if (!offset->isConst) {
+        cerr << "offset must be constant" << endl;
+        exit(-1);
+    }
+
+    return new Tac(TAC_STORE, src, base, offset);
+}
+
+Tac *Tac::emitLoadImm4(Temp *dst, Temp *val) {
+    if (!val->isConst) {
+        cerr << "value must be constant" << endl;
+        exit(-1);
+    }
+
+    return new Tac(TAC_LOAD_IMM4, dst, val);
+}
+
+Tac *Tac::emitLoadStrConst(Temp *dst, string str) {
+    return new Tac(TAC_LOAD_STR_CONST, dst, str);
+}
+
+Tac *Tac::emitMark(Label *label) {
+    Tac *mark = new Tac(TAC_MARK, label);
+    label->where = mark;
+    return mark;
+}
+
+Tac *Tac::emitParm(Temp *src) {
+    return new Tac(TAC_PARM, src);
 }
 
 string Tac::binanyOpToString(string op) {
@@ -226,6 +382,7 @@ string Tac::toString(void) {
         case TAC_PARM:
             return "parm " + op0->name;
         default:
+            return "";
             break;
     }
 }

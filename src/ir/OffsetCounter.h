@@ -1,5 +1,5 @@
 /*!
- * \file Offset.h
+ * \file OffsetCounter.h
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -19,21 +19,20 @@ typedef enum __oskind__ {
 
 typedef enum __ossize__ {
     POINTER_SIZE = 4,
-    WORD_SIZE = 4,
-    DOUBLE_SIZE = 8
+    WORD_SIZE = 4
 } sizeKind;
 
-class OffSet {
+class OffsetCounter {
     public:
         osKind kind;
         int value;
 
         // there only exist three offset counter
-        static OffSet *LOCAL_COUNTER;
-        static OffSet *PARAM_COUNTER;
-        static OffSet *MEMBER_COUNTER;
+        static OffsetCounter *LOCAL_COUNTER;
+        static OffsetCounter *PARAM_COUNTER;
+        static OffsetCounter *MEMBER_COUNTER;
 
-        OffSet(osKind kind);
+        OffsetCounter(osKind kind);
 
         virtual void reset(void);
         virtual void set(int offset);

@@ -9,15 +9,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include "syntax/Tree.h"
+#include "syntax/AstPrinter.h"
 #include "semantic/Scope.h"
 #include "semantic/semantic.h"
-#include "syntax/AstPrinter.h"
+#include "ir/Translater.h"
 
 #define AST_DEBUG
 #undef AST_DEBUG
 
 #define SEMA_DEBUG
 #undef SEMA_DEBUG
+
+#define IR_DEBUG
+// #undef IR_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);
@@ -68,6 +72,13 @@ int main(int argc, char **argv) {
 #ifdef SEMA_DEBUG
     AstPrinter *sema_ap = new AstPrinter();
     tree->globalScope->print(sema_ap);
+#endif
+
+    Translater *tr = Translater::translate(tree);
+
+#ifdef IR_DEBUG
+    AstPrinter *ir_ap = new AstPrinter();
+    tr->print(ir_ap);
 #endif
 
     fclose(fp);

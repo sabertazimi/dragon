@@ -1,2 +1,2 @@
-b semantic/Scope.cc:1
-r test/sema_scope_spec.dg
+b ir/Translater.cc: 28
+r test/ir_spec.dg

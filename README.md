@@ -34,7 +34,13 @@ Scope has Symbol member
 *   symbol has Type member, Scope member(definedIn/associatedScope), Tac member
 *   order of class: depth of inheriting tree
 
-### Built-in Variables/Macros/Functions
+### Tac
+
+*   new -> static constructor(direct funtion call)
+*   libs -> static function(direct function call)
+*   methods -> search vtable to get method reference, indirect function call
+
+## Built-in Variables/Macros/Functions
 
 ```lex
 yytext   char * 当前匹配的字符串

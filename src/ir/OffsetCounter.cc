@@ -1,5 +1,5 @@
 /*!
- * \file Offset.cc
+ * \file OffsetCounter.cc
  * \brief
  *
  * \author sabertazimi, <sabertazimi@gmail.com>
@@ -8,7 +8,7 @@
  * \license MIT
  */
 
-#include "Offset.h"
+#include "OffsetCounter.h"
 
 ///< initial value for different scope
 const static int initValue[] = {
@@ -24,24 +24,24 @@ const static int direction[] = {
     1
 };
 
-OffSet *OffSet::LOCAL_COUNTER = new OffSet(OS_LOCAL);
-OffSet *OffSet::PARAM_COUNTER = new OffSet(OS_PARAM);
-OffSet *OffSet::MEMBER_COUNTER = new OffSet(OS_MEMBER);
+OffsetCounter *OffsetCounter::LOCAL_COUNTER = new OffsetCounter(OS_LOCAL);
+OffsetCounter *OffsetCounter::PARAM_COUNTER = new OffsetCounter(OS_PARAM);
+OffsetCounter *OffsetCounter::MEMBER_COUNTER = new OffsetCounter(OS_MEMBER);
 
-OffSet::OffSet(osKind kind) {
+OffsetCounter::OffsetCounter(osKind kind) {
     this->kind = kind;
     reset();
 }
 
-void OffSet::reset(void) {
+void OffsetCounter::reset(void) {
     value = initValue[kind];
 }
 
-void OffSet::set(int offset) {
+void OffsetCounter::set(int offset) {
     value = offset;
 }
 
-int OffSet::next(int value) {
+int OffsetCounter::next(int value) {
     int ret = this->value;
     this->value += direction[kind] * value;
     return ret;

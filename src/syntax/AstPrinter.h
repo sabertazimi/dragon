@@ -11,6 +11,7 @@
 #ifndef SYNTAX_ASTPRINTER_H
 #define SYNTAX_ASTPRINTER_H
 
+#include <string>
 #include <cstdarg>
 #include <iostream>
 #include <fstream>
@@ -39,6 +40,9 @@ class AstPrinter {
 
         /// \brief write fmt str to outfile
         void print(const char *fmt, ...);
+
+        /// \brief write string to outfile
+        void print(string str);
 };
 
 #endif /* !SYNTAX_ASTPRINTER_H */

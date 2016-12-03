@@ -15,7 +15,7 @@
 #include <string>
 #include <map>
 #include "location.h"
-#include "ir/Offset.h"
+#include "ir/OffsetCounter.h"
 
 using namespace std;
 
@@ -119,7 +119,7 @@ class Class: public Symbol{
         int order;
         int size;
         VTable *vtable;
-        Label *newFuncLabel;
+        Label *newFuncLabel;    ///< label for static constructor
 
         Class(string name, string parentName, yyltype *location);
 
