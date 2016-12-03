@@ -68,6 +68,7 @@ class Expression{
         int folding2;
         const1 = 3;
         const2 = 4;
+        folding = 3 + 4;
         folding = const1 * const2;
         folding2 = folding / 5;
     };
