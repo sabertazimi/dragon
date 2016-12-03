@@ -261,8 +261,8 @@ void Translater::emitReturn(Temp *src) {
     append(Tac::emitReturn(src));
 }
 
-void Translater::emitBranch(Label *dst) {
-    append(Tac::emitBranch(dst));
+void Translater::emitJmp(Label *dst) {
+    append(Tac::emitJmp(dst));
 }
 
 void Translater::emitBeqz(Temp *cond, Label *dst) {
@@ -341,7 +341,7 @@ Temp *Translater::emitNewArray(Temp *length) {
 
     // set to zero
     emitStore(zero, obj, 0);
-    emitBranch(loop);
+    emitJmp(loop);
 
     // M -> epsilon
     emitMark(exit);
@@ -865,7 +865,7 @@ void TransPass2::visitForLoop(ForLoop *forLoop) {
     Label *loop = Label::createLabel();
 
     // emit condition branch
-    tr->emitBranch(cond);
+    tr->emitJmp(cond);
 
     // next mark( M -> epsilon )
     // when condition is true, jump here
@@ -890,7 +890,7 @@ void TransPass2::visitForLoop(ForLoop *forLoop) {
         forLoop->loopBody->accept(this);
     }
 
-    tr->emitBranch(loop);
+    tr->emitJmp(loop);
     loopExits->pop();
     tr->emitMark(exit);
 }
@@ -906,7 +906,7 @@ void TransPass2::visitIf(If *ifStmt) {
         // fall through to true branch when condition is true
         ifStmt->trueBranch->accept(this);
         Label *exit = Label::createLabel();
-        tr->emitBranch(exit);
+        tr->emitJmp(exit);
 
         // M -> epsilon
         // when condition is false, jump here
@@ -948,7 +948,7 @@ void TransPass2::visitWhileLoop(WhileLoop *whileLoop) {
         whileLoop->loopBody->accept(this);
     }
 
-    tr->emitBranch(loop);
+    tr->emitJmp(loop);
     loopExits->pop();
 
     // M -> epsilon

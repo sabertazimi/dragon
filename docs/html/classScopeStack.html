@@ -114,9 +114,18 @@ $(document).ready(function(){initNavTree('classScopeStack.html','');});
 <div class="title">ScopeStack Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>scope stack  
+ <a href="classScopeStack.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Scope_8h_source.html">Scope.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a57d389e57f1c92f95e634150c4c99b10"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57d389e57f1c92f95e634150c4c99b10"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScopeStack.html#a57d389e57f1c92f95e634150c4c99b10">ScopeStack</a> (void)</td></tr>
+<tr class="memdesc:a57d389e57f1c92f95e634150c4c99b10"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
+<tr class="separator:a57d389e57f1c92f95e634150c4c99b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe654c56606bc8e46cdab6a02ab5915d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classSymbol.html">Symbol</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScopeStack.html#afe654c56606bc8e46cdab6a02ab5915d">lookup</a> (string name, bool through)</td></tr>
 <tr class="memdesc:afe654c56606bc8e46cdab6a02ab5915d"><td class="mdescLeft">&#160;</td><td class="mdescRight">look up symbol in scope stack  <a href="#afe654c56606bc8e46cdab6a02ab5915d">More...</a><br /></td></tr>
 <tr class="separator:afe654c56606bc8e46cdab6a02ab5915d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,19 +160,22 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a20c7621b772379f1ed59eb7459bfb616"><td class="mdescLeft">&#160;</td><td class="mdescRight">top: scopeStack[scoep-&gt;size()-1] <br /></td></tr>
 <tr class="separator:a20c7621b772379f1ed59eb7459bfb616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc7279b660cd3c1d7a6dbe879f1e0bdf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc7279b660cd3c1d7a6dbe879f1e0bdf"></a>
-<a class="el" href="classGlobalScope.html">GlobalScope</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>globalScope</b></td></tr>
+<a class="el" href="classGlobalScope.html">GlobalScope</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScopeStack.html#adc7279b660cd3c1d7a6dbe879f1e0bdf">globalScope</a></td></tr>
+<tr class="memdesc:adc7279b660cd3c1d7a6dbe879f1e0bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">global scope reference <br /></td></tr>
 <tr class="separator:adc7279b660cd3c1d7a6dbe879f1e0bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Scope_8h_source.html#l00138">138</a> of file <a class="el" href="Scope_8h_source.html">Scope.h</a>.</p>
+<div class="textblock"><p>scope stack </p>
+<p>there only exists one class scope in this stack at one time(open/close) </p>
+
+<p>Definition at line <a class="el" href="Scope_8h_source.html#l00174">174</a> of file <a class="el" href="Scope_8h_source.html">Scope.h</a>.</p>
 </div><div class="dynheader">
 Collaboration diagram for ScopeStack:</div>
 <div class="dyncontent">
 <div class="center"><img src="classScopeStack__coll__graph.png" border="0" usemap="#ScopeStack_coll__map" alt="Collaboration graph"/></div>
 <map name="ScopeStack_coll__map" id="ScopeStack_coll__map">
 <area shape="rect" id="node2" href="classGlobalScope.html" title="GlobalScope" alt="" coords="5,81,101,108"/>
-<area shape="rect" id="node3" href="classScope.html" title="Scope" alt="" coords="24,5,83,32"/>
+<area shape="rect" id="node3" href="classScope.html" title="scope interface " alt="" coords="24,5,83,32"/>
 <area shape="rect" id="node4" href="classList.html" title="List\&lt; Scope * \&gt;" alt="" coords="126,81,239,108"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -235,10 +247,12 @@ Collaboration diagram for ScopeStack:</div>
 <p>look up symbol in scope stack </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">name</td><td>symbol name </td></tr>
     <tr><td class="paramname">through</td><td>whether search into stack or not </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>target symbol </dd></dl>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['name',['name',['../classLabel.html#a3e6731c765e1cbd1605837f08f09bbf4',1,'Label']]]
+  ['kind',['kind',['../classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead',1,'Node']]]
 ];

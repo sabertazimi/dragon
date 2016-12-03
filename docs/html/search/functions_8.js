@@ -1,10 +1,21 @@
 var searchData=
 [
-  ['list',['List',['../classList.html#ab999d97a6e66b2ec4ccf087fe1f3b34c',1,'List']]],
-  ['loccmp',['loccmp',['../location_8h.html#a9e56c2faaf9a62d0cde76eb2af2ab9d0',1,'location.h']]],
-  ['locdup',['locdup',['../location_8h.html#a89b1458e5f2536720b80fa4c1416a377',1,'location.h']]],
-  ['lookforscope',['lookForScope',['../classScopeStack.html#a0f11b2fba81a90e725af7df8408ce9da',1,'ScopeStack']]],
-  ['lookup',['lookup',['../classScope.html#a27e37ef39525103e922457cc011d5724',1,'Scope::lookup()'],['../classScopeStack.html#afe654c56606bc8e46cdab6a02ab5915d',1,'ScopeStack::lookup()']]],
-  ['lookupbeforelocation',['lookupBeforeLocation',['../classScopeStack.html#ab6b5ee0f17e2c43241116f6b292865ec',1,'ScopeStack']]],
-  ['lookupvisible',['lookupVisible',['../classClassScope.html#a5eccc5f6c4b091eaadafe3140883ed65',1,'ClassScope']]]
+  ['incindent',['incIndent',['../classAstPrinter.html#ae9dca7f31900287fdcd321219dee69f1',1,'AstPrinter']]],
+  ['insertat',['insertAt',['../classList.html#aa8558bf12371dcd4c79f296f117f0b8c',1,'List']]],
+  ['isarraytype',['isArrayType',['../classArrayType.html#a615671124f9f49d1262f91490828ca56',1,'ArrayType']]],
+  ['isbasetype',['isBaseType',['../classBaseType.html#ad46a071bdc902fb6230130019157eafb',1,'BaseType']]],
+  ['isclass',['isClass',['../classClass.html#ae6e00511dbb384173550828843277506',1,'Class']]],
+  ['isclassscope',['isClassScope',['../classScope.html#a04f04a84bbd5115deae27eec9fd2f8bc',1,'Scope::isClassScope()'],['../classClassScope.html#a2beca7ebcf63d23d8eb7feba48f97d6a',1,'ClassScope::isClassScope()']]],
+  ['isclasstype',['isClassType',['../classClassType.html#aba0a130be97ed7e5af97f9ffb82a1571',1,'ClassType']]],
+  ['isformalscope',['isFormalScope',['../classScope.html#a6086953ff26d985213c0573e4b9cbaf4',1,'Scope::isFormalScope()'],['../classFormalScope.html#adce3ca148fd7871b13e9d4853dd72d40',1,'FormalScope::isFormalScope()']]],
+  ['isfunction',['isFunction',['../classFunction.html#aee4cc07110ede6d78919c751b4843ec5',1,'Function']]],
+  ['isfunctype',['isFuncType',['../classFuncType.html#aa836faa12921ee32592fa87ca61dc50b',1,'FuncType']]],
+  ['isglobalscope',['isGlobalScope',['../classScope.html#aab45e30434898a47be521f1032e347ce',1,'Scope::isGlobalScope()'],['../classGlobalScope.html#a22f96df9d352f09810864c7c8db1f352',1,'GlobalScope::isGlobalScope()']]],
+  ['isinherited',['isInherited',['../classClassScope.html#a391b647bf383e36dcbe2b485ec2d3fab',1,'ClassScope']]],
+  ['islocalscope',['isLocalScope',['../classScope.html#ad1b6b2b80c0724f371da0f10b6c10cfa',1,'Scope::isLocalScope()'],['../classLocalScope.html#ae6c8256eaf0378f3d5b21c2320ce7c42',1,'LocalScope::isLocalScope()']]],
+  ['islocalvar',['isLocalVar',['../classVariable.html#a1cb3da51ee1775ea96f74896c80c3f5b',1,'Variable']]],
+  ['ismembervar',['isMemberVar',['../classVariable.html#a239b17f86d6c66db6575819d96f0f4d1',1,'Variable']]],
+  ['isparam',['isParam',['../classVariable.html#ad89a2fd4d8155a1ac58c05ca3bb15408',1,'Variable']]],
+  ['isvariable',['isVariable',['../classVariable.html#a3d10bb1f50672472aea93a2ff64c4d7e',1,'Variable']]],
+  ['itoa',['itoa',['../StringUtils_8h.html#aaab6121011e92f4ef2f4b2979fa0abef',1,'StringUtils.h']]]
 ];

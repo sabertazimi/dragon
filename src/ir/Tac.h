@@ -49,7 +49,7 @@ typedef enum __tacKind__ {
     TAC_INDIRECT_CALL,
     TAC_DIRECT_CALL,
     TAC_RETURN,
-    TAC_BRANCH,
+    TAC_JMP,
     TAC_BEQZ,
     TAC_BNEZ,
     TAC_LOAD,
@@ -215,7 +215,7 @@ class Tac {
 
         static Tac *emitReturn(Temp *src);
 
-        static Tac *emitBranch(Label *label);
+        static Tac *emitJmp(Label *label);
 
         static Tac *emitBeqz(Temp *cond, Label *label);
 

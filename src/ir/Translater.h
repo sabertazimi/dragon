@@ -95,7 +95,7 @@ class Translater {
 
         virtual void emitReturn(Temp *src);
 
-        virtual void emitBranch(Label *dst);
+        virtual void emitJmp(Label *dst);
 
         virtual void emitBeqz(Temp *cond, Label *dst);
 

@@ -1,7 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classType.html" title="Type" alt="" coords="5,81,56,108"/>
-<area shape="rect" id="node2" href="$classArrayType.html" title="ArrayType" alt="" coords="105,5,188,32"/>
-<area shape="rect" id="node3" href="$classBaseType.html" title="BaseType" alt="" coords="106,56,187,83"/>
-<area shape="rect" id="node4" href="$classClassType.html" title="ClassType" alt="" coords="104,107,189,133"/>
-<area shape="rect" id="node5" href="$classFuncType.html" title="FuncType" alt="" coords="107,157,187,184"/>
+<area shape="rect" id="node1" href="$classScopeStack.html" title="scope stack " alt="" coords="5,5,99,32"/>
 </map>

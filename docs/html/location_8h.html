@@ -124,13 +124,14 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="location_8h__dep__incl.png" border="0" usemap="#src_2location_8hdep" alt=""/></div>
 <map name="src_2location_8hdep" id="src_2location_8hdep">
-<area shape="rect" id="node2" href="utils_8h.html" title="src/errors/utils.h" alt="" coords="42,80,158,107"/>
-<area shape="rect" id="node5" href="Scope_8h.html" title="src/semantic/Scope.h" alt="" coords="155,155,304,181"/>
-<area shape="rect" id="node6" href="Symbol_8h.html" title="src/semantic/Symbol.h" alt="" coords="329,155,485,181"/>
-<area shape="rect" id="node7" href="Tree_8h.html" title="src/syntax/Tree.h" alt="" coords="362,80,486,107"/>
-<area shape="rect" id="node8" href="Type_8h.html" title="Type System(independence of grammar/ast tree) " alt="" coords="510,80,637,107"/>
-<area shape="rect" id="node3" href="errors_8h.html" title="src/errors/errors.h" alt="" coords="5,155,131,181"/>
-<area shape="rect" id="node4" href="semantic_8h_source.html" title="src/semantic/semantic.h" alt="" coords="324,229,489,256"/>
+<area shape="rect" id="node2" href="utils_8h.html" title="src/errors/utils.h" alt="" coords="659,80,775,107"/>
+<area shape="rect" id="node5" href="Scope_8h.html" title="src/semantic/Scope.h" alt="" coords="305,80,454,107"/>
+<area shape="rect" id="node7" href="Symbol_8h.html" title="src/semantic/Symbol.h" alt="" coords="479,80,635,107"/>
+<area shape="rect" id="node8" href="Tree_8h.html" title="src/syntax/Tree.h" alt="" coords="5,80,129,107"/>
+<area shape="rect" id="node9" href="Type_8h.html" title="Type System(independence of grammar/ast tree) " alt="" coords="153,80,280,107"/>
+<area shape="rect" id="node3" href="errors_8h.html" title="src/errors/errors.h" alt="" coords="601,155,726,181"/>
+<area shape="rect" id="node4" href="semantic_8h_source.html" title="src/semantic/semantic.h" alt="" coords="334,229,499,256"/>
+<area shape="rect" id="node6" href="Translater_8h.html" title="src/ir/Translater.h" alt="" coords="255,155,379,181"/>
 </map>
 </div>
 </div>
@@ -139,7 +140,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structyyltype.html">yyltype</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">to store location information  <a href="structyyltype.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">store location information  <a href="structyyltype.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -150,13 +151,11 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a89b1458e5f2536720b80fa4c1416a377"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89b1458e5f2536720b80fa4c1416a377"></a>
-<a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="location_8h.html#a89b1458e5f2536720b80fa4c1416a377">locdup</a> (<a class="el" href="structyyltype.html">yyltype</a> *loc)</td></tr>
-<tr class="memdesc:a89b1458e5f2536720b80fa4c1416a377"><td class="mdescLeft">&#160;</td><td class="mdescRight">duplicate a yyltype node <br /></td></tr>
+<tr class="memitem:a89b1458e5f2536720b80fa4c1416a377"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="location_8h.html#a89b1458e5f2536720b80fa4c1416a377">locdup</a> (<a class="el" href="structyyltype.html">yyltype</a> *loc)</td></tr>
+<tr class="memdesc:a89b1458e5f2536720b80fa4c1416a377"><td class="mdescLeft">&#160;</td><td class="mdescRight">duplicate a yyltype node  <a href="#a89b1458e5f2536720b80fa4c1416a377">More...</a><br /></td></tr>
 <tr class="separator:a89b1458e5f2536720b80fa4c1416a377"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e56c2faaf9a62d0cde76eb2af2ab9d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e56c2faaf9a62d0cde76eb2af2ab9d0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="location_8h.html#a9e56c2faaf9a62d0cde76eb2af2ab9d0">loccmp</a> (<a class="el" href="structyyltype.html">yyltype</a> *l, <a class="el" href="structyyltype.html">yyltype</a> *r)</td></tr>
-<tr class="memdesc:a9e56c2faaf9a62d0cde76eb2af2ab9d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two location <br /></td></tr>
+<tr class="memitem:a9e56c2faaf9a62d0cde76eb2af2ab9d0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="location_8h.html#a9e56c2faaf9a62d0cde76eb2af2ab9d0">loccmp</a> (<a class="el" href="structyyltype.html">yyltype</a> *l, <a class="el" href="structyyltype.html">yyltype</a> *r)</td></tr>
+<tr class="memdesc:a9e56c2faaf9a62d0cde76eb2af2ab9d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">compare two location  <a href="#a9e56c2faaf9a62d0cde76eb2af2ab9d0">More...</a><br /></td></tr>
 <tr class="separator:a9e56c2faaf9a62d0cde76eb2af2ab9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -171,7 +170,69 @@ struct <a class="el" href="structyyltype.html">yyltype</a>&#160;</td><td class="
 <dl class="section date"><dt>Date</dt><dd>2016  MIT </dd></dl>
 
 <p>Definition in file <a class="el" href="location_8h_source.html">location.h</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a9e56c2faaf9a62d0cde76eb2af2ab9d0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int loccmp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>compare two location </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>location information </td></tr>
+    <tr><td class="paramname">r</td><td>location information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>comparation bool value(l &gt; r ? 1 : l == r ? 0 : -1) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a89b1458e5f2536720b80fa4c1416a377"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structyyltype.html">yyltype</a>* locdup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>duplicate a yyltype node </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loc</td><td>location information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>duplication of loc </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

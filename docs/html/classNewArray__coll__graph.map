@@ -2,10 +2,10 @@
 <area shape="rect" id="node2" href="$classExpr.html" title="Expr" alt="" coords="139,349,188,376"/>
 <area shape="rect" id="node3" href="$classNode.html" title="Node" alt="" coords="102,95,155,121"/>
 <area shape="rect" id="node10" href="$classTypeLiteral.html" title="TypeLiteral" alt="" coords="5,171,92,197"/>
-<area shape="rect" id="node4" href="$structyyltype.html" title="to store location information " alt="" coords="283,5,347,32"/>
+<area shape="rect" id="node4" href="$structyyltype.html" title="store location information " alt="" coords="283,5,347,32"/>
 <area shape="rect" id="node8" href="$classSymbol.html" title="Symbol" alt="" coords="307,95,374,121"/>
 <area shape="rect" id="node5" href="$classType.html" title="Type" alt="" coords="131,5,182,32"/>
 <area shape="rect" id="node6" href="$classTemp.html" title="Temp" alt="" coords="233,260,288,287"/>
 <area shape="rect" id="node7" href="$classVariable.html" title="Variable" alt="" coords="290,171,359,197"/>
-<area shape="rect" id="node9" href="$classScope.html" title="Scope" alt="" coords="395,5,454,32"/>
+<area shape="rect" id="node9" href="$classScope.html" title="scope interface " alt="" coords="395,5,454,32"/>
 </map>

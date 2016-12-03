@@ -138,13 +138,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a86a98cf049a2cad55a1d4accd854702a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86a98cf049a2cad55a1d4accd854702a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a86a98cf049a2cad55a1d4accd854702a">dragon_report</a> (<a class="el" href="structyyltype.html">yyltype</a> *loc, const char *fmt,...)</td></tr>
-<tr class="memdesc:a86a98cf049a2cad55a1d4accd854702a"><td class="mdescLeft">&#160;</td><td class="mdescRight">print error information <br /></td></tr>
+<tr class="memitem:a86a98cf049a2cad55a1d4accd854702a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a86a98cf049a2cad55a1d4accd854702a">dragon_report</a> (<a class="el" href="structyyltype.html">yyltype</a> *loc, const char *fmt,...)</td></tr>
+<tr class="memdesc:a86a98cf049a2cad55a1d4accd854702a"><td class="mdescLeft">&#160;</td><td class="mdescRight">print error information  <a href="#a86a98cf049a2cad55a1d4accd854702a">More...</a><br /></td></tr>
 <tr class="separator:a86a98cf049a2cad55a1d4accd854702a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6c7e3dda77cbd0772a97561b1d5aa1c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6c7e3dda77cbd0772a97561b1d5aa1c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#ad6c7e3dda77cbd0772a97561b1d5aa1c">dragon_log</a> (const char *fmt,...)</td></tr>
-<tr class="memdesc:ad6c7e3dda77cbd0772a97561b1d5aa1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">brief\ simple logger function <br /></td></tr>
+<tr class="memitem:ad6c7e3dda77cbd0772a97561b1d5aa1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#ad6c7e3dda77cbd0772a97561b1d5aa1c">dragon_log</a> (const char *fmt,...)</td></tr>
+<tr class="memdesc:ad6c7e3dda77cbd0772a97561b1d5aa1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">simple logger function  <a href="#ad6c7e3dda77cbd0772a97561b1d5aa1c">More...</a><br /></td></tr>
 <tr class="separator:ad6c7e3dda77cbd0772a97561b1d5aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -153,7 +151,87 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util
 <dl class="section date"><dt>Date</dt><dd>2016  MIT </dd></dl>
 
 <p>Definition in file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ad6c7e3dda77cbd0772a97561b1d5aa1c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dragon_log </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>fmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>simple logger function </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>format string </td></tr>
+    <tr><td class="paramname">...</td><td>more string to output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a86a98cf049a2cad55a1d4accd854702a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dragon_report </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>fmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>print error information </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loc</td><td>location information </td></tr>
+    <tr><td class="paramname">fmt</td><td>format string </td></tr>
+    <tr><td class="paramname">...</td><td>more string to output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

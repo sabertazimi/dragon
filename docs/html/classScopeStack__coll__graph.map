@@ -1,5 +1,5 @@
 <map id="ScopeStack" name="ScopeStack">
 <area shape="rect" id="node2" href="$classGlobalScope.html" title="GlobalScope" alt="" coords="5,81,101,108"/>
-<area shape="rect" id="node3" href="$classScope.html" title="Scope" alt="" coords="24,5,83,32"/>
+<area shape="rect" id="node3" href="$classScope.html" title="scope interface " alt="" coords="24,5,83,32"/>
 <area shape="rect" id="node4" href="$classList.html" title="List\&lt; Scope * \&gt;" alt="" coords="126,81,239,108"/>
 </map>

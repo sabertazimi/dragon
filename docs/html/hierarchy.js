@@ -3,13 +3,16 @@ var hierarchy =
     [ "AstPrinter", "classAstPrinter.html", null ],
     [ "Functy", "classFuncty.html", null ],
     [ "Label", "classLabel.html", null ],
+    [ "LibFunction", "classLibFunction.html", null ],
     [ "List< Element >", "classList.html", null ],
     [ "List< ClassDef * >", "classList.html", null ],
     [ "List< Expr * >", "classList.html", null ],
+    [ "List< Functy * >", "classList.html", null ],
     [ "List< Node * >", "classList.html", null ],
     [ "List< Scope * >", "classList.html", null ],
     [ "List< Type * >", "classList.html", null ],
     [ "List< VarDef * >", "classList.html", null ],
+    [ "List< VTable * >", "classList.html", null ],
     [ "Node", "classNode.html", [
       [ "Assign", "classAssign.html", null ],
       [ "Block", "classBlock.html", null ],
@@ -45,7 +48,7 @@ var hierarchy =
       [ "VarDef", "classVarDef.html", null ],
       [ "WhileLoop", "classWhileLoop.html", null ]
     ] ],
-    [ "OffSet", "classOffSet.html", null ],
+    [ "OffsetCounter", "classOffsetCounter.html", null ],
     [ "Scope", "classScope.html", [
       [ "ClassScope", "classClassScope.html", null ],
       [ "FormalScope", "classFormalScope.html", null ],
@@ -58,7 +61,9 @@ var hierarchy =
       [ "Function", "classFunction.html", null ],
       [ "Variable", "classVariable.html", null ]
     ] ],
+    [ "Tac", "classTac.html", null ],
     [ "Temp", "classTemp.html", null ],
+    [ "Translater", "classTranslater.html", null ],
     [ "Type", "classType.html", [
       [ "ArrayType", "classArrayType.html", null ],
       [ "BaseType", "classBaseType.html", null ],
@@ -67,6 +72,8 @@ var hierarchy =
     ] ],
     [ "Visitor", "classVisitor.html", [
       [ "BuildSymbol", "classBuildSymbol.html", null ],
+      [ "TransPass1", "classTransPass1.html", null ],
+      [ "TransPass2", "classTransPass2.html", null ],
       [ "TypeCheck", "classTypeCheck.html", null ]
     ] ],
     [ "VTable", "classVTable.html", null ],

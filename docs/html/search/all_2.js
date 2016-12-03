@@ -11,5 +11,6 @@ var searchData=
   ['classtype',['ClassType',['../classClassType.html',1,'']]],
   ['close',['close',['../classScopeStack.html#a84f87ab8cc31bf12ba577ae1bf9e0172',1,'ScopeStack']]],
   ['compatible',['compatible',['../classType.html#a4e6e476159a41e2aa080b1455ebe5e51',1,'Type::compatible()'],['../classBaseType.html#a76ac65cf391bff1786d4b3a43b812d15',1,'BaseType::compatible()'],['../classArrayType.html#ae7fc7dfe5735915373e0d55e514126fb',1,'ArrayType::compatible()'],['../classFuncType.html#af00243ef9aef5063c9e2593be0ce9c19',1,'FuncType::compatible()'],['../classClassType.html#a74a305f2855e54177a108737c6fad7b3',1,'ClassType::compatible()']]],
-  ['constant',['Constant',['../classConstant.html',1,'']]]
+  ['constant',['Constant',['../classConstant.html',1,'']]],
+  ['currentthis',['currentThis',['../classTransPass2.html#aca4dcd2ec1a3256d8ec4361f064b1b7a',1,'TransPass2']]]
 ];

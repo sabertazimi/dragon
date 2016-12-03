@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['scopestack',['scopeStack',['../classScopeStack.html#a20c7621b772379f1ed59eb7459bfb616',1,'ScopeStack']]],
-  ['step',['step',['../classAstPrinter.html#ae74a04dd0434f2eeae46fce4616fe41a',1,'AstPrinter']]]
+  ['name',['name',['../classLabel.html#a3e6731c765e1cbd1605837f08f09bbf4',1,'Label']]],
+  ['newfunclabel',['newFuncLabel',['../classClass.html#abba8e87832c9079d683957d2d463877b',1,'Class']]]
 ];

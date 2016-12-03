@@ -106,20 +106,36 @@ $(document).ready(function(){initNavTree('Tac_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">Tac.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;climits&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
+<code>#include &lt;set&gt;</code><br />
+<code>#include &quot;<a class="el" href="List_8h_source.html">libs/List.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="StringUtils_8h_source.html">libs/StringUtils.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Tac.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="Tac_8h__incl.png" border="0" usemap="#src_2ir_2Tac_8h" alt=""/></div>
+<map name="src_2ir_2Tac_8h" id="src_2ir_2Tac_8h">
+<area shape="rect" id="node9" href="List_8h.html" title="libs/List.h" alt="" coords="637,80,716,107"/>
+<area shape="rect" id="node11" href="StringUtils_8h.html" title="libs/StringUtils.h" alt="" coords="225,80,344,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="Tac_8h__dep__incl.png" border="0" usemap="#src_2ir_2Tac_8hdep" alt=""/></div>
+<map name="src_2ir_2Tac_8hdep" id="src_2ir_2Tac_8hdep">
+<area shape="rect" id="node2" href="Translater_8h.html" title="src/ir/Translater.h" alt="" coords="5,80,129,107"/>
+</map>
 </div>
 </div>
 <p><a href="Tac_8h_source.html">Go to the source code of this file.</a></p>
@@ -133,6 +149,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFuncty.html">Functy</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVTable.html">VTable</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTac.html">Tac</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -163,7 +181,7 @@ Enumerations</h2></td></tr>
 <b>TAC_DIRECT_CALL</b>, 
 <b>TAC_RETURN</b>, 
 <br />
-&#160;&#160;<b>TAC_BRANCH</b>, 
+&#160;&#160;<b>TAC_JMP</b>, 
 <b>TAC_BEQZ</b>, 
 <b>TAC_BNEZ</b>, 
 <b>TAC_LOAD</b>, 
@@ -171,177 +189,12 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>TAC_STORE</b>, 
 <b>TAC_LOAD_IMM4</b>, 
 <b>TAC_LOAD_STR_CONST</b>, 
-<b>TAC_MEMO</b>, 
+<b>TAC_MARK</b>, 
 <br />
-&#160;&#160;<b>TAC_MARK</b>, 
-<b>TAC_PARM</b>
+&#160;&#160;<b>TAC_PARM</b>
 <br />
  }</td></tr>
 <tr class="separator:a8e279a7aa5a7c3baa2fe53787ed62390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae1821ddc738c050a11803a12ae195893"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1821ddc738c050a11803a12ae195893"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0)</td></tr>
-<tr class="separator:ae1821ddc738c050a11803a12ae195893"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfe02c58419133d3d41b6087db2e2706"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acfe02c58419133d3d41b6087db2e2706"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0, <a class="el" href="classTemp.html">Temp</a> *op1)</td></tr>
-<tr class="separator:acfe02c58419133d3d41b6087db2e2706"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf02a47e148f77417597c80023d1d75b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf02a47e148f77417597c80023d1d75b"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0, <a class="el" href="classTemp.html">Temp</a> *op1, <a class="el" href="classTemp.html">Temp</a> *op2)</td></tr>
-<tr class="separator:adf02a47e148f77417597c80023d1d75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e5a9b5271fc970a139c41a774e67ab9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e5a9b5271fc970a139c41a774e67ab9"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, string str)</td></tr>
-<tr class="separator:a3e5a9b5271fc970a139c41a774e67ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a246851c470a93d2566ad992f028cd88e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a246851c470a93d2566ad992f028cd88e"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0, string str)</td></tr>
-<tr class="separator:a246851c470a93d2566ad992f028cd88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae712a6c1bb287463d87f8ee804419870"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae712a6c1bb287463d87f8ee804419870"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0, <a class="el" href="classVTable.html">VTable</a> *vt)</td></tr>
-<tr class="separator:ae712a6c1bb287463d87f8ee804419870"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aa26a2e744bacc85c69b3d6cbace23d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8aa26a2e744bacc85c69b3d6cbace23d"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:a8aa26a2e744bacc85c69b3d6cbace23d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46565c1cfa6b70262d1c4e70016d81f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46565c1cfa6b70262d1c4e70016d81f8"></a>
-private&#160;</td><td class="memItemRight" valign="bottom"><b>Tac</b> (Kind opc, <a class="el" href="classTemp.html">Temp</a> *op0, <a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:a46565c1cfa6b70262d1c4e70016d81f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b583117634fd09b716fe1d6984c7401"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b583117634fd09b716fe1d6984c7401"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitAdd</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a2b583117634fd09b716fe1d6984c7401"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcf9ba0175c22adf90e73837138b64a1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcf9ba0175c22adf90e73837138b64a1"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitSub</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:adcf9ba0175c22adf90e73837138b64a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58910099d0f45b7d525a51e982b02bac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58910099d0f45b7d525a51e982b02bac"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitMul</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a58910099d0f45b7d525a51e982b02bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5696574d82652a028eb51d3315140b2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5696574d82652a028eb51d3315140b2a"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitDiv</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a5696574d82652a028eb51d3315140b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56865c5b16ca391f046ea5e7cbccbf39"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56865c5b16ca391f046ea5e7cbccbf39"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitMod</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a56865c5b16ca391f046ea5e7cbccbf39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69f624fe67403eca022b2eb2c8665620"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69f624fe67403eca022b2eb2c8665620"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitNeg</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src)</td></tr>
-<tr class="separator:a69f624fe67403eca022b2eb2c8665620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbda21941ff6125e8ad6108784ce054d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afbda21941ff6125e8ad6108784ce054d"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLAnd</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:afbda21941ff6125e8ad6108784ce054d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abed51b93f209a18bce168246783bc3f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abed51b93f209a18bce168246783bc3f8"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLOr</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:abed51b93f209a18bce168246783bc3f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a123136b74507896d4dd136bd57c3d54c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a123136b74507896d4dd136bd57c3d54c"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLNot</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src)</td></tr>
-<tr class="separator:a123136b74507896d4dd136bd57c3d54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a2af1d2622e58a629e56e67cd5f94b9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a2af1d2622e58a629e56e67cd5f94b9"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitGtr</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a3a2af1d2622e58a629e56e67cd5f94b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af05926bb0ae33f46b5893feaf6195f9d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af05926bb0ae33f46b5893feaf6195f9d"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitGeq</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:af05926bb0ae33f46b5893feaf6195f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a741a1f23219fbf56c7b7ce6a00db01f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a741a1f23219fbf56c7b7ce6a00db01f9"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitEqu</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a741a1f23219fbf56c7b7ce6a00db01f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a398439d13378bd3f7098a0419e1ab0d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a398439d13378bd3f7098a0419e1ab0d9"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitNeq</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a398439d13378bd3f7098a0419e1ab0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20cae6ece3941ca8144e724d9bc41dc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20cae6ece3941ca8144e724d9bc41dc2"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLeq</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:a20cae6ece3941ca8144e724d9bc41dc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa60fd9f3e853df3de9d0247d57a4cc79"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa60fd9f3e853df3de9d0247d57a4cc79"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLes</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src1, <a class="el" href="classTemp.html">Temp</a> *src2)</td></tr>
-<tr class="separator:aa60fd9f3e853df3de9d0247d57a4cc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d65595c756e86dd1758b0d19a524064"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d65595c756e86dd1758b0d19a524064"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitAssign</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *src)</td></tr>
-<tr class="separator:a1d65595c756e86dd1758b0d19a524064"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a83958ef6fcf9f9f6a7a9de87b6950e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a83958ef6fcf9f9f6a7a9de87b6950e"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLoadVtbl</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classVTable.html">VTable</a> *vt)</td></tr>
-<tr class="separator:a2a83958ef6fcf9f9f6a7a9de87b6950e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfd03f9798de3de4664a2c4cf88dadb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adfd03f9798de3de4664a2c4cf88dadb5"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitIndirectCall</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *func)</td></tr>
-<tr class="separator:adfd03f9798de3de4664a2c4cf88dadb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4618d4c49257f2097401a35dd82f75bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4618d4c49257f2097401a35dd82f75bd"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitDirectCall</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classLabel.html">Label</a> *func)</td></tr>
-<tr class="separator:a4618d4c49257f2097401a35dd82f75bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4585e5ccaf0fabbe64ea80aebfadb803"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4585e5ccaf0fabbe64ea80aebfadb803"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitReturn</b> (<a class="el" href="classTemp.html">Temp</a> *src)</td></tr>
-<tr class="separator:a4585e5ccaf0fabbe64ea80aebfadb803"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4600e93d04692270ba7abe582285a4c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4600e93d04692270ba7abe582285a4c1"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitBranch</b> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:a4600e93d04692270ba7abe582285a4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae21cec7b7a67c9e9a6ca02d0b14eb5be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae21cec7b7a67c9e9a6ca02d0b14eb5be"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitBeqz</b> (<a class="el" href="classTemp.html">Temp</a> *cond, <a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:ae21cec7b7a67c9e9a6ca02d0b14eb5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68483979e609103b8adbd87c5037eb26"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68483979e609103b8adbd87c5037eb26"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitBnez</b> (<a class="el" href="classTemp.html">Temp</a> *cond, <a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:a68483979e609103b8adbd87c5037eb26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1dd4355ef214cd97871a88819e6f91"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f1dd4355ef214cd97871a88819e6f91"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLoad</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *base, <a class="el" href="classTemp.html">Temp</a> *offset)</td></tr>
-<tr class="separator:a6f1dd4355ef214cd97871a88819e6f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a542287bd498126a9dc6093bd8760e5e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a542287bd498126a9dc6093bd8760e5e7"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitStore</b> (<a class="el" href="classTemp.html">Temp</a> *src, <a class="el" href="classTemp.html">Temp</a> *base, <a class="el" href="classTemp.html">Temp</a> *offset)</td></tr>
-<tr class="separator:a542287bd498126a9dc6093bd8760e5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a464e3585cef612eaf2ebb83dd7e83866"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a464e3585cef612eaf2ebb83dd7e83866"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLoadImm4</b> (<a class="el" href="classTemp.html">Temp</a> *dst, <a class="el" href="classTemp.html">Temp</a> *val)</td></tr>
-<tr class="separator:a464e3585cef612eaf2ebb83dd7e83866"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06e09895d03a0e9765b9d3a0f42c992b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06e09895d03a0e9765b9d3a0f42c992b"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitLoadStrConst</b> (<a class="el" href="classTemp.html">Temp</a> *dst, string str)</td></tr>
-<tr class="separator:a06e09895d03a0e9765b9d3a0f42c992b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca3bff04792217a420ee6eb43073776c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca3bff04792217a420ee6eb43073776c"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitMemo</b> (string memo)</td></tr>
-<tr class="separator:aca3bff04792217a420ee6eb43073776c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a375ccdb80e60bd888e6341798c32d2c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a375ccdb80e60bd888e6341798c32d2c9"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitMark</b> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
-<tr class="separator:a375ccdb80e60bd888e6341798c32d2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cb572967bb973a1c7f0f8b546de5775"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5cb572967bb973a1c7f0f8b546de5775"></a>
-static public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>emitParm</b> (<a class="el" href="classTemp.html">Temp</a> *src)</td></tr>
-<tr class="separator:a5cb572967bb973a1c7f0f8b546de5775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33a33545f8d8f5e189f091b1c5c334ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33a33545f8d8f5e189f091b1c5c334ad"></a>
-private string&#160;</td><td class="memItemRight" valign="bottom"><b>binanyOpToString</b> (string op)</td></tr>
-<tr class="separator:a33a33545f8d8f5e189f091b1c5c334ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e65a37bda20fb9462054189a0cf1dd2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e65a37bda20fb9462054189a0cf1dd2"></a>
-private string&#160;</td><td class="memItemRight" valign="bottom"><b>unaryOpToString</b> (string op)</td></tr>
-<tr class="separator:a4e65a37bda20fb9462054189a0cf1dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3819754abf0483e75eb77f4a805184e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3819754abf0483e75eb77f4a805184e5"></a>
-public string&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> (void)</td></tr>
-<tr class="separator:a3819754abf0483e75eb77f4a805184e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ab83e2e473a381c145ce63a6715b21a28"><td class="memItemLeft" align="right" valign="top">class Tac *public bool&#160;</td><td class="memItemRight" valign="bottom"><b>mark</b></td></tr>
-<tr class="separator:ab83e2e473a381c145ce63a6715b21a28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5910904b366fde8360077653dce84b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5910904b366fde8360077653dce84b2"></a>
-public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>prev</b></td></tr>
-<tr class="separator:ab5910904b366fde8360077653dce84b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab1b336e4d750992df33546aff408b2f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab1b336e4d750992df33546aff408b2f"></a>
-public Tac *&#160;</td><td class="memItemRight" valign="bottom"><b>next</b></td></tr>
-<tr class="separator:aab1b336e4d750992df33546aff408b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dbd44e59645c5f03ac983ae45300ad0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0dbd44e59645c5f03ac983ae45300ad0"></a>
-public <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>op0</b></td></tr>
-<tr class="separator:a0dbd44e59645c5f03ac983ae45300ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac829923416cc3e112c3984f2d3004fb3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac829923416cc3e112c3984f2d3004fb3"></a>
-public <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>op1</b></td></tr>
-<tr class="separator:ac829923416cc3e112c3984f2d3004fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4459e938f2531651aeb4e8dbc6f47a7a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4459e938f2531651aeb4e8dbc6f47a7a"></a>
-public <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>op2</b></td></tr>
-<tr class="separator:a4459e938f2531651aeb4e8dbc6f47a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab8a694b7ed6ac454e55bbe565fc2b57"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab8a694b7ed6ac454e55bbe565fc2b57"></a>
-public <a class="el" href="classLabel.html">Label</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>label</b></td></tr>
-<tr class="separator:aab8a694b7ed6ac454e55bbe565fc2b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae30748635e7fa40e5a092262e18e783b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae30748635e7fa40e5a092262e18e783b"></a>
-public <a class="el" href="classVTable.html">VTable</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vt</b></td></tr>
-<tr class="separator:ae30748635e7fa40e5a092262e18e783b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0764e4b6733ef4c6818ca9243991388"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae0764e4b6733ef4c6818ca9243991388"></a>
-public string&#160;</td><td class="memItemRight" valign="bottom"><b>str</b></td></tr>
-<tr class="separator:ae0764e4b6733ef4c6818ca9243991388"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad501f1f89af5a7e4d3ba6e3db06c6123"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad501f1f89af5a7e4d3ba6e3db06c6123"></a>
-public int&#160;</td><td class="memItemRight" valign="bottom"><b>bbNum</b></td></tr>
-<tr class="separator:ad501f1f89af5a7e4d3ba6e3db06c6123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12503e593d1ad4a2a25d795046432a24"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12503e593d1ad4a2a25d795046432a24"></a>
-public Set&lt; <a class="el" href="classTemp.html">Temp</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>liveOut</b></td></tr>
-<tr class="separator:a12503e593d1ad4a2a25d795046432a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ad2b76f6ca0e40dac2ee4b735909a06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ad2b76f6ca0e40dac2ee4b735909a06"></a>
-public Set&lt; <a class="el" href="classTemp.html">Temp</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>saves</b></td></tr>
-<tr class="separator:a4ad2b76f6ca0e40dac2ee4b735909a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>sabertazimi, <a href="#" onclick="location.href='mai'+'lto:'+'sab'+'er'+'taz'+'im'+'i@g'+'ma'+'il.'+'co'+'m'; return false;">saber<span style="display: none;">.nosp@m.</span>tazi<span style="display: none;">.nosp@m.</span>mi@gm<span style="display: none;">.nosp@m.</span>ail.<span style="display: none;">.nosp@m.</span>com</a> </dd></dl>
@@ -349,22 +202,7 @@ public Set&lt; <a class="el" href="classTemp.html">Temp</a> &gt;&#160;</td><td c
 <dl class="section date"><dt>Date</dt><dd>2016  MIT </dd></dl>
 
 <p>Definition in file <a class="el" href="Tac_8h_source.html">Tac.h</a>.</p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ab83e2e473a381c145ce63a6715b21a28"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">class Tac* public bool mark</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">    <span class="keyword">public</span> Kind opc</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="Tac_8h_source.html#l00181">181</a> of file <a class="el" href="Tac_8h_source.html">Tac.h</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

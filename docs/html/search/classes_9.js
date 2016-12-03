@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['offset',['OffSet',['../classOffSet.html',1,'']]]
+  ['offsetcounter',['OffsetCounter',['../classOffsetCounter.html',1,'']]]
 ];

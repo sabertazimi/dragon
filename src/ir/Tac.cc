@@ -245,9 +245,9 @@ Tac *Tac::emitReturn(Temp *src) {
     return new Tac(TAC_RETURN, src);
 }
 
-Tac *Tac::emitBranch(Label *label) {
+Tac *Tac::emitJmp(Label *label) {
     label->target = true;
-    return new Tac(TAC_BRANCH, label);
+    return new Tac(TAC_JMP, label);
 }
 
 Tac *Tac::emitBeqz(Temp *cond, Label *label) {
@@ -363,12 +363,12 @@ string Tac::toString(void) {
             } else {
                 return string("return <empty>");
             }
-        case TAC_BRANCH:
-            return string("branch ") + label->name;
+        case TAC_JMP:
+            return string("jmp ") + label->name;
         case TAC_BEQZ:
-            return string("if (") + op0->name + string(" == 0) branch ") + label->name;
+            return string("if (") + op0->name + string(" == 0) jmp ") + label->name;
         case TAC_BNEZ:
-            return string("if (") + op0->name + string(" != 0) branch ") + label->name;
+            return string("if (") + op0->name + string(" != 0) jmp ") + label->name;
         case TAC_LOAD:
             if (op2->value >= 0) {
                 return op0->name + string(" := *(") + op1->name + string(" + ") + op2->value + string(")");

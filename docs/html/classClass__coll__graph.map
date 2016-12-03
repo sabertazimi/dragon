@@ -1,9 +1,12 @@
 <map id="Class" name="Class">
-<area shape="rect" id="node6" href="$classClassScope.html" title="ClassScope" alt="" coords="33,273,127,300"/>
-<area shape="rect" id="node2" href="$classSymbol.html" title="Symbol" alt="" coords="128,95,195,121"/>
-<area shape="rect" id="node3" href="$structyyltype.html" title="to store location information " alt="" coords="111,5,175,32"/>
-<area shape="rect" id="node4" href="$classType.html" title="Type" alt="" coords="199,5,249,32"/>
-<area shape="rect" id="node5" href="$classScope.html" title="Scope" alt="" coords="5,5,64,32"/>
-<area shape="rect" id="node7" href="$classVTable.html" title="VTable" alt="" coords="387,95,450,121"/>
-<area shape="rect" id="node8" href="$classLabel.html" title="Label" alt="" coords="307,5,360,32"/>
+<area shape="rect" id="node6" href="$classClassScope.html" title="ClassScope" alt="" coords="9,649,103,676"/>
+<area shape="rect" id="node2" href="$classSymbol.html" title="Symbol" alt="" coords="111,95,177,121"/>
+<area shape="rect" id="node11" href="$classVariable.html" title="Variable" alt="" coords="107,171,176,197"/>
+<area shape="rect" id="node3" href="$structyyltype.html" title="store location information " alt="" coords="112,5,176,32"/>
+<area shape="rect" id="node4" href="$classType.html" title="Type" alt="" coords="200,5,251,32"/>
+<area shape="rect" id="node5" href="$classScope.html" title="scope interface " alt="" coords="5,5,64,32"/>
+<area shape="rect" id="node7" href="$classVTable.html" title="VTable" alt="" coords="129,260,191,287"/>
+<area shape="rect" id="node9" href="$classTac.html" title="Tac" alt="" coords="55,380,99,407"/>
+<area shape="rect" id="node8" href="$classLabel.html" title="Label" alt="" coords="55,471,108,497"/>
+<area shape="rect" id="node10" href="$classTemp.html" title="Temp" alt="" coords="50,260,105,287"/>
 </map>

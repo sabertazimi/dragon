@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
+      <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
@@ -177,7 +178,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classArrayType.html#ac458ec86be98a5608885024fabb5b937">ArrayType</a>
 </li>
 <li>AstPrinter()
-: <a class="el" href="classAstPrinter.html#a887968df942bcb44ea5be6486cb9b7a4">AstPrinter</a>
+: <a class="el" href="classAstPrinter.html#a7ca9306effc6c2a735aca1f60c157c36">AstPrinter</a>
 </li>
 </ul>
 
@@ -232,11 +233,15 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>emitNewForClass()
+: <a class="el" href="classTranslater.html#adaf206f439f6a49d198db0502c5b1fbb">Translater</a>
+</li>
 <li>equals()
 : <a class="el" href="classArrayType.html#a5f0fe06088fff0ad215c067b61370a69">ArrayType</a>
 , <a class="el" href="classBaseType.html#a8e0edf67ed21b417b1fbe711143a644d">BaseType</a>
 , <a class="el" href="classClassType.html#a272c8045dee0553c2eb3fb835fac83d7">ClassType</a>
 , <a class="el" href="classFuncType.html#a5eaace7e8f417069b936091550225eed">FuncType</a>
+, <a class="el" href="classTemp.html#aef382d2b7bb49efb444bf29549bd4fa1">Temp</a>
 , <a class="el" href="classType.html#ada6df4c22cdbbfc8b58da5cbb6bea4fe">Type</a>
 </li>
 </ul>
@@ -255,9 +260,17 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classFormalScope.html#abc8d00584ab1aa3a6c71044a59410846">FormalScope</a>
 , <a class="el" href="classGlobalScope.html#a91c2fe779ebf293896d394aa21033ec4">GlobalScope</a>
 , <a class="el" href="classLocalScope.html#a23de8799b2f85b3f5dc050c7eebd7466">LocalScope</a>
+, <a class="el" href="classScope.html#a8ff263455fba2e387f785c19b5053fcb">Scope</a>
 </li>
 <li>getParent()
 : <a class="el" href="classClass.html#aaf22f5da1d02645643420f2936297db3">Class</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
+<li>hashCode()
+: <a class="el" href="classTemp.html#ae77dde301671f127525910df0d27b40c">Temp</a>
 </li>
 </ul>
 
@@ -280,12 +293,14 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </li>
 <li>isClassScope()
 : <a class="el" href="classClassScope.html#a2beca7ebcf63d23d8eb7feba48f97d6a">ClassScope</a>
+, <a class="el" href="classScope.html#a04f04a84bbd5115deae27eec9fd2f8bc">Scope</a>
 </li>
 <li>isClassType()
 : <a class="el" href="classClassType.html#aba0a130be97ed7e5af97f9ffb82a1571">ClassType</a>
 </li>
 <li>isFormalScope()
 : <a class="el" href="classFormalScope.html#adce3ca148fd7871b13e9d4853dd72d40">FormalScope</a>
+, <a class="el" href="classScope.html#a6086953ff26d985213c0573e4b9cbaf4">Scope</a>
 </li>
 <li>isFunction()
 : <a class="el" href="classFunction.html#aee4cc07110ede6d78919c751b4843ec5">Function</a>
@@ -295,12 +310,14 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </li>
 <li>isGlobalScope()
 : <a class="el" href="classGlobalScope.html#a22f96df9d352f09810864c7c8db1f352">GlobalScope</a>
+, <a class="el" href="classScope.html#aab45e30434898a47be521f1032e347ce">Scope</a>
 </li>
 <li>isInherited()
 : <a class="el" href="classClassScope.html#a391b647bf383e36dcbe2b485ec2d3fab">ClassScope</a>
 </li>
 <li>isLocalScope()
 : <a class="el" href="classLocalScope.html#ae6c8256eaf0378f3d5b21c2320ce7c42">LocalScope</a>
+, <a class="el" href="classScope.html#ad1b6b2b80c0724f371da0f10b6c10cfa">Scope</a>
 </li>
 <li>isLocalVar()
 : <a class="el" href="classVariable.html#a1cb3da51ee1775ea96f74896c80c3f5b">Variable</a>
@@ -395,6 +412,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classReadIntExpr.html#a5ea2a1f7ede76c118d7cc16bf7502973">ReadIntExpr</a>
 , <a class="el" href="classReadLineExpr.html#a20fd237b7c227599d8049f9738ee9f58">ReadLineExpr</a>
 , <a class="el" href="classReturn.html#aa6f12e32971fad396461f7b16b94c183">Return</a>
+, <a class="el" href="classScope.html#a7cfc20e0630c2d4b3d22cf803b62bd88">Scope</a>
 , <a class="el" href="classThisExpr.html#a97b723e1ffda222d424c2905c4357d6c">ThisExpr</a>
 , <a class="el" href="classTypeArray.html#a402c37434b55d22f6d67bb9cbd901985">TypeArray</a>
 , <a class="el" href="classTypeBasic.html#aebca4c4336e37092fba008503239366a">TypeBasic</a>
@@ -420,6 +438,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>Scope()
 : <a class="el" href="classScope.html#aae12e42da8fb6c960454c861998dc6bd">Scope</a>
 </li>
+<li>ScopeStack()
+: <a class="el" href="classScopeStack.html#a57d389e57f1c92f95e634150c4c99b10">ScopeStack</a>
+</li>
 <li>size()
 : <a class="el" href="classList.html#af569bbc3e516c5006b10c4253c357ba4">List&lt; Element &gt;</a>
 </li>
@@ -427,8 +448,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>tempcmp()
-: <a class="el" href="classTemp.html#aa202c43bd0f2d812067ba4a44bd8227b">Temp</a>
+<li>Tac()
+: <a class="el" href="classTac.html#abe1c49ff7eadb30375c48a1c92eeb563">Tac</a>
 </li>
 <li>toString()
 : <a class="el" href="classArrayType.html#a2970758663daaaaaa6eb34182c33d074">ArrayType</a>
@@ -439,6 +460,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classFuncType.html#a98533ec9cc8f6be708cf4e464b7f04b2">FuncType</a>
 , <a class="el" href="classLabel.html#a59d1213a974a219c99cc36c81a28172e">Label</a>
 , <a class="el" href="classSymbol.html#a399a9b995f3c8ab08f2c8be2791f5f31">Symbol</a>
+, <a class="el" href="classTemp.html#a011e34baac4ef36c855a72be8fc2b50e">Temp</a>
 , <a class="el" href="classType.html#af410f572278c951646260c135e795ce7">Type</a>
 , <a class="el" href="classVariable.html#a8e29083c5ff202e93e96e37c6cd6d65b">Variable</a>
 </li>
@@ -452,20 +474,88 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>visitAssign()
+: <a class="el" href="classTransPass2.html#a0f794c346de740491ce5042a08a7f1a7">TransPass2</a>
+</li>
+<li>visitBinary()
+: <a class="el" href="classTransPass2.html#a1db5d8ebbd42773739c8789c4a7b2b03">TransPass2</a>
+</li>
 <li>visitBlock()
 : <a class="el" href="classBuildSymbol.html#a2d50d97c9cfad7781480d0f4df4075cd">BuildSymbol</a>
+, <a class="el" href="classTransPass2.html#a17da318aee25d66ab1202cbefaf811c7">TransPass2</a>
+</li>
+<li>visitCallExpr()
+: <a class="el" href="classTransPass2.html#a949425f37da42a404cb915c7d62299a1">TransPass2</a>
+</li>
+<li>visitClassDef()
+: <a class="el" href="classTransPass1.html#a278c78bc2fbffdfe4ab6a90124c51e1e">TransPass1</a>
+, <a class="el" href="classTransPass2.html#a983452655ed7c2a4a1081efe63a0bb20">TransPass2</a>
+</li>
+<li>visitConstant()
+: <a class="el" href="classTransPass2.html#acab78bd6d1b1679dae9a7f1a7bfc8603">TransPass2</a>
+</li>
+<li>visitExec()
+: <a class="el" href="classTransPass2.html#a69c05030d1045b6b1e6b133f0378f1ef">TransPass2</a>
 </li>
 <li>visitForLoop()
 : <a class="el" href="classBuildSymbol.html#a4e80924a5727ca342d063f50d402c6da">BuildSymbol</a>
+, <a class="el" href="classTransPass2.html#a8c55a25e292e82109d3b93828b0b16a1">TransPass2</a>
+</li>
+<li>visitFuncDef()
+: <a class="el" href="classTransPass1.html#a1e939acfb3ab084fb605d9475ec646dd">TransPass1</a>
+, <a class="el" href="classTransPass2.html#ad398e943bb2ef65e728e1852969cc992">TransPass2</a>
+</li>
+<li>visitIdent()
+: <a class="el" href="classTransPass2.html#a3c5d7e7dea634a912e809443a61c7098">TransPass2</a>
 </li>
 <li>visitIf()
 : <a class="el" href="classBuildSymbol.html#a1adc9c3656a1c7ffa4fc1560bd0bbec2">BuildSymbol</a>
+, <a class="el" href="classTransPass2.html#acdf168f902df593911ec3bce186c27c3">TransPass2</a>
+</li>
+<li>visitIndexed()
+: <a class="el" href="classTransPass2.html#a53708637f67282d047484f07beb7cc79">TransPass2</a>
+</li>
+<li>visitNewArray()
+: <a class="el" href="classTransPass2.html#a7d4fbf595aa829594dec4828723f8e24">TransPass2</a>
+</li>
+<li>visitNewClass()
+: <a class="el" href="classTransPass2.html#af7f8db571467e04353abc5bfe60e9cf8">TransPass2</a>
 </li>
 <li>visitNode()
 : <a class="el" href="classVisitor.html#a6643c2a0e1d7626e81bbc2b6921ab2cb">Visitor</a>
 </li>
+<li>visitNull()
+: <a class="el" href="classTransPass2.html#ab5e44eee6dc2403877f37c842efec284">TransPass2</a>
+</li>
+<li>visitPrint()
+: <a class="el" href="classTransPass2.html#adc4ebb774fab77f12c63e0590e844e9e">TransPass2</a>
+</li>
+<li>visitProgram()
+: <a class="el" href="classTransPass1.html#a5c7f11226c73dfa9995cd4a3eee09f40">TransPass1</a>
+, <a class="el" href="classTransPass2.html#a8360433138a07e204650c312ff5cd67a">TransPass2</a>
+</li>
+<li>visitReadIntExpr()
+: <a class="el" href="classTransPass2.html#aa0c015505bb8e25cc545f36a2296509a">TransPass2</a>
+</li>
+<li>visitReadLineExpr()
+: <a class="el" href="classTransPass2.html#ad331424269b24488d59ec7a5c8538aaa">TransPass2</a>
+</li>
+<li>visitReturn()
+: <a class="el" href="classTransPass2.html#a17235a563ba82e84ed7c40fad7bdc4a0">TransPass2</a>
+</li>
+<li>visitThisExpr()
+: <a class="el" href="classTransPass2.html#ac91b9d59e04e0ff447aa9087711b5529">TransPass2</a>
+</li>
+<li>visitUnary()
+: <a class="el" href="classTransPass2.html#ae91cc57000ca55aa406f5d9607b24745">TransPass2</a>
+</li>
+<li>visitVarDef()
+: <a class="el" href="classTransPass1.html#ab15dff4e9fc50666649a65adf80c719a">TransPass1</a>
+, <a class="el" href="classTransPass2.html#afaa2f783b52ab3d549422084b4c186af">TransPass2</a>
+</li>
 <li>visitWhileLoop()
 : <a class="el" href="classBuildSymbol.html#ae841f2d144cf6c86e8242a282b7220e0">BuildSymbol</a>
+, <a class="el" href="classTransPass2.html#a118b48f32ba98d6b603fdc4efeb8ce01">TransPass2</a>
 </li>
 </ul>
 </div><!-- contents -->
