@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
     Translater *tr = Translater::translate(tree);
 
 #ifdef IR_DEBUG
+    cout << endl;
     AstPrinter *ir_ap = new AstPrinter();
     tr->print(ir_ap);
 #endif

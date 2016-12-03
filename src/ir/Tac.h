@@ -123,6 +123,7 @@ class Functy {
         Tac *head;
         Tac *tail;
         Function *sym;
+        Functy(void);
 };
 
 class VTable {
@@ -131,6 +132,7 @@ class VTable {
         VTable *parent;
         string className;
         vector <Label *> *entries;
+        VTable(void);
 };
 
 class Tac {

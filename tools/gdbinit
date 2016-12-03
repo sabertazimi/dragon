@@ -1,2 +1,2 @@
-b ir/Translater.cc: 28
+b Translater::emitNewForClass
 r test/ir_spec.dg

@@ -35,6 +35,3 @@ string operator+(string s, char *c) {
 string operator+(char *c, string s) {
     return string(string(c) + s);
 }
-
-
-

@@ -86,6 +86,17 @@ expr: expr '-' expr
 
 ## BUGs
 
+### string + int
+
+```cpp
+int a = 1;
+"_T" + 1;
+```
+
+以上操作, operator+(string, int), 不起任何作用. 会产生一个空 string:
+
+导致 IR 生成大面积错误, 导致 TAC 打印大面积错误
+
 ### Flags
 
 *   LEX_DEBUG in scanner.ll: print tokens

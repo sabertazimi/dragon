@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/bin/dragon",
-            "args": ["test/sema_class_spec.dg"],
+            "args": ["test/ir_spec.dg"],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],

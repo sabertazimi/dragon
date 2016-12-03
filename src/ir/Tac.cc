@@ -22,7 +22,6 @@ Label::Label(void) {
 
 Label::Label(int id, string name, bool target) {
     this->id = id;
-
     this->name = name;
     this->target = target;
 }
@@ -33,7 +32,7 @@ Label *Label::createLabel(void) {
 
 Label *Label::createLabel(bool target) {
     int id = (Label::labelCount)++;
-    return new Label(id, "_L" + id, target);
+    return new Label(id, string("_L") + id, target);
 }
 
 Label *Label::createLabel(string name, bool target) {
@@ -58,9 +57,8 @@ Temp::Temp(int id, string name, int size, int offset) {
 
 Temp *Temp::createTempI4(void) {
     int id = (Temp::tempCount)++;
-    return new Temp(id, "_T" + id, 4, INT_MAX);
+    return new Temp(id, string("_T") + id, 4, INT_MAX);
 }
-
 
 Temp *Temp::createConstTemp(int value) {
     map<int, Temp*>::iterator it = (Temp::constTempPool)->find(value);
@@ -97,7 +95,19 @@ string Temp::toString(void) {
     return name;
 }
 
+Functy::Functy(void) {
+     this->label = 0;
+     this->head = 0;
+     this->tail = 0;
+     this->sym = 0;
+}
 
+VTable::VTable(void) {
+     this->name = "";
+     this->parent = 0;
+     this->className = "";
+     this->entries = 0;
+}
 
 Tac::Tac(tacKind opc, Temp *op0) {
     this->opc = opc;
@@ -252,7 +262,7 @@ Tac *Tac::emitBnez(Temp *cond, Label *label) {
 
 Tac *Tac::emitLoad(Temp *dst, Temp *base, Temp *offset) {
     if (!offset->isConst) {
-        cerr << "offset must be constant" << endl;
+        cout << "offset must be constant" << endl;
         exit(-1);
     }
 
@@ -261,7 +271,7 @@ Tac *Tac::emitLoad(Temp *dst, Temp *base, Temp *offset) {
 
 Tac *Tac::emitStore(Temp *src, Temp *base, Temp *offset) {
     if (!offset->isConst) {
-        cerr << "offset must be constant" << endl;
+        cout << "offset must be constant" << endl;
         exit(-1);
     }
 
@@ -270,7 +280,7 @@ Tac *Tac::emitStore(Temp *src, Temp *base, Temp *offset) {
 
 Tac *Tac::emitLoadImm4(Temp *dst, Temp *val) {
     if (!val->isConst) {
-        cerr << "value must be constant" << endl;
+        cout << "value must be constant" << endl;
         exit(-1);
     }
 
@@ -292,11 +302,11 @@ Tac *Tac::emitParm(Temp *src) {
 }
 
 string Tac::binanyOpToString(string op) {
-    return op0->name + " = (" + op1->name + " " + op + " " + op2->name + ")";
+    return op0->name + string(" := ") + op1->name + string(" ") + op + string(" ") + op2->name;
 }
 
 string Tac::unaryOpToString(string op) {
-    return op0->name + " = " + op + " " + op1->name;
+    return op0->name + string(" := ") + op + string(" ") + op1->name;
 }
 
 string Tac::toString(void) {
@@ -332,55 +342,54 @@ string Tac::toString(void) {
         case TAC_LES:
             return binanyOpToString("<");
         case TAC_ASSIGN:
-            return op0->name + " = " + op1->name;
+            return op0->name + string(" := ") + op1->name;
         case TAC_LOAD_VTBL:
-            return op0->name + " = VTBL <" + vt->name + ">";
+            return op0->name + string(" := VTBL <") + vt->name + string(">");
         case TAC_INDIRECT_CALL:
             if (op0 != 0) {
-                return op0->name + " = " + " call " + op1->name;
+                return op0->name + string(" := ") + string(" call ") + op1->name;
             } else {
-                return "call " + op1->name;
+                return string("call ") + op1->name;
             }
         case TAC_DIRECT_CALL:
             if (op0 != 0) {
-                return op0->name + " = " + " call " + label->name;
+                return op0->name + string(" := ") + string(" call ") + label->name;
             } else {
-                return "call " + label->name;
+                return string("call ") + label->name;
             }
         case TAC_RETURN:
             if (op0 != 0) {
-                return "return " + op0->name;
+                return string("return ") + op0->name;
             } else {
-                return "return <empty>";
+                return string("return <empty>");
             }
         case TAC_BRANCH:
-            return "branch " + label->name;
+            return string("branch ") + label->name;
         case TAC_BEQZ:
-            return "if (" + op0->name + " == 0) branch " + label->name;
+            return string("if (") + op0->name + string(" == 0) branch ") + label->name;
         case TAC_BNEZ:
-            return "if (" + op0->name + " != 0) branch " + label->name;
+            return string("if (") + op0->name + string(" != 0) branch ") + label->name;
         case TAC_LOAD:
             if (op2->value >= 0) {
-                return op0->name + " = *(" + op1->name + " + " + op2->value + ")";
+                return op0->name + string(" := *(") + op1->name + string(" + ") + op2->value + string(")");
             } else {
-                return op0->name + " = *(" + op1->name + " - " + (-op2->value)
-                    + ")";
+                return op0->name + string(" := *(") + op1->name + string(" - ") + (-op2->value) + string(")");
             }
         case TAC_STORE:
             if (op2->value >= 0) {
-                return "*(" + op1->name + " + " + op2->value + ") = " + op0->name;
+                return string("*(") + op1->name + string(" + ") + op2->value + string(") := ") + op0->name;
             } else {
-                return "*(" + op1->name + " - " + (-op2->value) + ") = "
+                return string("*(") + op1->name + string(" - ") + (-op2->value) + string(") := ")
                     + op0->name;
             }
         case TAC_LOAD_IMM4:
-            return op0->name + " = " + op1->value;
+            return op0->name + string(" := ") + op1->value;
         case TAC_LOAD_STR_CONST:
-            return op0->name + " = " + str;
+            return op0->name + string(" := ") + str;
         case TAC_MARK:
-            return label->name + ":";
+            return label->name + string(":");
         case TAC_PARM:
-            return "parm " + op0->name;
+            return string("parm ") + op0->name;
         default:
             return "";
             break;
