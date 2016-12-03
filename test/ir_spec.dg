@@ -47,7 +47,6 @@ class Main {
 }
 
 class Expression{
-
     bool[] bool_arr;
     int[] int_arr;
 
@@ -65,10 +64,12 @@ class Expression{
 
         int const1;
         int const2;
-        const1 = 1;
-        const2 = 2;
         int folding;
-        folding = const1 + const2;
+        int folding2;
+        const1 = 3;
+        const2 = 4;
+        folding = const1 * const2;
+        folding2 = folding / 5;
     };
 }
 class Function {

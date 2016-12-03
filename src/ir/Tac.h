@@ -90,7 +90,7 @@ class Temp {
         int size;
         Variable *sym;
         bool isConst;       ///< whether is constant or not
-        int value;
+        int value;          ///< for const temp
         bool isParam;       ///< whether is parameter of function or not
         bool isLoaded;
         static int tempCount;   ///< for id
@@ -107,7 +107,6 @@ class Temp {
         virtual bool isOffsetFixed(void);
 
         /// \brief @Override
-        /// @FIXME
         virtual bool equals(Temp *temp);
 
         /// \brief @Override
@@ -123,7 +122,13 @@ class Functy {
         Tac *head;
         Tac *tail;
         Function *sym;
+
         Functy(void);
+
+        /// \brief search the closest constant assign tac take target temp as left hand(op0) before tail
+        /// \param src target temp
+        /// \return constant assign tac related to target temp
+        virtual Tac *search(Temp *src, Tac *tail);
 };
 
 class VTable {
@@ -146,10 +151,7 @@ class Tac {
         Temp *op2;
         Label *label;
         VTable *vt;
-        string str;
-        int bbNum;
-        set <Temp*> *liveOut;
-        set <Temp*> *saves;
+        string str;     ///< for emitStringConst
 
         /// \brief create Tac:
         Tac(tacKind opc, Temp *op0);

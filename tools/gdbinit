@@ -1,2 +1,2 @@
-b Translater::emitNewForClass
+b Translater::print
 r test/ir_spec.dg

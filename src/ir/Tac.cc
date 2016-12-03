@@ -82,7 +82,7 @@ bool Temp::isOffsetFixed(void) {
 /// \brief @Override
 /// @FIXME
 bool Temp::equals(Temp *temp) {
-    return id == temp->id;
+    return temp ? id == temp->id : 0;
 }
 
 /// \brief @Override
@@ -96,17 +96,45 @@ string Temp::toString(void) {
 }
 
 Functy::Functy(void) {
-     this->label = 0;
-     this->head = 0;
-     this->tail = 0;
-     this->sym = 0;
+    this->label = 0;
+    this->head = 0;
+    this->tail = 0;
+    this->sym = 0;
 }
 
+Tac *Functy::search(Temp *src, Tac *tail) {
+    Tac *trav = tail;
+
+    while (trav != 0) {
+
+        // found closest tac take src temp as op0
+        if (trav->op0 && trav->op0->equals(src)) {
+            switch (trav->opc) {
+                case TAC_LOAD_IMM4:
+                    // find constant
+                    return trav;
+                case TAC_ASSIGN:
+                    // recursion to find constant
+                    trav = search(trav->op1, trav);
+                    return trav;
+                default:
+                    return 0;
+            }
+        }
+
+        trav = trav->prev;
+    }
+
+    return 0;
+}
+
+
+
 VTable::VTable(void) {
-     this->name = "";
-     this->parent = 0;
-     this->className = "";
-     this->entries = 0;
+    this->name = "";
+    this->parent = 0;
+    this->className = "";
+    this->entries = 0;
 }
 
 Tac::Tac(tacKind opc, Temp *op0) {
