@@ -686,7 +686,7 @@ void TransPass2::visitAssign(Assign *assign) {
             {
                 Ident *varRef = (Ident *)assign->left;
 
-                // <- class[offset]
+                // class[offset]
                 tr->emitStore(assign->expr->val, varRef->owner->val, varRef->symbol->offset);
             }
             break;
