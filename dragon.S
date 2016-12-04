@@ -73,8 +73,6 @@ _Main:
 _Computer_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Computer_New:
-	jmp _Computer_New
 	movl $14, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -109,8 +107,6 @@ _Computer_New:
 _Mac_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Mac_New:
-	jmp _Mac_New
 	movl $18, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -152,8 +148,6 @@ _Mac_New:
 _OSX_New:
 	pushl %ebp
 	movl %esp, %ebp
-_OSX_New:
-	jmp _OSX_New
 	movl $22, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -195,8 +189,6 @@ _OSX_New:
 _Expression_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Expression_New:
-	jmp _Expression_New
 	movl $26, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -238,8 +230,6 @@ _Expression_New:
 _Function_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Function_New:
-	jmp _Function_New
 	movl $30, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -274,8 +264,6 @@ _Function_New:
 _Statement_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Statement_New:
-	jmp _Statement_New
 	movl $34, %edi
 	movl $4, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -300,8 +288,6 @@ _Statement_New:
 _Variable_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Variable_New:
-	jmp _Variable_New
 	movl $37, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -336,8 +322,6 @@ _Variable_New:
 _Main_New:
 	pushl %ebp
 	movl %esp, %ebp
-_Main_New:
-	jmp _Main_New
 	movl $41, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -372,8 +356,6 @@ _Main_New:
 _Computer.crash:
 	pushl %ebp
 	movl %esp, %ebp
-_Computer.crash:
-	jmp _Computer.crash
 	call _PrintInt
 	movl $1, %edi
 	movl (%esi, %edi, 4), %eax
@@ -383,16 +365,12 @@ _Computer.crash:
 _Computer.superMethod:
 	pushl %ebp
 	movl %esp, %ebp
-_Computer.superMethod:
-	jmp _Computer.superMethod
 	leave
 	ret
 
 _Mac.crash:
 	pushl %ebp
 	movl %esp, %ebp
-_Mac.crash:
-	jmp _Mac.crash
 	movl $3, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
@@ -450,8 +428,6 @@ _Mac.crash:
 _OSX.superSuperField:
 	pushl %ebp
 	movl %esp, %ebp
-_OSX.superSuperField:
-	jmp _OSX.superSuperField
 	movl $5, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
@@ -467,8 +443,6 @@ _OSX.superSuperField:
 _Expression.main:
 	pushl %ebp
 	movl %esp, %ebp
-_Expression.main:
-	jmp _Expression.main
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
@@ -991,8 +965,6 @@ _Expression.main:
 _Function.funcTest:
 	pushl %ebp
 	movl %esp, %ebp
-_Function.funcTest:
-	jmp _Function.funcTest
 	movl $144, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1008,8 +980,6 @@ _Function.funcTest:
 _Function.errorRetType:
 	pushl %ebp
 	movl %esp, %ebp
-_Function.errorRetType:
-	jmp _Function.errorRetType
 	movl $145, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1021,10 +991,7 @@ _Function.errorRetType:
 _Statement.stmt2:
 	pushl %ebp
 	movl %esp, %ebp
-_Statement.stmt2:
-	jmp _Statement.stmt2
 _L25:
-	jmp _L25
 	movl $147, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1071,9 +1038,7 @@ _L25:
 	movl %eax, (%esi, %edi, 4)
 	jmp _L25
 _L26:
-	jmp _L26
 _L27:
-	jmp _L27
 	movl $154, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1120,7 +1085,6 @@ _L27:
 	movl %eax, (%esi, %edi, 4)
 	jmp _L27
 _L28:
-	jmp _L28
 	movl $161, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1130,7 +1094,6 @@ _L28:
 	movl %eax, (%esi, %edi, 4)
 	jmp _L29
 _L30:
-	jmp _L30
 	movl $162, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1142,7 +1105,6 @@ _L30:
 	movl $146, %edi
 	movl %eax, (%esi, %edi, 4)
 _L29:
-	jmp _L29
 	movl $164, %edi
 	movl $10, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1156,13 +1118,10 @@ _L29:
 	call _PrintInt
 	jmp _L30
 _L31:
-	jmp _L31
 
 _Variable.varTest:
 	pushl %ebp
 	movl %esp, %ebp
-_Variable.varTest:
-	jmp _Variable.varTest
 	movl $12, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
@@ -1211,7 +1170,6 @@ _Variable.varTest:
 	movl $171, %edi
 	movl %eax, (%esi, %edi, 4)
 _L32:
-	jmp _L32
 	movl $170, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $168, %edi
@@ -1239,7 +1197,6 @@ _L32:
 	movl %eax, (%ebx, %ecx, 1)
 	jmp _L32
 _L33:
-	jmp _L33
 	movl $171, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $12, %edi
@@ -1319,8 +1276,6 @@ main:
 	pushl $4000       # 4000/4 = 1000 fake registers
 	call malloc
 	movl %eax, %esi   # store registers base into %esi
-main:
-	jmp main
 	movl $13, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi

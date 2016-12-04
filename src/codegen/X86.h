@@ -54,7 +54,7 @@ public:
     virtual void emitFuncs(List <Functy *> *funcs) {
         for (int i = 0; i < funcs->size(); i++) {
             Functy *ft = (*funcs)[i];
-		    emitProlog(ft->label);
+		    emitBeginFunc(ft->label);
             emitAsmForFuncty(ft);
 		    ap->print("");
         }
@@ -183,7 +183,7 @@ public:
     }
 
 	virtual void emitAsmForFuncty(Functy *ft) {
-		for (Tac *tac = ft->head; tac != 0; tac = tac->next) {
+		for (Tac *tac = ft->head->next; tac != 0; tac = tac->next) {
 			switch (tac->opc) {
                 case TAC_ADD:
 			    case TAC_SUB:
@@ -230,6 +230,7 @@ public:
 				    break;
                 case TAC_MARK:
                     emit(tac->label->name, "");
+                    break;
 			    case TAC_JMP:
                     emit("", "jmp " + tac->label->name);
                     break;
@@ -275,11 +276,10 @@ public:
 		}
 	}
 
-	virtual void emitProlog(Label *entryLabel) {
+	virtual void emitBeginFunc(Label *entryLabel) {
 		emit(entryLabel->name, "");
         emit("", "pushl %ebp");
         emit("", "movl %esp, %ebp");
-        // emit("", string("addl") + (-frameSize - 2 * POINTER_SIZE));
 
         // create fake register files
         if (entryLabel->name == "main") {
