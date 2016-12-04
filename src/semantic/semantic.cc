@@ -532,7 +532,7 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
                     callExpr->method, callExpr->receiver->type->toString());
         }
 
-        // bind method to 'this'
+        // bind receiver to 'this'
         if (callExpr->receiver == 0) {
             callExpr->receiver = new ThisExpr(callExpr->loc);
             callExpr->receiver->accept(this);

@@ -57,7 +57,7 @@ void Translater::print(AstPrinter *ap) {
     }
 }
 
-void Translater::createFuncty(Function *func) {
+Functy *Translater::createFuncty(Function *func) {
     Functy *functy = new Functy();
 
     if (func->isMain) {
@@ -465,7 +465,7 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
     func->offset = 2 * POINTER_SIZE + func->order * POINTER_SIZE;
 
     // create functy
-    tr->createFuncty(func);
+    Functy *ft = tr->createFuncty(func);
 
     // start calculate offset of parameters
     OffsetCounter *oc = OffsetCounter::PARAM_COUNTER;
@@ -477,14 +477,19 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
     // set order
     v->order = 0;
 
-    // bind param to reg
+    // bind 'this' to reg
     Temp* t = Temp::createTempI4();
     t->sym = v;
+    t->isThis = true;
     t->isParam = true;
     v->temp = t;
 
+    // bind 'this' temp to functy
+    ft->currentThis = t;
+
     // set 'this' offset
     v->offset = oc->next(POINTER_SIZE);
+    t->offset = v->offset;
 
     int order = 1;
     for (int i = 0; i < funcDef->formals->size(); i++) {
@@ -501,6 +506,7 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
 
         // set offset
         vd->symbol->offset = oc->next(vd->symbol->temp->size);
+        t->offset = v->offset;
     }
 }
 
@@ -853,6 +859,7 @@ void TransPass2::visitCallExpr(CallExpr *callExpr) {
         tr->emitParm(expr->val);
     }
 
+    // in semantic analysis, all methods invoking already bind to this(including implicit this)/class variable
     if (callExpr->receiver == 0) {
         callExpr->val = tr->emitDirectCall(callExpr->symbol->functy->label, callExpr->symbol->getReturnType());
     } else {

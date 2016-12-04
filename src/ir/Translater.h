@@ -43,7 +43,7 @@ class Translater {
 
         virtual void print(AstPrinter *ap);
 
-        virtual void createFuncty(Function *func);
+        virtual Functy *createFuncty(Function *func);
 
         virtual void beginFunc(Function *func);
 

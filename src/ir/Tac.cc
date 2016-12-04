@@ -8,6 +8,7 @@
  * \license MIT
  */
 
+#include "syntax/Type.h"
 #include "semantic/Symbol.h"
 #include "ir/Tac.h"
 
@@ -128,7 +129,24 @@ Tac *Functy::search(Temp *src, Tac *tail) {
     return 0;
 }
 
+vector <int> *Functy::searchParam(Tac *call) {
+    Tac *trav = call->prev;
+    int numParams = 0;
+    vector <int> *paramRegs = new vector<int>();
 
+    while (trav != 0 && numParams < ((FuncType *)this->sym->type)->numOfParams()) {
+
+        // found param tac
+        if (trav->opc == TAC_PARM) {
+            numParams++;
+            paramRegs->push_back(trav->op0->id);
+        }
+
+        trav = trav->prev;
+    }
+
+    return 0;
+}
 
 VTable::VTable(void) {
     this->name = "";

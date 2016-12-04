@@ -26,6 +26,7 @@ using namespace std;
 // forward defination
 class Variable;
 class Function;
+class FuncType;
 class Tac;
 
 typedef enum __tacKind__ {
@@ -91,7 +92,8 @@ class Temp {
         Variable *sym;
         bool isConst;       ///< whether is constant or not
         int value;          ///< for const temp
-        bool isParam;       ///< whether is parameter of function or not
+        bool isParam;       ///< whether is parameter of function or not, offset = (%ebp+4, 8...)
+        bool isThis;        ///< whether is 'this' pointer
         bool isLoaded;
         static int tempCount;   ///< for id
         static map<int, Temp*> *constTempPool;
@@ -121,14 +123,20 @@ class Functy {
         Label *label;
         Tac *head;
         Tac *tail;
+        Temp *currentThis;
         Function *sym;
 
         Functy(void);
 
         /// \brief search the closest constant assign tac take target temp as left hand(op0) before tail
         /// \param src target temp
+        /// \param tail search region
         /// \return constant assign tac related to target temp
         virtual Tac *search(Temp *src, Tac *tail);
+
+        /// \brief search all parameters' regs id on call tac
+        /// \param call target tac
+        vector <int> *searchParam(Tac *call, Tac *tail);
 };
 
 class VTable {
