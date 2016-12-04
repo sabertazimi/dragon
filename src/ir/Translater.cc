@@ -578,98 +578,98 @@ void TransPass2::visitBinary(Binary *expr) {
     expr->right->accept(this);
 
     // get closest assign tac take left/right expr as op0
-    Tac *left = tr->currentFuncty->search(expr->left->val, tr->currentFuncty->tail);
-    Tac *right = tr->currentFuncty->search(expr->right->val, tr->currentFuncty->tail);
+    // Tac *left = tr->currentFuncty->search(expr->left->val, tr->currentFuncty->tail);
+    // Tac *right = tr->currentFuncty->search(expr->right->val, tr->currentFuncty->tail);
 
     // bind reg to expr
     switch (expr->kind) {
         case EXPR_ADD:
             // constant folding
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value + right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val + ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitAdd(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_SUB:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value - right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val - ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitSub(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_MUL:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value * right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val * ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitMul(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_DIV:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value / right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val / ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitDiv(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_MOD:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value % right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val % ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitMod(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_AND:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value && right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val && ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitLAnd(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_OR:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value || right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val || ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitLOr(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_LT:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value < right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val < ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitLes(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_LE:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value <= right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val <= ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitLeq(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_GT:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value > right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val > ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitGtr(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_GE:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value >= right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val >= ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitGeq(expr->left->val, expr->right->val);
             }
             break;
         case EXPR_EQ:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value == right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val == ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitEqu(expr->left->val, expr->right->val);
             }
         case EXPR_NE:
-            if (left && right && left->op1->isConst && right->op1->isConst) {
-                expr->val = tr->emitLoadImm4(left->op1->value != right->op1->value);
+            if (expr->left->kind == CONSTANT && expr->right->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(((Constant *)(expr->left))->num_val != ((Constant *)(expr->right))->num_val);
             } else {
                 expr->val = tr->emitNeq(expr->left->val, expr->right->val);
             }
@@ -742,19 +742,19 @@ void TransPass2::visitExec(Exec *exec) {
 void TransPass2::visitUnary(Unary *expr) {
     expr->expr->accept(this);
 
-    Tac *t = tr->currentFuncty->search(expr->expr->val, tr->currentFuncty->tail);
+    // Tac *t = tr->currentFuncty->search(expr->expr->val, tr->currentFuncty->tail);
 
     switch (expr->kind){
         case EXPR_NEG:
-            if (t && t->op1->isConst) {
-                expr->val = tr->emitLoadImm4(-(t->op1->value));
+            if (expr->expr->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(-(((Constant *)(expr->expr))->num_val));
             } else {
                 expr->val = tr->emitNeg(expr->expr->val);
             }
             break;
         default:
-            if (t && t->op1->isConst) {
-                expr->val = tr->emitLoadImm4(!(t->op1->value));
+            if (expr->expr->kind == CONSTANT) {
+                expr->val = tr->emitLoadImm4(!(((Constant *)(expr->expr))->num_val));
             } else {
                 expr->val = tr->emitLNot(expr->expr->val);
             }
