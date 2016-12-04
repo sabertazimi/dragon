@@ -249,8 +249,11 @@ public:
 
                     break;
 			    case TAC_RETURN:
-                    emit("", string("movl $") + tac->op0->id + string(", %edi"));   // reg id
-                    emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
+                    // has return statement
+                    if (tac->op0) {
+                        emit("", string("movl $") + tac->op0->id + string(", %edi"));   // reg id
+                        emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
+                    }
                     emit("", "leave");
                     emit("", "ret");
 				    break;

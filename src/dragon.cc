@@ -22,7 +22,7 @@
 #undef SEMA_DEBUG
 
 #define IR_DEBUG
-// #undef IR_DEBUG
+#undef IR_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);

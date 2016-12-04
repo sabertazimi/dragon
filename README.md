@@ -86,6 +86,15 @@ expr: expr '-' expr
 
 ## BUGs
 
+### string cmp
+
+```cpp
+string s;
+s = 0;
+```
+
+在 C++ 中, string 不为空, 而是内容为空. s.empty() / s == ""
+
 ### string + int
 
 ```cpp
@@ -141,9 +150,14 @@ solution: block scope
 
 对于文法中存在的所有 NULL 结点, 在对其进行操作(除创建外)时必须进行空检查
 
+*  syntax
+*  semantic
+*  tac
+*  x86
+
 *   ifstmt -> body
 *   simplestmt
-*   retstmt
+*   retstmt return null; op0
 *   formals/actuals list: void -> Null
 
 ## Change Language
