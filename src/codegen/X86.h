@@ -21,58 +21,23 @@
 
 using namespace std;
 
-typedef unsigned int genRegs;
-
-typedef enum __speRegKind__ {
-      R_CS, R_DS, R_SS, R_ES, R_FS, R_GS,   ///< segment registers
-      R_EBP, R_ESP,                         ///< stack registers
-      numRegs
-} speRegKind;
-
-class speReg {
-public:
-    speRegKind kind;    ///< specifig register id
-    string name;
-
-    speReg(speRegKind kind, string name) {
-        this->kind = kind;
-        this->name = name;
-    }
-
-    virtual string toString(void) {
-        return this->name;
-    }
-};
-
 class X86 {
 public:
-    genRegs *genRegs;     ///< take memory as general purpose register(remove register allocator)
-    map<int, speReg *> *speRegs;
-    FrameManager *frameManager;
-	map<string, string> *stringConst;   ///< string to label
+	map <string, string> *stringConst;   ///< string to label
 	AstPrinter *ap;
 
     X86(AstPrinter *ap) {
-        genRegs = new int[500];
-        speRegs[R_CS] = new speReg(R_CS, "%cs");
-        speRegs[R_DS] = new speReg(R_DS, "%ds");
-        speRegs[R_SS] = new speReg(R_SS, "%ss");
-        speRegs[R_ES] = new speReg(R_ES, "%es");
-        speRegs[R_FS] = new speReg(R_FS, "%fs");
-        speRegs[R_GS] = new speReg(R_GS, "%gs");
-        speRegs[R_EBP] = new speReg(R_EBP, "%ebp");
-        speRegs[R_ESP] = new speReg(R_ESP, "%esp");
-		frameManager = new FrameManager();
 		stringConst = new map<string, string>();
         this->ap = ap;
     }
 
 	virtual string getStringConstLabel(string s) {
         map<string, string>::iterator it = stringConst->find(s);
+        string label;
 
 		if (it == stringConst->end()) {
 			label = "_STRING" + stringConst->size();
-			stringConst[s] = label;
+			(*stringConst)[s] = label;
 		}
 
 		return label;
@@ -91,7 +56,7 @@ public:
     virtual void emitFuncs(List <Functy *> *funcs) {
         for (int i = 0; i < funcs->size(); i++) {
             Functy *ft = (*funcs)[i];
-		    emitProlog(g->getFuncty()->label, frameManager->getStackFrameSize());
+		    emitProlog(ft->label);
             emitAsmForFuncty(ft);
 		    ap->print("");
         }
@@ -137,32 +102,32 @@ public:
                     emit("", "orl %ebx, %eax");
 				    break;
 			    case TAC_GT:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "setg %al");
                     emit("", "movzbl %al, %eax");
 				    break;
 			    case TAC_GE:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "setge %al");
                     emit("", "movzbl %al, %eax");
 				    break;
 			    case TAC_EQ:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "sete %al");
                     emit("", "movzbl %al, %eax");
 				    break;
 			    case TAC_NE:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "setne %al");
                     emit("", "movzbl %al, %eax");
 				    break;
 			    case TAC_LE:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "setle %al");
                     emit("", "movzbl %al, %eax");
 				    break;
 			    case TAC_LT:
-                    emit("", "cmpl %ebx, %eax")
+                    emit("", "cmpl %ebx, %eax");
                     emit("", "setl %al");
                     emit("", "movzbl %al, %eax");
 				    break;
@@ -177,7 +142,7 @@ public:
         emit("", "movl %eax, (%esi, %edi, 4)");     // eax => op0reg[id]
     }
 
-    emitAsmForUnary(Tac *tac) {
+    virtual void emitAsmForUnary(Tac *tac) {
         emit("", string("movl $") + tac->op1->id + string(", %edi"));    // op1 temp id
         emit("", "movl (%esi, %edi, 4), %eax");     // op1reg[id] => eax
 
@@ -235,6 +200,7 @@ public:
 			    case TAC_NE:
 			    case TAC_LE:
 			    case TAC_LT:
+                case TAC_LOAD:
                     emitAsmForBinary(tac);
 				    break;
 			   	case TAC_NEG:
@@ -246,6 +212,9 @@ public:
 			    case TAC_LOAD_IMM4:
 			    case TAC_LOAD_STR_CONST:
                     emitAsmForLoadConst(tac);
+				    break;
+			    case TAC_PARM:
+                    /* empty */
 				    break;
 			    case TAC_INDIRECT_CALL:
 			    case TAC_DIRECT_CALL:
@@ -261,9 +230,8 @@ public:
 
                     emit("", "movl %eax, (%ebx, %ecx, 1)");
 				    break;
-			    case TAC_PARM:
-                    /* empty */
-				    break;
+                case TAC_MARK:
+                    emit(tac->label->name + ":", "");
 			    case TAC_JMP:
                     emit("", "jmp " + tac->label->name);
                     break;
@@ -281,39 +249,43 @@ public:
 
                     break;
 			    case TAC_RETURN:
-                    emit("", "movl $" + op0->id + ", %edi");   // reg id
+                    emit("", string("movl $") + tac->op0->id + string(", %edi"));   // reg id
                     emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
                     emit("", "leave");
                     emit("", "ret");
-				    break;
-			    case TAC_PARM:
-                    /* empty */
 				    break;
             }
 		}
 	}
 
-	virtual void emitAsmForCall(Functy *ft, Tac call) {
+	virtual void emitAsmForCall(Functy *ft, Tac *call) {
 		if (call->opc == TAC_DIRECT_CALL) {
-            emit("", "call " + call->label);
+            emit("", "call " + call->label->name);
 		} else {
-            emit("", "movl $" + op1->id + ", %edi");   // reg id
-            emit("", "movl (%esi, %edi, 4), %ebx");    // reg[id] => ebx
-            emit("", "call *%ebx");
+            emit("", string("movl $") + call->op1->id + string(", %edi"));   // reg id
+            emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
+            emit("", "call *%eax");
 		}
 
         // return value
 		if (call->op0 != 0) {
-            emit("", "movl $" + op0->id + ", %edi");   // reg id
+            emit("", string("movl $") + call->op0->id + string(", %edi"));   // reg id
             emit("", "movl %eax, (%esi, %edi, 4)");    // eax => reg[id]
 		}
 	}
 
-	public void emitProlog(Label entryLabel, int frameSize) {
+	virtual void emitProlog(Label *entryLabel) {
 		emit(entryLabel->name, "");
         emit("", "pushl %ebp");
         emit("", "movl %esp, %ebp");
         // emit("", string("addl") + (-frameSize - 2 * POINTER_SIZE));
+
+        // create fake register files
+        if (entryLabel->name == "main") {
+            emit("", "pushl $4000       # 4000/4 = 1000 fake registers");
+            emit("", "call malloc");
+            emit("", "movl %eax, %esi   # store registers base into %esi");
+        }
 	}
 
 	virtual void emitVTables(List <VTable*> *vtables) {
@@ -326,39 +298,34 @@ public:
 			emit("", ".data");
 			emit("", ".align 2");
 			emit(vt->name, "");
-			emit("", ".word " + (vt->parent == null ? "0" : vt->parent->name));
+			emit("", ".word " + (vt->parent == 0 ? "0" : vt->parent->name));
 			emit("", ".word " + getStringConstLabel(vt->className));
 
-            for (int i = 0; i < vt->entries->size(); i++) {
-                Label **l = (*(vt->entries))[i];
+            for (int i = 0; i < (int)vt->entries->size(); i++) {
+                Label *l = (*(vt->entries))[i];
 				emit("", ".word " + l->name);
 			}
 		}
 	}
 
-	virtual string emitToString(string label, string body) {
+	virtual void emit(string label, string body) {
 		if (label.empty() && body.empty()) {
-			return "\n";
+			ap->print("\n");
 		} else {
             char buffer[80];
 			if (!label.empty()) {
 				if (!body.empty()) {
-                    sprintf(buffer, "%-40s:", label->c_str());
+                    sprintf(buffer, "%-40s:", label.c_str());
 				} else {
-                    sprintf(buffer, "%s:", label->c_str());
+                    sprintf(buffer, "%s:", label.c_str());
 				}
 			}
 			if (!body.empty()) {
-                sprintf(buffer, "          %-30s", body->c_str());
+                sprintf(buffer, "          %-30s", body.c_str());
 			}
-
-            return string(buffer);
+            ap->print(string(buffer));
 		}
-	}
-
-	virtual void emit(string label, string body) {
-		ap->print(emitToString(label, body));
-	}
+    }
 };
 
 #endif /* !X86_H */

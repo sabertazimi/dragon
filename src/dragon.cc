@@ -13,6 +13,7 @@
 #include "semantic/Scope.h"
 #include "semantic/semantic.h"
 #include "ir/Translater.h"
+#include "codegen/X86.h"
 
 #define AST_DEBUG
 #undef AST_DEBUG
@@ -81,6 +82,10 @@ int main(int argc, char **argv) {
     AstPrinter *ir_ap = new AstPrinter();
     tr->print(ir_ap);
 #endif
+
+    AstPrinter *asm_ap = new AstPrinter("dragon.S");
+    X86 *x86 = new X86(asm_ap);
+    x86->emitAsm(tr);
 
     fclose(fp);
     return 0;
