@@ -257,7 +257,7 @@ public:
 
             switch (tac->opc) {
                 case TAC_LOAD_VTBL:
-                    emit("", "leal " + tac->vt->name + ", %eax");
+                    emit("", "movl " + tac->vt->name + ", %eax");
 				    break;
 			    case TAC_LOAD_IMM4:
                     emit("", string("movl $") + tac->op1->value + string(", %eax"));
@@ -359,6 +359,8 @@ public:
 	}
 
 	virtual void emitAsmForCall(Functy *ft, Tac *call) {
+        // emit("", "pushl %esi");
+
 		if (call->opc == TAC_DIRECT_CALL) {
             emit("", "call " + call->label->name);
 		} else {
@@ -366,6 +368,8 @@ public:
             emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
             emit("", "call *%eax");
 		}
+
+        // emit("", "popl %esi");
 
         // return value
 		if (call->op0 != 0) {
@@ -392,7 +396,7 @@ public:
         for (int i = 0; i < vtables->size(); i++) {
             VTable *vt = (*vtables)[i];
 			emit("", ".data");
-			emit("", ".align 4");
+			emit("", ".align 2");
 			emit(vt->name, "");
 			emit("", ".long " + (vt->parent == 0 ? "0" : vt->parent->name));
 			emit("", ".long " + getStringConstLabel(vt->className));
