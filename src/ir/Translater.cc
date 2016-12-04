@@ -358,37 +358,40 @@ Temp *Translater::emitNewArray(Temp *length) {
 
 /// \brief treat constructor of class('new') as functions
 void Translater::emitNewForClass(Class *c) {
-    currentFuncty = new Functy();
-    currentFuncty->label = Label::createLabel("_" + c->name + "_" + "New", true);
+        if (c->name != "Main") {
 
-    // bind functy to symbol
-    c->newFuncLabel = currentFuncty->label;
+        currentFuncty = new Functy();
+        currentFuncty->label = Label::createLabel("_" + c->name + "_" + "New", true);
 
-    // M -> epsilon
-    emitMark(currentFuncty->label);
+        // bind functy to symbol
+        c->newFuncLabel = currentFuncty->label;
 
-    // call allocation
-    Temp *size = emitLoadImm4(c->size);
-    emitParm(size);
-    Temp *newObj = emitDirectCall(LibFunction::MALLOC->label, BaseType::INT);
+        // M -> epsilon
+        emitMark(currentFuncty->label);
 
-    int time = c->size / WORD_SIZE - 1;
+        // call allocation
+        Temp *size = emitLoadImm4(c->size);
+        emitParm(size);
+        Temp *newObj = emitDirectCall(LibFunction::MALLOC->label, BaseType::INT);
 
-    if (time != 0) {
-        Temp *zero = emitLoadImm4(0);
+        int time = c->size / WORD_SIZE - 1;
 
-        for (int i = 0; i < time; i++) {
-            // initialize fields to zero
-            emitStore(zero, newObj, WORD_SIZE * (i + 1));
+        if (time != 0) {
+            Temp *zero = emitLoadImm4(0);
+
+            for (int i = 0; i < time; i++) {
+                // initialize fields to zero
+                emitStore(zero, newObj, WORD_SIZE * (i + 1));
+            }
         }
+
+        // store vtable reference at offset[0]
+        emitStore(emitLoadVTable(c->vtable), newObj, 0);
+
+        emitReturn(newObj);
+
+        endFunc();
     }
-
-    // store vtable reference at offset[0]
-    emitStore(emitLoadVTable(c->vtable), newObj, 0);
-
-    emitReturn(newObj);
-
-    endFunc();
 }
 
 TransPass1::TransPass1(Translater *tr) {

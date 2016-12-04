@@ -67,6 +67,9 @@ class Error extends Main {
 }
 
 class Main {
+    // ban on member defination in field
+    int field;
+
     // error type for 'main'
     int main = (void) => {
         // undefined class
@@ -74,7 +77,7 @@ class Main {
 
         // invalid access to non-exist field
         int a;
-        a = this.field;
+        a = this.fields;
 
         class Mac powerbook;
         powerbook = new Mac();

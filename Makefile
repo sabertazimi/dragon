@@ -33,7 +33,8 @@ LEX_TEST=0
 SYNTAX_TEST=0
 AST_TEST=0
 SEMA_TEST=0
-IR_TEST=1
+IR_TEST=0
+ASM_TEST=1
 
 # objects
 RAW_SRCS=$(shell find $(SRC_PATH) -name "*.cc" -print)
@@ -69,7 +70,7 @@ $(PROG): $(OBJS)
 	@echo
 	@echo '***' Build Success! '***'
 
-.PHONY = clean release run count spec debug
+.PHONY = clean release run count spec debug asm
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
@@ -120,6 +121,16 @@ ifeq ($(IR_TEST), 1)
 	@echo '***' IR Test Passed! '***'
 	@echo
 endif
+ifeq ($(ASM_TEST), 1)
+	$(foreach filename, $(shell find $(TEST_PATH) -name "asm_*"), echo "\n*** ASM test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
+	make asm
+	@echo
+	@echo '***' ASM Test Passed! '***'
+	@echo
+endif
+
+asm:
+	gcc -Wall -Wextra -g -m32 -o dragonEXE dragon.S
 
 debug:
 	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG) core

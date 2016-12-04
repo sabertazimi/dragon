@@ -34,6 +34,8 @@ class BuildSymbol: public Visitor {
         /// Main class must have a main function
         /// with void formal and void return type
         ///
+        /// Main class can't define fields, except main function
+        ///
         virtual void mainClassCheck(Class *c);
 
         /// \brief calculate depth in inheriting tree

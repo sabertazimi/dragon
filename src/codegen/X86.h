@@ -44,8 +44,9 @@ public:
 	}
 
 	virtual void emitAsm(Translater *tr) {
-		emit("", ".text");
         emitVTables(tr->vtables);
+        ap->print("");
+        emit("", ".text");
         emitFuncs(tr->funcs);
 		ap->print("");
 		emitStringConst();
@@ -57,18 +58,26 @@ public:
             Functy *ft = (*funcs)[i];
 		    emitBeginFunc(ft->label);
             emitAsmForFuncty(ft);
+
+            if (ft->label->name == "main") {
+                emit("", "leave");
+                emit("", "pushl $0");
+                emit("", "call exit");
+            }
+
 		    ap->print("");
         }
     }
 
     virtual void emitLibFunction(void) {
         emit("", ".text");
+
         emit("", ".global _PrintInt");
         emit("_PrintInt","");
         emit("", "pushl %ebp");
         emit("", "movl %esp, %ebp");
         emit("", "pushl 8(%ebp)");
-	    emit("", "pushl $int_format");
+	    emit("", "pushl $intFormat");
 	    emit("", "call printf");
         emit("", "popl %eax");
         emit("", "popl %eax");
@@ -90,6 +99,18 @@ public:
 	    emit("", "call printf");
 	    emit("", "leave");
 	    emit("", "ret");
+
+        emit("", ".global _PrintString");
+        emit("_PrintString","");
+        emit("", "pushl %ebp");
+        emit("", "movl %esp, %ebp");
+        emit("", "pushl 8(%ebp)");
+	    emit("", "pushl $stringFormat");
+	    emit("", "call printf");
+        emit("", "popl %eax");
+        emit("", "popl %eax");
+        emit("", "leave");
+        emit("", "ret");
     }
 
 	virtual void emitStringConst(void) {
@@ -101,9 +122,10 @@ public:
         }
 
         // for lib function(printf)
-        emit("int_format", ".string \"%d\\n\"");
+        emit("intFormat", ".string \"%d\\n\"");
         emit("trues", ".string \"true\\n\"");
         emit("falses", ".string \"false\\n\"");
+        emit("stringFormat", ".string \"%s\\n\"");
         ap->print("");
 	}
 
@@ -167,9 +189,6 @@ public:
                     emit("", "cmpl %ebx, %eax");
                     emit("", "setl %al");
                     emit("", "movzbl %al, %eax");
-				    break;
-			    case TAC_LOAD:
-                    emit("", "movl (%eax, %ebx, 1), %eax");
 				    break;
                 default:
                     break;
@@ -237,7 +256,6 @@ public:
 			    case TAC_NE:
 			    case TAC_LE:
 			    case TAC_LT:
-                case TAC_LOAD:
                     emitAsmForBinary(tac);
 				    break;
 			   	case TAC_NEG:
@@ -259,15 +277,19 @@ public:
 			    case TAC_DIRECT_CALL:
 				    emitAsmForCall(ft, tac);
 				    break;
+			    case TAC_LOAD:
+                    emit("", string("movl $") + tac->op1->id + ", %edi");
+                    emit("", "movl (%esi, %edi, 4), %ebx");
+                    emit("", string("movl ") + tac->op2->value + string("(%ebx), %eax"));
+                    emit("", string("movl $") + tac->op0->id + string(", %edi"));    // op0 temp id
+                    emit("", "movl %eax, (%esi, %edi, 4)");     // eax => op0reg[id]
+				    break;
 			    case TAC_STORE:
                     emit("", string("movl $") + tac->op0->id + ", %edi");
                     emit("", "movl (%esi, %edi, 4), %eax");
                     emit("", string("movl $") + tac->op1->id + ", %edi");
                     emit("", "movl (%esi, %edi, 4), %ebx");
-                    emit("", string("movl $") + tac->op2->id + ", %edi");
-                    emit("", "movl (%esi, %edi, 4), %ecx");
-
-                    emit("", "movl %eax, (%ebx, %ecx, 1)");
+                    emit("", string("movl %eax, ") + tac->op2->value + string("(%ebx)"));
 				    break;
                 case TAC_MARK:
                     emit(tac->label->name, "");
@@ -318,6 +340,7 @@ public:
 	}
 
 	virtual void emitBeginFunc(Label *entryLabel) {
+		emit("", ".global " + entryLabel->name);
 		emit(entryLabel->name, "");
         emit("", "pushl %ebp");
         emit("", "movl %esp, %ebp");
@@ -331,12 +354,8 @@ public:
 	}
 
 	virtual void emitVTables(List <VTable*> *vtables) {
-		emit("", ".text");
-		emit("", ".globl main");
-
         for (int i = 0; i < vtables->size(); i++) {
             VTable *vt = (*vtables)[i];
-			emit("", "");
 			emit("", ".data");
 			emit("", ".align 4");
 			emit(vt->name, "");
@@ -347,6 +366,7 @@ public:
                 Label *l = (*(vt->entries))[i];
 				emit("", ".long " + l->name);
 			}
+			emit("", "");
 		}
 	}
 

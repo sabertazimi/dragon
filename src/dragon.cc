@@ -22,7 +22,10 @@
 #undef SEMA_DEBUG
 
 #define IR_DEBUG
-#undef IR_DEBUG
+// #undef IR_DEBUG
+
+#define ASM_DEBUG
+// #undef ASM_DEBUG
 
 extern FILE *yyin;
 extern int yyparse(void);
@@ -40,7 +43,7 @@ int main(int argc, char **argv) {
 
     // yyparse return value: 1 represent error occurs
     while (yyparse()) {
-        fprintf(stderr, "*** bison panic!\n");
+        fprintf(stderr, "*** please fix syntax error first!\n");
         fclose(fp);
         exit(1);
     }
@@ -79,13 +82,19 @@ int main(int argc, char **argv) {
 
 #ifdef IR_DEBUG
     cout << endl;
-    AstPrinter *ir_ap = new AstPrinter();
+    AstPrinter *ir_ap = new AstPrinter("dragon.tac");
     tr->print(ir_ap);
 #endif
 
     AstPrinter *asm_ap = new AstPrinter("dragon.S");
     X86 *x86 = new X86(asm_ap);
     x86->emitAsm(tr);
+
+    system("gcc -m32 -Wall -Wextra -g -o dragonEXE dragon.S");
+
+#ifndef ASM_DEBUG
+    system("rm -fr dragon.S");
+#endif
 
     fclose(fp);
     return 0;

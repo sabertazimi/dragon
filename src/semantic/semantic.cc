@@ -23,11 +23,11 @@ void BuildSymbol::mainClassCheck(Class *c) {
 
     if (main == 0 || !main->isFunction()) {
         failed = 1;
-        dragon_report(main->location, "missing 'main' function as program entry in 'Main' class\n");
+        dragon_report(c->location, "missing 'main' function as program entry in 'Main' class\n");
     }
 
     // set main
-    ((Function *) main)->isMain = true;
+    ((Function *)main)->isMain = true;
 
     // main function: return type must be VOID, parameters must be VOID
     FuncType *type = (FuncType *) main->type;
