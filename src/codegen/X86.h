@@ -36,7 +36,7 @@ public:
         string label;
 
 		if (it == stringConst->end()) {
-			label = "_STRING" + stringConst->size();
+			label = string("_STRING") + stringConst->size();
 			(*stringConst)[s] = label;
 		}
 
@@ -47,9 +47,7 @@ public:
 		emit("", ".text");
         emitVTables(tr->vtables);
         emitFuncs(tr->funcs);
-
 		ap->print("");
-
 		emitStringConst();
 	}
 
@@ -62,7 +60,7 @@ public:
         }
     }
 
-	virtual void emitStringConst() {
+	virtual void emitStringConst(void) {
 		emit("", ".data");
         for (map<string, string>::iterator it = stringConst->begin();
                 it != stringConst->end(); it++) {
@@ -231,7 +229,7 @@ public:
                     emit("", "movl %eax, (%ebx, %ecx, 1)");
 				    break;
                 case TAC_MARK:
-                    emit(tac->label->name + ":", "");
+                    emit(tac->label->name, "");
 			    case TAC_JMP:
                     emit("", "jmp " + tac->label->name);
                     break;
@@ -315,18 +313,13 @@ public:
 		if (label.empty() && body.empty()) {
 			ap->print("\n");
 		} else {
-            char buffer[80];
 			if (!label.empty()) {
-				if (!body.empty()) {
-                    sprintf(buffer, "%-40s:", label.c_str());
-				} else {
-                    sprintf(buffer, "%s:", label.c_str());
-				}
+                ap->print(label + ":");
 			}
+
 			if (!body.empty()) {
-                sprintf(buffer, "          %-30s", body.c_str());
+                ap->print("\t" + body);
 			}
-            ap->print(string(buffer));
 		}
     }
 };
