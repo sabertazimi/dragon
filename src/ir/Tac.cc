@@ -100,6 +100,8 @@ Functy::Functy(void) {
     this->label = 0;
     this->head = 0;
     this->tail = 0;
+    this->paramRegs = 0;
+    this->actualRegs = 0;
     this->sym = 0;
 }
 
@@ -129,23 +131,30 @@ Tac *Functy::search(Temp *src, Tac *tail) {
     return 0;
 }
 
-vector <int> *Functy::searchParam(Tac *call) {
+vector <int> *Functy::getActualRegs(Tac *call) {
+    if (actualRegs != 0) {
+        delete actualRegs;
+    }
+
     Tac *trav = call->prev;
     int numParams = 0;
-    vector <int> *paramRegs = new vector<int>();
+    actualRegs = new vector<int>();
 
     while (trav != 0 && numParams < ((FuncType *)this->sym->type)->numOfParams()) {
 
         // found param tac
         if (trav->opc == TAC_PARM) {
             numParams++;
-            paramRegs->push_back(trav->op0->id);
+            actualRegs->push_back(trav->op0->id);
         }
 
         trav = trav->prev;
     }
 
-    return 0;
+    // make order of actualRegs comptible to that of paramRegs
+    reverse(actualRegs->begin(), actualRegs->end());
+
+    return actualRegs;
 }
 
 VTable::VTable(void) {
@@ -236,39 +245,39 @@ Tac *Tac::emitNeg(Temp *dst, Temp *src) {
 }
 
 Tac *Tac::emitLAnd(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_LAND, dst, src1, src2);
+    return new Tac(TAC_AND, dst, src1, src2);
 }
 
 Tac *Tac::emitLOr(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_LOR, dst, src1, src2);
+    return new Tac(TAC_OR, dst, src1, src2);
 }
 
 Tac *Tac::emitLNot(Temp *dst, Temp *src) {
-    return new Tac(TAC_LNOT, dst, src);
+    return new Tac(TAC_NOT, dst, src);
 }
 
 Tac *Tac::emitGtr(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_GTR, dst, src1, src2);
+    return new Tac(TAC_GT, dst, src1, src2);
 }
 
 Tac *Tac::emitGeq(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_GEQ, dst, src1, src2);
+    return new Tac(TAC_GE, dst, src1, src2);
 }
 
 Tac *Tac::emitEqu(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_EQU, dst, src1, src2);
+    return new Tac(TAC_EQ, dst, src1, src2);
 }
 
 Tac *Tac::emitNeq(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_NEQ, dst, src1, src2);
+    return new Tac(TAC_NE, dst, src1, src2);
 }
 
 Tac *Tac::emitLeq(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_LEQ, dst, src1, src2);
+    return new Tac(TAC_LE, dst, src1, src2);
 }
 
 Tac *Tac::emitLes(Temp *dst, Temp *src1, Temp *src2) {
-    return new Tac(TAC_LES, dst, src1, src2);
+    return new Tac(TAC_LT, dst, src1, src2);
 }
 
 Tac *Tac::emitAssign(Temp *dst, Temp *src) {
@@ -369,23 +378,23 @@ string Tac::toString(void) {
             return binanyOpToString("%");
         case TAC_NEG:
             return unaryOpToString("-");
-        case TAC_LAND:
+        case TAC_AND:
             return binanyOpToString("&&");
-        case TAC_LOR:
+        case TAC_OR:
             return binanyOpToString("||");
-        case TAC_LNOT:
+        case TAC_NOT:
             return unaryOpToString("!");
-        case TAC_GTR:
+        case TAC_GT:
             return binanyOpToString(">");
-        case TAC_GEQ:
+        case TAC_GE:
             return binanyOpToString(">=");
-        case TAC_EQU:
+        case TAC_EQ:
             return binanyOpToString("==");
-        case TAC_NEQ:
+        case TAC_NE:
             return binanyOpToString("!=");
-        case TAC_LEQ:
+        case TAC_LE:
             return binanyOpToString("<=");
-        case TAC_LES:
+        case TAC_LT:
             return binanyOpToString("<");
         case TAC_ASSIGN:
             return op0->name + string(" := ") + op1->name;
@@ -425,8 +434,7 @@ string Tac::toString(void) {
             if (op2->value >= 0) {
                 return string("*(") + op1->name + string(" + ") + op2->value + string(") := ") + op0->name;
             } else {
-                return string("*(") + op1->name + string(" - ") + (-op2->value) + string(") := ")
-                    + op0->name;
+                return string("*(") + op1->name + string(" - ") + (-op2->value) + string(") := ") + op0->name;
             }
         case TAC_LOAD_IMM4:
             return op0->name + string(" := ") + op1->value;

@@ -69,6 +69,8 @@ Functy *Translater::createFuncty(Function *func) {
     // bind tac to symbol
     functy->sym = func;
     func->functy = functy;
+
+    return functy;
 }
 
 void Translater::beginFunc(Function *func) {
@@ -466,6 +468,7 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
 
     // create functy
     Functy *ft = tr->createFuncty(func);
+    ft->paramRegs = new vector<int>();
 
     // start calculate offset of parameters
     OffsetCounter *oc = OffsetCounter::PARAM_COUNTER;
@@ -480,12 +483,12 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
     // bind 'this' to reg
     Temp* t = Temp::createTempI4();
     t->sym = v;
-    t->isThis = true;
     t->isParam = true;
     v->temp = t;
 
     // bind 'this' temp to functy
     ft->currentThis = t;
+    ft->paramRegs->push_back(t->id);
 
     // set 'this' offset
     v->offset = oc->next(POINTER_SIZE);
@@ -504,9 +507,13 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
         t->isParam = true;
         vd->symbol->temp = t;
 
+        // bind param to functy
+        ft->paramRegs->push_back(t->id);
+
         // set offset
         vd->symbol->offset = oc->next(vd->symbol->temp->size);
         t->offset = v->offset;
+
     }
 }
 

@@ -32,20 +32,6 @@ class OSX extends Mac {
     };
 }
 
-class Main {
-    int field;
-
-    void main = (void) => {
-        int a;
-        a = this.field;
-
-        class Mac powerbook;
-        powerbook = new Mac();
-        powerbook.crash(2);
-        powerbook.superMethod();
-    };
-}
-
 class Expression{
     bool[] bool_arr;
     int[] int_arr;
@@ -114,5 +100,23 @@ class Variable {
     int varTest = (void) => {
         arr = new int[][5];
         return arr[1][1];
+    };
+}
+
+class Main {
+    int field;
+
+    void main = (void) => {
+        int a;
+        a = this.field;
+
+        class Mac powerbook;
+        powerbook = new Mac();
+        powerbook.crash(2);
+        powerbook.superMethod();
+
+        class Function f;
+        f = new Function();
+        f.funcTest(a * 3);
     };
 }

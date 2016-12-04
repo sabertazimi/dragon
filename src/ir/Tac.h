@@ -18,6 +18,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <algorithm>
 #include "libs/List.h"
 #include "libs/StringUtils.h"
 
@@ -36,15 +37,15 @@ typedef enum __tacKind__ {
     TAC_DIV,
     TAC_MOD,
     TAC_NEG,
-    TAC_LAND,
-    TAC_LOR,
-    TAC_LNOT,
-    TAC_GTR,
-    TAC_GEQ,
-    TAC_EQU,
-    TAC_NEQ,
-    TAC_LEQ,
-    TAC_LES,
+    TAC_AND,
+    TAC_OR,
+    TAC_NOT,
+    TAC_GT,
+    TAC_GE,
+    TAC_EQ,
+    TAC_NE,
+    TAC_LE,
+    TAC_LT,
     TAC_ASSIGN,
     TAC_LOAD_VTBL,
     TAC_INDIRECT_CALL,
@@ -93,7 +94,6 @@ class Temp {
         bool isConst;       ///< whether is constant or not
         int value;          ///< for const temp
         bool isParam;       ///< whether is parameter of function or not, offset = (%ebp+4, 8...)
-        bool isThis;        ///< whether is 'this' pointer
         bool isLoaded;
         static int tempCount;   ///< for id
         static map<int, Temp*> *constTempPool;
@@ -124,6 +124,8 @@ class Functy {
         Tac *head;
         Tac *tail;
         Temp *currentThis;
+        vector <int> *paramRegs;
+        vector <int> *actualRegs;
         Function *sym;
 
         Functy(void);
@@ -134,9 +136,14 @@ class Functy {
         /// \return constant assign tac related to target temp
         virtual Tac *search(Temp *src, Tac *tail);
 
-        /// \brief search all parameters' regs id on call tac
+        /// \brief get all params' regs id on call tac
+        /// \return vector contains all regs id
+        vector <int> *getActualRegs(void);
+
+        /// \brief search all actuals' regs id on call tac
         /// \param call target tac
-        vector <int> *searchParam(Tac *call, Tac *tail);
+        /// \return vector contains all regs id
+        vector <int> *getActualRegs(Tac *call);
 };
 
 class VTable {

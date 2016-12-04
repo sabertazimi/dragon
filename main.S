@@ -17,7 +17,6 @@ main:
 
     mov $2, %edi                # temp id
     movl (%esi, %edi, 4), %eax  # reg[id] => eax
-
     pushl %eax
     call printi
     leave
