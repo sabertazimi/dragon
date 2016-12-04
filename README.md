@@ -86,6 +86,10 @@ expr: expr '-' expr
 
 ## BUGs
 
+### Asm
+
+注意命令与操作数之间一定要有空格
+
 ### string cmp
 
 ```cpp
@@ -94,6 +98,13 @@ s = 0;
 ```
 
 在 C++ 中, string 不为空, 而是内容为空. s.empty() / s == ""
+
+### string + string
+
+```cpp
+"test" + "wo" // error
+string("test") + string("wo") // good
+```
 
 ### string + int
 

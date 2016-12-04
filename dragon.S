@@ -4,7 +4,7 @@
 
 
 	.data
-	.align 2
+	.align 4
 _Computer:
 	.word 0
 	.word _STRING0
@@ -76,7 +76,10 @@ _Computer_New:
 	movl $14, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $14, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $15, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $16, %edi
@@ -110,7 +113,10 @@ _Mac_New:
 	movl $18, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $18, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $19, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $20, %edi
@@ -151,7 +157,10 @@ _OSX_New:
 	movl $22, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $22, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $23, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $24, %edi
@@ -192,7 +201,10 @@ _Expression_New:
 	movl $26, %edi
 	movl $12, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $26, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $27, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $28, %edi
@@ -233,7 +245,10 @@ _Function_New:
 	movl $30, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $30, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $31, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $32, %edi
@@ -267,7 +282,10 @@ _Statement_New:
 	movl $34, %edi
 	movl $4, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $34, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $35, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $36, %edi
@@ -291,7 +309,10 @@ _Variable_New:
 	movl $37, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $37, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $38, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $39, %edi
@@ -325,7 +346,10 @@ _Main_New:
 	movl $41, %edi
 	movl $8, %eax
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $41, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $42, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $43, %edi
@@ -356,6 +380,9 @@ _Main_New:
 _Computer.crash:
 	pushl %ebp
 	movl %esp, %ebp
+	movl $1, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
 	call _PrintInt
 	movl $1, %edi
 	movl (%esi, %edi, 4), %eax
@@ -407,8 +434,11 @@ _Mac.crash:
 	movl (%esi, %edi, 4), %ecx
 	movl %eax, (%ebx, %ecx, 1)
 	movl $48, %edi
-	leal_STRING8, %eax
+	leal _STRING8, %eax
 	movl %eax, (%esi, %edi, 4)
+	movl $48, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
 	call _PrintString
 	movl $49, %edi
 	movl $1, %eax
@@ -1004,10 +1034,10 @@ _L25:
 	movzbl %al, %eax
 	movl $148, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $148%edi
+	movl $148, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
-	je_L26
+	je _L26
 	movl $150, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1051,10 +1081,10 @@ _L27:
 	movzbl %al, %eax
 	movl $155, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $155%edi
+	movl $155, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
-	je_L28
+	je _L28
 	movl $157, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
@@ -1111,10 +1141,13 @@ _L29:
 	movl $165, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $165%edi
+	movl $165, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
-	je_L31
+	je _L31
+	movl $146, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
 	call _PrintInt
 	jmp _L30
 _L31:
@@ -1149,7 +1182,10 @@ _Variable.varTest:
 	addl %ebx, %eax
 	movl $170, %edi
 	movl %eax, (%esi, %edi, 4)
-	call _Alloc
+	movl $170, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call malloc
 	movl $171, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $167, %edi
@@ -1177,10 +1213,10 @@ _L32:
 	subl %ebx, %eax
 	movl $170, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $170%edi
+	movl $170, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
-	je_L33
+	je _L33
 	movl $171, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $168, %edi
@@ -1299,6 +1335,12 @@ main:
 	movl %eax, (%esi, %edi, 4)
 	movl $186, %edi
 	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	movl $188, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	movl $186, %edi
+	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl (%eax, %ebx, 1), %eax
@@ -1316,6 +1358,9 @@ main:
 	call *%eax
 	movl $191, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $186, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
 	movl $186, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
@@ -1352,6 +1397,12 @@ main:
 	movl %eax, (%esi, %edi, 4)
 	movl $194, %edi
 	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	movl $197, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	movl $194, %edi
+	movl (%esi, %edi, 4), %eax
 	movl $0, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl (%eax, %ebx, 1), %eax
@@ -1373,20 +1424,54 @@ main:
 
 	.data
 _STRING0:
-	.asciiz Computer
+	.string "Computer"
 _STRING3:
-	.asciiz Expression
+	.string "Expression"
 _STRING4:
-	.asciiz Function
+	.string "Function"
 _STRING1:
-	.asciiz Mac
+	.string "Mac"
 _STRING7:
-	.asciiz Main
+	.string "Main"
 _STRING2:
-	.asciiz OSX
+	.string "OSX"
 _STRING5:
-	.asciiz Statement
+	.string "Statement"
 _STRING6:
-	.asciiz Variable
+	.string "Variable"
 _STRING8:
-	.asciiz ack!
+	.string "ack!"
+int_format:
+	.string "%d\n"
+trues:
+	.string "true\n"
+falses:
+	.string "false\n"
+
+	.text
+	.global _PrintInt
+_PrintInt:
+	pushl %ebp
+	movl %esp, %ebp
+	pushl 8(%ebp)
+	pushl $int_format
+	call printf
+	popl %eax
+	popl %eax
+	leave
+	ret
+	.global _PrintBool
+_PrintBool:
+	pushl %ebp
+	movl %esp, %ebp
+	xorl %eax, %eax
+	cmpl 8(%ebp), %eax
+	je .L_f
+	pushl $trues
+	jmp .L_e
+.L_f:
+	pushl $falses
+.L_e:
+	call printf
+	leave
+	ret

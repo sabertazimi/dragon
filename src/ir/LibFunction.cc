@@ -14,7 +14,7 @@
 
 using namespace std;
 
-LibFunction *LibFunction::ALLOCATE = new LibFunction("_Alloc", 1, BaseType::INT);
+LibFunction *LibFunction::MALLOC = new LibFunction("malloc", 1, BaseType::INT);
 LibFunction *LibFunction::READ_LINE = new LibFunction("_ReadLine", 0, BaseType::STRING);
 LibFunction *LibFunction::READ_INT = new LibFunction("_ReadInteger", 0, BaseType::INT);
 LibFunction *LibFunction::PRINT_INT = new LibFunction("_PrintInt", 1, BaseType::VOID);

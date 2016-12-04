@@ -49,6 +49,7 @@ public:
         emitFuncs(tr->funcs);
 		ap->print("");
 		emitStringConst();
+        emitLibFunction();
 	}
 
     virtual void emitFuncs(List <Functy *> *funcs) {
@@ -60,12 +61,50 @@ public:
         }
     }
 
+    virtual void emitLibFunction(void) {
+        emit("", ".text");
+        emit("", ".global _PrintInt");
+        emit("_PrintInt","");
+        emit("", "pushl %ebp");
+        emit("", "movl %esp, %ebp");
+        emit("", "pushl 8(%ebp)");
+	    emit("", "pushl $int_format");
+	    emit("", "call printf");
+        emit("", "popl %eax");
+        emit("", "popl %eax");
+        emit("", "leave");
+        emit("", "ret");
+
+        emit("", ".global _PrintBool");
+	    emit("_PrintBool", "");
+        emit("", "pushl %ebp");
+	    emit("", "movl %esp, %ebp");
+	    emit("", "xorl %eax, %eax");
+	    emit("", "cmpl 8(%ebp), %eax");
+	    emit("", "je .L_f");
+	    emit("", "pushl $trues");
+	    emit("", "jmp .L_e");
+	    emit(".L_f", "");
+	    emit("", "pushl $falses");
+	    emit(".L_e", "");
+	    emit("", "call printf");
+	    emit("", "leave");
+	    emit("", "ret");
+    }
+
 	virtual void emitStringConst(void) {
 		emit("", ".data");
+
         for (map<string, string>::iterator it = stringConst->begin();
                 it != stringConst->end(); it++) {
-			emit(it->second, ".asciiz " + it->first);
+			emit(it->second, ".string " + string("\"") + it->first + string("\""));
         }
+
+        // for lib function(printf)
+        emit("int_format", ".string \"%d\\n\"");
+        emit("trues", ".string \"true\\n\"");
+        emit("falses", ".string \"false\\n\"");
+        ap->print("");
 	}
 
     virtual void emitAsmForBinary(Tac *tac) {
@@ -172,7 +211,7 @@ public:
 			    case TAC_LOAD_STR_CONST:
                     {
 				        string label = getStringConstLabel(tac->str);
-                        emit("", "leal" + label + ", %eax");
+                        emit("", "leal " + label + ", %eax");
                     }
 				    break;
                 default:
@@ -212,7 +251,9 @@ public:
                     emitAsmForLoadConst(tac);
 				    break;
 			    case TAC_PARM:
-                    /* empty */
+                    emit("", string("movl $") + tac->op0->id + ", %edi");
+                    emit("", "movl (%esi, %edi, 4), %eax");
+                    emit("", "pushl %eax");
 				    break;
 			    case TAC_INDIRECT_CALL:
 			    case TAC_DIRECT_CALL:
@@ -236,14 +277,14 @@ public:
                     break;
 			    case TAC_BEQZ:
 			    case TAC_BNEZ:
-                    emit("", string("movl $") + tac->op0->id + string("%edi"));
+                    emit("", string("movl $") + tac->op0->id + string(", %edi"));
                     emit("", "movl (%esi, %edi, 4), %eax");
                     emit("", "testl %eax, %eax");
 
                     if (tac->opc == TAC_BEQZ) {
-                        emit("", "je" + tac->label->name);
+                        emit("", "je " + tac->label->name);
                     } else {
-                        emit("", "jne" + tac->label->name);
+                        emit("", "jne " + tac->label->name);
                     }
 
                     break;
@@ -297,14 +338,14 @@ public:
             VTable *vt = (*vtables)[i];
 			emit("", "");
 			emit("", ".data");
-			emit("", ".align 2");
+			emit("", ".align 4");
 			emit(vt->name, "");
-			emit("", ".word " + (vt->parent == 0 ? "0" : vt->parent->name));
-			emit("", ".word " + getStringConstLabel(vt->className));
+			emit("", ".long " + (vt->parent == 0 ? "0" : vt->parent->name));
+			emit("", ".long " + getStringConstLabel(vt->className));
 
             for (int i = 0; i < (int)vt->entries->size(); i++) {
                 Label *l = (*(vt->entries))[i];
-				emit("", ".word " + l->name);
+				emit("", ".long " + l->name);
 			}
 		}
 	}

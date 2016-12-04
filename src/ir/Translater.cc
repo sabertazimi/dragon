@@ -318,7 +318,7 @@ Temp *Translater::emitNewArray(Temp *length) {
     emitParm(size);
 
     // call allocation
-    Temp *obj = emitDirectCall(LibFunction::ALLOCATE->label, BaseType::INT);
+    Temp *obj = emitDirectCall(LibFunction::MALLOC->label, BaseType::INT);
 
     // store return pointer
     emitStore(length, obj, 0);
@@ -370,7 +370,7 @@ void Translater::emitNewForClass(Class *c) {
     // call allocation
     Temp *size = emitLoadImm4(c->size);
     emitParm(size);
-    Temp *newObj = emitDirectCall(LibFunction::ALLOCATE->label, BaseType::INT);
+    Temp *newObj = emitDirectCall(LibFunction::MALLOC->label, BaseType::INT);
 
     int time = c->size / WORD_SIZE - 1;
 

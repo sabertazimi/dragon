@@ -20,7 +20,7 @@ class Label;
 
 class LibFunction {
 public:
-	static LibFunction *ALLOCATE;
+	static LibFunction *MALLOC;
 	static LibFunction *READ_LINE;
 	static LibFunction *READ_INT;
 	static LibFunction *PRINT_INT;
