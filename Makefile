@@ -70,13 +70,14 @@ $(PROG): $(OBJS)
 	@echo
 	@echo '***' Build Success! '***'
 
-.PHONY = clean release run count spec debug asm
+.PHONY = clean release run count spec debug
 
 clean:
 	$(RM) $(OBJ_PATH) $(OBJS)
 	$(RM) $(SRC_PATH)/parser.hh $(SRC_PATH)/parser.cc  $(SRC_PATH)/scanner.cc
 	$(RM) $(SRC_PATH)/parser.output $(SRC_PATH)/$(PROG)
 	$(RM) core
+	$(RM) $(TEST_PATH)/*.exe
 # $(RM) .gdb_history
 
 release:
@@ -91,6 +92,7 @@ count:
 	./$(TOOLS_PATH)/line_counter
 
 spec:
+	make clean
 ifeq ($(LEX_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n*** Lex test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
@@ -123,14 +125,10 @@ ifeq ($(IR_TEST), 1)
 endif
 ifeq ($(ASM_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "asm_*"), echo "\n*** ASM test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
-	make asm
 	@echo
 	@echo '***' ASM Test Passed! '***'
 	@echo
 endif
-
-asm:
-	gcc -Wall -Wextra -g -m32 -o dragonEXE dragon.S
 
 debug:
 	$(GDB) $(GFLAGS) $(BIN_PATH)/$(PROG) core

@@ -177,7 +177,7 @@ hexical [a-fA-F0-9]
     DRAGON_DEBUG("keyword", "PRINT");
     return PRINT;
 }
-"ReadInteger" {
+"ReadInt" {
     DRAGON_DEBUG("keyword", "READINTEGER");
     return READINTEGER;
 }

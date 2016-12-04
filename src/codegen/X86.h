@@ -72,6 +72,38 @@ public:
     virtual void emitLibFunction(void) {
         emit("", ".text");
 
+        emit("", ".global _ReadInteger");
+        emit("_ReadInteger", "");
+        emit("", "pushl %ebp");
+        emit("", "movl %esp, %ebp");
+        emit("", "leal readBuf, %eax");
+        emit("", "pushl %eax");
+        emit("", "pushl $readFormat");
+        emit("", "call scanf");
+        emit("", "popl %ebx");
+        emit("", "popl %ebx");
+        emit("", "leal readBuf, %eax");
+        emit("", "pushl %eax");
+        emit("", "call atoi");
+        emit("", "popl %ebx");
+        emit("", "popl %ebx");
+        emit("", "leave");
+        emit("", "ret");
+
+        emit("", ".global _ReadLine");
+        emit("_ReadLine", "");
+        emit("", "pushl %ebp");
+        emit("", "movl %esp, %ebp");
+        emit("", "leal readBuf, %eax");
+        emit("", "pushl %eax");
+        emit("", "pushl $readFormat");
+        emit("", "call scanf");
+        emit("", "popl %ebx");
+        emit("", "popl %ebx");
+        emit("", "leal readBuf, %eax");
+        emit("", "leave");
+        emit("", "ret");
+
         emit("", ".global _PrintInt");
         emit("_PrintInt","");
         emit("", "pushl %ebp");
@@ -111,6 +143,7 @@ public:
         emit("", "popl %eax");
         emit("", "leave");
         emit("", "ret");
+
     }
 
 	virtual void emitStringConst(void) {
@@ -126,6 +159,8 @@ public:
         emit("trues", ".string \"true\\n\"");
         emit("falses", ".string \"false\\n\"");
         emit("stringFormat", ".string \"%s\\n\"");
+        emit("readBuf", ".string \"00000000000000000000000000000000000000000000000000\\0\"");
+        emit("readFormat", ".string \"%s\"");
         ap->print("");
 	}
 

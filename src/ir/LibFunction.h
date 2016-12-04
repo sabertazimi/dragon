@@ -21,12 +21,11 @@ class Label;
 class LibFunction {
 public:
 	static LibFunction *MALLOC;
-	static LibFunction *READ_LINE;
 	static LibFunction *READ_INT;
+	static LibFunction *READ_LINE;
 	static LibFunction *PRINT_INT;
 	static LibFunction *PRINT_STRING;
 	static LibFunction *PRINT_BOOL;
-	static LibFunction *HALT;
 
 	Label *label;
 	int numArgs;

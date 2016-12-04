@@ -8,12 +8,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 #include "syntax/Tree.h"
 #include "syntax/AstPrinter.h"
 #include "semantic/Scope.h"
 #include "semantic/semantic.h"
 #include "ir/Translater.h"
 #include "codegen/X86.h"
+
+using namespace std;
 
 #define AST_DEBUG
 #undef AST_DEBUG
@@ -78,6 +81,7 @@ int main(int argc, char **argv) {
     tree->globalScope->print(sema_ap);
 #endif
 
+    // IR generation
     Translater *tr = Translater::translate(tree);
 
 #ifdef IR_DEBUG
@@ -86,11 +90,20 @@ int main(int argc, char **argv) {
     tr->print(ir_ap);
 #endif
 
+    // Code generation
     AstPrinter *asm_ap = new AstPrinter("dragon.S");
     X86 *x86 = new X86(asm_ap);
     x86->emitAsm(tr);
 
-    system("gcc -m32 -Wall -Wextra -g -o dragonEXE dragon.S");
+    // invoke gcc to compile asm file
+    string output;
+    if (argc >= 3) {
+        output = string(argv[2]);
+    } else {
+        output = string(argv[1]) + ".exe";
+    }
+    string asmCmd = "gcc -m32 -Wall -Wextra -g dragon.S -o " + output;
+    system(asmCmd.c_str());
 
 #ifndef ASM_DEBUG
     system("rm -fr dragon.S");

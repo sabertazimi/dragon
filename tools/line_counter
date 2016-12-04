@@ -7,3 +7,4 @@
 #
 
 find src -name "*.[chly]" | xargs cat | grep -v ^$ | wc -l
+find src -name "*.cc" | xargs cat | grep -v ^$ | wc -l

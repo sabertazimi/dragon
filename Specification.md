@@ -15,6 +15,10 @@
 
 ## Variable
 
+### String
+
+只存在字符串常量
+
 ### Array
 
 ```java
@@ -30,6 +34,7 @@ int sayHelloFunc = (void) => {
     Print("Hello World!\n");
     return 0;
 };
+```
 
 ## Scope
 
