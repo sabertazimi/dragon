@@ -509,8 +509,7 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
 
         // set offset
         vd->symbol->offset = oc->next(vd->symbol->temp->size);
-        t->offset = v->offset;
-
+        t->offset = vd->symbol->offset;
     }
 }
 

@@ -318,7 +318,7 @@ _Variable_New:
 _Computer.crash:
 	pushl %ebp
 	movl %esp, %ebp
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $1, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $1, %edi
@@ -326,9 +326,9 @@ _Computer.crash:
 	pushl %eax
 	movl $1, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 	call _PrintInt
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $1, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $1, %edi
@@ -337,7 +337,7 @@ _Computer.crash:
 	ret
 	movl $1, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 
 	.global _Computer.superMethod
 _Computer.superMethod:
@@ -394,7 +394,7 @@ _Mac.crash:
 	movl $3, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $4, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
@@ -407,7 +407,7 @@ _Mac.crash:
 	movl %eax, 4(%ebx)
 	movl $4, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 	movl $3, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
@@ -436,7 +436,7 @@ _Mac.crash:
 	movl $46, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $4, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $4, %edi
@@ -448,7 +448,7 @@ _Mac.crash:
 	movl %eax, (%esi, %edi, 4)
 	movl $4, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 	movl $47, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
@@ -1029,7 +1029,7 @@ _Function.funcTest:
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
 	call _PrintString
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $8, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $8, %edi
@@ -1037,9 +1037,9 @@ _Function.funcTest:
 	pushl %eax
 	movl $8, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 	call _PrintInt
-	movl 8(%ebp), %eax
+	movl 12(%ebp), %eax
 	movl $8, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $8, %edi
@@ -1048,7 +1048,7 @@ _Function.funcTest:
 	ret
 	movl $8, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, 8(%ebp)
+	movl %eax, 12(%ebp)
 
 	.global _Function.errorRetType
 _Function.errorRetType:
@@ -1374,7 +1374,7 @@ main:
 	call malloc
 	movl %eax, %esi   # store registers base into %esi
 	movl $182, %edi
-	movl $1, %eax
+	movl $5, %eax
 	movl %eax, (%esi, %edi, 4)
 	movl $182, %edi
 	movl (%esi, %edi, 4), %eax

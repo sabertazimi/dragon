@@ -415,7 +415,7 @@ string Tac::toString(void) {
         case TAC_LOAD_IMM4:
             return op0->name + string(" := ") + op1->value;
         case TAC_LOAD_STR_CONST:
-            return op0->name + string(" := ") + string("LOAD") + str;
+            return op0->name + string(" := ") + string("LOAD ") + str;
         case TAC_MARK:
             return label->name + string(":");
         case TAC_PARM:

@@ -139,7 +139,7 @@ _Mac.crash:
     *(_T3 + 8) := _T42
     _T43 := *(_T3 + 4)
     *(_T3 + 4) := _T4
-    _T44 := LOADHello Mac!
+    _T44 := LOAD Hello Mac!
     parm _T44
     call _PrintString
     _T45 := *(_T3 + 4)
@@ -259,7 +259,7 @@ _Expression.main:
 
 function (_Function.funcTest) {
 _Function.funcTest:
-    _T141 := LOADFuncTest:
+    _T141 := LOAD FuncTest:
     parm _T141
     call _PrintString
     parm _T8
@@ -352,7 +352,7 @@ _L31:
 
 function (main) {
 main:
-    _T182 := 1
+    _T182 := 5
     _T181 := _T182
     _T184 :=  call _Mac_New
     _T183 := _T184
