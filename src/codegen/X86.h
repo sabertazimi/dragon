@@ -66,12 +66,7 @@ public:
             Functy *ft = (*funcs)[i];
 		    emitBeginFunc(ft->label);
             emitAsmForFuncty(ft);
-
-            if (ft->label->name == "main") {
-                emit("", "leave");
-                emit("", "pushl $0");
-                emit("", "call exit");
-            }
+            emitEndFunc(ft->label);
 
 		    ap->print("");
         }
@@ -422,8 +417,6 @@ public:
                         emit("", string("movl $") + tac->op0->id + string(", %edi"));   // reg id
                         emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
                     }
-                    emit("", "leave");
-                    emit("", "ret");
 				    break;
             }
 
@@ -478,19 +471,32 @@ public:
 		}
 	}
 
-	virtual void emitBeginFunc(Label *entryLabel) {
-		emit("", ".global " + entryLabel->name);
-		emit(entryLabel->name, "");
+	virtual void emitBeginFunc(Label *label) {
+		emit("", ".global " + label->name);
+		emit(label->name, "");
         emit("", "pushl %ebp");
         emit("", "movl %esp, %ebp");
 
         // create fake register files
-        if (entryLabel->name == "main") {
+        if (label->name == "main") {
             emit("", "pushl $4000       # 4000/4 = 1000 fake registers");
             emit("", "call malloc");
             emit("", "movl %eax, %esi   # store registers base into %esi");
         }
 	}
+
+	virtual void emitEndFunc(Label *label) {
+        emit("", "leave");
+
+        // different exit style
+        if (label->name == "main") {
+            emit("", "pushl $0");
+            emit("", "call exit");
+        } else {
+            emit("", "ret");
+        }
+    }
+
 
 	virtual void emitVTables(List <VTable*> *vtables) {
         for (int i = 0; i < vtables->size(); i++) {

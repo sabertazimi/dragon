@@ -113,6 +113,7 @@ void Translater::createVTable(Class *c) {
 
 void Translater::fillVTableEntries(VTable *vt, ClassScope *cs) {
     // add field in parent to vatale
+    // in lower address
     if (cs->getParentScope() != 0) {
         fillVTableEntries(vt, cs->getParentScope());
     }
@@ -122,6 +123,7 @@ void Translater::fillVTableEntries(VTable *vt, ClassScope *cs) {
         Symbol *sym = it->second;
 
         // add method to vtable
+        // in higher address
         if (sym->isFunction()) {
             Function *func = (Function *) sym;
             (*vt->entries)[func->order] = func->functy->label;

@@ -1,0 +1,25 @@
+class Computer {
+    int cpu;
+
+    void crash = (void) => {
+        Print("Computer Crash!");
+    };
+}
+
+class Mac extends Computer {
+    int mouse;
+
+    void crash = (void) => {
+        Print("Mac Crash!");
+    };
+}
+
+class Main {
+    void main = (void) => {
+        class Computer pc;
+        class Mac mac;
+
+        pc = new Mac();
+        pc.crash();
+    };
+}

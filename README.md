@@ -192,9 +192,10 @@ solution: block scope
 *   Lab Book
 *   [Flex/Bison with C++](http://www.doc88.com/p-2989810281943.html)
 *   [Language Implementation Patterns](https://book.douban.com/subject/10482195)
-*   [TsingHua Decaf](https://github.com/Silver-Shen/decaf_PA3])
-*   [CS143 Decaf](https://github.com/davidzchen/decaf)
-*   CSAPP(x86 IR Generation)
+*   [TsingHua Decaf](https://github.com/HubertZhang/compiler-decaf)
+*   [Stanford CS143 Decaf](https://github.com/davidzchen/decaf)
+*   [TAMU CS434 Decaf](https://github.com/davidcox143/Decaf-Compiler)
+*   CSAPP(x86 code Generation)
 
 ## License
 
