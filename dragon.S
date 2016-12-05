@@ -90,26 +90,14 @@ _Computer_New:
 	movl $15, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 4(%ebx)
-	movl 2147483647(%ebp), %eax
-	movl $17, %edi
-	movl %eax, (%esi, %edi, 4)
 	movl $17, %edi
 	leal _Computer, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $17, %edi
-	movl (%esi, %edi, 4), %eax
-	movl %eax, 2147483647(%ebp)
-	movl 2147483647(%ebp), %eax
-	movl $17, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $17, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $15, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
-	movl $17, %edi
-	movl (%esi, %edi, 4), %eax
-	movl %eax, 2147483647(%ebp)
 	movl $15, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
@@ -430,7 +418,22 @@ _Mac.crash:
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
 	call _PrintString
+	movl 8(%ebp), %eax
+	movl $3, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $3, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 4(%ebx), %eax
 	movl $45, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $3, %edi
+	movl (%esi, %edi, 4), %eax
+	movl %eax, 8(%ebp)
+	movl $45, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintInt
+	movl $46, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
@@ -438,15 +441,15 @@ _Mac.crash:
 	movl %eax, (%esi, %edi, 4)
 	movl $4, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $45, %edi
+	movl $46, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $46, %edi
+	movl $47, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $4, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $46, %edi
+	movl $47, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
 	ret
@@ -461,12 +464,12 @@ _OSX.superSuperField:
 	movl $5, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $47, %edi
+	movl $48, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $5, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $47, %edi
+	movl $48, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
 	ret
@@ -481,59 +484,59 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $48, %edi
+	movl $49, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $49, %edi
+	movl $50, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $50, %edi
+	movl $51, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $50, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $51, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $52, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $49, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $50, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $51, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $48, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $51, %edi
+	movl $52, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $52, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $52, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
 	movl $53, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $53, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
 	movl $54, %edi
-	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
 	movl $55, %edi
+	movl $1, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $56, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $50, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $56, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $57, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $49, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $55, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $56, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $48, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $56, %edi
+	movl $57, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $57, %edi
+	movl $58, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $54, %edi
+	movl $55, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $57, %edi
+	movl $58, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
 	movl 8(%ebp), %eax
@@ -542,71 +545,71 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $58, %edi
+	movl $59, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $59, %edi
+	movl $60, %edi
 	movl $2, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $60, %edi
+	movl $61, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $60, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $61, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $62, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $59, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $60, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $61, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $58, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $61, %edi
+	movl $62, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $62, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $62, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
 	movl $63, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $63, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
+	movl $64, %edi
+	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
 	movl $6, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $64, %edi
+	movl $65, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $65, %edi
+	movl $66, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $66, %edi
+	movl $67, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $66, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $67, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $68, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $65, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $66, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $67, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $64, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $67, %edi
+	movl $68, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $68, %edi
+	movl $69, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $68, %edi
+	movl $69, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $69, %edi
+	movl $70, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
 	movl $6, %edi
@@ -614,63 +617,63 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $70, %edi
+	movl $71, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $71, %edi
+	movl $72, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $72, %edi
+	movl $73, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $72, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $73, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $74, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $71, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $72, %edi
+	movl $74, %edi
 	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $73, %edi
+	addl %ebx, %eax
+	movl $75, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $75, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
+	movl $76, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $70, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $73, %edi
-	movl (%esi, %edi, 4), %ebx
-	addl %ebx, %eax
-	movl $74, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $74, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
-	movl $75, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $69, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $75, %edi
+	movl $76, %edi
 	movl (%esi, %edi, 4), %ebx
 	orl %ebx, %eax
-	movl $76, %edi
-	movl %eax, (%esi, %edi, 4)
 	movl $77, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $78, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $60, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $78, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $79, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $59, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $77, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $78, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $58, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $78, %edi
+	movl $79, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $79, %edi
+	movl $80, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $76, %edi
+	movl $77, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $79, %edi
+	movl $80, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
 	movl 8(%ebp), %eax
@@ -679,59 +682,59 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $80, %edi
+	movl $81, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $81, %edi
+	movl $82, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $82, %edi
+	movl $83, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $82, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $83, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $84, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $81, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $82, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $83, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $80, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $83, %edi
+	movl $84, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $84, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $84, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
 	movl $85, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $85, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
 	movl $86, %edi
-	movl $233, %eax
 	movl %eax, (%esi, %edi, 4)
 	movl $87, %edi
+	movl $233, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $88, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $82, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $88, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $89, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $81, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $87, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $88, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $80, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $88, %edi
+	movl $89, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $89, %edi
+	movl $90, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $86, %edi
+	movl $87, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $89, %edi
+	movl $90, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
 	movl 8(%ebp), %eax
@@ -740,71 +743,71 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $90, %edi
+	movl $91, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $91, %edi
+	movl $92, %edi
 	movl $2, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $92, %edi
+	movl $93, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $92, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $93, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $94, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $91, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $92, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $93, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $90, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $93, %edi
+	movl $94, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $94, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $94, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
 	movl $95, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $95, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
+	movl $96, %edi
+	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
 	movl $6, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $96, %edi
+	movl $97, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $97, %edi
+	movl $98, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $98, %edi
+	movl $99, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $98, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $99, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $100, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $97, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $98, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $99, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $96, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $99, %edi
+	movl $100, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $100, %edi
+	movl $101, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $100, %edi
+	movl $101, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $101, %edi
+	movl $102, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
 	movl $6, %edi
@@ -812,63 +815,63 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $102, %edi
+	movl $103, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $103, %edi
+	movl $104, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $104, %edi
+	movl $105, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $104, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $105, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $106, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $103, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $104, %edi
+	movl $106, %edi
 	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $105, %edi
+	addl %ebx, %eax
+	movl $107, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $107, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
+	movl $108, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $102, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $105, %edi
-	movl (%esi, %edi, 4), %ebx
-	addl %ebx, %eax
-	movl $106, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $106, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
-	movl $107, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $101, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $107, %edi
-	movl (%esi, %edi, 4), %ebx
-	addl %ebx, %eax
 	movl $108, %edi
-	movl %eax, (%esi, %edi, 4)
+	movl (%esi, %edi, 4), %ebx
+	addl %ebx, %eax
 	movl $109, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $110, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $92, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $110, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $111, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $91, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $109, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $110, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $90, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $110, %edi
+	movl $111, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $111, %edi
+	movl $112, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $108, %edi
+	movl $109, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $111, %edi
+	movl $112, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
 	movl 8(%ebp), %eax
@@ -877,44 +880,44 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $113, %edi
+	movl $114, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $114, %edi
+	movl $115, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $115, %edi
+	movl $116, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $115, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $116, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $117, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $114, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $115, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $116, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $113, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $116, %edi
+	movl $117, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $117, %edi
+	movl $118, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $117, %edi
+	movl $118, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $118, %edi
+	movl $119, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $118, %edi
+	movl $119, %edi
 	movl (%esi, %edi, 4), %eax
 	negl %eax
-	movl $119, %edi
+	movl $120, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $119, %edi
+	movl $120, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $112, %edi
+	movl $113, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl 8(%ebp), %eax
 	movl $6, %edi
@@ -922,116 +925,120 @@ _Expression.main:
 	movl $6, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $121, %edi
+	movl $122, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $122, %edi
+	movl $123, %edi
 	movl $2, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $123, %edi
+	movl $124, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $123, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $124, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $125, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $122, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $123, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $124, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $121, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $124, %edi
+	movl $125, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $125, %edi
+	movl $126, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $125, %edi
+	movl $126, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $126, %edi
+	movl $127, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $126, %edi
+	movl $127, %edi
 	movl (%esi, %edi, 4), %eax
 	notl %eax
-	movl $127, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $127, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $120, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $132, %edi
-	movl $3, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $132, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $128, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $128, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $121, %edi
+	movl %eax, (%esi, %edi, 4)
 	movl $133, %edi
-	movl $4, %eax
+	movl $3, %eax
 	movl %eax, (%esi, %edi, 4)
 	movl $133, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $129, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $134, %edi
-	movl $3, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $135, %edi
 	movl $4, %eax
 	movl %eax, (%esi, %edi, 4)
+	movl $134, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $130, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $135, %edi
+	movl $3, %eax
+	movl %eax, (%esi, %edi, 4)
 	movl $136, %edi
+	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $137, %edi
 	movl $7, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $136, %edi
+	movl $137, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $131, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $129, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $130, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $128, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $129, %edi
 	movl (%esi, %edi, 4), %ebx
 	imull %ebx, %eax
-	movl $137, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $137, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $130, %edi
+	movl $138, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $138, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $131, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $139, %edi
 	movl $5, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $130, %edi
+	movl $131, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $138, %edi
+	movl $139, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl $0, %edx
 	divl %ebx
-	movl $139, %edi
+	movl $140, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $139, %edi
+	movl $140, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $131, %edi
+	movl $132, %edi
 	movl %eax, (%esi, %edi, 4)
 
 	.global _Function.funcTest
 _Function.funcTest:
 	pushl %ebp
 	movl %esp, %ebp
-	movl $140, %edi
-	movl $1, %eax
+	movl $141, %edi
+	leal _STRING9, %eax
 	movl %eax, (%esi, %edi, 4)
+	movl $141, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintString
 	movl 8(%ebp), %eax
 	movl $8, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $140, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $8, %edi
-	movl %eax, (%esi, %edi, 4)
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
 	movl $8, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
+	call _PrintInt
 	movl 8(%ebp), %eax
 	movl $8, %edi
 	movl %eax, (%esi, %edi, 4)
@@ -1047,10 +1054,10 @@ _Function.funcTest:
 _Function.errorRetType:
 	pushl %ebp
 	movl %esp, %ebp
-	movl $141, %edi
+	movl $142, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $141, %edi
+	movl $142, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
 	ret
@@ -1060,140 +1067,140 @@ _Statement.stmt2:
 	pushl %ebp
 	movl %esp, %ebp
 _L23:
-	movl $143, %edi
+	movl $144, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $143, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $144, %edi
 	movl (%esi, %edi, 4), %ebx
 	cmpl %ebx, %eax
 	setg %al
 	movzbl %al, %eax
-	movl $144, %edi
+	movl $145, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $144, %edi
+	movl $145, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
 	je _L24
-	movl $146, %edi
+	movl $147, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $146, %edi
+	movl $147, %edi
 	movl (%esi, %edi, 4), %ebx
 	subl %ebx, %eax
-	movl $147, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $147, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $142, %edi
+	movl $148, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $148, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $143, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $149, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $148, %edi
+	movl $149, %edi
 	movl (%esi, %edi, 4), %ebx
 	subl %ebx, %eax
-	movl $149, %edi
+	movl $150, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $149, %edi
+	movl $150, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $145, %edi
+	movl $146, %edi
 	movl %eax, (%esi, %edi, 4)
 	jmp _L23
 _L24:
 _L25:
-	movl $150, %edi
+	movl $151, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $150, %edi
+	movl $151, %edi
 	movl (%esi, %edi, 4), %ebx
 	cmpl %ebx, %eax
 	setl %al
 	movzbl %al, %eax
-	movl $151, %edi
+	movl $152, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $151, %edi
+	movl $152, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
 	je _L26
-	movl $153, %edi
+	movl $154, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $152, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $153, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $154, %edi
 	movl (%esi, %edi, 4), %ebx
 	subl %ebx, %eax
-	movl $154, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $154, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $152, %edi
+	movl $155, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $155, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $153, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $156, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $155, %edi
+	movl $156, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $156, %edi
+	movl $157, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $156, %edi
+	movl $157, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $142, %edi
+	movl $143, %edi
 	movl %eax, (%esi, %edi, 4)
 	jmp _L25
 _L26:
-	movl $157, %edi
+	movl $158, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $157, %edi
+	movl $158, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $142, %edi
+	movl $143, %edi
 	movl %eax, (%esi, %edi, 4)
 	jmp _L27
 _L28:
-	movl $158, %edi
+	movl $159, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $158, %edi
+	movl $159, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $159, %edi
+	movl $160, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $159, %edi
+	movl $160, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $142, %edi
+	movl $143, %edi
 	movl %eax, (%esi, %edi, 4)
 _L27:
-	movl $160, %edi
+	movl $161, %edi
 	movl $10, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $160, %edi
+	movl $161, %edi
 	movl (%esi, %edi, 4), %ebx
 	cmpl %ebx, %eax
 	setl %al
 	movzbl %al, %eax
-	movl $161, %edi
+	movl $162, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $161, %edi
+	movl $162, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
 	je _L29
-	movl $142, %edi
+	movl $143, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
 	call _PrintInt
@@ -1210,74 +1217,74 @@ _Variable.varTest:
 	movl $12, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $162, %edi
+	movl $163, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $12, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $163, %edi
+	movl $164, %edi
 	movl $5, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $164, %edi
+	movl $165, %edi
 	movl $4, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $164, %edi
+	movl $165, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $163, %edi
+	movl $164, %edi
 	movl (%esi, %edi, 4), %ebx
 	imull %ebx, %eax
-	movl $165, %edi
+	movl $166, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $164, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $165, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $166, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $166, %edi
+	movl $167, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $166, %edi
+	movl $167, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
 	call malloc
-	movl $167, %edi
+	movl $168, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $163, %edi
+	movl $164, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $167, %edi
+	movl $168, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
-	movl $168, %edi
+	movl $169, %edi
 	movl $0, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $167, %edi
+	movl $168, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $166, %edi
+	movl $167, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $167, %edi
+	movl $168, %edi
 	movl %eax, (%esi, %edi, 4)
 _L30:
-	movl $166, %edi
+	movl $167, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $164, %edi
+	movl $165, %edi
 	movl (%esi, %edi, 4), %ebx
 	subl %ebx, %eax
-	movl $166, %edi
+	movl $167, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $166, %edi
+	movl $167, %edi
 	movl (%esi, %edi, 4), %eax
 	testl %eax, %eax
 	je _L31
-	movl $167, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $164, %edi
-	movl (%esi, %edi, 4), %ebx
-	subl %ebx, %eax
-	movl $167, %edi
-	movl %eax, (%esi, %edi, 4)
 	movl $168, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $167, %edi
+	movl $165, %edi
+	movl (%esi, %edi, 4), %ebx
+	subl %ebx, %eax
+	movl $168, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $169, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $168, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl %eax, 0(%ebx)
 	jmp _L30
@@ -1285,7 +1292,7 @@ _L31:
 	movl 8(%ebp), %eax
 	movl $12, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $167, %edi
+	movl $168, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $12, %edi
 	movl (%esi, %edi, 4), %ebx
@@ -1299,62 +1306,62 @@ _L31:
 	movl $12, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 4(%ebx), %eax
-	movl $169, %edi
+	movl $170, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $12, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, 8(%ebp)
-	movl $170, %edi
+	movl $171, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $171, %edi
+	movl $172, %edi
 	movl $4, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $170, %edi
-	movl (%esi, %edi, 4), %eax
 	movl $171, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $172, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $169, %edi
 	movl (%esi, %edi, 4), %eax
 	movl $172, %edi
 	movl (%esi, %edi, 4), %ebx
-	addl %ebx, %eax
+	imull %ebx, %eax
 	movl $173, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $170, %edi
+	movl (%esi, %edi, 4), %eax
 	movl $173, %edi
 	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
+	addl %ebx, %eax
 	movl $174, %edi
 	movl %eax, (%esi, %edi, 4)
+	movl $174, %edi
+	movl (%esi, %edi, 4), %ebx
+	movl 0(%ebx), %eax
 	movl $175, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $176, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $176, %edi
+	movl $177, %edi
 	movl $4, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $176, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $177, %edi
+	movl (%esi, %edi, 4), %ebx
+	imull %ebx, %eax
+	movl $178, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $175, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $176, %edi
-	movl (%esi, %edi, 4), %ebx
-	imull %ebx, %eax
-	movl $177, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $174, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $177, %edi
+	movl $178, %edi
 	movl (%esi, %edi, 4), %ebx
 	addl %ebx, %eax
-	movl $178, %edi
+	movl $179, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $178, %edi
+	movl $179, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $179, %edi
+	movl $180, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $179, %edi
+	movl $180, %edi
 	movl (%esi, %edi, 4), %eax
 	leave
 	ret
@@ -1366,100 +1373,100 @@ main:
 	pushl $4000       # 4000/4 = 1000 fake registers
 	call malloc
 	movl %eax, %esi   # store registers base into %esi
-	movl $181, %edi
+	movl $182, %edi
 	movl $1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $181, %edi
+	movl $182, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $180, %edi
+	movl $181, %edi
 	movl %eax, (%esi, %edi, 4)
 	call _Mac_New
-	movl $183, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $183, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $182, %edi
+	movl $184, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $184, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $183, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $185, %edi
 	movl $2, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $184, %edi
+	movl $185, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $182, %edi
+	movl $183, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $182, %edi
+	movl $183, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $185, %edi
+	movl $186, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $185, %edi
+	movl $186, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 8(%ebx), %eax
-	movl $186, %edi
+	movl $187, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $186, %edi
+	movl $187, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, %edi
 	call *%edi
-	movl $187, %edi
+	movl $188, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $182, %edi
+	movl $183, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $182, %edi
+	movl $183, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $188, %edi
+	movl $189, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $188, %edi
+	movl $189, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 12(%ebx), %eax
-	movl $189, %edi
+	movl $190, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $189, %edi
+	movl $190, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, %edi
 	call *%edi
 	call _Function_New
-	movl $191, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $191, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $190, %edi
+	movl $192, %edi
 	movl %eax, (%esi, %edi, 4)
 	movl $192, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $191, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $193, %edi
 	movl $3, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $180, %edi
+	movl $181, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $192, %edi
+	movl $193, %edi
 	movl (%esi, %edi, 4), %ebx
 	imull %ebx, %eax
-	movl $193, %edi
+	movl $194, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $193, %edi
+	movl $194, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $190, %edi
+	movl $191, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $190, %edi
+	movl $191, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 0(%ebx), %eax
-	movl $194, %edi
+	movl $195, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $194, %edi
+	movl $195, %edi
 	movl (%esi, %edi, 4), %ebx
 	movl 12(%ebx), %eax
-	movl $195, %edi
+	movl $196, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $195, %edi
+	movl $196, %edi
 	movl (%esi, %edi, 4), %eax
 	movl %eax, %edi
 	call *%edi
-	movl $196, %edi
+	movl $197, %edi
 	movl %eax, (%esi, %edi, 4)
 	leave
 	pushl $0
@@ -1471,8 +1478,12 @@ _STRING0:
 	.string "Computer"
 _STRING3:
 	.string "Expression"
+_STRING9:
+	.string "FuncTest:"
 _STRING4:
 	.string "Function"
+_STRING8:
+	.string "Hello Mac!"
 _STRING1:
 	.string "Mac"
 _STRING7:
@@ -1483,8 +1494,6 @@ _STRING5:
 	.string "Statement"
 _STRING6:
 	.string "Variable"
-_STRING8:
-	.string "ack!"
 intFormat:
 	.string "%d\n"
 trues:

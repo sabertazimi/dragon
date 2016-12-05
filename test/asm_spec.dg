@@ -20,7 +20,8 @@ class Mac extends Computer {
         mouse = cpu;
         // inherits from super
         this.cpu = numTimes;
-        Print("ack!");
+        Print("Hello Mac!");
+        Print(this.cpu);
         return numTimes + 1;
     };
 }
@@ -63,7 +64,7 @@ class Function {
     int addr;
 
     int funcTest = (int addr) => {
-        addr = 1;
+        Print("FuncTest:", addr);
         return addr;
     };
 

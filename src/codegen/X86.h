@@ -11,6 +11,7 @@
 #ifndef X86_H
 #define X86_H
 
+#include <climits>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -284,7 +285,7 @@ public:
 
     /// \brief read out from stack actuals
     virtual void emitAsmForParams(Tac *tac) {
-        if (tac->op0 && tac->op0->isParam) {
+        if (tac->op0 && tac->op0->isParam && tac->op0->offset != INT_MAX) {
             // get actual
             emit("", string("movl ") + tac->op0->offset + "(%ebp), %eax");
 
@@ -293,7 +294,7 @@ public:
             emit("", "movl %eax, (%esi, %edi, 4)");
         }
 
-        if (tac->op1 && tac->op1->isParam) {
+        if (tac->op1 && tac->op1->isParam && tac->op1->offset != INT_MAX) {
             // get actual
             emit("", string("movl ") + tac->op1->offset + "(%ebp), %eax");
 
@@ -302,7 +303,7 @@ public:
             emit("", "movl %eax, (%esi, %edi, 4)");
         }
 
-        if (tac->op2 && tac->op2->isParam) {
+        if (tac->op2 && tac->op2->isParam && tac->op2->offset != INT_MAX) {
             // get actual
             emit("", string("movl ") + tac->op2->offset + "(%ebp), %eax");
 
@@ -314,7 +315,7 @@ public:
 
     /// \brief write back to stack actuals
     virtual void emitAsmForActuals(Tac *tac) {
-        if (tac->op0 && tac->op0->isParam) {
+        if (tac->op0 && tac->op0->isParam && tac->op0->offset != INT_MAX) {
             // get reg value
             emit("", string("movl $") + tac->op0->id + string(", %edi"));
             emit("", "movl (%esi, %edi, 4), %eax");
@@ -323,7 +324,7 @@ public:
             emit("", string("movl %eax, ") + tac->op0->offset + "(%ebp)");
         }
 
-        if (tac->op1 && tac->op1->isParam) {
+        if (tac->op1 && tac->op1->isParam && tac->op1->offset != INT_MAX) {
             // get reg value
             emit("", string("movl $") + tac->op1->id + string(", %edi"));
             emit("", "movl (%esi, %edi, 4), %eax");
@@ -332,7 +333,7 @@ public:
             emit("", string("movl %eax, ") + tac->op1->offset + "(%ebp)");
         }
 
-        if (tac->op2 && tac->op2->isParam) {
+        if (tac->op2 && tac->op2->isParam && tac->op2->offset != INT_MAX) {
             // get reg value
             emit("", string("movl $") + tac->op2->id + string(", %edi"));
             emit("", "movl (%esi, %edi, 4), %eax");

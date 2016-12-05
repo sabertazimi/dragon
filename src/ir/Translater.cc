@@ -336,23 +336,16 @@ Temp *Translater::emitNewArray(Temp *length) {
     // limit address
     append(Tac::emitAdd(obj, obj, size));
 
-    // M -> epsilon
     emitMark(loop);
-
     // size--
     append(Tac::emitSub(size, size, unit));
-
     // condition
     emitBeqz(size, exit);
-
     // obj--
     append(Tac::emitSub(obj, obj, unit));
-
     // set to zero
     emitStore(zero, obj, 0);
     emitJmp(loop);
-
-    // M -> epsilon
     emitMark(exit);
 
     return obj;
@@ -368,7 +361,6 @@ void Translater::emitNewForClass(Class *c) {
         // bind functy to symbol
         c->newFuncLabel = currentFuncty->label;
 
-        // M -> epsilon
         emitMark(currentFuncty->label);
 
         // call allocation
@@ -389,7 +381,7 @@ void Translater::emitNewForClass(Class *c) {
 
         // store vtable reference at offset[0]
         emitStore(emitLoadVTable(c->vtable), newObj, 0);
-
+        // return 'this' pointer
         emitReturn(newObj);
 
         endFunc();
@@ -498,8 +490,6 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
     // set 'this' offset
     v->offset = oc->next(POINTER_SIZE);
     t->offset = v->offset;
-
-    cout << ft->label->name << ": " << t->offset << endl;
 
     int order = 1;
     for (int i = 0; i < funcDef->formals->size(); i++) {

@@ -106,13 +106,8 @@ class Temp {
 
         static Temp *createConstTemp(int value);
 
-        virtual bool isOffsetFixed(void);
-
         /// \brief @Override
         virtual bool equals(Temp *temp);
-
-        /// \brief @Override
-        virtual int hashCode(void);
 
         /// \brief @Override
         virtual string toString(void);
@@ -135,15 +130,6 @@ class Functy {
         /// \param tail search region
         /// \return constant assign tac related to target temp
         virtual Tac *search(Temp *src, Tac *tail);
-
-        /// \brief get all params' regs id on call tac
-        /// \return vector contains all regs id
-        vector <int> *getActualRegs(void);
-
-        /// \brief search all actuals' regs id on call tac
-        /// \param call target tac
-        /// \return vector contains all regs id
-        vector <int> *getActualRegs(Tac *call);
 };
 
 class VTable {

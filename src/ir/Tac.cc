@@ -76,19 +76,9 @@ Temp *Temp::createConstTemp(int value) {
     }
 }
 
-bool Temp::isOffsetFixed(void) {
-    return offset != INT_MAX;
-}
-
 /// \brief @Override
-/// @FIXME
 bool Temp::equals(Temp *temp) {
     return temp ? id == temp->id : 0;
-}
-
-/// \brief @Override
-int Temp::hashCode(void) {
-    return id;
 }
 
 /// \brief @Override
@@ -129,32 +119,6 @@ Tac *Functy::search(Temp *src, Tac *tail) {
     }
 
     return 0;
-}
-
-vector <int> *Functy::getActualRegs(Tac *call) {
-    if (actualRegs != 0) {
-        delete actualRegs;
-    }
-
-    Tac *trav = call->prev;
-    int numParams = 0;
-    actualRegs = new vector<int>();
-
-    while (trav != 0 && numParams < ((FuncType *)this->sym->type)->numOfParams()) {
-
-        // found param tac
-        if (trav->opc == TAC_PARM) {
-            numParams++;
-            actualRegs->push_back(trav->op0->id);
-        }
-
-        trav = trav->prev;
-    }
-
-    // make order of actualRegs comptible to that of paramRegs
-    reverse(actualRegs->begin(), actualRegs->end());
-
-    return actualRegs;
 }
 
 VTable::VTable(void) {
