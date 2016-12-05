@@ -257,7 +257,7 @@ public:
 
             switch (tac->opc) {
                 case TAC_LOAD_VTBL:
-                    emit("", "movl " + tac->vt->name + ", %eax");
+                    emit("", "leal " + tac->vt->name + ", %eax");
 				    break;
 			    case TAC_LOAD_IMM4:
                     emit("", string("movl $") + tac->op1->value + string(", %eax"));
@@ -366,7 +366,8 @@ public:
 		} else {
             emit("", string("movl $") + call->op1->id + string(", %edi"));   // reg id
             emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
-            emit("", "call *%eax");
+            emit("", "movl %eax, %edi");
+            emit("", "call *%edi");
 		}
 
         // emit("", "popl %esi");

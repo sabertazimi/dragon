@@ -106,6 +106,7 @@ class Variable {
 class Main {
     void main = (void) => {
         int a;
+        a = 1;
         class Mac powerbook;
         powerbook = new Mac();
         powerbook.crash(2);
