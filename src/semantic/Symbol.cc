@@ -198,16 +198,18 @@ void Class::resolveFieldOrder(void) {
         } else {
             // function field
             if (ps == 0) {
+                // no parent class
                 sym->order = numFunc++;
             } else {
                 // resolve inheritance
                 Symbol *s = ps->lookupVisible(sym->name);
 
-                // resolve method overwrite
                 if (s == 0) {
+                    // no parent method
                     sym->order = numFunc++;
                 } else {
-                    // inherites from parent class
+                    // resolve method overwrite
+                    // inherites(overwrite) from parent class
                     sym->order = s->order;
                 }
             }

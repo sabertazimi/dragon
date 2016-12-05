@@ -186,6 +186,21 @@ solution: block scope
 *   OO(3 points)
 *   call/field ref/ident ref(receiver.member)(member)
 
+### virtual function
+
+```java
+Computer pc;
+pc = new Mac();
+// ir visitAssign 会将 right temp 送入 ident symbol temp(bind in TransPass1)
+
+pc.crash();
+// ir visitCallExpr 会利用 pc symbol temp('this' store mac vtable address in offset 0) 得到 vtable, 并利用 crash 偏移量进行查表
+// 得到函数实际地址送入 %edi, call *%edi
+// 其中, 在 Symbol.resolveOrder 中, 当子类继承父类方法(无论 overwrite 与否)时, 会覆写到子类 vtable 对应位置(若进行了重写(即父/子均有此方法), 则该处存放重写后方法的实际地址)
+```
+
+ir createVTable, 先将父类方法写入, 再将子类方法写入, 此时若重写, 则自然而然的将子类方法地址覆盖了父类方法地址
+
 ## Reference
 
 *   Text Book
