@@ -187,9 +187,12 @@ Tac::Tac(tacKind opc, Temp *op0, Temp *op1, Temp *op2) {
     this->op2 = op2;
 }
 
-/// \brief create Tac:
+/// \brief create Tac: stringConst
 Tac::Tac(tacKind opc, string str) {
     this->opc = opc;
+    this->op0 = 0;
+    this->op1 = 0;
+    this->op2 = 0;
     this->str = str;
 }
 
@@ -197,26 +200,35 @@ Tac::Tac(tacKind opc, string str) {
 Tac::Tac(tacKind opc, Temp *op0, string str) {
     this->opc = opc;
     this->op0 = op0;
+    this->op1 = 0;
+    this->op2 = 0;
     this->str = str;
 }
 
-/// \brief create Tac:
+/// \brief create Tac: LOAD_VTBL
 Tac::Tac(tacKind opc, Temp *op0, VTable *vt) {
     this->opc = opc;
     this->op0 = op0;
+    this->op1 = 0;
+    this->op2 = 0;
     this->vt = vt;
 }
 
-/// \brief create Tac:
+/// \brief create Tac: jmp/mark
 Tac::Tac(tacKind opc, Label *label) {
     this->opc = opc;
+    this->op0 = 0;
+    this->op1 = 0;
+    this->op2 = 0;
     this->label = label;
 }
 
-/// \brief create Tac:
+/// \brief create Tac: beqz/bnez
 Tac::Tac(tacKind opc, Temp *op0, Label *label) {
     this->opc = opc;
     this->op0 = op0;
+    this->op1 = 0;
+    this->op2 = 0;
     this->label = label;
 }
 

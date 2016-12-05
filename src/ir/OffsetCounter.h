@@ -12,9 +12,9 @@
 #define IR_OFFSET_H
 
 typedef enum __oskind__ {
-    OS_LOCAL,
-    OS_PARAM,
-    OS_MEMBER
+    OS_LOCAL = 0,
+    OS_PARAM = 1,
+    OS_MEMBER = 2
 } osKind;
 
 typedef enum __ossize__ {

@@ -158,14 +158,13 @@ class VTable {
 class Tac {
     public:
         tacKind opc;
-        bool mark;
         Tac *prev;
         Tac *next;
         Temp *op0;
         Temp *op1;
         Temp *op2;
-        Label *label;
-        VTable *vt;
+        Label *label;   ///< for jmp/mark
+        VTable *vt;     ///< for LOAD VTBL
         string str;     ///< for emitStringConst
 
         /// \brief create Tac:

@@ -12,8 +12,8 @@
 
 ///< initial value for different scope
 const static int initValue[] = {
-    -2 * WORD_SIZE,     ///< stack frame
-    WORD_SIZE,
+    -2 * WORD_SIZE,     ///< stack frame down
+    2 * WORD_SIZE,      ///< stack frame up
     POINTER_SIZE        ///< this pointer, pointing to virtaul function table of class
 };
 

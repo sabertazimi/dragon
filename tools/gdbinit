@@ -1,2 +1,1 @@
-b X86::emitBeginFunc
-r test/ir_spec.dg
+r test/asm_spec.dg

@@ -12,6 +12,7 @@
 #define X86_H
 
 #include <iostream>
+#include <vector>
 #include <map>
 #include "libs/List.h"
 #include "libs/StringUtils.h"
@@ -24,6 +25,7 @@ using namespace std;
 class X86 {
 public:
 	map <string, string> *stringConst;   ///< string to label
+    Translater *tr;
 	AstPrinter *ap;
 
     X86(AstPrinter *ap) {
@@ -44,11 +46,16 @@ public:
 	}
 
 	virtual void emitAsm(Translater *tr) {
+        // decorator pattern
+        this->tr = tr;
+
         emitVTables(tr->vtables);
         ap->print("");
+
         emit("", ".text");
         emitFuncs(tr->funcs);
 		ap->print("");
+
 		emitStringConst();
         emitLibFunction();
 	}
@@ -275,8 +282,71 @@ public:
             emit("", "movl %eax, (%esi, %edi, 4)");
     }
 
+    /// \brief read out from stack actuals
+    virtual void emitAsmForParams(Tac *tac) {
+        if (tac->op0 && tac->op0->isParam) {
+            // get actual
+            emit("", string("movl ") + tac->op0->offset + "(%ebp), %eax");
+
+            // move to param regs
+            emit("", string("movl $") + tac->op0->id + string(", %edi"));
+            emit("", "movl %eax, (%esi, %edi, 4)");
+        }
+
+        if (tac->op1 && tac->op1->isParam) {
+            // get actual
+            emit("", string("movl ") + tac->op1->offset + "(%ebp), %eax");
+
+            // move to param regs
+            emit("", string("movl $") + tac->op1->id + string(", %edi"));
+            emit("", "movl %eax, (%esi, %edi, 4)");
+        }
+
+        if (tac->op2 && tac->op2->isParam) {
+            // get actual
+            emit("", string("movl ") + tac->op2->offset + "(%ebp), %eax");
+
+            // move to param regs
+            emit("", string("movl $") + tac->op2->id + string(", %edi"));
+            emit("", "movl %eax, (%esi, %edi, 4)");
+        }
+    }
+
+    /// \brief write back to stack actuals
+    virtual void emitAsmForActuals(Tac *tac) {
+        if (tac->op0 && tac->op0->isParam) {
+            // get reg value
+            emit("", string("movl $") + tac->op0->id + string(", %edi"));
+            emit("", "movl (%esi, %edi, 4), %eax");
+
+            // write back
+            emit("", string("movl %eax, ") + tac->op0->offset + "(%ebp)");
+        }
+
+        if (tac->op1 && tac->op1->isParam) {
+            // get reg value
+            emit("", string("movl $") + tac->op1->id + string(", %edi"));
+            emit("", "movl (%esi, %edi, 4), %eax");
+
+            // write back
+            emit("", string("movl %eax, ") + tac->op1->offset + "(%ebp)");
+        }
+
+        if (tac->op2 && tac->op2->isParam) {
+            // get reg value
+            emit("", string("movl $") + tac->op2->id + string(", %edi"));
+            emit("", "movl (%esi, %edi, 4), %eax");
+
+            // write back
+            emit("", string("movl %eax, ") + tac->op2->offset + "(%ebp)");
+        }
+    }
+
 	virtual void emitAsmForFuncty(Functy *ft) {
 		for (Tac *tac = ft->head->next; tac != 0; tac = tac->next) {
+            // get actual from stack, move to param regs
+            emitAsmForParams(tac);
+
 			switch (tac->opc) {
                 case TAC_ADD:
 			    case TAC_SUB:
@@ -310,7 +380,7 @@ public:
 				    break;
 			    case TAC_INDIRECT_CALL:
 			    case TAC_DIRECT_CALL:
-				    emitAsmForCall(ft, tac);
+				    emitAsmForCall(tac);
 				    break;
 			    case TAC_LOAD:
                     emit("", string("movl $") + tac->op1->id + ", %edi");
@@ -355,22 +425,50 @@ public:
                     emit("", "ret");
 				    break;
             }
-		}
-	}
 
-	virtual void emitAsmForCall(Functy *ft, Tac *call) {
-        // emit("", "pushl %esi");
+            // write back to stack actuals
+            emitAsmForActuals(tac);
+        }
+    }
 
+	virtual void emitAsmForCall(Tac *call) {
+        // call
 		if (call->opc == TAC_DIRECT_CALL) {
             emit("", "call " + call->label->name);
 		} else {
+            /* // bind actualRegs to paramRegs */
+            /* for (int i = 0; i < tr->funcs->size(); i++) { */
+            /*     Functy *ft = (*(tr->funcs))[i]; */
+
+            /*     // found function to call */
+            /*     if (ft->label->name == call->label->name) { */
+            /*         // bind regs */
+            /*         vector <int> *pRegs = ft->paramRegs; */
+            /*         vector <int> *aRegs = ft->getActualRegs(call); */
+
+            /*         cout << "Functy: " << ft->label->name << endl; */
+            /*         for (int i = 0; i < (int)pRegs->size() && i < (int)aRegs->size(); i++) { */
+            /*             cout << "pRegs" << i << ": " << (*pRegs)[i] << endl; */
+            /*             cout << "aRegs" << i << ": " << (*aRegs)[i] << endl; */
+            /*         } */
+
+            /*         for (int i = 0; i < (int)pRegs->size() && i < (int)aRegs->size(); i++) { */
+            /*             emit("", string("movl $") + (*aRegs)[i] + string(", %edi"));   // actual reg id */
+            /*             emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax */
+            /*             emit("", string("movl $") + (*pRegs)[i] + string(", %edi"));   // param reg id */
+            /*             emit("", "movl %eax, (%esi, %edi, 4)"); */
+            /*         } */
+
+            /*         break; */
+            /*     } */
+            /* } */
+
+            // method call
             emit("", string("movl $") + call->op1->id + string(", %edi"));   // reg id
             emit("", "movl (%esi, %edi, 4), %eax");    // reg[id] => eax
             emit("", "movl %eax, %edi");
             emit("", "call *%edi");
 		}
-
-        // emit("", "popl %esi");
 
         // return value
 		if (call->op0 != 0) {

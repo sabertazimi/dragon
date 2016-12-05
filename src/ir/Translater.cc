@@ -10,6 +10,8 @@
 
 #include "Translater.h"
 
+using namespace std;
+
 Translater::Translater(void) {
     vtables = new List<VTable *>();
     funcs = new List<Functy *>();
@@ -497,6 +499,8 @@ void TransPass1::visitFuncDef(FuncDef *funcDef) {
     v->offset = oc->next(POINTER_SIZE);
     t->offset = v->offset;
 
+    cout << ft->label->name << ": " << t->offset << endl;
+
     int order = 1;
     for (int i = 0; i < funcDef->formals->size(); i++) {
         VarDef *vd = (*(funcDef->formals))[i];
@@ -859,14 +863,15 @@ void TransPass2::visitCallExpr(CallExpr *callExpr) {
         expr->accept(this);
     }
 
+    // push param from right to left
+    for (int i = callExpr->actuals->size() - 1; i > -1; i--) {
+        Expr *expr = (*(callExpr->actuals))[i];
+        tr->emitParm(expr->val);
+    }
+
     // push 'this' into call stack
     if (callExpr->receiver != 0) {
         tr->emitParm(callExpr->receiver->val);
-    }
-
-    for (int i = 0; i < callExpr->actuals->size(); i++) {
-        Expr *expr = (*(callExpr->actuals))[i];
-        tr->emitParm(expr->val);
     }
 
     // in semantic analysis, all methods invoking already bind to this(including implicit this)/class variable
