@@ -3,7 +3,7 @@ var classTranslater =
     [ "Translater", "classTranslater.html#a26fa6025c99e3565d47befc2d5520a2a", null ],
     [ "append", "classTranslater.html#aba9bd8a1d634e967edb5eb76cc739a62", null ],
     [ "beginFunc", "classTranslater.html#ab962347e655d6c710e099ec8d24e30b5", null ],
-    [ "createFuncty", "classTranslater.html#a396e74401775b18582a8b0cc349df708", null ],
+    [ "createFuncty", "classTranslater.html#a90ce203a7da9495203dc34e11525f2d1", null ],
     [ "createVTable", "classTranslater.html#adfafbf6d61310aeac6ebd8b743bd3e0b", null ],
     [ "emitAdd", "classTranslater.html#abbbd5760bbcdb725ef47a3e588344b80", null ],
     [ "emitAssign", "classTranslater.html#ae43fd3765135c94168ab07c124a5c7ff", null ],

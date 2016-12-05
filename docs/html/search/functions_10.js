@@ -1,7 +1,28 @@
 var searchData=
 [
-  ['tac',['Tac',['../classTac.html#abe1c49ff7eadb30375c48a1c92eeb563',1,'Tac::Tac(tacKind opc, Temp *op0)'],['../classTac.html#a244568d56b08eca0295ea05ed5113d6e',1,'Tac::Tac(tacKind opc, Temp *op0, Temp *op1)'],['../classTac.html#ab76cd51755994713a73b40b6887986b4',1,'Tac::Tac(tacKind opc, Temp *op0, Temp *op1, Temp *op2)'],['../classTac.html#af39b4cc32781ba4fd73f5ace1b050689',1,'Tac::Tac(tacKind opc, string str)'],['../classTac.html#a685d38557901307920214b77bea70fca',1,'Tac::Tac(tacKind opc, Temp *op0, string str)'],['../classTac.html#a44a026cb55ba779f74c040246205bd89',1,'Tac::Tac(tacKind opc, Temp *op0, VTable *vt)'],['../classTac.html#a9a63b00f00e99ca88abe5da4773d14da',1,'Tac::Tac(tacKind opc, Label *label)'],['../classTac.html#ae64943e929c43aac0493b9eb310c9ce4',1,'Tac::Tac(tacKind opc, Temp *op0, Label *label)']]],
-  ['tostring',['toString',['../classLabel.html#a59d1213a974a219c99cc36c81a28172e',1,'Label::toString()'],['../classTemp.html#a011e34baac4ef36c855a72be8fc2b50e',1,'Temp::toString()'],['../classSymbol.html#a399a9b995f3c8ab08f2c8be2791f5f31',1,'Symbol::toString()'],['../classVariable.html#a8e29083c5ff202e93e96e37c6cd6d65b',1,'Variable::toString()'],['../classFunction.html#ae89dd5bb5e618ea51a10797693795478',1,'Function::toString()'],['../classClass.html#a3d0fb1e6f2ee586579709dbcb24c231b',1,'Class::toString()'],['../classType.html#af410f572278c951646260c135e795ce7',1,'Type::toString()'],['../classBaseType.html#ac41076b76122a70d264fe66502e6f3fc',1,'BaseType::toString()'],['../classArrayType.html#a2970758663daaaaaa6eb34182c33d074',1,'ArrayType::toString()'],['../classFuncType.html#a98533ec9cc8f6be708cf4e464b7f04b2',1,'FuncType::toString()'],['../classClassType.html#a857fbe2711b01e582a4bdaefb82199c9',1,'ClassType::toString()']]],
-  ['type',['Type',['../classType.html#a25a40c9a2e151aee1971450128a8f0c3',1,'Type']]],
-  ['typecheck',['TypeCheck',['../classTypeCheck.html#a3481b63c0f9b338df1e5ebbead79f58f',1,'TypeCheck']]]
+  ['visitassign',['visitAssign',['../classTransPass2.html#a0f794c346de740491ce5042a08a7f1a7',1,'TransPass2']]],
+  ['visitbinary',['visitBinary',['../classTransPass2.html#a1db5d8ebbd42773739c8789c4a7b2b03',1,'TransPass2']]],
+  ['visitblock',['visitBlock',['../classTransPass2.html#a17da318aee25d66ab1202cbefaf811c7',1,'TransPass2::visitBlock()'],['../classBuildSymbol.html#a2d50d97c9cfad7781480d0f4df4075cd',1,'BuildSymbol::visitBlock()']]],
+  ['visitcallexpr',['visitCallExpr',['../classTransPass2.html#a949425f37da42a404cb915c7d62299a1',1,'TransPass2']]],
+  ['visitclassdef',['visitClassDef',['../classTransPass1.html#a278c78bc2fbffdfe4ab6a90124c51e1e',1,'TransPass1::visitClassDef()'],['../classTransPass2.html#a983452655ed7c2a4a1081efe63a0bb20',1,'TransPass2::visitClassDef()']]],
+  ['visitconstant',['visitConstant',['../classTransPass2.html#acab78bd6d1b1679dae9a7f1a7bfc8603',1,'TransPass2']]],
+  ['visitexec',['visitExec',['../classTransPass2.html#a69c05030d1045b6b1e6b133f0378f1ef',1,'TransPass2']]],
+  ['visitforloop',['visitForLoop',['../classTransPass2.html#a8c55a25e292e82109d3b93828b0b16a1',1,'TransPass2::visitForLoop()'],['../classBuildSymbol.html#a4e80924a5727ca342d063f50d402c6da',1,'BuildSymbol::visitForLoop()']]],
+  ['visitfuncdef',['visitFuncDef',['../classTransPass1.html#a1e939acfb3ab084fb605d9475ec646dd',1,'TransPass1::visitFuncDef()'],['../classTransPass2.html#ad398e943bb2ef65e728e1852969cc992',1,'TransPass2::visitFuncDef()']]],
+  ['visitident',['visitIdent',['../classTransPass2.html#a3c5d7e7dea634a912e809443a61c7098',1,'TransPass2']]],
+  ['visitif',['visitIf',['../classTransPass2.html#acdf168f902df593911ec3bce186c27c3',1,'TransPass2::visitIf()'],['../classBuildSymbol.html#a1adc9c3656a1c7ffa4fc1560bd0bbec2',1,'BuildSymbol::visitIf()']]],
+  ['visitindexed',['visitIndexed',['../classTransPass2.html#a53708637f67282d047484f07beb7cc79',1,'TransPass2']]],
+  ['visitnewarray',['visitNewArray',['../classTransPass2.html#a7d4fbf595aa829594dec4828723f8e24',1,'TransPass2']]],
+  ['visitnewclass',['visitNewClass',['../classTransPass2.html#af7f8db571467e04353abc5bfe60e9cf8',1,'TransPass2']]],
+  ['visitnode',['visitNode',['../classVisitor.html#a6643c2a0e1d7626e81bbc2b6921ab2cb',1,'Visitor']]],
+  ['visitnull',['visitNull',['../classTransPass2.html#ab5e44eee6dc2403877f37c842efec284',1,'TransPass2']]],
+  ['visitprint',['visitPrint',['../classTransPass2.html#adc4ebb774fab77f12c63e0590e844e9e',1,'TransPass2']]],
+  ['visitprogram',['visitProgram',['../classTransPass1.html#a5c7f11226c73dfa9995cd4a3eee09f40',1,'TransPass1::visitProgram()'],['../classTransPass2.html#a8360433138a07e204650c312ff5cd67a',1,'TransPass2::visitProgram()']]],
+  ['visitreadintexpr',['visitReadIntExpr',['../classTransPass2.html#aa0c015505bb8e25cc545f36a2296509a',1,'TransPass2']]],
+  ['visitreadlineexpr',['visitReadLineExpr',['../classTransPass2.html#ad331424269b24488d59ec7a5c8538aaa',1,'TransPass2']]],
+  ['visitreturn',['visitReturn',['../classTransPass2.html#a17235a563ba82e84ed7c40fad7bdc4a0',1,'TransPass2']]],
+  ['visitthisexpr',['visitThisExpr',['../classTransPass2.html#ac91b9d59e04e0ff447aa9087711b5529',1,'TransPass2']]],
+  ['visitunary',['visitUnary',['../classTransPass2.html#ae91cc57000ca55aa406f5d9607b24745',1,'TransPass2']]],
+  ['visitvardef',['visitVarDef',['../classTransPass1.html#ab15dff4e9fc50666649a65adf80c719a',1,'TransPass1::visitVarDef()'],['../classTransPass2.html#afaa2f783b52ab3d549422084b4c186af',1,'TransPass2::visitVarDef()']]],
+  ['visitwhileloop',['visitWhileLoop',['../classTransPass2.html#a118b48f32ba98d6b603fdc4efeb8ce01',1,'TransPass2::visitWhileLoop()'],['../classBuildSymbol.html#ae841f2d144cf6c86e8242a282b7220e0',1,'BuildSymbol::visitWhileLoop()']]]
 ];

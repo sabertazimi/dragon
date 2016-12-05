@@ -77,5 +77,6 @@ var hierarchy =
       [ "TypeCheck", "classTypeCheck.html", null ]
     ] ],
     [ "VTable", "classVTable.html", null ],
+    [ "X86", "classX86.html", null ],
     [ "yyltype", "structyyltype.html", null ]
 ];

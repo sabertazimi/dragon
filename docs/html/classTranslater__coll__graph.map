@@ -1,20 +1,20 @@
 <map id="Translater" name="Translater">
-<area shape="rect" id="node2" href="$classFuncty.html" title="Functy" alt="" coords="411,576,474,603"/>
+<area shape="rect" id="node2" href="$classFuncty.html" title="Functy" alt="" coords="423,576,486,603"/>
 <area shape="rect" id="node12" href="$classFunction.html" title="Function" alt="" coords="315,665,387,692"/>
-<area shape="rect" id="node3" href="$classTac.html" title="Tac" alt="" coords="431,393,475,420"/>
-<area shape="rect" id="node11" href="$classLabel.html" title="Label" alt="" coords="412,485,465,512"/>
-<area shape="rect" id="node4" href="$classTemp.html" title="Temp" alt="" coords="529,273,583,300"/>
-<area shape="rect" id="node5" href="$classVariable.html" title="Variable" alt="" coords="461,184,531,211"/>
-<area shape="rect" id="node6" href="$classSymbol.html" title="Symbol" alt="" coords="391,95,457,121"/>
-<area shape="rect" id="node7" href="$structyyltype.html" title="store location information " alt="" coords="421,5,485,32"/>
-<area shape="rect" id="node15" href="$classNode.html" title="Node" alt="" coords="313,95,367,121"/>
-<area shape="rect" id="node8" href="$classType.html" title="Type" alt="" coords="284,5,335,32"/>
-<area shape="rect" id="node9" href="$classScope.html" title="scope interface " alt="" coords="71,5,129,32"/>
+<area shape="rect" id="node3" href="$classTac.html" title="Tac" alt="" coords="485,393,529,420"/>
+<area shape="rect" id="node11" href="$classLabel.html" title="Label" alt="" coords="463,485,516,512"/>
+<area shape="rect" id="node4" href="$classTemp.html" title="Temp" alt="" coords="387,273,442,300"/>
+<area shape="rect" id="node5" href="$classVariable.html" title="Variable" alt="" coords="376,184,445,211"/>
+<area shape="rect" id="node6" href="$classSymbol.html" title="Symbol" alt="" coords="369,95,436,121"/>
+<area shape="rect" id="node7" href="$structyyltype.html" title="store location information " alt="" coords="400,5,464,32"/>
+<area shape="rect" id="node15" href="$classNode.html" title="Node" alt="" coords="292,95,345,121"/>
+<area shape="rect" id="node8" href="$classType.html" title="Type" alt="" coords="263,5,313,32"/>
+<area shape="rect" id="node9" href="$classScope.html" title="scope interface " alt="" coords="61,5,120,32"/>
 <area shape="rect" id="node13" href="$classFormalScope.html" title="FormalScope" alt="" coords="208,755,307,781"/>
-<area shape="rect" id="node16" href="$classLocalScope.html" title="LocalScope" alt="" coords="55,95,145,121"/>
-<area shape="rect" id="node10" href="$classVTable.html" title="VTable" alt="" coords="377,273,439,300"/>
+<area shape="rect" id="node16" href="$classLocalScope.html" title="LocalScope" alt="" coords="45,95,136,121"/>
+<area shape="rect" id="node10" href="$classVTable.html" title="VTable" alt="" coords="475,273,538,300"/>
 <area shape="rect" id="node14" href="$classBlock.html" title="Block" alt="" coords="209,184,263,211"/>
-<area shape="rect" id="node17" href="$classList.html" title="List\&lt; Node * \&gt;" alt="" coords="183,95,289,121"/>
+<area shape="rect" id="node17" href="$classList.html" title="List\&lt; Node * \&gt;" alt="" coords="161,95,268,121"/>
 <area shape="rect" id="node18" href="$classList.html" title="List\&lt; Functy * \&gt;" alt="" coords="714,576,830,603"/>
 <area shape="rect" id="node19" href="$classList.html" title="List\&lt; VTable * \&gt;" alt="" coords="572,576,689,603"/>
 </map>

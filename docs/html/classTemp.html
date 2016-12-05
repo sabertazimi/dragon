@@ -122,15 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a915711b734fa90323d33f27a68599aa6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a915711b734fa90323d33f27a68599aa6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Temp</b> (int id, string name, int size, int offset)</td></tr>
 <tr class="separator:a915711b734fa90323d33f27a68599aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a702afb43ca48d61483a4a083f2fb292b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a702afb43ca48d61483a4a083f2fb292b"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isOffsetFixed</b> (void)</td></tr>
-<tr class="separator:a702afb43ca48d61483a4a083f2fb292b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef382d2b7bb49efb444bf29549bd4fa1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef382d2b7bb49efb444bf29549bd4fa1"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTemp.html#aef382d2b7bb49efb444bf29549bd4fa1">equals</a> (<a class="el" href="classTemp.html">Temp</a> *temp)</td></tr>
 <tr class="separator:aef382d2b7bb49efb444bf29549bd4fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae77dde301671f127525910df0d27b40c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae77dde301671f127525910df0d27b40c"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTemp.html#ae77dde301671f127525910df0d27b40c">hashCode</a> (void)</td></tr>
-<tr class="separator:ae77dde301671f127525910df0d27b40c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a011e34baac4ef36c855a72be8fc2b50e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a011e34baac4ef36c855a72be8fc2b50e"></a>
 virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTemp.html#a011e34baac4ef36c855a72be8fc2b50e">toString</a> (void)</td></tr>
 <tr class="separator:a011e34baac4ef36c855a72be8fc2b50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +135,7 @@ Static Public Member Functions</h2></td></tr>
 static <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>createTempI4</b> (void)</td></tr>
 <tr class="separator:a33985d9e7fb3d324dfa60aace3906923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ea8dd51074d340fff5f2765aa3fdaad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ea8dd51074d340fff5f2765aa3fdaad"></a>
-static <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>createConstTemp</b> (int value)</td></tr>
+static <a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>createConstTemp</b> (int <a class="el" href="classTemp.html#ac78dac0a5290fa1cfec55d7033cab738">value</a>)</td></tr>
 <tr class="separator:a2ea8dd51074d340fff5f2765aa3fdaad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -166,11 +160,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a29fa708516d210abf582d0b457210d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">whether is constant or not <br /></td></tr>
 <tr class="separator:a29fa708516d210abf582d0b457210d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac78dac0a5290fa1cfec55d7033cab738"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac78dac0a5290fa1cfec55d7033cab738"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTemp.html#ac78dac0a5290fa1cfec55d7033cab738">value</a></td></tr>
+<tr class="memdesc:ac78dac0a5290fa1cfec55d7033cab738"><td class="mdescLeft">&#160;</td><td class="mdescRight">for const temp <br /></td></tr>
 <tr class="separator:ac78dac0a5290fa1cfec55d7033cab738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62d66a3c941da910cd11aa89a2fd684b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62d66a3c941da910cd11aa89a2fd684b"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTemp.html#a62d66a3c941da910cd11aa89a2fd684b">isParam</a></td></tr>
-<tr class="memdesc:a62d66a3c941da910cd11aa89a2fd684b"><td class="mdescLeft">&#160;</td><td class="mdescRight">whether is parameter of function or not <br /></td></tr>
+<tr class="memdesc:a62d66a3c941da910cd11aa89a2fd684b"><td class="mdescLeft">&#160;</td><td class="mdescRight">whether is parameter of function or not, offset = (ebp+4, 8...) <br /></td></tr>
 <tr class="separator:a62d66a3c941da910cd11aa89a2fd684b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58dc7708bab4dbdd3052580f32bae331"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58dc7708bab4dbdd3052580f32bae331"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isLoaded</b></td></tr>
@@ -188,7 +183,7 @@ static map&lt; int, <a class="el" href="classTemp.html">Temp</a> * &gt; *&#160;<
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="Tac_8h_source.html#l00085">85</a> of file <a class="el" href="Tac_8h_source.html">Tac.h</a>.</p>
+<p>Definition at line <a class="el" href="Tac_8h_source.html#l00087">87</a> of file <a class="el" href="Tac_8h_source.html">Tac.h</a>.</p>
 </div><div class="dynheader">
 Collaboration diagram for Temp:</div>
 <div class="dyncontent">

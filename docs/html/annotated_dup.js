@@ -61,5 +61,6 @@ var annotated_dup =
     [ "Visitor", "classVisitor.html", "classVisitor" ],
     [ "VTable", "classVTable.html", "classVTable" ],
     [ "WhileLoop", "classWhileLoop.html", "classWhileLoop" ],
+    [ "X86", "classX86.html", "classX86" ],
     [ "yyltype", "structyyltype.html", "structyyltype" ]
 ];

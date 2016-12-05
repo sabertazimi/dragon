@@ -5,8 +5,6 @@ var classTemp =
     [ "createConstTemp", "classTemp.html#a2ea8dd51074d340fff5f2765aa3fdaad", null ],
     [ "createTempI4", "classTemp.html#a33985d9e7fb3d324dfa60aace3906923", null ],
     [ "equals", "classTemp.html#aef382d2b7bb49efb444bf29549bd4fa1", null ],
-    [ "hashCode", "classTemp.html#ae77dde301671f127525910df0d27b40c", null ],
-    [ "isOffsetFixed", "classTemp.html#a702afb43ca48d61483a4a083f2fb292b", null ],
     [ "toString", "classTemp.html#a011e34baac4ef36c855a72be8fc2b50e", null ],
     [ "constTempPool", "classTemp.html#aa8a6e6d67de57926af28779cef7aafb0", null ],
     [ "id", "classTemp.html#a9387a9f5932e532ffe6b6cfe3cd58117", null ],

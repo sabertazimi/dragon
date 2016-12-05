@@ -40,17 +40,13 @@ var classTac =
     [ "emitSub", "classTac.html#a2a51d0bd2200609754e55bdd43a5e9df", null ],
     [ "toString", "classTac.html#a75b1456e602d2cae66e3aba70b89ebe5", null ],
     [ "unaryOpToString", "classTac.html#af55aa2c063f9763181deaeb68c3eb339", null ],
-    [ "bbNum", "classTac.html#ac60a04053f9e0825e85be49a1b0038b4", null ],
     [ "label", "classTac.html#a9142e23bd6554e5d5b40629557822850", null ],
-    [ "liveOut", "classTac.html#ae9625b47179da506eef282e7f28901d7", null ],
-    [ "mark", "classTac.html#ac424e05afb9378f1b56fb8bda3c47861", null ],
     [ "next", "classTac.html#aa954bfbd8862f07a35ea7e27c82cc566", null ],
     [ "op0", "classTac.html#a2d8a87866900503967854d892b818139", null ],
     [ "op1", "classTac.html#a7ad6e6f1ad97286218ab6627fb003b01", null ],
     [ "op2", "classTac.html#a06f648b6cce3a1ab0e6da257cda8c614", null ],
     [ "opc", "classTac.html#a267590e4c80e275488956c9a9a6c719f", null ],
     [ "prev", "classTac.html#a7587eb0a235799eb0de9acd3277ef891", null ],
-    [ "saves", "classTac.html#a0e6322dc353d9e34dab2d3e81b09397d", null ],
     [ "str", "classTac.html#aed0467d6a39a5f6c9cd175a98383957d", null ],
     [ "vt", "classTac.html#a736311447b9ebf12a8b8a6f87b363842", null ]
 ];

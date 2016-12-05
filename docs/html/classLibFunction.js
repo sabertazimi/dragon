@@ -1,9 +1,8 @@
 var classLibFunction =
 [
     [ "LibFunction", "classLibFunction.html#aa095f4b39c56260e08369e5295ccbd27", null ],
-    [ "ALLOCATE", "classLibFunction.html#a2c0a9f952bbd7004633abcbf92e3fd55", null ],
-    [ "HALT", "classLibFunction.html#afc56602abce89fd237173b0d59a71c84", null ],
     [ "label", "classLibFunction.html#a14ce74b831aef5ed93f8c26aff685ba0", null ],
+    [ "MALLOC", "classLibFunction.html#afe9e4d9dc6ef02f28db43d69447ced27", null ],
     [ "numArgs", "classLibFunction.html#a4550f6dac36a3826302300bb5cc84044", null ],
     [ "PRINT_BOOL", "classLibFunction.html#addc6b66c60c786266197652c5a418f8c", null ],
     [ "PRINT_INT", "classLibFunction.html#a80ba2efde9c323b5e07dee8baacb8382", null ],
