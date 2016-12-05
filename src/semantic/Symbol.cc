@@ -203,6 +203,7 @@ void Class::resolveFieldOrder(void) {
                 // resolve inheritance
                 Symbol *s = ps->lookupVisible(sym->name);
 
+                // resolve method overwrite
                 if (s == 0) {
                     sym->order = numFunc++;
                 } else {

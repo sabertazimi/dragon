@@ -428,7 +428,9 @@ void TransPass1::visitProgram(Program *program) {
 /// calculate offset of fields
 ///
 void TransPass1::visitClassDef(ClassDef *classDef) {
+    // calculate order of vars and funcs
     classDef->symbol->resolveFieldOrder();
+
     objectSize = 0;
     vars->clear();
 
@@ -870,8 +872,8 @@ void TransPass2::visitCallExpr(CallExpr *callExpr) {
         callExpr->val = tr->emitDirectCall(callExpr->symbol->functy->label, callExpr->symbol->getReturnType());
     } else {
         // search vtable, get method reference
-        Temp *vt = tr->emitLoad(callExpr->receiver->val, 0);
-        Temp *func = tr->emitLoad(vt, callExpr->symbol->offset);
+        Temp *vt = tr->emitLoad(callExpr->receiver->val, 0);        // get vtable address
+        Temp *func = tr->emitLoad(vt, callExpr->symbol->offset);    // search method in vtable
 
         // invoke method
         callExpr->val = tr->emitIndirectCall(func, callExpr->symbol->getReturnType());

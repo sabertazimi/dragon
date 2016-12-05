@@ -352,10 +352,12 @@ void TypeCheck::visitProgram(Program *program) {
 
 void TypeCheck::visitClassDef(ClassDef *classDef) {
     table->open(classDef->symbol->associatedScope);
+
     for (int i = 0; i < classDef->fields->size(); i++) {
         Node *f = (*(classDef->fields))[i];
         f->accept(this);
     }
+
     table->close();
 }
 
@@ -548,8 +550,7 @@ void TypeCheck::checkCallExpr(CallExpr *callExpr, Symbol *f) {
 
         if ((argList->size() - 1) != callExpr->actuals->size()) {
             failed = 1;
-            dragon_report(callExpr->loc, "incompatible number of arguments, expected %d, get %d\n",
-                    argList->size() - 1, callExpr->actuals->size());
+            dragon_report(callExpr->loc, "incompatible number of arguments, expected %d, get %d\n", argList->size() - 1, callExpr->actuals->size());
         } else {
             for (int i = 1, j = 0; i < argList->size() && j < callExpr->actuals->size(); i++, j++) {
                 Type *t1 = (*argList)[i];
@@ -675,6 +676,7 @@ void TypeCheck::visitIdent(Ident *ident) {
                     ident->isClass = true;
                 } else {
                     failed = 1;
+                    // reference to method
                     dragon_report(ident->loc, "invalid reference to '%s'\n", ident->name);
                     ident->type = BaseType::ERROR;
                 }
@@ -689,8 +691,7 @@ void TypeCheck::visitIdent(Ident *ident) {
             // can't access on Class Name Type or non-class variable
             if (ident->owner->isClass || !ident->owner->type->isClassType()) {
                 failed = 1;
-                dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n",
-                        ident->name, ident->owner->type->toString());
+                dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n", ident->name, ident->owner->type->toString());
                 ident->type = BaseType::ERROR;
             } else {
                 ClassScope *cs = ((ClassType *)ident->owner->type)->getClassScope();
@@ -698,17 +699,16 @@ void TypeCheck::visitIdent(Ident *ident) {
 
                 if (v == 0) {
                     failed = 1;
-                    dragon_report(ident->loc, "invalid access to undefined field '%s' in '%s'\n",
-                            ident->name, ident->owner->type->toString());
+                    dragon_report(ident->loc, "invalid access to undefined field '%s' in '%s'\n", ident->name, ident->owner->type->toString());
                     ident->type = BaseType::ERROR;
                 } else if (v->isVariable()) {
                     ClassType *thisType = ((ClassScope *)table->lookForScope(SCOPE_CLASS))->owner->getType();
+
                     ident->type = v->type;
 
                     if (!thisType->compatible(ident->owner->type)) {
                         failed = 1;
-                        dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n",
-                                ident->name, ident->owner->type->toString());
+                        dragon_report(ident->loc, "invalid access to field '%s' in '%s'\n", ident->name, ident->owner->type->toString());
                     } else {
                         ident->symbol = (Variable *)v;
                         ident->kind = MEMBER_VAR;
