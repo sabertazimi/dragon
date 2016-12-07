@@ -19,10 +19,10 @@
 using namespace std;
 
 #define AST_DEBUG
-#undef AST_DEBUG
+// #undef AST_DEBUG
 
 #define SEMA_DEBUG
-#undef SEMA_DEBUG
+// #undef SEMA_DEBUG
 
 #define IR_DEBUG
 // #undef IR_DEBUG
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     }
 
 #ifdef AST_DEBUG
-    AstPrinter *ast_ap = new AstPrinter();
+    AstPrinter *ast_ap = new AstPrinter("dragon.ast");
     tree->print(ast_ap);
 #endif
 
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     }
 
 #ifdef SEMA_DEBUG
-    AstPrinter *sema_ap = new AstPrinter();
+    AstPrinter *sema_ap = new AstPrinter("dragon.sym");
     tree->globalScope->print(sema_ap);
 #endif
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 
 #ifdef IR_DEBUG
     cout << endl;
-    AstPrinter *ir_ap = new AstPrinter();
+    AstPrinter *ir_ap = new AstPrinter("dragon.tac");
     tr->print(ir_ap);
 #endif
 

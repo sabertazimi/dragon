@@ -1,196 +1,13 @@
 	.data
 	.align 2
-_Computer:
-	.long 0
-	.long _STRING0
-	.long _Computer.crash
-
-
-	.data
-	.align 2
-_Mac:
-	.long _Computer
-	.long _STRING1
-	.long _Mac.crash
-
-
-	.data
-	.align 2
-_Linux:
-	.long _Mac
-	.long _STRING2
-	.long _Linux.crash
-
-
-	.data
-	.align 2
 _Main:
 	.long 0
-	.long _STRING3
+	.long _STRING0
 	.long main
 
 
 
 	.text
-	.global _Computer_New
-_Computer_New:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $4, %edi
-	movl $8, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $4, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call malloc
-	movl $5, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $6, %edi
-	movl $0, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $6, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $5, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 4(%ebx)
-	movl $7, %edi
-	leal _Computer, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $7, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $5, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 0(%ebx)
-	movl $5, %edi
-	movl (%esi, %edi, 4), %eax
-	leave
-	ret
-
-	.global _Mac_New
-_Mac_New:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $8, %edi
-	movl $12, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $8, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call malloc
-	movl $9, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $10, %edi
-	movl $0, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $10, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $9, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 4(%ebx)
-	movl $10, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $9, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 8(%ebx)
-	movl $11, %edi
-	leal _Mac, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $11, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $9, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 0(%ebx)
-	movl $9, %edi
-	movl (%esi, %edi, 4), %eax
-	leave
-	ret
-
-	.global _Linux_New
-_Linux_New:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $12, %edi
-	movl $16, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $12, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call malloc
-	movl $13, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $14, %edi
-	movl $0, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $14, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $13, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 4(%ebx)
-	movl $14, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $13, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 8(%ebx)
-	movl $14, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $13, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 12(%ebx)
-	movl $15, %edi
-	leal _Linux, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $15, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $13, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl %eax, 0(%ebx)
-	movl $13, %edi
-	movl (%esi, %edi, 4), %eax
-	leave
-	ret
-
-	.global _Computer.crash
-_Computer.crash:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $16, %edi
-	leal _STRING4, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $16, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call _PrintString
-	leave
-	ret
-
-	.global _Mac.crash
-_Mac.crash:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $17, %edi
-	leal _STRING5, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $17, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call _PrintString
-	leave
-	ret
-
-	.global _Linux.crash
-_Linux.crash:
-	pushl %ebp
-	movl %esp, %ebp
-	movl $18, %edi
-	leal _STRING6, %eax
-	movl %eax, (%esi, %edi, 4)
-	movl $18, %edi
-	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	call _PrintString
-	leave
-	ret
-
 	.global main
 main:
 	pushl %ebp
@@ -198,74 +15,100 @@ main:
 	pushl $4000       # 4000/4 = 1000 fake registers
 	call malloc
 	movl %eax, %esi   # store registers base into %esi
-	call _Mac_New
-	movl $22, %edi
+	movl $4, %edi
+	movl $233, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $22, %edi
+	movl $4, %edi
 	movl (%esi, %edi, 4), %eax
-	movl $19, %edi
+	movl $1, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $19, %edi
+	movl $5, %edi
+	movl $0, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $5, %edi
 	movl (%esi, %edi, 4), %eax
-	pushl %eax
-	movl $19, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
-	movl $23, %edi
+	movl $2, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $23, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 8(%ebx), %eax
-	movl $24, %edi
+	movl $6, %edi
+	leal _STRING1, %eax
 	movl %eax, (%esi, %edi, 4)
-	movl $24, %edi
+	movl $6, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, %edi
-	call *%edi
-	call _Linux_New
-	movl $25, %edi
+	movl $3, %edi
 	movl %eax, (%esi, %edi, 4)
-	movl $25, %edi
-	movl (%esi, %edi, 4), %eax
-	movl $19, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $19, %edi
+	movl $1, %edi
 	movl (%esi, %edi, 4), %eax
 	pushl %eax
-	movl $19, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 0(%ebx), %eax
-	movl $26, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $26, %edi
-	movl (%esi, %edi, 4), %ebx
-	movl 8(%ebx), %eax
-	movl $27, %edi
-	movl %eax, (%esi, %edi, 4)
-	movl $27, %edi
+	call _PrintInt
+	movl $2, %edi
 	movl (%esi, %edi, 4), %eax
-	movl %eax, %edi
-	call *%edi
+	pushl %eax
+	call _PrintBool
+	movl $3, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintString
+	movl $7, %edi
+	leal _STRING2, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $7, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintString
+	call _ReadInteger
+	movl $8, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $8, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $1, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $9, %edi
+	movl $1, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $9, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $2, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $10, %edi
+	leal _STRING3, %eax
+	movl %eax, (%esi, %edi, 4)
+	movl $10, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintString
+	call _ReadLine
+	movl $11, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $11, %edi
+	movl (%esi, %edi, 4), %eax
+	movl $3, %edi
+	movl %eax, (%esi, %edi, 4)
+	movl $1, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintInt
+	movl $2, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintBool
+	movl $3, %edi
+	movl (%esi, %edi, 4), %eax
+	pushl %eax
+	call _PrintString
 	leave
 	pushl $0
 	call exit
 
 
 	.data
-_STRING0:
-	.string "Computer"
-_STRING4:
-	.string "Computer Crash!"
-_STRING2:
-	.string "Linux"
-_STRING6:
-	.string "Linux Crash!"
 _STRING1:
-	.string "Mac"
-_STRING5:
-	.string "Mac Crash!"
-_STRING3:
+	.string "Hello, DragonLang!"
+_STRING0:
 	.string "Main"
+_STRING2:
+	.string "Please input a number:"
+_STRING3:
+	.string "Please input a string:"
 intFormat:
 	.string "%d\n"
 trues:

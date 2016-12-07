@@ -244,8 +244,7 @@ Symbol *ScopeStack::lookupBeforeLocation(string name, yyltype *loc) {
 
         if (symbol != 0) {
             // skip symbol in local scope or after location
-            if (scope->isLocalScope()
-                    && loccmp(symbol->location, loc) > 0) {
+            if (scope->isLocalScope() && loccmp(symbol->location, loc) > 0) {
                 continue;
             }
 

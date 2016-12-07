@@ -1,81 +1,11 @@
 global scope: 
-    class Computer
-    class Expression
-    class Function
-    class Mac: Computer
     class Main
-    class OSX: Mac
-    class Statement
-    class Variable
-    class Computer
-    class scope of 'Computer': 
-        variable:	 cpu: int
-        function:	crash: class: Computer->int->int
-        function:	superMethod: class: Computer->void
-        formal scope of 'crash': 
-            variable:	@numTimes: int
-            variable:	@this: class: Computer
-            local scope: 
-        formal scope of 'superMethod': 
-            variable:	@this: class: Computer
-            local scope: 
-    class Expression
-    class scope of 'Expression': 
-        variable:	 bool_arr: bool[]
-        variable:	 int_arr: int[]
-        function:	main: class: Expression->void
-        formal scope of 'main': 
-            variable:	@this: class: Expression
-            local scope: 
-                variable:	 c: int
-                variable:	 d: bool
-    class Function
-    class scope of 'Function': 
-        variable:	 addr: int
-        function:	errorRetType: class: Function->int->bool
-        function:	funcTest: class: Function->int->int
-        formal scope of 'errorRetType': 
-            variable:	@num: int
-            variable:	@this: class: Function
-            local scope: 
-        formal scope of 'funcTest': 
-            variable:	@addr: int
-            variable:	@this: class: Function
-            local scope: 
-    class Mac: Computer
-    class scope of 'Mac': 
-        function:	crash: class: Mac->int->int
-        variable:	 mouse: int
-        formal scope of 'crash': 
-            variable:	@numTimes: int
-            variable:	@this: class: Mac
-            local scope: 
     class Main
     class scope of 'Main': 
-        variable:	 field: int
         function:	main: class: Main->void
         formal scope of 'main': 
             variable:	@this: class: Main
             local scope: 
-                variable:	 a: int
-                variable:	 powerbook: class: Mac
-    class OSX: Mac
-    class scope of 'OSX': 
-        function:	superSuperField: class: OSX->int
-        formal scope of 'superSuperField': 
-            variable:	@this: class: OSX
-            local scope: 
-    class Statement
-    class scope of 'Statement': 
-        function:	stmt2: class: Statement->void
-        formal scope of 'stmt2': 
-            variable:	@this: class: Statement
-            local scope: 
-                variable:	 x: int
-    class Variable
-    class scope of 'Variable': 
-        variable:	 arr: int[][]
-        function:	varTest: class: Variable->int
-        formal scope of 'varTest': 
-            variable:	@this: class: Variable
-            local scope: 
+                variable:	 b: bool
+                variable:	 i: int
+                variable:	 s: string

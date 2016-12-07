@@ -55,6 +55,17 @@ class List {
             }
         }
 
+        /// \brief remove element at index
+        /// \param index index
+        /// \return void
+        void removeAt(int index) {
+            if (index < 0 || index >= size()) {
+                cerr << "Subscript out of range" << endl;
+            } else {
+                elems.erase(elems.begin() + index);
+            }
+        }
+
         /// \brief append element at the tail of list
         /// \param elem element to append
         /// \return void
@@ -68,17 +79,6 @@ class List {
             Element tmp = (*this)[this->elems.size()-1];
             elems.erase(elems.begin() + this->size() - 1);
             return tmp;
-        }
-
-        /// \brief remove element at index
-        /// \param index index
-        /// \return void
-        void removeAt(int index) {
-            if (index < 0 || index >= size()) {
-                cerr << "Subscript out of range" << endl;
-            } else {
-                elems.erase(elems.begin() + index);
-            }
         }
 };
 

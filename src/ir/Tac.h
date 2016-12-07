@@ -91,10 +91,9 @@ class Temp {
         int offset;
         int size;
         Variable *sym;
-        bool isConst;       ///< whether is constant or not
         int value;          ///< for const temp
+        bool isConst;       ///< whether is constant or not
         bool isParam;       ///< whether is parameter of function or not, offset = (%ebp+4, 8...)
-        bool isLoaded;
         static int tempCount;   ///< for id
         static map<int, Temp*> *constTempPool;
 

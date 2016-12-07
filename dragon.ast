@@ -1,240 +1,46 @@
 program
-    class-><Computer, >
-        vardef->cpu
-        inttype
-        
-        func->crash
-        inttype
-        
-            formals->
-                vardef->numTimes
-                inttype
-                
-            stmtblock->
-                print->
-                    lvalue_ident->numTimes
-                return->
-                    lvalue_ident->numTimes
-        func->superMethod
-        voidtype
-        
-            formals->
-            stmtblock->
-                return->
-    class-><Mac, Computer>
-        vardef->mouse
-        inttype
-        
-        func->crash
-        inttype
-        
-            formals->
-                vardef->numTimes
-                inttype
-                
-            stmtblock->
-                assign->
-                    lvalue_ident->mouse
-                    lvalue_ident->cpu
-                assign->
-                    lvalue_ident->cpu
-                        this
-                    lvalue_ident->numTimes
-                print->
-                    stringconst->ack!
-                return->
-                    + ->
-                        lvalue_ident->numTimes
-                        intconst->1
-    class-><OSX, Mac>
-        func->superSuperField
-        inttype
-        
-            formals->
-            stmtblock->
-                return->
-                    lvalue_ident->cpu
     class-><Main, >
-        vardef->field
-        inttype
-        
         func->main
         voidtype
         
             formals->
             stmtblock->
-                vardef->a
+                vardef->i
                 inttype
                 
-                assign->
-                    lvalue_ident->a
-                    lvalue_ident->field
-                        this
-                vardef->powerbook
-                classtype->Mac
-                
-                assign->
-                    lvalue_ident->powerbook
-                    newclass->Mac
-                call->crash
-                    lvalue_ident->powerbook
-                    intconst->2
-                call->superMethod
-                    lvalue_ident->powerbook
-    class-><Expression, >
-        vardef->bool_arr
-        arrtype->
-        booltype
-        
-        vardef->int_arr
-        arrtype->
-        inttype
-        
-        func->main
-        voidtype
-        
-            formals->
-            stmtblock->
-                assign->
-                    lvalue_index->
-                        lvalue_ident->bool_arr
-                        intconst->1
-                    boolconst->1
-                assign->
-                    lvalue_index->
-                        lvalue_ident->bool_arr
-                        intconst->2
-                    ||->
-                        lvalue_index->
-                            lvalue_ident->bool_arr
-                            intconst->0
-                        lvalue_index->
-                            lvalue_ident->bool_arr
-                            intconst->1
-                assign->
-                    lvalue_index->
-                        lvalue_ident->int_arr
-                        intconst->1
-                    intconst->233
-                assign->
-                    lvalue_index->
-                        lvalue_ident->int_arr
-                        intconst->2
-                    + ->
-                        lvalue_index->
-                            lvalue_ident->int_arr
-                            intconst->1
-                        lvalue_index->
-                            lvalue_ident->int_arr
-                            intconst->0
-                vardef->c
-                inttype
-                
-                assign->
-                    lvalue_ident->c
-                    neg->
-                        lvalue_index->
-                            lvalue_ident->int_arr
-                            intconst->0
-                vardef->d
+                vardef->b
                 booltype
                 
-                assign->
-                    lvalue_ident->d
-                    not->
-                        lvalue_index->
-                            lvalue_ident->bool_arr
-                            intconst->2
-    class-><Function, >
-        vardef->addr
-        inttype
-        
-        func->funcTest
-        inttype
-        
-            formals->
-                vardef->addr
-                inttype
+                vardef->s
+                stringtype
                 
-            stmtblock->
                 assign->
-                    lvalue_ident->addr
-                    intconst->1
-                return->
-                    lvalue_ident->addr
-        func->errorRetType
-        booltype
-        
-            formals->
-                vardef->num
-                inttype
-                
-            stmtblock->
-                return->
+                    lvalue_ident->i
+                    intconst->233
+                assign->
+                    lvalue_ident->b
+                    boolconst->0
+                assign->
+                    lvalue_ident->s
+                    stringconst->Hello, DragonLang!
+                print->
+                    lvalue_ident->i
+                    lvalue_ident->b
+                    lvalue_ident->s
+                print->
+                    stringconst->Please input a number:
+                assign->
+                    lvalue_ident->i
+                    readint
+                assign->
+                    lvalue_ident->b
                     boolconst->1
-    class-><Statement, >
-        func->stmt2
-        voidtype
-        
-            formals->
-            stmtblock->
-                vardef->x
-                inttype
-                
-                while->
-                    > ->
-                        lvalue_ident->x
-                        intconst->0
-                    stmtblock->
-                        vardef->y
-                        inttype
-                        
-                        assign->
-                            lvalue_ident->x
-                            - ->
-                                lvalue_ident->x
-                                intconst->1
-                        assign->
-                            lvalue_ident->y
-                            - ->
-                                lvalue_ident->x
-                                intconst->1
-                for->
-                    assign->
-                        lvalue_ident->x
-                        intconst->0
-                    < ->
-                        lvalue_ident->x
-                        intconst->10
-                    assign->
-                        lvalue_ident->x
-                        + ->
-                            lvalue_ident->x
-                            intconst->1
-                    stmtblock->
-                        print->
-                            lvalue_ident->x
-    class-><Variable, >
-        vardef->arr
-        arrtype->
-        arrtype->
-        inttype
-        
-        func->varTest
-        inttype
-        
-            formals->
-            stmtblock->
+                print->
+                    stringconst->Please input a string:
                 assign->
-                    lvalue_ident->arr
-                    newarray->
-                    arrtype->
-                    inttype
-                    
-                        intconst->5
-                return->
-                    lvalue_index->
-                        lvalue_index->
-                            lvalue_ident->arr
-                            intconst->1
-                        intconst->1
+                    lvalue_ident->s
+                    readline
+                print->
+                    lvalue_ident->i
+                    lvalue_ident->b
+                    lvalue_ident->s
