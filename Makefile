@@ -33,7 +33,7 @@ LEX_TEST=0
 SYNTAX_TEST=0
 AST_TEST=0
 SEMA_TEST=0
-IR_TEST=0
+IR_TEST=1
 ASM_TEST=1
 
 # objects
@@ -92,7 +92,6 @@ count:
 	./$(TOOLS_PATH)/line_counter
 
 spec:
-	make clean
 ifeq ($(LEX_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "lex_*"), echo "\n*** Lex test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo
@@ -123,6 +122,7 @@ ifeq ($(IR_TEST), 1)
 	@echo '***' IR Test Passed! '***'
 	@echo
 endif
+	make clean
 ifeq ($(ASM_TEST), 1)
 	$(foreach filename, $(shell find $(TEST_PATH) -name "asm_*"), echo "\n*** ASM test for" $(filename) "***\n" && ./$(BIN_PATH)/$(PROG) $(filename);)
 	@echo

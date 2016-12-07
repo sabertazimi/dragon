@@ -3,7 +3,7 @@ var searchData=
   ['scope',['Scope',['../classScope.html',1,'Scope'],['../classScope.html#aae12e42da8fb6c960454c861998dc6bd',1,'Scope::Scope()']]],
   ['scope_2eh',['Scope.h',['../Scope_8h.html',1,'']]],
   ['scopekind',['scopeKind',['../Scope_8h.html#af788747e1bead7cdbe98a83d492cf4a0',1,'Scope.h']]],
-  ['scopestack',['ScopeStack',['../classScopeStack.html',1,'ScopeStack'],['../classScopeStack.html#a20c7621b772379f1ed59eb7459bfb616',1,'ScopeStack::scopeStack()'],['../classScopeStack.html#a57d389e57f1c92f95e634150c4c99b10',1,'ScopeStack::ScopeStack(void)']]],
+  ['scopestack',['ScopeStack',['../classScopeStack.html',1,'ScopeStack'],['../classScopeStack.html#a57d389e57f1c92f95e634150c4c99b10',1,'ScopeStack::ScopeStack(void)'],['../classScopeStack.html#a20c7621b772379f1ed59eb7459bfb616',1,'ScopeStack::scopeStack()']]],
   ['search',['search',['../classFuncty.html#a56be28af00c67770cd72f2292bf6b5fd',1,'Functy']]],
   ['size',['size',['../classList.html#af569bbc3e516c5006b10c4253c357ba4',1,'List']]],
   ['srbuf_5fget',['srbuf_get',['../srcbuf_8h.html#ae7f2c69fcb642d8da17860cd9bf39621',1,'srcbuf.h']]],

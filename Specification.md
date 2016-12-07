@@ -48,3 +48,10 @@ int sayHelloFunc = (void) => {
 *   所有 methodField 为公有域
 *   不支持方法重载
 *   支持方法重写
+*   所有方法均为虚方法
+
+```java
+Computer pc;
+pc = new Mac();
+pc.crash();     // => "Mac crash!"
+```

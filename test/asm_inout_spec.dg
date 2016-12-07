@@ -10,8 +10,12 @@ class Main {
 
         Print(i, b, s);
 
+        Print("Please input a number:");
         i = ReadInt();
+
         b = true;
+
+        Print("Please input a string:");
         s = ReadLine();
 
         Print(i, b, s);

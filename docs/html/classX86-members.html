@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Dragon Compiler
-   &#160;<span id="projectnumber">0.5.0</span>
+   &#160;<span id="projectnumber">0.7.0</span>
    </div>
   </td>
  </tr>
@@ -123,15 +123,16 @@ $(document).ready(function(){initNavTree('classX86.html','');});
   <tr bgcolor="#f0f0f0"><td class="entry"><b>emitAsmForLoadConst</b>(Tac *tac) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classX86.html#aa0f7254f89cdd6eba397a850cadc8377">emitAsmForParams</a>(Tac *tac)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0"><td class="entry"><b>emitAsmForUnary</b>(Tac *tac) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitBeginFunc</b>(Label *entryLabel) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>emitFuncs</b>(List&lt; Functy * &gt; *funcs) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitLibFunction</b>(void) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>emitStringConst</b>(void) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitVTables</b>(List&lt; VTable * &gt; *vtables) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getStringConstLabel</b>(string s) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classX86.html#ab96d01b48393322d09dddcbae1deb73f">stringConst</a></td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>tr</b> (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>X86</b>(AstPrinter *ap) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitBeginFunc</b>(Label *label) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>emitEndFunc</b>(Label *label) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitFuncs</b>(List&lt; Functy * &gt; *funcs) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>emitLibFunction</b>(void) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>emitStringConst</b>(void) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>emitVTables</b>(List&lt; VTable * &gt; *vtables) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getStringConstLabel</b>(string s) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classX86.html#ab96d01b48393322d09dddcbae1deb73f">stringConst</a></td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>tr</b> (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>X86</b>(AstPrinter *ap) (defined in <a class="el" href="classX86.html">X86</a>)</td><td class="entry"><a class="el" href="classX86.html">X86</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

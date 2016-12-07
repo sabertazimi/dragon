@@ -26,4 +26,3 @@ LibFunction::LibFunction(string name, int numArgs, BaseType *type) {
     this->numArgs = numArgs;
     this->type = type;
 }
-

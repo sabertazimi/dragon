@@ -14,16 +14,24 @@ class Mac extends Computer {
     };
 }
 
-class Linux extends Computer {
+class Linux extends Mac {
     int keyboard;
+
+    void crash = (void) => {
+        Print("Linux Crash!");
+    };
 }
 
 class Main {
     void main = (void) => {
         class Computer pc;
         class Mac mac;
+        class Linux linux;
 
         pc = new Mac();
+        pc.crash();
+
+        pc = new Linux();
         pc.crash();
     };
 }

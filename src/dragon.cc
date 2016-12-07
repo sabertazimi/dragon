@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 
 #ifdef IR_DEBUG
     cout << endl;
-    AstPrinter *ir_ap = new AstPrinter("dragon.tac");
+    AstPrinter *ir_ap = new AstPrinter();
     tr->print(ir_ap);
 #endif
 

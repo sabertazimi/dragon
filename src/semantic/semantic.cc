@@ -213,8 +213,9 @@ void BuildSymbol::visitVarDef(VarDef *varDef) {
         if (table->getCurrentScope() == sym->definedIn) {
             failed = 1;
             dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
-            // purge local scope multiple defination: simplify compiler implementation(in IR/ASM phase)
         } else if ((sym->definedIn->isFormalScope() || sym->definedIn->isLocalScope())) {
+            // behavior same as gcc
+            // local/formal can't own same name
             failed = 1;
             dragon_report(v->location, "redefined variable '%s'\n", v->name.c_str());
         } else {
