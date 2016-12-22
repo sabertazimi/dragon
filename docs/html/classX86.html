@@ -114,32 +114,37 @@ $(document).ready(function(){initNavTree('classX86.html','');});
 <div class="title">X86 Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="classX86.html" title="X86 class as code generator. ">X86</a> class as code generator.  
+ <a href="classX86.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="X86_8h_source.html">X86.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac979152d9463139ca182284c33728fad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac979152d9463139ca182284c33728fad"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>X86</b> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
+<tr class="memitem:ac979152d9463139ca182284c33728fad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#ac979152d9463139ca182284c33728fad">X86</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *<a class="el" href="classX86.html#a658d89232306d6b0bee61c0ea6897e7b">ap</a>)</td></tr>
+<tr class="memdesc:ac979152d9463139ca182284c33728fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#ac979152d9463139ca182284c33728fad">More...</a><br /></td></tr>
 <tr class="separator:ac979152d9463139ca182284c33728fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24241a0c243de4a693ff9013c0a6aba8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24241a0c243de4a693ff9013c0a6aba8"></a>
-virtual string&#160;</td><td class="memItemRight" valign="bottom"><b>getStringConstLabel</b> (string s)</td></tr>
+<tr class="memitem:a24241a0c243de4a693ff9013c0a6aba8"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a24241a0c243de4a693ff9013c0a6aba8">getStringConstLabel</a> (string s)</td></tr>
+<tr class="memdesc:a24241a0c243de4a693ff9013c0a6aba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">cache pattern: get(when not exist, create a new one) string label  <a href="#a24241a0c243de4a693ff9013c0a6aba8">More...</a><br /></td></tr>
 <tr class="separator:a24241a0c243de4a693ff9013c0a6aba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07ece791d0605bf490679345cd742ff8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07ece791d0605bf490679345cd742ff8"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emit</b> (string label, string body)</td></tr>
+<tr class="memitem:a07ece791d0605bf490679345cd742ff8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a07ece791d0605bf490679345cd742ff8">emit</a> (string label, string body)</td></tr>
+<tr class="memdesc:a07ece791d0605bf490679345cd742ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">emit asm label and asm body(instruction) code  <a href="#a07ece791d0605bf490679345cd742ff8">More...</a><br /></td></tr>
 <tr class="separator:a07ece791d0605bf490679345cd742ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae87af67e2d98f94faf7b5eaa0809703b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae87af67e2d98f94faf7b5eaa0809703b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitAsm</b> (<a class="el" href="classTranslater.html">Translater</a> *tr)</td></tr>
+<tr class="memitem:ae87af67e2d98f94faf7b5eaa0809703b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#ae87af67e2d98f94faf7b5eaa0809703b">emitAsm</a> (<a class="el" href="classTranslater.html">Translater</a> *<a class="el" href="classX86.html#a49c5db1a15068282c24a8693f66733c1">tr</a>)</td></tr>
+<tr class="memdesc:ae87af67e2d98f94faf7b5eaa0809703b"><td class="mdescLeft">&#160;</td><td class="mdescRight">top emitter  <a href="#ae87af67e2d98f94faf7b5eaa0809703b">More...</a><br /></td></tr>
 <tr class="separator:ae87af67e2d98f94faf7b5eaa0809703b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b60ba855b0adc0f3b6578701c83041f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b60ba855b0adc0f3b6578701c83041f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitVTables</b> (<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVTable.html">VTable</a> * &gt; *vtables)</td></tr>
+<tr class="memitem:a9b60ba855b0adc0f3b6578701c83041f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a9b60ba855b0adc0f3b6578701c83041f">emitVTables</a> (<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVTable.html">VTable</a> * &gt; *vtables)</td></tr>
+<tr class="memdesc:a9b60ba855b0adc0f3b6578701c83041f"><td class="mdescLeft">&#160;</td><td class="mdescRight">emit .data vtables with vtables' list code  <a href="#a9b60ba855b0adc0f3b6578701c83041f">More...</a><br /></td></tr>
 <tr class="separator:a9b60ba855b0adc0f3b6578701c83041f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5782d15e8d4d6a171b5d68696f6461c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5782d15e8d4d6a171b5d68696f6461c"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitBeginFunc</b> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
+<tr class="memitem:ad5782d15e8d4d6a171b5d68696f6461c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#ad5782d15e8d4d6a171b5d68696f6461c">emitBeginFunc</a> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
+<tr class="memdesc:ad5782d15e8d4d6a171b5d68696f6461c"><td class="mdescLeft">&#160;</td><td class="mdescRight">emit stack frame set up code  <a href="#ad5782d15e8d4d6a171b5d68696f6461c">More...</a><br /></td></tr>
 <tr class="separator:ad5782d15e8d4d6a171b5d68696f6461c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c82199d8d9eb22367891023eb333136"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c82199d8d9eb22367891023eb333136"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitEndFunc</b> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
+<tr class="memitem:a9c82199d8d9eb22367891023eb333136"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a9c82199d8d9eb22367891023eb333136">emitEndFunc</a> (<a class="el" href="classLabel.html">Label</a> *label)</td></tr>
+<tr class="memdesc:a9c82199d8d9eb22367891023eb333136"><td class="mdescLeft">&#160;</td><td class="mdescRight">emit stack frame kill code  <a href="#a9c82199d8d9eb22367891023eb333136">More...</a><br /></td></tr>
 <tr class="separator:a9c82199d8d9eb22367891023eb333136"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a497ea5a2447218f5b600571750c2f863"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a497ea5a2447218f5b600571750c2f863"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitFuncs</b> (<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classFuncty.html">Functy</a> * &gt; *funcs)</td></tr>
+<tr class="memitem:a497ea5a2447218f5b600571750c2f863"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a497ea5a2447218f5b600571750c2f863">emitFuncs</a> (<a class="el" href="classList.html">List</a>&lt; <a class="el" href="classFuncty.html">Functy</a> * &gt; *funcs)</td></tr>
+<tr class="memdesc:a497ea5a2447218f5b600571750c2f863"><td class="mdescLeft">&#160;</td><td class="mdescRight">emit instructions with tac list in functy list(main emitter)  <a href="#a497ea5a2447218f5b600571750c2f863">More...</a><br /></td></tr>
 <tr class="separator:a497ea5a2447218f5b600571750c2f863"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb7491ef21d9bb5245da3ad50ba97a89"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb7491ef21d9bb5245da3ad50ba97a89"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>emitAsmForFuncty</b> (<a class="el" href="classFuncty.html">Functy</a> *ft)</td></tr>
@@ -178,15 +183,19 @@ map&lt; string, string &gt; *&#160;</td><td class="memItemRight" valign="bottom"
 <tr class="memdesc:ab96d01b48393322d09dddcbae1deb73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">string to label <br /></td></tr>
 <tr class="separator:ab96d01b48393322d09dddcbae1deb73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49c5db1a15068282c24a8693f66733c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49c5db1a15068282c24a8693f66733c1"></a>
-<a class="el" href="classTranslater.html">Translater</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tr</b></td></tr>
+<a class="el" href="classTranslater.html">Translater</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a49c5db1a15068282c24a8693f66733c1">tr</a></td></tr>
+<tr class="memdesc:a49c5db1a15068282c24a8693f66733c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">composite pattern: take <a class="el" href="classTranslater.html">Translater</a> as member, get VTable/Functy(<a class="el" href="classTac.html">Tac</a>) list from tr <br /></td></tr>
 <tr class="separator:a49c5db1a15068282c24a8693f66733c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a658d89232306d6b0bee61c0ea6897e7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a658d89232306d6b0bee61c0ea6897e7b"></a>
-<a class="el" href="classAstPrinter.html">AstPrinter</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ap</b></td></tr>
+<a class="el" href="classAstPrinter.html">AstPrinter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a658d89232306d6b0bee61c0ea6897e7b">ap</a></td></tr>
+<tr class="memdesc:a658d89232306d6b0bee61c0ea6897e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">composite pattern: take <a class="el" href="classAstPrinter.html">AstPrinter</a> as member, enable <a class="el" href="classX86.html" title="X86 class as code generator. ">X86</a> to has print feature <br /></td></tr>
 <tr class="separator:a658d89232306d6b0bee61c0ea6897e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="X86_8h_source.html#l00026">26</a> of file <a class="el" href="X86_8h_source.html">X86.h</a>.</p>
+<div class="textblock"><p><a class="el" href="classX86.html" title="X86 class as code generator. ">X86</a> class as code generator. </p>
+<p>use malloc in main(asm) to create 1000 fake registers(every occupy 4 bytes) use esi as registers' files base, use edi as temp id register use eax/ebx as intermediate registers use eax as functions' return type </p>
+
+<p>Definition at line <a class="el" href="X86_8h_source.html#l00033">33</a> of file <a class="el" href="X86_8h_source.html">X86.h</a>.</p>
 </div><div class="dynheader">
 Collaboration diagram for X86:</div>
 <div class="dyncontent">
@@ -214,6 +223,274 @@ Collaboration diagram for X86:</div>
 <area shape="rect" id="node21" href="classList.html" title="List\&lt; VTable * \&gt;" alt="" coords="5,576,123,603"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ac979152d9463139ca182284c33728fad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">X86::X86 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classAstPrinter.html">AstPrinter</a> *&#160;</td>
+          <td class="paramname"><em>ap</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html">AstPrinter</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a07ece791d0605bf490679345cd742ff8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emit </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>body</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>emit asm label and asm body(instruction) code </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>label name to emit("label:\n") </td></tr>
+    <tr><td class="paramname">body</td><td>instruction to emit("movl ...") </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae87af67e2d98f94faf7b5eaa0809703b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emitAsm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTranslater.html">Translater</a> *&#160;</td>
+          <td class="paramname"><em>tr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>top emitter </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tr</td><td>get VTable/Functy list to emit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad5782d15e8d4d6a171b5d68696f6461c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emitBeginFunc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classLabel.html">Label</a> *&#160;</td>
+          <td class="paramname"><em>label</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>emit stack frame set up code </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>function label </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9c82199d8d9eb22367891023eb333136"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emitEndFunc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classLabel.html">Label</a> *&#160;</td>
+          <td class="paramname"><em>label</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>emit stack frame kill code </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">label</td><td>function label </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a497ea5a2447218f5b600571750c2f863"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emitFuncs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classList.html">List</a>&lt; <a class="el" href="classFuncty.html">Functy</a> * &gt; *&#160;</td>
+          <td class="paramname"><em>funcs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>emit instructions with tac list in functy list(main emitter) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">funcs</td><td>functy list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9b60ba855b0adc0f3b6578701c83041f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void X86::emitVTables </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classList.html">List</a>&lt; <a class="el" href="classVTable.html">VTable</a> * &gt; *&#160;</td>
+          <td class="paramname"><em>vtables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>emit .data vtables with vtables' list code </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vtables</td><td>vtables' list to emit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a24241a0c243de4a693ff9013c0a6aba8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual string X86::getStringConstLabel </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>cache pattern: get(when not exist, create a new one) string label </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>target string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>label string </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/codegen/<a class="el" href="X86_8h_source.html">X86.h</a></li>
 </ul>

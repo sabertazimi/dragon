@@ -33,3 +33,5 @@
 *.su
 .gdb_history
 core
+
+samples/

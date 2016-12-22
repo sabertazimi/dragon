@@ -8,6 +8,7 @@ var searchData=
   ['thisexpr',['ThisExpr',['../classThisExpr.html',1,'']]],
   ['tostr',['tostr',['../classSymbol.html#a0679df5ed66c2fcd040ed48385e40dc7',1,'Symbol']]],
   ['tostring',['toString',['../classLabel.html#a59d1213a974a219c99cc36c81a28172e',1,'Label::toString()'],['../classTemp.html#a011e34baac4ef36c855a72be8fc2b50e',1,'Temp::toString()'],['../classSymbol.html#a399a9b995f3c8ab08f2c8be2791f5f31',1,'Symbol::toString()'],['../classVariable.html#a8e29083c5ff202e93e96e37c6cd6d65b',1,'Variable::toString()'],['../classFunction.html#ae89dd5bb5e618ea51a10797693795478',1,'Function::toString()'],['../classClass.html#a3d0fb1e6f2ee586579709dbcb24c231b',1,'Class::toString()'],['../classType.html#af410f572278c951646260c135e795ce7',1,'Type::toString()'],['../classBaseType.html#ac41076b76122a70d264fe66502e6f3fc',1,'BaseType::toString()'],['../classArrayType.html#a2970758663daaaaaa6eb34182c33d074',1,'ArrayType::toString()'],['../classFuncType.html#a98533ec9cc8f6be708cf4e464b7f04b2',1,'FuncType::toString()'],['../classClassType.html#a857fbe2711b01e582a4bdaefb82199c9',1,'ClassType::toString()']]],
+  ['tr',['tr',['../classX86.html#a49c5db1a15068282c24a8693f66733c1',1,'X86']]],
   ['translater',['Translater',['../classTranslater.html',1,'']]],
   ['translater_2eh',['Translater.h',['../Translater_8h.html',1,'']]],
   ['transpass1',['TransPass1',['../classTransPass1.html',1,'']]],

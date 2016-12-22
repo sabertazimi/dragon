@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['out',['out',['../classAstPrinter.html#ad572eca977f15f71961318b3e6114082',1,'AstPrinter']]]
+  ['name',['name',['../classLabel.html#a3e6731c765e1cbd1605837f08f09bbf4',1,'Label']]],
+  ['newfunclabel',['newFuncLabel',['../classClass.html#abba8e87832c9079d683957d2d463877b',1,'Class']]]
 ];

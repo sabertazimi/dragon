@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['globalscope',['globalScope',['../classScopeStack.html#adc7279b660cd3c1d7a6dbe879f1e0bdf',1,'ScopeStack']]],
-  ['gtable',['gtable',['../Symbol_8h.html#a8437180b03139a61535e0dee0ce731ff',1,'Symbol.h']]]
+  ['fout',['fout',['../classAstPrinter.html#af8fe64fde93d60a483d768475f0192d2',1,'AstPrinter']]]
 ];
