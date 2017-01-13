@@ -31,6 +31,7 @@ void srcbuf_append(const char * src);
 const char * srbuf_get(int num_line);
 
 /// \brief get length of buffer
+/// \param void
 /// \return length of buffer
 int srcbuf_length(void);
 

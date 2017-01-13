@@ -76,24 +76,49 @@ public:
     /// \return void
     virtual void emitFuncs(List <Functy *> *funcs);
 
+    /// \brief emit instructions with tac list in functy(main emitter)
+    /// \param ft functy
+    /// \return void
 	virtual void emitAsmForFuncty(Functy *ft);
 
+    /// \brief emit asm code for binary operating tac
+    /// \param tac binary operating tac
+    /// \return void
     virtual void emitAsmForBinary(Tac *tac);
 
+    /// \brief emit asm code for unary operating tac
+    /// \param tac unary operating tac
+    /// \return void
     virtual void emitAsmForUnary(Tac *tac);
 
+    /// \brief emit asm code for immediate loading tac
+    /// \param tac immediate loading tac
+    /// \return void
     virtual void emitAsmForLoadConst(Tac *tac);
 
     /// \brief read out from stack actuals
+    /// \param tac param tac
+    /// \return void
     virtual void emitAsmForParams(Tac *tac);
 
     /// \brief write back to stack actuals
+    /// \param tac actual tac
+    /// \return void
     virtual void emitAsmForActuals(Tac *tac);
 
+    /// \brief emit asm code for function calling tac
+    /// \param call function calling tac
+    /// \return void
 	virtual void emitAsmForCall(Tac *call);
 
+    /// \brief emit asm code for built-in library function from gcc
+    /// \param void
+    /// \return void
     virtual void emitLibFunction(void);
 
+    /// \brief emit const string for function label and format string
+    /// \param void
+    /// \return void
 	virtual void emitStringConst(void);
 };
 
