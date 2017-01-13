@@ -7,13 +7,13 @@
 <area shape="rect" id="node5" href="$classVariable.html" title="Variable" alt="" coords="376,184,445,211"/>
 <area shape="rect" id="node6" href="$classSymbol.html" title="Symbol" alt="" coords="369,95,436,121"/>
 <area shape="rect" id="node7" href="$structyyltype.html" title="store location information " alt="" coords="400,5,464,32"/>
-<area shape="rect" id="node15" href="$classNode.html" title="Node" alt="" coords="292,95,345,121"/>
+<area shape="rect" id="node15" href="$classNode.html" title="basic node defination " alt="" coords="292,95,345,121"/>
 <area shape="rect" id="node8" href="$classType.html" title="Type" alt="" coords="263,5,313,32"/>
 <area shape="rect" id="node9" href="$classScope.html" title="scope interface " alt="" coords="61,5,120,32"/>
 <area shape="rect" id="node13" href="$classFormalScope.html" title="FormalScope" alt="" coords="208,755,307,781"/>
 <area shape="rect" id="node16" href="$classLocalScope.html" title="LocalScope" alt="" coords="45,95,136,121"/>
 <area shape="rect" id="node10" href="$classVTable.html" title="VTable" alt="" coords="475,273,538,300"/>
-<area shape="rect" id="node14" href="$classBlock.html" title="Block" alt="" coords="209,184,263,211"/>
+<area shape="rect" id="node14" href="$classBlock.html" title="block node " alt="" coords="209,184,263,211"/>
 <area shape="rect" id="node17" href="$classList.html" title="List\&lt; Node * \&gt;" alt="" coords="161,95,268,121"/>
 <area shape="rect" id="node18" href="$classList.html" title="List\&lt; Functy * \&gt;" alt="" coords="714,576,830,603"/>
 <area shape="rect" id="node19" href="$classList.html" title="List\&lt; VTable * \&gt;" alt="" coords="572,576,689,603"/>

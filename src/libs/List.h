@@ -17,7 +17,7 @@
 using namespace std;
 
 /// \brief list data structure for modules
-/// 
+///
 /// this template get used for almost every module of dragon compiler
 ///
 template <class Element>
@@ -26,13 +26,11 @@ class List {
         deque <Element> elems;      ///< deque container
 
         /// \brief create a new empty list
-        /// \param void
         /// \return a List<T> instance
         List(void) {
         }
 
         /// \brief number of elements
-        /// \param void
         /// \return size of list
         int size(void) {
             return elems.size();
@@ -81,7 +79,6 @@ class List {
         }
 
         /// \brief pop element at index size()-1
-        /// \param void
         /// \return element poped
         Element pop(void) {
             Element tmp = (*this)[this->elems.size()-1];

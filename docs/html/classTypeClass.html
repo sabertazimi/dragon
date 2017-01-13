@@ -114,15 +114,19 @@ $(document).ready(function(){initNavTree('classTypeClass.html','');});
 <div class="title">TypeClass Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>class type node  
+ <a href="classTypeClass.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Tree_8h_source.html">Tree.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9fd5c80a19b72c060a045f251d795622"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fd5c80a19b72c060a045f251d795622"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TypeClass</b> (char *name, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memitem:a9fd5c80a19b72c060a045f251d795622"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTypeClass.html#a9fd5c80a19b72c060a045f251d795622">TypeClass</a> (char *name, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memdesc:a9fd5c80a19b72c060a045f251d795622"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#a9fd5c80a19b72c060a045f251d795622">More...</a><br /></td></tr>
 <tr class="separator:a9fd5c80a19b72c060a045f251d795622"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c50aabe062037bb05af8f72177de457"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c50aabe062037bb05af8f72177de457"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTypeClass.html#a8c50aabe062037bb05af8f72177de457">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:a8c50aabe062037bb05af8f72177de457"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="memitem:a8c50aabe062037bb05af8f72177de457"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTypeClass.html#a8c50aabe062037bb05af8f72177de457">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:a8c50aabe062037bb05af8f72177de457"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor  <a href="#a8c50aabe062037bb05af8f72177de457">More...</a><br /></td></tr>
 <tr class="separator:a8c50aabe062037bb05af8f72177de457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79d1b79fb4e8eb91393fa2fcad7892b4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTypeClass.html#a79d1b79fb4e8eb91393fa2fcad7892b4">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
 <tr class="memdesc:a79d1b79fb4e8eb91393fa2fcad7892b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#a79d1b79fb4e8eb91393fa2fcad7892b4">More...</a><br /></td></tr>
@@ -146,15 +150,16 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
 <tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00398">398</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+<div class="textblock"><p>class type node </p>
+
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00747">747</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for TypeClass:</div>
 <div class="dyncontent">
 <div class="center"><img src="classTypeClass__inherit__graph.png" border="0" usemap="#TypeClass_inherit__map" alt="Inheritance graph"/></div>
 <map name="TypeClass_inherit__map" id="TypeClass_inherit__map">
-<area shape="rect" id="node2" href="classTypeLiteral.html" title="TypeLiteral" alt="" coords="5,80,92,107"/>
-<area shape="rect" id="node3" href="classNode.html" title="Node" alt="" coords="22,5,75,32"/>
+<area shape="rect" id="node2" href="classTypeLiteral.html" title="type literal node(distinguish from Type variable(type system)) " alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" href="classNode.html" title="basic node defination " alt="" coords="22,5,75,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -162,13 +167,85 @@ Collaboration diagram for TypeClass:</div>
 <div class="dyncontent">
 <div class="center"><img src="classTypeClass__coll__graph.png" border="0" usemap="#TypeClass_coll__map" alt="Collaboration graph"/></div>
 <map name="TypeClass_coll__map" id="TypeClass_coll__map">
-<area shape="rect" id="node2" href="classTypeLiteral.html" title="TypeLiteral" alt="" coords="77,171,163,197"/>
-<area shape="rect" id="node3" href="classNode.html" title="Node" alt="" coords="37,95,91,121"/>
+<area shape="rect" id="node2" href="classTypeLiteral.html" title="type literal node(distinguish from Type variable(type system)) " alt="" coords="77,171,163,197"/>
+<area shape="rect" id="node3" href="classNode.html" title="basic node defination " alt="" coords="37,95,91,121"/>
 <area shape="rect" id="node4" href="structyyltype.html" title="store location information " alt="" coords="5,5,69,32"/>
 <area shape="rect" id="node5" href="classType.html" title="Type" alt="" coords="103,5,153,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a9fd5c80a19b72c060a045f251d795622"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TypeClass::TypeClass </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kind</td><td>node kind </td></tr>
+    <tr><td class="paramname">loc</td><td>location </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a node instance </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a8c50aabe062037bb05af8f72177de457"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void TypeClass::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classVisitor.html">Visitor</a> *&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>setup visitor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>visitor where actual tree visit operating defination </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">Node</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a79d1b79fb4e8eb91393fa2fcad7892b4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -192,7 +269,13 @@ Collaboration diagram for TypeClass:</div>
 </div><div class="memdoc">
 
 <p>generate information of node </p>
-<dl class="section return"><dt>Returns</dt><dd>information string </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> to enable node to have capbility to print information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">Node</a>.</p>
 

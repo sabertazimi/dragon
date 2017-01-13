@@ -112,12 +112,10 @@ public:
 	virtual void emitAsmForCall(Tac *call);
 
     /// \brief emit asm code for built-in library function from gcc
-    /// \param void
     /// \return void
     virtual void emitLibFunction(void);
 
     /// \brief emit const string for function label and format string
-    /// \param void
     /// \return void
 	virtual void emitStringConst(void);
 };

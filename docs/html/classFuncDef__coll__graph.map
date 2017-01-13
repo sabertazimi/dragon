@@ -1,7 +1,7 @@
 <map id="FuncDef" name="FuncDef">
-<area shape="rect" id="node2" href="$classNode.html" title="Node" alt="" coords="110,95,163,121"/>
-<area shape="rect" id="node5" href="$classTypeLiteral.html" title="TypeLiteral" alt="" coords="5,184,92,211"/>
-<area shape="rect" id="node11" href="$classBlock.html" title="Block" alt="" coords="307,184,361,211"/>
+<area shape="rect" id="node2" href="$classNode.html" title="basic node defination " alt="" coords="110,95,163,121"/>
+<area shape="rect" id="node5" href="$classTypeLiteral.html" title="type literal node(distinguish from Type variable(type system)) " alt="" coords="5,184,92,211"/>
+<area shape="rect" id="node11" href="$classBlock.html" title="block node " alt="" coords="307,184,361,211"/>
 <area shape="rect" id="node3" href="$structyyltype.html" title="store location information " alt="" coords="250,5,314,32"/>
 <area shape="rect" id="node8" href="$classSymbol.html" title="Symbol" alt="" coords="302,95,369,121"/>
 <area shape="rect" id="node4" href="$classType.html" title="Type" alt="" coords="111,5,162,32"/>

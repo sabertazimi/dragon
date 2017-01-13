@@ -114,15 +114,19 @@ $(document).ready(function(){initNavTree('classExec.html','');});
 <div class="title">Exec Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>exec(function call) node  
+ <a href="classExec.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Tree_8h_source.html">Tree.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3921490b9dcb26ad116e88ab4746bc10"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3921490b9dcb26ad116e88ab4746bc10"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Exec</b> (<a class="el" href="classExpr.html">Expr</a> *expr, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memitem:a3921490b9dcb26ad116e88ab4746bc10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExec.html#a3921490b9dcb26ad116e88ab4746bc10">Exec</a> (<a class="el" href="classExpr.html">Expr</a> *<a class="el" href="classExec.html#af37e96cb47048101a58dd54a48ac838f">expr</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memdesc:a3921490b9dcb26ad116e88ab4746bc10"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#a3921490b9dcb26ad116e88ab4746bc10">More...</a><br /></td></tr>
 <tr class="separator:a3921490b9dcb26ad116e88ab4746bc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cc0822d5c4d18ab83b8b683c643347d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1cc0822d5c4d18ab83b8b683c643347d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExec.html#a1cc0822d5c4d18ab83b8b683c643347d">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:a1cc0822d5c4d18ab83b8b683c643347d"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="memitem:a1cc0822d5c4d18ab83b8b683c643347d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExec.html#a1cc0822d5c4d18ab83b8b683c643347d">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:a1cc0822d5c4d18ab83b8b683c643347d"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor  <a href="#a1cc0822d5c4d18ab83b8b683c643347d">More...</a><br /></td></tr>
 <tr class="separator:a1cc0822d5c4d18ab83b8b683c643347d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97cba4329303ef59eaf1c8cf0f38f657"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExec.html#a97cba4329303ef59eaf1c8cf0f38f657">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
 <tr class="memdesc:a97cba4329303ef59eaf1c8cf0f38f657"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#a97cba4329303ef59eaf1c8cf0f38f657">More...</a><br /></td></tr>
@@ -131,7 +135,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:af37e96cb47048101a58dd54a48ac838f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af37e96cb47048101a58dd54a48ac838f"></a>
-<a class="el" href="classExpr.html">Expr</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>expr</b></td></tr>
+<a class="el" href="classExpr.html">Expr</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExec.html#af37e96cb47048101a58dd54a48ac838f">expr</a></td></tr>
+<tr class="memdesc:af37e96cb47048101a58dd54a48ac838f"><td class="mdescLeft">&#160;</td><td class="mdescRight">call expression <br /></td></tr>
 <tr class="separator:af37e96cb47048101a58dd54a48ac838f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e748a074b3817d41f5fb2d4ffeb9ead"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e748a074b3817d41f5fb2d4ffeb9ead"></a>
 <a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a></td></tr>
@@ -147,14 +152,15 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00215">215</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+<div class="textblock"><p>exec(function call) node </p>
+
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00341">341</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for Exec:</div>
 <div class="dyncontent">
 <div class="center"><img src="classExec__inherit__graph.png" border="0" usemap="#Exec_inherit__map" alt="Inheritance graph"/></div>
 <map name="Exec_inherit__map" id="Exec_inherit__map">
-<area shape="rect" id="node2" href="classNode.html" title="Node" alt="" coords="5,5,59,32"/>
+<area shape="rect" id="node2" href="classNode.html" title="basic node defination " alt="" coords="5,5,59,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -162,8 +168,8 @@ Collaboration diagram for Exec:</div>
 <div class="dyncontent">
 <div class="center"><img src="classExec__coll__graph.png" border="0" usemap="#Exec_coll__map" alt="Collaboration graph"/></div>
 <map name="Exec_coll__map" id="Exec_coll__map">
-<area shape="rect" id="node2" href="classNode.html" title="Node" alt="" coords="116,145,169,172"/>
-<area shape="rect" id="node5" href="classExpr.html" title="Expr" alt="" coords="178,375,227,401"/>
+<area shape="rect" id="node2" href="classNode.html" title="basic node defination " alt="" coords="116,145,169,172"/>
+<area shape="rect" id="node5" href="classExpr.html" title="expression node(interface) " alt="" coords="178,375,227,401"/>
 <area shape="rect" id="node3" href="structyyltype.html" title="store location information " alt="" coords="5,5,69,32"/>
 <area shape="rect" id="node8" href="classSymbol.html" title="Symbol" alt="" coords="171,95,237,121"/>
 <area shape="rect" id="node4" href="classType.html" title="Type" alt="" coords="269,5,320,32"/>
@@ -172,7 +178,79 @@ Collaboration diagram for Exec:</div>
 <area shape="rect" id="node9" href="classScope.html" title="scope interface " alt="" coords="117,5,176,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a3921490b9dcb26ad116e88ab4746bc10"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Exec::Exec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classExpr.html">Expr</a> *&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expr</td><td>call expression </td></tr>
+    <tr><td class="paramname">loc</td><td>location </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a exec instance </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1cc0822d5c4d18ab83b8b683c643347d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Exec::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classVisitor.html">Visitor</a> *&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>setup visitor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>visitor where actual tree visit operating defination </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">Node</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a97cba4329303ef59eaf1c8cf0f38f657"></a>
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +274,13 @@ Collaboration diagram for Exec:</div>
 </div><div class="memdoc">
 
 <p>generate information of node </p>
-<dl class="section return"><dt>Returns</dt><dd>information string </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> to enable node to have capbility to print information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">Node</a>.</p>
 

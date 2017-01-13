@@ -186,7 +186,7 @@ map&lt; string, string &gt; *&#160;</td><td class="memItemRight" valign="bottom"
 <tr class="separator:a49c5db1a15068282c24a8693f66733c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a658d89232306d6b0bee61c0ea6897e7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a658d89232306d6b0bee61c0ea6897e7b"></a>
 <a class="el" href="classAstPrinter.html">AstPrinter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classX86.html#a658d89232306d6b0bee61c0ea6897e7b">ap</a></td></tr>
-<tr class="memdesc:a658d89232306d6b0bee61c0ea6897e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">composite pattern: take <a class="el" href="classAstPrinter.html">AstPrinter</a> as member, enable <a class="el" href="classX86.html" title="X86 class as code generator. ">X86</a> to has print feature <br /></td></tr>
+<tr class="memdesc:a658d89232306d6b0bee61c0ea6897e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">composite pattern: take <a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> as member, enable <a class="el" href="classX86.html" title="X86 class as code generator. ">X86</a> to has print feature <br /></td></tr>
 <tr class="separator:a658d89232306d6b0bee61c0ea6897e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -199,7 +199,7 @@ Collaboration diagram for X86:</div>
 <div class="dyncontent">
 <div class="center"><img src="classX86__coll__graph.png" border="0" usemap="#X86_coll__map" alt="Collaboration graph"/></div>
 <map name="X86_coll__map" id="X86_coll__map">
-<area shape="rect" id="node2" href="classAstPrinter.html" title="AstPrinter" alt="" coords="61,665,141,692"/>
+<area shape="rect" id="node2" href="classAstPrinter.html" title="printer helper class " alt="" coords="61,665,141,692"/>
 <area shape="rect" id="node3" href="classTranslater.html" title="Translater" alt="" coords="165,665,245,692"/>
 <area shape="rect" id="node4" href="classFuncty.html" title="Functy" alt="" coords="434,576,497,603"/>
 <area shape="rect" id="node14" href="classFunction.html" title="Function" alt="" coords="425,665,497,692"/>
@@ -209,13 +209,13 @@ Collaboration diagram for X86:</div>
 <area shape="rect" id="node7" href="classVariable.html" title="Variable" alt="" coords="436,184,505,211"/>
 <area shape="rect" id="node8" href="classSymbol.html" title="Symbol" alt="" coords="276,95,343,121"/>
 <area shape="rect" id="node9" href="structyyltype.html" title="store location information " alt="" coords="305,5,369,32"/>
-<area shape="rect" id="node17" href="classNode.html" title="Node" alt="" coords="497,95,551,121"/>
+<area shape="rect" id="node17" href="classNode.html" title="basic node defination " alt="" coords="497,95,551,121"/>
 <area shape="rect" id="node10" href="classType.html" title="Type" alt="" coords="448,5,499,32"/>
 <area shape="rect" id="node11" href="classScope.html" title="scope interface " alt="" coords="609,5,668,32"/>
 <area shape="rect" id="node15" href="classFormalScope.html" title="FormalScope" alt="" coords="557,755,656,781"/>
 <area shape="rect" id="node18" href="classLocalScope.html" title="LocalScope" alt="" coords="579,95,669,121"/>
 <area shape="rect" id="node12" href="classVTable.html" title="VTable" alt="" coords="355,273,418,300"/>
-<area shape="rect" id="node16" href="classBlock.html" title="Block" alt="" coords="533,184,587,211"/>
+<area shape="rect" id="node16" href="classBlock.html" title="block node " alt="" coords="533,184,587,211"/>
 <area shape="rect" id="node19" href="classList.html" title="List\&lt; Node * \&gt;" alt="" coords="367,95,473,121"/>
 <area shape="rect" id="node20" href="classList.html" title="List\&lt; Functy * \&gt;" alt="" coords="147,576,263,603"/>
 <area shape="rect" id="node21" href="classList.html" title="List\&lt; VTable * \&gt;" alt="" coords="5,576,123,603"/>
@@ -239,7 +239,7 @@ Collaboration diagram for X86:</div>
 <p>constructor </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html">AstPrinter</a> </td></tr>
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -677,12 +677,6 @@ Collaboration diagram for X86:</div>
 </div><div class="memdoc">
 
 <p>emit asm code for built-in library function from gcc </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">void</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
@@ -710,12 +704,6 @@ Collaboration diagram for X86:</div>
 </div><div class="memdoc">
 
 <p>emit const string for function label and format string </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">void</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>

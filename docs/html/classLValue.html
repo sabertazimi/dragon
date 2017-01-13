@@ -114,15 +114,19 @@ $(document).ready(function(){initNavTree('classLValue.html','');});
 <div class="title">LValue Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>left value node(interface)  
+ <a href="classLValue.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Tree_8h_source.html">Tree.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4ccbb03f939a305e05c6723b9511c659"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ccbb03f939a305e05c6723b9511c659"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LValue</b> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> kind, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memitem:a4ccbb03f939a305e05c6723b9511c659"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLValue.html#a4ccbb03f939a305e05c6723b9511c659">LValue</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classLValue.html#aca131c5658a647ab4daf4bed8157946f">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memdesc:a4ccbb03f939a305e05c6723b9511c659"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#a4ccbb03f939a305e05c6723b9511c659">More...</a><br /></td></tr>
 <tr class="separator:a4ccbb03f939a305e05c6723b9511c659"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor  <a href="#a95f7e69a714ba988f4f55b90e2073195">More...</a><br /></td></tr>
 <tr class="separator:a95f7e69a714ba988f4f55b90e2073195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec456fc7173f92d9bdb127db5d237d1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
 <tr class="memdesc:aec456fc7173f92d9bdb127db5d237d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#aec456fc7173f92d9bdb127db5d237d1b">More...</a><br /></td></tr>
@@ -131,17 +135,20 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aca131c5658a647ab4daf4bed8157946f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca131c5658a647ab4daf4bed8157946f"></a>
-lvKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<a class="el" href="Tree_8h.html#af3ddd18f7c3e40ecc77c3044ce03a51d">lvKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLValue.html#aca131c5658a647ab4daf4bed8157946f">kind</a></td></tr>
+<tr class="memdesc:aca131c5658a647ab4daf4bed8157946f"><td class="mdescLeft">&#160;</td><td class="mdescRight">left value kind <br /></td></tr>
 <tr class="separator:aca131c5658a647ab4daf4bed8157946f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27426e8e949667eff11d1ec0515670f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27426e8e949667eff11d1ec0515670f4"></a>
-<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<a class="el" href="classType.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExpr.html#a27426e8e949667eff11d1ec0515670f4">type</a></td></tr>
+<tr class="memdesc:a27426e8e949667eff11d1ec0515670f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">expression type <br /></td></tr>
 <tr class="separator:a27426e8e949667eff11d1ec0515670f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08b9aff02a428b653a8e1e74929d0822"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08b9aff02a428b653a8e1e74929d0822"></a>
-<a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>val</b></td></tr>
+<a class="el" href="classTemp.html">Temp</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExpr.html#a08b9aff02a428b653a8e1e74929d0822">val</a></td></tr>
+<tr class="memdesc:a08b9aff02a428b653a8e1e74929d0822"><td class="mdescLeft">&#160;</td><td class="mdescRight">temp binding(simply ir generation) <br /></td></tr>
 <tr class="separator:a08b9aff02a428b653a8e1e74929d0822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b933585f7409c3c908bcd2b957062b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b933585f7409c3c908bcd2b957062b7"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExpr.html#a9b933585f7409c3c908bcd2b957062b7">isClass</a></td></tr>
-<tr class="memdesc:a9b933585f7409c3c908bcd2b957062b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">makr whether it is a <a class="el" href="classClass.html">Class</a> Name <a class="el" href="classType.html">Type</a> <br /></td></tr>
+<tr class="memdesc:a9b933585f7409c3c908bcd2b957062b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">mark whether it is a <a class="el" href="classClass.html">Class</a> Name <a class="el" href="classType.html">Type</a> <br /></td></tr>
 <tr class="separator:a9b933585f7409c3c908bcd2b957062b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b80aa306383a16539c65891790e1181"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b80aa306383a16539c65891790e1181"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExpr.html#a9b80aa306383a16539c65891790e1181">usedForRef</a></td></tr>
@@ -153,17 +160,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:ae2a3a4425c71810341f3e3960e0c5c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00272">272</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+<div class="textblock"><p>left value node(interface) </p>
+
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00468">468</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for LValue:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLValue__inherit__graph.png" border="0" usemap="#LValue_inherit__map" alt="Inheritance graph"/></div>
 <map name="LValue_inherit__map" id="LValue_inherit__map">
-<area shape="rect" id="node4" href="classIdent.html" title="Ident" alt="" coords="5,229,56,256"/>
-<area shape="rect" id="node5" href="classIndexed.html" title="Indexed" alt="" coords="81,229,149,256"/>
-<area shape="rect" id="node2" href="classExpr.html" title="Expr" alt="" coords="47,80,97,107"/>
-<area shape="rect" id="node3" href="classNode.html" title="Node" alt="" coords="45,5,99,32"/>
+<area shape="rect" id="node4" href="classIdent.html" title="indentifier reference node " alt="" coords="5,229,56,256"/>
+<area shape="rect" id="node5" href="classIndexed.html" title="array element reference node " alt="" coords="81,229,149,256"/>
+<area shape="rect" id="node2" href="classExpr.html" title="expression node(interface) " alt="" coords="47,80,97,107"/>
+<area shape="rect" id="node3" href="classNode.html" title="basic node defination " alt="" coords="45,5,99,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -171,8 +179,8 @@ Collaboration diagram for LValue:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLValue__coll__graph.png" border="0" usemap="#LValue_coll__map" alt="Collaboration graph"/></div>
 <map name="LValue_coll__map" id="LValue_coll__map">
-<area shape="rect" id="node2" href="classExpr.html" title="Expr" alt="" coords="53,349,102,376"/>
-<area shape="rect" id="node3" href="classNode.html" title="Node" alt="" coords="51,95,104,121"/>
+<area shape="rect" id="node2" href="classExpr.html" title="expression node(interface) " alt="" coords="53,349,102,376"/>
+<area shape="rect" id="node3" href="classNode.html" title="basic node defination " alt="" coords="51,95,104,121"/>
 <area shape="rect" id="node4" href="structyyltype.html" title="store location information " alt="" coords="160,5,224,32"/>
 <area shape="rect" id="node8" href="classSymbol.html" title="Symbol" alt="" coords="185,95,252,121"/>
 <area shape="rect" id="node5" href="classType.html" title="Type" alt="" coords="24,5,75,32"/>
@@ -181,7 +189,79 @@ Collaboration diagram for LValue:</div>
 <area shape="rect" id="node9" href="classScope.html" title="scope interface " alt="" coords="272,5,331,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a4ccbb03f939a305e05c6723b9511c659"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LValue::LValue </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td>
+          <td class="paramname"><em>kind</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kind</td><td>lvalue kind </td></tr>
+    <tr><td class="paramname">loc</td><td>location </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="classLValue.html" title="left value node(interface) ">LValue</a> instance </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Node::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classVisitor.html">Visitor</a> *&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>setup visitor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>visitor where actual tree visit operating defination </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classTypeArray.html#ae033f6ced159be54e90c255484da0e73">TypeArray</a>, <a class="el" href="classTypeClass.html#a8c50aabe062037bb05af8f72177de457">TypeClass</a>, <a class="el" href="classTypeBasic.html#a44940db94fa11868314bf97ca309dd0d">TypeBasic</a>, <a class="el" href="classNull.html#a1509caa07816777be45d6ab94b9bfcfc">Null</a>, <a class="el" href="classConstant.html#aebecf790512eff4c84479af141a34315">Constant</a>, <a class="el" href="classIdent.html#abe51a7bfce0ab76eb0505df640cded97">Ident</a>, <a class="el" href="classIndexed.html#a8f6ecb524c4f1303ee0581013b721df5">Indexed</a>, <a class="el" href="classThisExpr.html#ab210bd2ce3af2228a2913ef173b21fb0">ThisExpr</a>, <a class="el" href="classReadLineExpr.html#aaea719127160adfe8194cea1316bd7fe">ReadLineExpr</a>, <a class="el" href="classReadIntExpr.html#a3357e80d8bd564915655c28bcb9ca94f">ReadIntExpr</a>, <a class="el" href="classCallExpr.html#a1bd77ca5bdb2fd4fc459316c9f2d1c3b">CallExpr</a>, <a class="el" href="classBinary.html#ab791045e49b1cf606fd2ba9a052884b1">Binary</a>, <a class="el" href="classUnary.html#aeef67bf627312476cc32c4815c3c3441">Unary</a>, <a class="el" href="classAssign.html#a15d235bdaa94ec48fcb612d93dd66d29">Assign</a>, <a class="el" href="classNewArray.html#a6b51bb95b22530c2e27c2ea1ea7fbc41">NewArray</a>, <a class="el" href="classNewClass.html#ad32cbb963a040fd6a4584b91241da56b">NewClass</a>, <a class="el" href="classReturn.html#a1e714ee3be9b27f1da62de787211cb21">Return</a>, <a class="el" href="classPrint.html#a8b52760db2b54aec59bf9c1808e92cbe">Print</a>, <a class="el" href="classExec.html#a1cc0822d5c4d18ab83b8b683c643347d">Exec</a>, <a class="el" href="classIf.html#a91480b9606864459d2830affb74f8809">If</a>, <a class="el" href="classForLoop.html#a8c11f1cdd28568e8c77cffc8a5418be5">ForLoop</a>, <a class="el" href="classWhileLoop.html#a644f9660e1abb4d974c040d295cd49e9">WhileLoop</a>, <a class="el" href="classBlock.html#a729dd3f761602ca6e2e5124f10ac565d">Block</a>, <a class="el" href="classVarDef.html#ac56ef0ee36dfa2b03b1655760a4cb947">VarDef</a>, <a class="el" href="classFuncDef.html#ae7875bb072d31461e0f4221520ed3b31">FuncDef</a>, <a class="el" href="classClassDef.html#a32c0da2d0d5ea7ab1ccabcff1faa9864">ClassDef</a>, and <a class="el" href="classProgram.html#a2de45e68dea5259df9cde4e6b71858ac">Program</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aec456fc7173f92d9bdb127db5d237d1b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -205,7 +285,13 @@ Collaboration diagram for LValue:</div>
 </div><div class="memdoc">
 
 <p>generate information of node </p>
-<dl class="section return"><dt>Returns</dt><dd>information string </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> to enable node to have capbility to print information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classTypeArray.html#a402c37434b55d22f6d67bb9cbd901985">TypeArray</a>, <a class="el" href="classTypeClass.html#a79d1b79fb4e8eb91393fa2fcad7892b4">TypeClass</a>, <a class="el" href="classTypeBasic.html#aebca4c4336e37092fba008503239366a">TypeBasic</a>, <a class="el" href="classNull.html#a1212abbeeda19c63593d7ba3750a128f">Null</a>, <a class="el" href="classConstant.html#a28a417f7871a488de6488a40b4e2d8c3">Constant</a>, <a class="el" href="classIdent.html#acc0e4df3a8e6d96554cdbcc8db89bc18">Ident</a>, <a class="el" href="classIndexed.html#aa2bd06ad6751005f27fd91b3f20c533b">Indexed</a>, <a class="el" href="classThisExpr.html#a97b723e1ffda222d424c2905c4357d6c">ThisExpr</a>, <a class="el" href="classReadLineExpr.html#a20fd237b7c227599d8049f9738ee9f58">ReadLineExpr</a>, <a class="el" href="classReadIntExpr.html#a5ea2a1f7ede76c118d7cc16bf7502973">ReadIntExpr</a>, <a class="el" href="classCallExpr.html#ab0722fb93e5c091724beef40442cc83b">CallExpr</a>, <a class="el" href="classBinary.html#a779a8b0f04242f87ed83fd7676dd086d">Binary</a>, <a class="el" href="classUnary.html#abb89ef38f3f3bf3ea86a50b993b2eaba">Unary</a>, <a class="el" href="classAssign.html#ab5933ef9cb84988dcca708e239b979d6">Assign</a>, <a class="el" href="classNewArray.html#a9cb9b69743bc02e14dbef683279b37a0">NewArray</a>, <a class="el" href="classNewClass.html#a0460e8a9d0e864c2b290679f498ff97d">NewClass</a>, <a class="el" href="classReturn.html#aa6f12e32971fad396461f7b16b94c183">Return</a>, <a class="el" href="classPrint.html#aaa67f0eb176b2b560cb16f3e6a0014a0">Print</a>, <a class="el" href="classExec.html#a97cba4329303ef59eaf1c8cf0f38f657">Exec</a>, <a class="el" href="classIf.html#ab658611b75e58ba55d9417f0de113fe7">If</a>, <a class="el" href="classForLoop.html#a22826ca6ecd0fdb04e3dca392f638dd8">ForLoop</a>, <a class="el" href="classWhileLoop.html#a7e00b2b41663efda7b3b92445f4eeaee">WhileLoop</a>, <a class="el" href="classBlock.html#ad3789cac6e9457926ca23612781e06ef">Block</a>, <a class="el" href="classVarDef.html#a2b6dc2888f46b293f240e8f0c2c4e2e1">VarDef</a>, <a class="el" href="classFuncDef.html#abfb59d17ccd216ce0ef4e12d709b0083">FuncDef</a>, <a class="el" href="classClassDef.html#a960bfff4dafafb4fc50fd775dc7d39df">ClassDef</a>, and <a class="el" href="classProgram.html#af19b9379c62a4c1c1921f1e444833003">Program</a>.</p>
 

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['name',['name',['../classLabel.html#a3e6731c765e1cbd1605837f08f09bbf4',1,'Label']]],
-  ['newfunclabel',['newFuncLabel',['../classClass.html#abba8e87832c9079d683957d2d463877b',1,'Class']]]
+  ['main',['main',['../classProgram.html#a373d02497b54f2b4853b784cfb9dd70e',1,'Program']]]
 ];

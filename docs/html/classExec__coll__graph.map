@@ -1,6 +1,6 @@
 <map id="Exec" name="Exec">
-<area shape="rect" id="node2" href="$classNode.html" title="Node" alt="" coords="116,145,169,172"/>
-<area shape="rect" id="node5" href="$classExpr.html" title="Expr" alt="" coords="178,375,227,401"/>
+<area shape="rect" id="node2" href="$classNode.html" title="basic node defination " alt="" coords="116,145,169,172"/>
+<area shape="rect" id="node5" href="$classExpr.html" title="expression node(interface) " alt="" coords="178,375,227,401"/>
 <area shape="rect" id="node3" href="$structyyltype.html" title="store location information " alt="" coords="5,5,69,32"/>
 <area shape="rect" id="node8" href="$classSymbol.html" title="Symbol" alt="" coords="171,95,237,121"/>
 <area shape="rect" id="node4" href="$classType.html" title="Type" alt="" coords="269,5,320,32"/>

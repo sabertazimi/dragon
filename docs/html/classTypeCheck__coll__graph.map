@@ -1,5 +1,5 @@
 <map id="TypeCheck" name="TypeCheck">
-<area shape="rect" id="node2" href="$classVisitor.html" title="Visitor" alt="" coords="5,184,64,211"/>
+<area shape="rect" id="node2" href="$classVisitor.html" title="visitor " alt="" coords="5,184,64,211"/>
 <area shape="rect" id="node3" href="$classScopeStack.html" title="scope stack " alt="" coords="88,184,181,211"/>
 <area shape="rect" id="node4" href="$classGlobalScope.html" title="GlobalScope" alt="" coords="179,95,275,121"/>
 <area shape="rect" id="node5" href="$classScope.html" title="scope interface " alt="" coords="304,5,363,32"/>
@@ -11,9 +11,9 @@
 <area shape="rect" id="node16" href="$classFuncty.html" title="Functy" alt="" coords="645,576,707,603"/>
 <area shape="rect" id="node19" href="$classVariable.html" title="Variable" alt="" coords="205,184,275,211"/>
 <area shape="rect" id="node9" href="$structyyltype.html" title="store location information " alt="" coords="623,5,687,32"/>
-<area shape="rect" id="node13" href="$classNode.html" title="Node" alt="" coords="555,95,608,121"/>
+<area shape="rect" id="node13" href="$classNode.html" title="basic node defination " alt="" coords="555,95,608,121"/>
 <area shape="rect" id="node10" href="$classType.html" title="Type" alt="" coords="499,5,549,32"/>
-<area shape="rect" id="node12" href="$classBlock.html" title="Block" alt="" coords="465,184,519,211"/>
+<area shape="rect" id="node12" href="$classBlock.html" title="block node " alt="" coords="465,184,519,211"/>
 <area shape="rect" id="node15" href="$classList.html" title="List\&lt; Node * \&gt;" alt="" coords="632,95,739,121"/>
 <area shape="rect" id="node17" href="$classTac.html" title="Tac" alt="" coords="575,393,619,420"/>
 <area shape="rect" id="node21" href="$classLabel.html" title="Label" alt="" coords="575,485,628,512"/>

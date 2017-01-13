@@ -35,7 +35,7 @@ extern int yyparse(void);
 extern Program *tree;
 extern int parse_failed;
 
-ScopeStack *gtable;
+ScopeStack *gtable;     ///< global scope stack
 
 int main(int argc, char **argv) {
     FILE *fp = NULL;

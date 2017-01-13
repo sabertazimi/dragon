@@ -1,4 +1,4 @@
 <map id="ThisExpr" name="ThisExpr">
-<area shape="rect" id="node2" href="$classExpr.html" title="Expr" alt="" coords="18,80,67,107"/>
-<area shape="rect" id="node3" href="$classNode.html" title="Node" alt="" coords="16,5,69,32"/>
+<area shape="rect" id="node2" href="$classExpr.html" title="expression node(interface) " alt="" coords="18,80,67,107"/>
+<area shape="rect" id="node3" href="$classNode.html" title="basic node defination " alt="" coords="16,5,69,32"/>
 </map>

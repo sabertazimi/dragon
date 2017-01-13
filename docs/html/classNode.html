@@ -114,16 +114,19 @@ $(document).ready(function(){initNavTree('classNode.html','');});
 <div class="title">Node Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>basic node defination  
+ <a href="classNode.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Tree_8h_source.html">Tree.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49ec664cfcc9fc3b46020fa44c97df82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a49ec664cfcc9fc3b46020fa44c97df82">Node</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
-<tr class="memdesc:a49ec664cfcc9fc3b46020fa44c97df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor <br /></td></tr>
+<tr class="memitem:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a49ec664cfcc9fc3b46020fa44c97df82">Node</a> (<a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a> <a class="el" href="classNode.html#a4e748a074b3817d41f5fb2d4ffeb9ead">kind</a>, <a class="el" href="structyyltype.html">yyltype</a> *<a class="el" href="classNode.html#ae2a3a4425c71810341f3e3960e0c5c08">loc</a>)</td></tr>
+<tr class="memdesc:a49ec664cfcc9fc3b46020fa44c97df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#a49ec664cfcc9fc3b46020fa44c97df82">More...</a><br /></td></tr>
 <tr class="separator:a49ec664cfcc9fc3b46020fa44c97df82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
-<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor <br /></td></tr>
+<tr class="memitem:a95f7e69a714ba988f4f55b90e2073195"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#a95f7e69a714ba988f4f55b90e2073195">accept</a> (<a class="el" href="classVisitor.html">Visitor</a> *v)</td></tr>
+<tr class="memdesc:a95f7e69a714ba988f4f55b90e2073195"><td class="mdescLeft">&#160;</td><td class="mdescRight">setup visitor  <a href="#a95f7e69a714ba988f4f55b90e2073195">More...</a><br /></td></tr>
 <tr class="separator:a95f7e69a714ba988f4f55b90e2073195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec456fc7173f92d9bdb127db5d237d1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#aec456fc7173f92d9bdb127db5d237d1b">print</a> (<a class="el" href="classAstPrinter.html">AstPrinter</a> *ap)</td></tr>
 <tr class="memdesc:aec456fc7173f92d9bdb127db5d237d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">generate information of node  <a href="#aec456fc7173f92d9bdb127db5d237d1b">More...</a><br /></td></tr>
@@ -145,43 +148,46 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae5bfe58e068d3ebbf9e5de3b9429ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Tree_8h_source.html#l00108">108</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
+<div class="textblock"><p>basic node defination </p>
+<p>base for ast node system with simplest members set: kind(node kind), loc(location), type(node type) with simplest functions set: constructor, accept(visit interface), print(print interface)</p>
+<p>pattern: visit, composite, decorate </p>
+
+<p>Definition at line <a class="el" href="Tree_8h_source.html#l00112">112</a> of file <a class="el" href="Tree_8h_source.html">Tree.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for Node:</div>
 <div class="dyncontent">
 <div class="center"><img src="classNode__inherit__graph.png" border="0" usemap="#Node_inherit__map" alt="Inheritance graph"/></div>
 <map name="Node_inherit__map" id="Node_inherit__map">
-<area shape="rect" id="node2" href="classAssign.html" title="Assign" alt="" coords="119,56,181,83"/>
-<area shape="rect" id="node3" href="classBlock.html" title="Block" alt="" coords="123,107,177,133"/>
-<area shape="rect" id="node4" href="classClassDef.html" title="ClassDef" alt="" coords="111,157,189,184"/>
-<area shape="rect" id="node5" href="classExec.html" title="Exec" alt="" coords="124,208,176,235"/>
-<area shape="rect" id="node6" href="classExpr.html" title="Expr" alt="" coords="125,259,175,285"/>
-<area shape="rect" id="node20" href="classForLoop.html" title="ForLoop" alt="" coords="115,309,185,336"/>
-<area shape="rect" id="node21" href="classFuncDef.html" title="FuncDef" alt="" coords="114,360,186,387"/>
-<area shape="rect" id="node22" href="classIf.html" title="If" alt="" coords="131,411,169,437"/>
-<area shape="rect" id="node23" href="classPrint.html" title="Print" alt="" coords="125,461,175,488"/>
-<area shape="rect" id="node24" href="classProgram.html" title="Program" alt="" coords="115,512,185,539"/>
-<area shape="rect" id="node25" href="classReturn.html" title="Return" alt="" coords="119,563,181,589"/>
-<area shape="rect" id="node26" href="classTypeLiteral.html" title="TypeLiteral" alt="" coords="107,613,193,640"/>
-<area shape="rect" id="node30" href="classVarDef.html" title="VarDef" alt="" coords="119,664,181,691"/>
-<area shape="rect" id="node31" href="classWhileLoop.html" title="WhileLoop" alt="" coords="109,715,191,741"/>
-<area shape="rect" id="node7" href="classBinary.html" title="Binary" alt="" coords="264,5,323,32"/>
-<area shape="rect" id="node8" href="classCallExpr.html" title="CallExpr" alt="" coords="257,56,329,83"/>
-<area shape="rect" id="node9" href="classConstant.html" title="Constant" alt="" coords="256,107,331,133"/>
-<area shape="rect" id="node10" href="classLValue.html" title="LValue" alt="" coords="262,157,325,184"/>
-<area shape="rect" id="node13" href="classNewArray.html" title="NewArray" alt="" coords="253,208,333,235"/>
-<area shape="rect" id="node14" href="classNewClass.html" title="NewClass" alt="" coords="252,259,335,285"/>
-<area shape="rect" id="node15" href="classNull.html" title="Null" alt="" coords="271,309,316,336"/>
-<area shape="rect" id="node16" href="classReadIntExpr.html" title="ReadIntExpr" alt="" coords="246,360,341,387"/>
-<area shape="rect" id="node17" href="classReadLineExpr.html" title="ReadLineExpr" alt="" coords="241,411,345,437"/>
-<area shape="rect" id="node18" href="classThisExpr.html" title="ThisExpr" alt="" coords="256,461,331,488"/>
-<area shape="rect" id="node19" href="classUnary.html" title="Unary" alt="" coords="265,512,322,539"/>
-<area shape="rect" id="node11" href="classIdent.html" title="Ident" alt="" coords="402,132,453,159"/>
-<area shape="rect" id="node12" href="classIndexed.html" title="Indexed" alt="" coords="393,183,461,209"/>
-<area shape="rect" id="node27" href="classTypeArray.html" title="TypeArray" alt="" coords="252,563,335,589"/>
-<area shape="rect" id="node28" href="classTypeBasic.html" title="TypeBasic" alt="" coords="251,613,335,640"/>
-<area shape="rect" id="node29" href="classTypeClass.html" title="TypeClass" alt="" coords="251,664,336,691"/>
+<area shape="rect" id="node2" href="classAssign.html" title="assign node " alt="" coords="119,56,181,83"/>
+<area shape="rect" id="node3" href="classBlock.html" title="block node " alt="" coords="123,107,177,133"/>
+<area shape="rect" id="node4" href="classClassDef.html" title="class node " alt="" coords="111,157,189,184"/>
+<area shape="rect" id="node5" href="classExec.html" title="exec(function call) node " alt="" coords="124,208,176,235"/>
+<area shape="rect" id="node6" href="classExpr.html" title="expression node(interface) " alt="" coords="125,259,175,285"/>
+<area shape="rect" id="node20" href="classForLoop.html" title="for loop node " alt="" coords="115,309,185,336"/>
+<area shape="rect" id="node21" href="classFuncDef.html" title="function node " alt="" coords="114,360,186,387"/>
+<area shape="rect" id="node22" href="classIf.html" title="if statement node " alt="" coords="131,411,169,437"/>
+<area shape="rect" id="node23" href="classPrint.html" title="print function call node " alt="" coords="125,461,175,488"/>
+<area shape="rect" id="node24" href="classProgram.html" title="program node " alt="" coords="115,512,185,539"/>
+<area shape="rect" id="node25" href="classReturn.html" title="return statement node " alt="" coords="119,563,181,589"/>
+<area shape="rect" id="node26" href="classTypeLiteral.html" title="type literal node(distinguish from Type variable(type system)) " alt="" coords="107,613,193,640"/>
+<area shape="rect" id="node30" href="classVarDef.html" title="variable node " alt="" coords="119,664,181,691"/>
+<area shape="rect" id="node31" href="classWhileLoop.html" title="while loop node " alt="" coords="109,715,191,741"/>
+<area shape="rect" id="node7" href="classBinary.html" title="binary node " alt="" coords="264,5,323,32"/>
+<area shape="rect" id="node8" href="classCallExpr.html" title="functino call node " alt="" coords="257,56,329,83"/>
+<area shape="rect" id="node9" href="classConstant.html" title="constant node " alt="" coords="256,107,331,133"/>
+<area shape="rect" id="node10" href="classLValue.html" title="left value node(interface) " alt="" coords="262,157,325,184"/>
+<area shape="rect" id="node13" href="classNewArray.html" title="new array node " alt="" coords="253,208,333,235"/>
+<area shape="rect" id="node14" href="classNewClass.html" title="new class node " alt="" coords="252,259,335,285"/>
+<area shape="rect" id="node15" href="classNull.html" title="null node " alt="" coords="271,309,316,336"/>
+<area shape="rect" id="node16" href="classReadIntExpr.html" title="readint function call node " alt="" coords="246,360,341,387"/>
+<area shape="rect" id="node17" href="classReadLineExpr.html" title="readline function call node " alt="" coords="241,411,345,437"/>
+<area shape="rect" id="node18" href="classThisExpr.html" title="this reference node " alt="" coords="256,461,331,488"/>
+<area shape="rect" id="node19" href="classUnary.html" title="unary node " alt="" coords="265,512,322,539"/>
+<area shape="rect" id="node11" href="classIdent.html" title="indentifier reference node " alt="" coords="402,132,453,159"/>
+<area shape="rect" id="node12" href="classIndexed.html" title="array element reference node " alt="" coords="393,183,461,209"/>
+<area shape="rect" id="node27" href="classTypeArray.html" title="array type node " alt="" coords="252,563,335,589"/>
+<area shape="rect" id="node28" href="classTypeBasic.html" title="basic type node " alt="" coords="251,613,335,640"/>
+<area shape="rect" id="node29" href="classTypeClass.html" title="class type node " alt="" coords="251,664,336,691"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -193,7 +199,79 @@ Collaboration diagram for Node:</div>
 <area shape="rect" id="node3" href="classType.html" title="Type" alt="" coords="93,5,144,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a49ec664cfcc9fc3b46020fa44c97df82"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Node::Node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="Tree_8h.html#a867f7874d82e9812943977bb2cc62709">astKind</a>&#160;</td>
+          <td class="paramname"><em>kind</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structyyltype.html">yyltype</a> *&#160;</td>
+          <td class="paramname"><em>loc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kind</td><td>node kind </td></tr>
+    <tr><td class="paramname">loc</td><td>location </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a node instance </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a95f7e69a714ba988f4f55b90e2073195"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Node::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classVisitor.html">Visitor</a> *&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>setup visitor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>visitor where actual tree visit operating defination </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classTypeArray.html#ae033f6ced159be54e90c255484da0e73">TypeArray</a>, <a class="el" href="classTypeClass.html#a8c50aabe062037bb05af8f72177de457">TypeClass</a>, <a class="el" href="classTypeBasic.html#a44940db94fa11868314bf97ca309dd0d">TypeBasic</a>, <a class="el" href="classNull.html#a1509caa07816777be45d6ab94b9bfcfc">Null</a>, <a class="el" href="classConstant.html#aebecf790512eff4c84479af141a34315">Constant</a>, <a class="el" href="classIdent.html#abe51a7bfce0ab76eb0505df640cded97">Ident</a>, <a class="el" href="classIndexed.html#a8f6ecb524c4f1303ee0581013b721df5">Indexed</a>, <a class="el" href="classThisExpr.html#ab210bd2ce3af2228a2913ef173b21fb0">ThisExpr</a>, <a class="el" href="classReadLineExpr.html#aaea719127160adfe8194cea1316bd7fe">ReadLineExpr</a>, <a class="el" href="classReadIntExpr.html#a3357e80d8bd564915655c28bcb9ca94f">ReadIntExpr</a>, <a class="el" href="classCallExpr.html#a1bd77ca5bdb2fd4fc459316c9f2d1c3b">CallExpr</a>, <a class="el" href="classBinary.html#ab791045e49b1cf606fd2ba9a052884b1">Binary</a>, <a class="el" href="classUnary.html#aeef67bf627312476cc32c4815c3c3441">Unary</a>, <a class="el" href="classAssign.html#a15d235bdaa94ec48fcb612d93dd66d29">Assign</a>, <a class="el" href="classNewArray.html#a6b51bb95b22530c2e27c2ea1ea7fbc41">NewArray</a>, <a class="el" href="classNewClass.html#ad32cbb963a040fd6a4584b91241da56b">NewClass</a>, <a class="el" href="classReturn.html#a1e714ee3be9b27f1da62de787211cb21">Return</a>, <a class="el" href="classPrint.html#a8b52760db2b54aec59bf9c1808e92cbe">Print</a>, <a class="el" href="classExec.html#a1cc0822d5c4d18ab83b8b683c643347d">Exec</a>, <a class="el" href="classIf.html#a91480b9606864459d2830affb74f8809">If</a>, <a class="el" href="classForLoop.html#a8c11f1cdd28568e8c77cffc8a5418be5">ForLoop</a>, <a class="el" href="classWhileLoop.html#a644f9660e1abb4d974c040d295cd49e9">WhileLoop</a>, <a class="el" href="classBlock.html#a729dd3f761602ca6e2e5124f10ac565d">Block</a>, <a class="el" href="classVarDef.html#ac56ef0ee36dfa2b03b1655760a4cb947">VarDef</a>, <a class="el" href="classFuncDef.html#ae7875bb072d31461e0f4221520ed3b31">FuncDef</a>, <a class="el" href="classClassDef.html#a32c0da2d0d5ea7ab1ccabcff1faa9864">ClassDef</a>, and <a class="el" href="classProgram.html#a2de45e68dea5259df9cde4e6b71858ac">Program</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aec456fc7173f92d9bdb127db5d237d1b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +295,13 @@ Collaboration diagram for Node:</div>
 </div><div class="memdoc">
 
 <p>generate information of node </p>
-<dl class="section return"><dt>Returns</dt><dd>information string </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ap</td><td><a class="el" href="classAstPrinter.html" title="printer helper class ">AstPrinter</a> to enable node to have capbility to print information </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classTypeArray.html#a402c37434b55d22f6d67bb9cbd901985">TypeArray</a>, <a class="el" href="classTypeClass.html#a79d1b79fb4e8eb91393fa2fcad7892b4">TypeClass</a>, <a class="el" href="classTypeBasic.html#aebca4c4336e37092fba008503239366a">TypeBasic</a>, <a class="el" href="classNull.html#a1212abbeeda19c63593d7ba3750a128f">Null</a>, <a class="el" href="classConstant.html#a28a417f7871a488de6488a40b4e2d8c3">Constant</a>, <a class="el" href="classIdent.html#acc0e4df3a8e6d96554cdbcc8db89bc18">Ident</a>, <a class="el" href="classIndexed.html#aa2bd06ad6751005f27fd91b3f20c533b">Indexed</a>, <a class="el" href="classThisExpr.html#a97b723e1ffda222d424c2905c4357d6c">ThisExpr</a>, <a class="el" href="classReadLineExpr.html#a20fd237b7c227599d8049f9738ee9f58">ReadLineExpr</a>, <a class="el" href="classReadIntExpr.html#a5ea2a1f7ede76c118d7cc16bf7502973">ReadIntExpr</a>, <a class="el" href="classCallExpr.html#ab0722fb93e5c091724beef40442cc83b">CallExpr</a>, <a class="el" href="classBinary.html#a779a8b0f04242f87ed83fd7676dd086d">Binary</a>, <a class="el" href="classUnary.html#abb89ef38f3f3bf3ea86a50b993b2eaba">Unary</a>, <a class="el" href="classAssign.html#ab5933ef9cb84988dcca708e239b979d6">Assign</a>, <a class="el" href="classNewArray.html#a9cb9b69743bc02e14dbef683279b37a0">NewArray</a>, <a class="el" href="classNewClass.html#a0460e8a9d0e864c2b290679f498ff97d">NewClass</a>, <a class="el" href="classReturn.html#aa6f12e32971fad396461f7b16b94c183">Return</a>, <a class="el" href="classPrint.html#aaa67f0eb176b2b560cb16f3e6a0014a0">Print</a>, <a class="el" href="classExec.html#a97cba4329303ef59eaf1c8cf0f38f657">Exec</a>, <a class="el" href="classIf.html#ab658611b75e58ba55d9417f0de113fe7">If</a>, <a class="el" href="classForLoop.html#a22826ca6ecd0fdb04e3dca392f638dd8">ForLoop</a>, <a class="el" href="classWhileLoop.html#a7e00b2b41663efda7b3b92445f4eeaee">WhileLoop</a>, <a class="el" href="classBlock.html#ad3789cac6e9457926ca23612781e06ef">Block</a>, <a class="el" href="classVarDef.html#a2b6dc2888f46b293f240e8f0c2c4e2e1">VarDef</a>, <a class="el" href="classFuncDef.html#abfb59d17ccd216ce0ef4e12d709b0083">FuncDef</a>, <a class="el" href="classClassDef.html#a960bfff4dafafb4fc50fd775dc7d39df">ClassDef</a>, and <a class="el" href="classProgram.html#af19b9379c62a4c1c1921f1e444833003">Program</a>.</p>
 

@@ -1,6 +1,6 @@
 <map id="TypeArray" name="TypeArray">
-<area shape="rect" id="node2" href="$classTypeLiteral.html" title="TypeLiteral" alt="" coords="77,171,163,197"/>
-<area shape="rect" id="node3" href="$classNode.html" title="Node" alt="" coords="37,95,91,121"/>
+<area shape="rect" id="node2" href="$classTypeLiteral.html" title="type literal node(distinguish from Type variable(type system)) " alt="" coords="77,171,163,197"/>
+<area shape="rect" id="node3" href="$classNode.html" title="basic node defination " alt="" coords="37,95,91,121"/>
 <area shape="rect" id="node4" href="$structyyltype.html" title="store location information " alt="" coords="5,5,69,32"/>
 <area shape="rect" id="node5" href="$classType.html" title="Type" alt="" coords="103,5,153,32"/>
 </map>

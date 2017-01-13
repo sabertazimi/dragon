@@ -1,6 +1,6 @@
 <map id="NewClass" name="NewClass">
-<area shape="rect" id="node2" href="$classExpr.html" title="Expr" alt="" coords="329,380,378,407"/>
-<area shape="rect" id="node3" href="$classNode.html" title="Node" alt="" coords="319,95,372,121"/>
+<area shape="rect" id="node2" href="$classExpr.html" title="expression node(interface) " alt="" coords="329,380,378,407"/>
+<area shape="rect" id="node3" href="$classNode.html" title="basic node defination " alt="" coords="319,95,372,121"/>
 <area shape="rect" id="node4" href="$structyyltype.html" title="store location information " alt="" coords="176,5,240,32"/>
 <area shape="rect" id="node8" href="$classSymbol.html" title="Symbol" alt="" coords="157,95,224,121"/>
 <area shape="rect" id="node5" href="$classType.html" title="Type" alt="" coords="335,5,385,32"/>

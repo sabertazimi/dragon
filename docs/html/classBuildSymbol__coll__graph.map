@@ -1,5 +1,5 @@
 <map id="BuildSymbol" name="BuildSymbol">
-<area shape="rect" id="node2" href="$classVisitor.html" title="Visitor" alt="" coords="5,171,64,197"/>
+<area shape="rect" id="node2" href="$classVisitor.html" title="visitor " alt="" coords="5,171,64,197"/>
 <area shape="rect" id="node3" href="$classScopeStack.html" title="scope stack " alt="" coords="88,171,181,197"/>
 <area shape="rect" id="node4" href="$classGlobalScope.html" title="GlobalScope" alt="" coords="12,81,108,108"/>
 <area shape="rect" id="node5" href="$classScope.html" title="scope interface " alt="" coords="31,5,89,32"/>

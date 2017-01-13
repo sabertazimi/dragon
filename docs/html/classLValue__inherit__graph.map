@@ -1,6 +1,6 @@
 <map id="LValue" name="LValue">
-<area shape="rect" id="node4" href="$classIdent.html" title="Ident" alt="" coords="5,229,56,256"/>
-<area shape="rect" id="node5" href="$classIndexed.html" title="Indexed" alt="" coords="81,229,149,256"/>
-<area shape="rect" id="node2" href="$classExpr.html" title="Expr" alt="" coords="47,80,97,107"/>
-<area shape="rect" id="node3" href="$classNode.html" title="Node" alt="" coords="45,5,99,32"/>
+<area shape="rect" id="node4" href="$classIdent.html" title="indentifier reference node " alt="" coords="5,229,56,256"/>
+<area shape="rect" id="node5" href="$classIndexed.html" title="array element reference node " alt="" coords="81,229,149,256"/>
+<area shape="rect" id="node2" href="$classExpr.html" title="expression node(interface) " alt="" coords="47,80,97,107"/>
+<area shape="rect" id="node3" href="$classNode.html" title="basic node defination " alt="" coords="45,5,99,32"/>
 </map>

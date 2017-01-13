@@ -15,15 +15,15 @@
 
 /// \brief store location information
 typedef struct yyltype {
-    int first_line;
-    int first_column;
-    int last_line;
-    int last_column;
+    int first_line;     ///< line number at where token starting
+    int first_column;   ///< column number at where token starting
+    int last_line;      ///< line number at where token ending
+    int last_column;    ///< column number at where token ending
 } yyltype;
 
 #define YYLTYPE yyltype
 
-extern struct yyltype yylloc;
+extern struct yyltype yylloc;   ///< location information for current token
 
 /// \brief duplicate a yyltype node
 /// \param loc location information
