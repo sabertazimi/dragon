@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "Dragon Compiler", "index.html", [
+    [ "Hust Compiler Lab - Dragon Language Compiler", "index.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
