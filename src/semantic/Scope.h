@@ -77,10 +77,6 @@ class Scope {
         /// \return void
         virtual void declare(Symbol *symbol);
 
-        /// \brief remove symbol from this scope
-        /// \param symbol symbol to remove
-        /// \return void
-        virtual void cancel(Symbol *symbol);
 };
 
 class FormalScope: public Scope{

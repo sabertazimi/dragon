@@ -58,10 +58,6 @@ void Scope::declare(Symbol *symbol) {
     symbol->definedIn = this;
 }
 
-void Scope::cancel(Symbol *symbol) {
-    symbols->erase(symbol->name);
-}
-
 FormalScope::FormalScope(Function *owner, Block *astNode) {
     this->owner = owner;        // function symbol
     this->astNode = astNode;    // block ast node(belong to function defination)
