@@ -4,6 +4,7 @@ A toy compiler for Dragon language
 
 [![Author](https://img.shields.io/badge/author-sabertazimi-lightgrey.svg)](https://github.com/sabertazimi)
 [![MIT](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://raw.githubusercontent.com/sabertazimi/dragon/master/LICENSE)
+[![Continuous Integration](https://github.com/sabertazimi/dragon/actions/workflows/ci.yml/badge.svg)](https://github.com/sabertazimi/dragon/actions/workflows/ci.yml)
 
 ## Installation
 
