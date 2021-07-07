@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classScope.html" title="scope interface " alt="" coords="5,81,64,108"/>
-<area shape="rect" id="node2" href="$classClassScope.html" title="ClassScope" alt="" coords="115,5,208,32"/>
-<area shape="rect" id="node3" href="$classFormalScope.html" title="FormalScope" alt="" coords="112,56,211,83"/>
-<area shape="rect" id="node4" href="$classGlobalScope.html" title="GlobalScope" alt="" coords="113,107,209,133"/>
-<area shape="rect" id="node5" href="$classLocalScope.html" title="LocalScope" alt="" coords="116,157,207,184"/>
-</map>

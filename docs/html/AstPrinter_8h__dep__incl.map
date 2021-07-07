@@ -1,7 +1,0 @@
-<map id="src/syntax/AstPrinter.h" name="src/syntax/AstPrinter.h">
-<area shape="rect" id="node2" href="$X86_8h.html" title="src/codegen/X86.h" alt="" coords="70,229,201,256"/>
-<area shape="rect" id="node3" href="$Scope_8h.html" title="src/semantic/Scope.h" alt="" coords="197,80,346,107"/>
-<area shape="rect" id="node6" href="$Tree_8h.html" title="src/syntax/Tree.h" alt="" coords="50,80,174,107"/>
-<area shape="rect" id="node4" href="$Translater_8h.html" title="src/ir/Translater.h" alt="" coords="218,155,342,181"/>
-<area shape="rect" id="node5" href="$semantic_8h_source.html" title="src/semantic/semantic.h" alt="" coords="29,155,194,181"/>
-</map>

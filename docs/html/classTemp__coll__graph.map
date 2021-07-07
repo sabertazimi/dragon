@@ -1,7 +1,0 @@
-<map id="Temp" name="Temp">
-<area shape="rect" id="node2" href="$classVariable.html" title="Variable" alt="" coords="49,184,118,211"/>
-<area shape="rect" id="node3" href="$classSymbol.html" title="Symbol" alt="" coords="99,95,166,121"/>
-<area shape="rect" id="node4" href="$structyyltype.html" title="store location information " alt="" coords="19,5,83,32"/>
-<area shape="rect" id="node5" href="$classType.html" title="Type" alt="" coords="107,5,158,32"/>
-<area shape="rect" id="node6" href="$classScope.html" title="scope interface " alt="" coords="182,5,241,32"/>
-</map>
