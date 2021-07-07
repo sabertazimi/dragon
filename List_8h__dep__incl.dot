@@ -1,0 +1,29 @@
+digraph "src/libs/List.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/libs/List.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/codegen/X86.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$X86_8h.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/ir/Tac.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Tac_8h.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/ir/Translater.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Translater_8h.html",tooltip=" "];
+  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/semantic/Scope.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Scope_8h.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/semantic/semantic.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$semantic_8h_source.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/syntax/Tree.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Tree_8h.html",tooltip=" "];
+  Node7 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/syntax/Type.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Type_8h.html",tooltip="Type System(independence of grammar/ast tree)"];
+  Node8 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

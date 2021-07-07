@@ -1,0 +1,57 @@
+digraph "Translater"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="Translater",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" currentFuncty" ,fontname="Helvetica"];
+  Node2 [label="Functy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classFuncty.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" head\ntail" ,fontname="Helvetica"];
+  Node3 [label="Tac",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classTac.html",tooltip=" "];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" prev\nnext" ,fontname="Helvetica"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" op0\nop1\nop2" ,fontname="Helvetica"];
+  Node4 [label="Temp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classTemp.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sym" ,fontname="Helvetica"];
+  Node5 [label="Variable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classVariable.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Symbol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classSymbol.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" location" ,fontname="Helvetica"];
+  Node7 [label="yyltype",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structyyltype.html",tooltip="store location information"];
+  Node8 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" type" ,fontname="Helvetica"];
+  Node8 [label="Type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classType.html",tooltip=" "];
+  Node9 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" definedIn" ,fontname="Helvetica"];
+  Node9 [label="Scope",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classScope.html",tooltip="scope interface"];
+  Node4 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" temp" ,fontname="Helvetica"];
+  Node10 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vt" ,fontname="Helvetica"];
+  Node10 [label="VTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classVTable.html",tooltip=" "];
+  Node10 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" parent" ,fontname="Helvetica"];
+  Node11 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" label" ,fontname="Helvetica"];
+  Node11 [label="Label",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classLabel.html",tooltip=" "];
+  Node3 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" where" ,fontname="Helvetica"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" currentThis" ,fontname="Helvetica"];
+  Node12 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sym" ,fontname="Helvetica"];
+  Node12 [label="Function",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classFunction.html",tooltip=" "];
+  Node6 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" associatedScope" ,fontname="Helvetica"];
+  Node13 [label="FormalScope",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classFormalScope.html",tooltip=" "];
+  Node9 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" astNode" ,fontname="Helvetica"];
+  Node14 [label="Block",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classBlock.html",tooltip="block node"];
+  Node15 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classNode.html",tooltip="basic node defination"];
+  Node7 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" loc" ,fontname="Helvetica"];
+  Node8 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" type" ,fontname="Helvetica"];
+  Node16 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" associatedScope" ,fontname="Helvetica"];
+  Node16 [label="LocalScope",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classLocalScope.html",tooltip=" "];
+  Node9 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 -> Node16 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" node" ,fontname="Helvetica"];
+  Node17 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" block" ,fontname="Helvetica"];
+  Node17 [label="List\< Node * \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classList.html",tooltip=" "];
+  Node12 -> Node13 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" owner" ,fontname="Helvetica"];
+  Node2 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" functy" ,fontname="Helvetica"];
+  Node11 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" label" ,fontname="Helvetica"];
+  Node18 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" funcs" ,fontname="Helvetica"];
+  Node18 [label="List\< Functy * \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classList.html",tooltip=" "];
+  Node19 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vtables" ,fontname="Helvetica"];
+  Node19 [label="List\< VTable * \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classList.html",tooltip=" "];
+}

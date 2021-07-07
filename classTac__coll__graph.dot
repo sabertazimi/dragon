@@ -1,0 +1,27 @@
+digraph "Tac"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="Tac",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" prev\nnext" ,fontname="Helvetica"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" op0\nop1\nop2" ,fontname="Helvetica"];
+  Node2 [label="Temp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classTemp.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sym" ,fontname="Helvetica"];
+  Node3 [label="Variable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classVariable.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Symbol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classSymbol.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" location" ,fontname="Helvetica"];
+  Node5 [label="yyltype",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structyyltype.html",tooltip="store location information"];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" type" ,fontname="Helvetica"];
+  Node6 [label="Type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classType.html",tooltip=" "];
+  Node7 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" definedIn" ,fontname="Helvetica"];
+  Node7 [label="Scope",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classScope.html",tooltip="scope interface"];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" temp" ,fontname="Helvetica"];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vt" ,fontname="Helvetica"];
+  Node8 [label="VTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classVTable.html",tooltip=" "];
+  Node8 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" parent" ,fontname="Helvetica"];
+  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" label" ,fontname="Helvetica"];
+  Node9 [label="Label",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classLabel.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" where" ,fontname="Helvetica"];
+}

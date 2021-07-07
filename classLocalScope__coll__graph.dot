@@ -1,0 +1,20 @@
+digraph "LocalScope"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="LocalScope",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Scope",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classScope.html",tooltip="scope interface"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" node" ,fontname="Helvetica"];
+  Node3 [label="Block",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classBlock.html",tooltip="block node"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classNode.html",tooltip="basic node defination"];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" loc" ,fontname="Helvetica"];
+  Node5 [label="yyltype",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structyyltype.html",tooltip="store location information"];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" type" ,fontname="Helvetica"];
+  Node6 [label="Type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classType.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" associatedScope" ,fontname="Helvetica"];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" block" ,fontname="Helvetica"];
+  Node7 [label="List\< Node * \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classList.html",tooltip=" "];
+}
